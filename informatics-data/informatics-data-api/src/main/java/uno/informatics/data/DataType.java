@@ -22,7 +22,7 @@ public enum DataType
   INTEGER(DataTypeConstants.INTEGER_IDS, "Integer", "I"), 
   LONG(DataTypeConstants.LONG_ID, "Long", "L"), 
   FLOAT(DataTypeConstants.FLOAT_ID, "Float", "F"), 
-  DOUBLE(DataTypeConstants.DOUBLE_ID, "Integer", "D"), 
+  DOUBLE(DataTypeConstants.DOUBLE_ID, "Double", "D"), 
   BIG_INTEGER(DataTypeConstants.BIG_INTEGER_ID, "Big Integer", "R"), 
   BIG_DECIMAL(DataTypeConstants.BIG_DECIMAL_ID, "Big Decimal", "M"), 
   DATE(DataTypeConstants.DATE_ID, "Date", "A"), 
