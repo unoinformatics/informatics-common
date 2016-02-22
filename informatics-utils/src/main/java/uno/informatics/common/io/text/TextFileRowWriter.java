@@ -34,13 +34,12 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
   
   private static final String BUFFERWRITER_NULL = "Buffer writer is undefined";
 
-	/**
+  /**
    * Constructs an initialised reader using a string reference to a text file.
    * 
-   * @param reference
-   *          a text file name or URL
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * @param reference a text file name or URL
+   * @throws FileNotFoundException if the file to write is not found
+   * @throws IOException if an I/O error occurs
    */
   public TextFileRowWriter(String reference) throws IOException, FileNotFoundException
   {
@@ -52,10 +51,9 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
   /**
    * Constructs an initialised reader using a file.
    * 
-   * @param file
-   *          a text File object.
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * @param file a text File object.
+   * @throws FileNotFoundException if the file to write is not found
+   * @throws IOException if an I/O error occurs
    */
   public TextFileRowWriter(File file) throws IOException, FileNotFoundException
   {
@@ -144,33 +142,21 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
   	}
   }
 
-  /**
-	 * @param ts
-   * @throws IOException 
-	 */
-	@Override
-  public final void writeRowCellsAsArray(Object[] cells) throws IOException
-  {
-  	if (cells != null)
-  	{
-			writeCell(cells[0]) ;
-			
-	  	for (int i = 1 ; i < cells.length ; ++i)
-	  	{
-	  		newColumn() ;
-	  		
-	  		writeCell(cells[i]) ;
-	  	}
-	  	
-	  	bufferedWriter.flush();
-  	}
-  }
+    @Override
+    public final void writeRowCellsAsArray(Object[] cells) throws IOException {
+        if (cells != null) {
+            writeCell(cells[0]);
+
+            for (int i = 1; i < cells.length; ++i) {
+                newColumn();
+
+                writeCell(cells[i]);
+            }
+
+            bufferedWriter.flush();
+        }
+    }
 	
-	/**
-	 * @param next
-	 * @return
-	 * @throws IOException 
-	 */
 	@Override
   public final void writeRowCells(List<Object> cells) throws IOException
   {
@@ -227,9 +213,10 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
   }
 
   /**
-   * Initialises the writer
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * Initialises the writer.
+   * 
+   * @throws FileNotFoundException if the file to write is not found
+   * @throws IOException if an I/O error occurs
    */
   protected final void initialise() throws FileNotFoundException, IOException 
   {

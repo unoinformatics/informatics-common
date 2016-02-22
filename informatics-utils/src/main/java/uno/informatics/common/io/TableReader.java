@@ -26,28 +26,30 @@ public interface TableReader extends Reader
 	/** 
 	 * Determines if there is another row in the current data source
 	 * 
-	 * @return <code>true<code> if this is not the last cell in the row, <code>false</code> if it is the last
+	 * @return <code>true</code> if this is not the last cell in the row, <code>false</code> if it is the last
 	 */
 	public boolean hasNextRow() ;
 	
 	/** 
 	 * Moves the reader on to the next row in the data source. If row by row and there are any unread cells in the current row these will be unread
 	 * 
-	 * @return <code>true<code> if this is not the last cell in the row, <code>false</code> if it is the last
+	 * @return <code>true</code> if this is not the last cell in the row, <code>false</code> if it is the last
+	 * @throws IOException if the data source can not be read
 	 */
 	public boolean nextRow() throws IOException ;
 	
 	/** 
 	 * Determines if there another cell in the current column
 	 * 
-	 * @return <code>true<code> if this is not the last cell in the column, <code>false</code> if it is the last
+	 * @return <code>true</code> if this is not the last cell in the column, <code>false</code> if it is the last
 	 */
 	public boolean hasNextColumn() ;
 	
 	/** 
 	 * Moves the reader on to the next cell in the column. If reading column by column and there are any unread cells in the current column these will be unread
 	 * 
-	 * @return <code>true<code> if this is not the last cell in the column, <code>false</code> if it is the last
+	 * @return <code>true</code> if this is not the last cell in the column, <code>false</code> if it is the last
+         * @throws IOException if the data source can not be read
 	 */
 	public boolean nextColumn() throws IOException ;
 	
@@ -94,14 +96,14 @@ public interface TableReader extends Reader
 	/**
 	 * Read all cells from the data source at one time
 	 * @return all cells from the data source at one time
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public List<List<Object>> readCells() throws IOException ;
 	
 	/**
 	 * Read all cells from the data source at one time
 	 * @return all cells from the data source at one time
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public Object[][] readCellsAsArray() throws IOException ;
 

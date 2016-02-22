@@ -28,9 +28,10 @@ public interface ExcelHandler extends Reader
 
 	/**
 	 * Sets current spreadsheet by index. The first spreadsheet is index 0 and the last
-	 * spreadsheet is {@link #getSpreadSheetCount()} - 1.
+	 * spreadsheet is {@link ExcelReader#getSpreadSheetCount()} - 1.
 	 * 
 	 * @param index of the current spreadsheet
+         * @throws IOException if the spread sheet index can not be set
 	 */
 	public void setSpreadSheetIndex(int index)
 	    throws IOException;
@@ -39,11 +40,12 @@ public interface ExcelHandler extends Reader
 	 * Gets the name of the current spreadsheet
 	 * @return the name of the current spreadsheet
 	 */
-	public String getSpreadSheetName() throws IOException;
+	public String getSpreadSheetName();
 
 	/**
 	 * Sets current spreadsheet by name.
 	 * @param spreadSheetName the name spreadsheet
+         * @throws IOException if the spread sheet index name not be set
 	 */
 	public void setSpreadSheetName(String spreadSheetName)
 	    throws IOException, IllegalArgumentException;

@@ -37,7 +37,6 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	 * Creates a new ArrayFeatureDatasetRow using the given values. The values array is not
 	 * copied, but used as is. 
 	 * 
-	 * @param name the name of the row
 	 * @param values values for the new row
 	 */
 	public ArrayFeatureDatasetRow(Object[] values)
@@ -51,7 +50,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	/**
 	 * Creates a new ArrayFeatureDatasetRow using the given values. The values array is not
 	 * copied, but used as is. The name of the row is extracted from the header by
-	 * using {@link Namable#getName()} if the object implements {@link Namable} or
+	 * using {@link SimpleEntity#getName()} if the object implements {@link SimpleEntity} or
 	 * using {@link Object#toString()} otherwise
 	 * 
 	 * @param header the header of the row
@@ -71,11 +70,10 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	
 	 /**
    * Creates a new ArrayFeatureDatasetRow using the given values. The values array is not
-   * copied, but used as is. The name of the row is extracted from the header by
-   * using {@link Namable#getName()} if the object implements {@link Namable} or
-   * using {@link Object#toString()} otherwise
+   * copied, but used as is.
    * 
    * @param header the header of the row
+   * @param name name of the row
    * @param values values for the new row
    */
   public ArrayFeatureDatasetRow(Object header, String name, Object[] values)
@@ -94,7 +92,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
   /**
 	 * Creates a new ArrayFeatureDatasetRow using the given values. If the header argument is
 	 * <code>true</code> the name of the row is extracted from the header by
-	 * using {@link Namable#getName()} if the object implements {@link Namable} or
+	 * using {@link SimpleEntity#getName()} if the object implements {@link SimpleEntity} or
 	 * using {@link Object#toString()} otherwise. If the header argument is
 	 * <code>false</code> the header and name are set to null. 
 	 * 
@@ -144,8 +142,8 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	/**
 	 * Creates a new ArrayFeatureDatasetRow using the given values. The values array is not
 	 * copied, but used as is. The name of the row is extracted from the header by
-	 * using {@link Namable#getName()} if the object implements {@link Namable} or
-	 * using {@link Object#toString()} otherwise
+	 * using {@link SimpleEntity#getName()} if the object implements {@link SimpleEntity} or
+	 * using {@link Object#toString()} otherwise.
 	 * 
 	 * @param header the header of the row
 	 * @param values values for the new row
@@ -162,11 +160,10 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	
 	 /**
    * Creates a new ArrayFeatureDatasetRow using the given values. The values array is not
-   * copied, but used as is. The name of the row is extracted from the header by
-   * using {@link Namable#getName()} if the object implements {@link Namable} or
-   * using {@link Object#toString()} otherwise
+   * copied, but used as is.
    * 
    * @param header the header of the row
+   * @param name name of the row
    * @param values values for the new row
    */
   public ArrayFeatureDatasetRow(Object header, String name, List<Object> values)
@@ -224,9 +221,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	  }
   }
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.Namable#getHeader()
-	 */
+	
 	@Override
 	public final Object getHeader()
 	{
@@ -302,12 +297,13 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	  return list;
   }
   
-  /**
-	 * Creates new ArrayFeatureDatasetRow 
-   * @param header <code>true</code> if the first value the header, <code>false</code> otherwise
-	 * @param values for the row
-   * @return
-   */
+    /**
+     * Creates new ArrayFeatureDatasetRow
+     *
+     * @param header <code>true</code> if the first value the header, <code>false</code> otherwise
+     * @param values for the row
+     * @return created row
+     */
   public static FeatureDatasetRow createRow(boolean header, List<Object> values)
   {
   	if (header)
@@ -317,11 +313,12 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
   }
   
   /**
-	 * Creates new ArrayFeatureDatasetRow 
-   * @param header <code>true</code> if the first value the header, <code>false</code> otherwise
-	 * @param values for the row
-   * @return
-   */
+     * Creates new ArrayFeatureDatasetRow
+     *
+     * @param header <code>true</code> if the first value the header, <code>false</code> otherwise
+     * @param values for the row
+     * @return created row
+     */
   public static FeatureDatasetRow createRow(boolean header, Object[] values)
   {
   	if (header)
@@ -334,7 +331,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
    * Creates new ArrayFeatureDatasetRow 
    * @param header the header value
    * @param values for the row
-   * @return
+   * @return created row
    */
   public static FeatureDatasetRow createRow(Object header, List<Object> values)
   {
@@ -345,7 +342,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
    * Creates new ArrayFeatureDatasetRow 
    * @param header the header value
    * @param values for the row
-   * @return
+   * @return created row
    */
   public static FeatureDatasetRow createRow(Object header, Object[] values)
   {
@@ -357,7 +354,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
    * @param header the header value
    * @param name the name for the row
    * @param values for the row
-   * @return
+   * @return created row
    */
   public static FeatureDatasetRow createRow(Object header, String name, List<Object> values)
   {
@@ -366,19 +363,17 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
   
   /**
    * Creates new ArrayFeatureDatasetRow 
-   * @param header <code>true</code> if the first value the header, <code>false</code> otherwise
+   * @param rowId id
+   * @param rowName name
    * @param values for the row
-   * @return
+   * @return created row
    */
   public static FeatureDatasetRow createRow(String rowId, String rowName, Object[] values)
   {
     return new ArrayFeatureDatasetRow(rowId, rowName, values) ;
   }
   
-	/**
-	 * @param header
-	 * @return
-	 */
+	
   private String createName(Object value)
   {
   	if (value != null)

@@ -45,9 +45,7 @@ public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implem
 	@SuppressWarnings("unused")
   private static final String	SPREADSHEET_NAME	= "values";
 
-	/**
-	 * @param file
-	 */
+	
 	public ZipFeatureDatasetReader(File file)
 	{
 		super(file);
@@ -139,13 +137,7 @@ public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implem
 		return dataset;
 	}
 
-	/**
-	 * @param identification
-	 * @param features
-	 * @param values
-	 * @return
-	 * @throws DatasetException 
-	 */
+	
 	private FeatureDataset createDataset(Entity identification,
 	    List<FeaturePojo> features, Object[][] values, FeaturePojo rowHeaderFeature) throws DatasetException
 	{

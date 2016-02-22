@@ -21,22 +21,20 @@ import java.util.List;
 /**
  * Writes a table to a data source row by row
  * @author Guy Davenport
- *
- * @param <T>
  */
 public interface RowWriter extends TableWriter
 {
 	/**
 	 * Writes the row cells to the data source
 	 * @param cells row cells to be written to the data source
-	 * @throws IOException
+	 * @throws IOException if the data can not be written
 	 */
-	public void writeRowCells(List<Object> expected) throws IOException ;
+	public void writeRowCells(List<Object> cells) throws IOException ;
 
 	/**
 	 * Writes the row cells to the data source
 	 * @param cells row cells to be written to the data source
-	 * @throws IOException
+	 * @throws IOException if the data can not be written
 	 */
-  public void writeRowCellsAsArray(Object[] objects) throws IOException;	
+        public void writeRowCellsAsArray(Object[] cells) throws IOException;	
 }

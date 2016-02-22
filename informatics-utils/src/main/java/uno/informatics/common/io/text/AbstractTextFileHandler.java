@@ -52,27 +52,17 @@ public abstract class AbstractTextFileHandler implements TextFileHandler
 	
   private String delimiter;
 	
-  /**
-   * Constructs an initialised reader using a string reference to a text file.
-   * 
-   * @param reference
-   *          a text file name or URL
-   * @throws IOException 
-   * @throws FileNotFoundException 
-   */
   protected AbstractTextFileHandler()  
   {
   	
   }
 
-
   /**
    * Constructs an initialised reader using a string reference to a text file.
    * 
-   * @param reference
-   *          a text file name or URL
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * @param reference a text file name or URL
+   * @throws FileNotFoundException if the file to read/write is not found
+   * @throws IOException if an I/O error occurs
    */
   public AbstractTextFileHandler(String reference) throws IOException, FileNotFoundException
   {
@@ -85,10 +75,9 @@ public abstract class AbstractTextFileHandler implements TextFileHandler
   /**
    * Constructs an initialised reader using a file.
    * 
-   * @param file
-   *          a text File object.
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * @param file a text File object.
+   * @throws FileNotFoundException if the file to read/write is not found
+   * @throws IOException if an I/O error occurs
    */
   public AbstractTextFileHandler(File file) throws IOException, FileNotFoundException
   {  	
@@ -98,13 +87,12 @@ public abstract class AbstractTextFileHandler implements TextFileHandler
     setFile(file) ;
   }
   
-  /**
-	 * @return
-	 */
-  public boolean ready() 
-  {
-  	return true ;
-  }
+    /**
+     * @return <code>true</code>
+     */
+    public boolean ready() {
+        return true;
+    }
 
   public final int getRowCount()
   {
@@ -183,11 +171,11 @@ public abstract class AbstractTextFileHandler implements TextFileHandler
   }
   
   /**
-   * Sets the string which indicates at comment line that should be ignored by the reader.
+   * Sets the string which indicates a comment line that should be ignored by the reader.
    * Set to <code>null</code> if no comments are allowed
    * 
    * @param comment the comment string
-   * @throws IOException 
+   * @throws IOException if the reader/writer is in use
    */
   public final synchronized void setCommentString(String comment) throws IOException
   {
@@ -217,7 +205,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler
    * Sets the string which indicates a new field in a record.
    * 
    * @param delimiter the delimiter string
-   * @throws MatrixException if the reader is currently in use
+   * @throws IOException if the reader is currently in use
    */
   public synchronized void setDelimiterString(String delimiter) throws IOException
   {
@@ -227,16 +215,16 @@ public abstract class AbstractTextFileHandler implements TextFileHandler
     if (!delimiter.equals(this.delimiter))
     {
       if (isInUse())
-        throw new IOException("Delimiter string can not be set while reader is in use") ;
+        throw new IOException("Delimiter string can not be set while reader/writer is in use") ;
       
       this.delimiter = delimiter;
     }
   }
 
   /**
-   * Initialises the reader
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * Initialises the reader.
+   * @throws FileNotFoundException if the file to read/write is not found
+   * @throws IOException if an I/O error occurs
    */
   protected void initialise() throws FileNotFoundException, IOException 
   {
@@ -253,9 +241,9 @@ public abstract class AbstractTextFileHandler implements TextFileHandler
   }
 
   /**
-   * Add addition cells to row ro unsure it is the same size as other rows
-   * @param row
-   * @throws IOException
+   * Add addition cells to row to ensure it is the same size as other rows
+   * @param row row to complete
+   * @throws IOException if the row can not be completed
    */
   protected final void updateRowFromSize(List<Object> row) throws IOException
   {

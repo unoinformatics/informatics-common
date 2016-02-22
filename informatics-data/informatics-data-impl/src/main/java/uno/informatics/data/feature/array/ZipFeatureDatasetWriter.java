@@ -45,9 +45,7 @@ public class ZipFeatureDatasetWriter extends ZipFeatureDatasetFileHandler implem
 {
 	private FileType fileType ;
 
-	/**
-	 * @param file
-	 */
+	
 	public ZipFeatureDatasetWriter(File file)
 	{
 		super(file);

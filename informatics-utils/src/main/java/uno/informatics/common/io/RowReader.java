@@ -29,7 +29,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values
 	 * 
 	 * @return the remaining unread row cell values
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public List<Object> getRowCells() throws IOException ;
 
@@ -37,7 +37,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values
 	 * 
 	 * @return the remaining unread row cell values
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public List<String> getRowCellsAsString() throws IOException ;
 	
@@ -45,7 +45,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values
 	 * 
 	 * @return the remaining unread row cell values
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public List<Integer> getRowCellsAsInt() throws IOException ;
 	
@@ -53,7 +53,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values
 	 * 
 	 * @return the remaining unread row cell values
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public List<Double> getRowCellsAsDouble() throws IOException ;
 
@@ -61,7 +61,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values
 	 * 
 	 * @return the remaining unread row cell values
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public List<Boolean> getRowCellsAsBoolean() throws IOException ;
 	
@@ -69,7 +69,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values as an array
 	 * 
 	 * @return the remaining unread row cell values as an array
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public Object[] getRowCellsAsArray() throws IOException ;
 	
@@ -77,7 +77,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values as an array
 	 * 
 	 * @return the remaining unread row cell values as an array
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public String[] getRowCellsAsStringArray() throws IOException ;
 
@@ -85,7 +85,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values as an array
 	 * 
 	 * @return the remaining unread row cell values as an array
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public int[] getRowCellsAsIntArray() throws IOException ;
 
@@ -93,7 +93,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values as an array
 	 * 
 	 * @return the remaining unread row cell values as an array
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public double[] getRowCellsAsDoubleArray() throws IOException ;
 
@@ -101,7 +101,7 @@ public interface RowReader extends TableReader
 	 * Gets the current remaining unread row cell values as an array
 	 * 
 	 * @return the remaining unread row cell values as an array
-	 * @throws IOException
+	 * @throws IOException if the data source can not be read
 	 */
 	public boolean[] getRowCellsAsBooleanArray() throws IOException ;
 	

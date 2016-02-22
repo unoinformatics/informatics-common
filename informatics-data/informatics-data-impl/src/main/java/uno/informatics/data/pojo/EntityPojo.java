@@ -78,8 +78,6 @@ public class EntityPojo extends SimpleEntityPojo implements Entity
    * to user to allow to know what the entity is or what is does.
    * 
    * @param description the description to be set
-   * @return description of what the entities is or does, or null
-   * if there is no description
    */
   public final void setDescription(String description)
   {

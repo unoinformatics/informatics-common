@@ -30,7 +30,7 @@ public interface TextFileHandler
 	
 	/**
 	 * Gets the file associated with this handler
-	 * @return
+	 * @return associated file
 	 */
 	public File getFile();
 }

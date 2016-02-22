@@ -241,7 +241,7 @@ public class DatasetUtils
 
 	/**
 	 * Creates a default column feature from a name and a bit mask of possible data types
-	 * @param the name of the column feature
+	 * @param name the name of the column feature
 	 * @param possibleDataTypes a bit mask of possible data types
 	 * @return the default column feature
 	 */
@@ -252,7 +252,7 @@ public class DatasetUtils
   
 	/**
 	 * Creates a default feature from a name and a bit mask of possible data types
-	 * @param the name of the feature
+	 * @param name the name of the feature
 	 * @param dataType the data type of the feature
 	 * @param scaleType the scale type of the feature
 	 * @return the default feature
@@ -282,36 +282,26 @@ public class DatasetUtils
 	/**
 	 * Converts a column feature to simple feature
 	 * @param columnFeature a column feature to be converted
-	 * @param next2
-	 * @return
+	 * @return converted simple feature
 	 */
   public static Feature createFeature(ColumnFeature columnFeature)
   {
 	  return new FeaturePojo(columnFeature) ;
   }
   
-  /**
-   * @param scale
-   * @return
-   */
+  
   public static final int getConversionType(Feature scale)
   {
     return scale != null ? DataTypeConstants.getConversionType(scale.getMethod().getScale().getDataType()) : DataTypeConstants.STRING_ID ;
   }
   
-	/**
-	 * @param scale
-	 * @return
-	 */
+	
   public static final int getConversionType(Scale scale)
   {
 	  return scale != null ? DataTypeConstants.getConversionType(scale.getDataType()) : DataTypeConstants.STRING_ID ;
   }
   
-	/**
-	 * @param dataType
-	 * @return
-	 */
+	
   public static final int getConversionTypes(DataType... dataTypes)
   {
   	int conversionType = 0 ;
@@ -322,10 +312,7 @@ public class DatasetUtils
   	return conversionType ;
   }
   
-	/**
-	 * @param features
-	 * @return
-	 */
+	
   public static final int[] getConversionTypes(List<? extends Feature> features)
   {
   	int[] types = new int[features.size()] ;
@@ -343,10 +330,7 @@ public class DatasetUtils
 	  return types ;
   }
   
-	/**
-	 * @param features
-	 * @return
-	 */
+	
   public static final int[] getConversionTypes(Feature rowHeaderFeature, List<? extends Feature> features)
   {
   	int[] types = new int[features.size() + 1] ;
@@ -421,9 +405,9 @@ public class DatasetUtils
 	 * Copies a feature and its properties, validating at the same time. For example
 	 * scale type and data type are checked for consistency.
 	 * 
-	 * @param feature
-	 * @return
-	 * @throws DatasetException 
+	 * @param feature feature to copy
+	 * @return copy
+	 * @throws DatasetException  if the feature is invalid
 	 */
   public static final Feature copyFeature(Feature feature) throws DatasetException
   {
