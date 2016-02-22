@@ -11,9 +11,9 @@
 	<url>http://www.informatics.uno</url>
 
 	<scm>
-		<connection>scm:git:git@bitbucket.org:daveneti/informatics-common.git</connection>
-		<developerConnection>scm:git:git@bitbucket.org:daveneti/informatics-common.git</developerConnection>
-		<url>https://bitbucket.org/daveneti/informatics-common</url>
+		<url>https://github.com/daveneti/informatics-common</url>
+		<connection>scm:git:git://github.com/daveneti/informatics-common.git</connection>
+		<developerConnection>scm:git:git@github.com:daveneti/informatics-common.git</developerConnection>
 	</scm>
 
 	<properties>
