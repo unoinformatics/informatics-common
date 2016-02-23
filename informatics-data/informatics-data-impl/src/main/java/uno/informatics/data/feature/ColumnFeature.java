@@ -17,13 +17,9 @@ package uno.informatics.data.feature;
 
 public interface ColumnFeature extends SimpleFeature
 {
-	/**
-	 * @return
-	 */
+
   public int getPossibleDataTypes();
   
-	/**
-	 * @param integer
-	 */
   public void setPossibleDataTypes(int integer);
+  
 }

@@ -90,6 +90,7 @@ public class ConversionUtilities
    * @param string the string to be converted
    * @param types possible types to which to convert
    * @return a object representation of the string
+   * @throws ConversionException if the string can not be converted to one of the possible types
    */
   public static final Object convertToObject(String string, int types) throws ConversionException
   {
@@ -181,7 +182,7 @@ public class ConversionUtilities
    * @param string the string to be converted
    * @param types types to convert
    * @return a object representation of the string
-   * @throws ConversionException 
+   * @throws ConversionException if conversion to all given types fails
    */
   public static final Number convertToNumber(String string, int types) throws ConversionException
   {
@@ -476,12 +477,6 @@ public class ConversionUtilities
     }  
   }
   
-	/**
-	 * @param values
-	 * @param types
-	 * @return
-	 * @throws ConversionException 
-	 */
   public static List<Short> convertToShortList(List<String> values) throws ConversionException
   {
   	List<Short> list = new ArrayList<Short>() ;
@@ -496,12 +491,6 @@ public class ConversionUtilities
 	  return list;
   }
   
-	/**
-	 * @param values
-	 * @param types
-	 * @return
-	 * @throws ConversionException 
-	 */
   public static List<Integer> convertToIntegerList(List<String> values) throws ConversionException
   {
   	List<Integer> list = new ArrayList<Integer>() ;
@@ -516,12 +505,6 @@ public class ConversionUtilities
 	  return list;
   }
   
-	/**
-	 * @param values
-	 * @param types
-	 * @return
-	 * @throws ConversionException 
-	 */
   public static List<Long> convertToLongList(List<String> values) throws ConversionException
   {
   	List<Long> list = new ArrayList<Long>() ;
@@ -536,12 +519,6 @@ public class ConversionUtilities
 	  return list;
   }
   
-	/**
-	 * @param cells
-	 * @param types
-	 * @return
-	 * @throws ConversionException 
-	 */
   public static List<Float> convertToFloatList(List<String> values) throws ConversionException
   {
   	List<Float> list = new ArrayList<Float>() ;
@@ -556,12 +533,6 @@ public class ConversionUtilities
 	  return list;
   }
   
-	/**
-	 * @param cells
-	 * @param types
-	 * @return
-	 * @throws ConversionException 
-	 */
   public static List<Double> convertToDoubleList(List<String> values) throws ConversionException
   {
   	List<Double> list = new ArrayList<Double>() ;
@@ -576,12 +547,6 @@ public class ConversionUtilities
 	  return list;
   }
   
-	/**
-	 * @param values
-	 * @param types
-	 * @return
-	 * @throws ConversionException 
-	 */
   public static List<Object> convertToObjectList(List<String> values, int type) throws ConversionException
   {
   	List<Object> list = new ArrayList<Object>() ;
@@ -596,12 +561,6 @@ public class ConversionUtilities
 	  return list;
   }
   
-	/**
-	 * @param values
-	 * @param types
-	 * @return
-	 * @throws ConversionException 
-	 */
   public static List<Object> convertToObjectList(List<String> values, int[] types) throws ConversionException
   {
   	List<Object> list = new ArrayList<Object>() ;

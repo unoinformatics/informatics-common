@@ -21,14 +21,14 @@ public interface Scale extends Entity
 {
   /**
    * Gets the maximum value in the scale
-   * @return the maximum value in the scale, or <code>null</null>
+   * @return the maximum value in the scale, or <code>null</code>
    * if the maximum value is not applicable, e.g. for nominal scales
    */
   public Number getMaximumValue() ;
   
   /**
    * Gets the minimum value in the scale
-   * @return the minimum value in the scale, or <code>null</null>
+   * @return the minimum value in the scale, or <code>null</code>
    * if the maximum value is not applicable, e.g. for nominal scales
    */
   public Number getMinimumValue() ;
@@ -36,7 +36,7 @@ public interface Scale extends Entity
   /**
    * Gets all possible values for this scale
    * 
-   * @return all possible values for this scale, or <code>null</null>
+   * @return all possible values for this scale, or <code>null</code>
    * the number of possible values is large or infinite, e.g. for ratio and interval scales
    */
   public Set<Object> getValues() ;

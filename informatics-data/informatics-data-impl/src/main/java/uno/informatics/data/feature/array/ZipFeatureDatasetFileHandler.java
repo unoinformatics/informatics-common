@@ -52,17 +52,13 @@ public class ZipFeatureDatasetFileHandler extends FileHandler
 	
 	protected static final String SPREADSHEET_NAME = "values";
 	
-	/**
-	 * @param file
-	 */
+	
   public ZipFeatureDatasetFileHandler(File file)
   {
 	  super(file);
   }
 
-	/**
-	 * @return
-	 */
+	
   protected XStream createXStream()
   {
   	XStream xstream = new XStream(new StaxDriver());

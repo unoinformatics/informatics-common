@@ -24,10 +24,7 @@ public class Mapping<F, T>
 	
 	private F from ;
   private T to ;
-  /**
-   * @param from
-   * @param to
-   */
+  
   public Mapping(F from, T to)
   {
     super();

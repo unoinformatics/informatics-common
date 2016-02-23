@@ -37,7 +37,7 @@ public class DataTypeConstants
 
 	/**
 	 * Gets the conversion type for data type
-	 * @param dataType
+         * @param dataType data type
 	 * @return conversion type for data type
 	 */
   public static final int getConversionType(DataType dataType)

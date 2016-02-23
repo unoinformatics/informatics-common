@@ -413,15 +413,9 @@ public abstract class ArrayMatrixDataset<ValueType extends Object> extends Abstr
 		this.columnHeaders = columnHeaders;
 	}
 
-	/**
-	 * @param size
-	 * @return
-	 */
+	
   protected abstract ValueType[][] createArrayArray(int size) ;
   
-  /**
-	 * @param size
-	 * @return
-	 */
+  
 	protected abstract ValueType[] createArray(int size) ;
 }

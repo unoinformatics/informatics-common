@@ -71,10 +71,9 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
   /**
    * Constructs an initialised reader using a string reference to a text file.
    * 
-   * @param reference
-   *          a text file name or URL
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * @param reference a text file name or URL
+   * @throws FileNotFoundException if the file to read is not found
+   * @throws IOException if an I/O error occurs
    */
   public TextFileRowReader(String reference) throws IOException, FileNotFoundException
   {
@@ -91,10 +90,9 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
   /**
    * Constructs an initialised reader using a file.
    * 
-   * @param file
-   *          a text File object.
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * @param file a text File object.
+   * @throws FileNotFoundException if the file to read is not found
+   * @throws IOException if an I/O error occurs
    */
   public TextFileRowReader(File file) throws IOException, FileNotFoundException
   {
@@ -120,25 +118,23 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     initialise() ;
   }
 
-	/**
-	 * Check to see if the reader is ready to be used and if additional cells can still be read
-	 * 
-	 * @return <code>true</code> if the reader is ready to be used and if additional cells can still be read, <code>false</code> otherwise
-	 */
-	public final boolean ready()
-  {
-    try
-    {
-      if (bufferedReader != null)
-        return bufferedReader.ready() ;
-      else
-        return false ;
+    /**
+     * Check to see if the reader is ready to be used and if additional cells can still be read
+     *
+     * @return <code>true</code> if the reader is ready to be used and if additional cells can still be read,
+     *         <code>false</code> otherwise
+     */
+    public final boolean ready() {
+        try {
+            if (bufferedReader != null) {
+                return bufferedReader.ready();
+            } else {
+                return false;
+            }
+        } catch (IOException e) {
+            return false;
+        }
     }
-    catch (IOException e)
-    {
-      return false ;
-    }
-  }
 
 	/**
 	 * Close the reader, disposing of any internal resources
@@ -197,9 +193,9 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
   }
 
   /**
-   * Sets if the reader should attempt to convert values
+   * Sets if the reader should attempt to convert values.
    * 
-   * @param ignoringMultipleDelimiters <code>true</code> if the read should attempt to convert values, <code>false</code> otherwise
+   * @param convertingValues <code>true</code> if the read should attempt to convert values, <code>false</code> otherwise
    * @exception IOException if the read is already is use
    */
   public final void setConvertingValues(boolean convertingValues) throws IOException
@@ -224,9 +220,9 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
   }
 
   /**
-   * Sets if the reader should parse empty strings
+   * Sets if the reader should parse empty strings.
    * 
-   * @param ignoringMultipleDelimiters <code>true</code> if the read should should parse empty strings, <code>false</code> otherwise
+   * @param parsingEmptyStrings <code>true</code> if the read should should parse empty strings, <code>false</code> otherwise
    * @exception IOException if the read is already is use
    */
   public final void setParsingEmptyStrings(boolean parsingEmptyStrings) throws IOException
@@ -243,7 +239,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
   }
   
   /**
-   * Sets the delimiter string
+   * Sets the delimiter string.
    * 
    * @param delimiter the delimiter string
    * @exception IOException if the read is already is use
@@ -511,9 +507,9 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
   }
 
   /**
-   * Initialises the reader
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * Initialises the reader.
+   * @throws FileNotFoundException if the file to read is not found
+   * @throws IOException if an I/O error occurs
    */
   protected final void initialise() throws FileNotFoundException, IOException 
   {

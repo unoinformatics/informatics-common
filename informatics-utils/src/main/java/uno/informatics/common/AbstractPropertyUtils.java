@@ -129,7 +129,6 @@ public abstract class AbstractPropertyUtils
    * Gets a string array for the given key from the given resource bundle or one of its parents.
    * Most commonly used for obtaining language specific text required in user interfaces
    * 
-   * @param resourceBundle the resource bundle containing the required string
    * @param key the key of the string in the resource bundle
    * @return the required string array
    */
@@ -144,7 +143,6 @@ public abstract class AbstractPropertyUtils
    * of {<code>i</code>} where n is an integer from 0 to n-1, and n is size of the parameters array, will be replaced 
    * by the <code>i</code>th element in the parameters array
    * 
-   * @param resourceBundle the resource bundle containing the required string
    * @param key the key of the string in the resource bundle
    * @param parameters to be substituted into the returned string
    * @return the required string array

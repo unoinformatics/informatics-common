@@ -37,14 +37,14 @@ public interface ExcelReader extends Reader, ExcelHandler
 	/**
 	 * Gets all the spread sheets names in order as a list
 	 * @return all the spread sheets names in order
-	 * @throws IOException
+	 * @throws IOException if the reader can not access the excel file
 	 */
 	public List<String> getAllSpreadSheetNames() throws IOException;
 
 	/**
 	 * Gets all the spread sheets names in order in a array
 	 * @return all the spread sheets names in order
-	 * @throws IOException
+	 * @throws IOException if the reader can not access the excel file
 	 */
 	public String[] getAllSpreadSheetNamesAsArray() throws IOException;
 }
