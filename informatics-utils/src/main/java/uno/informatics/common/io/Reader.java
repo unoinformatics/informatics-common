@@ -28,4 +28,9 @@ public interface Reader extends AutoCloseable
 	 */
 	public boolean ready();
 
+	/**
+	 * Closes the data source, freeing up an resources.
+	 */
+        @Override
+	public void close();
 }
