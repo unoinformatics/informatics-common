@@ -675,7 +675,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset
   						cells = reader.getRowCellsAsString() ;
   
   						if (cells.size() != columnCount)
-  							throw new DatasetException("Rows are not all the same size!") ;
+  							throw new DatasetException("Rows are not all the same size in row + " + row + " !") ;
   								
               addValues(rowList, cells, newFeatures, types) ;
             }

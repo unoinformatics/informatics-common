@@ -101,6 +101,26 @@ public class ColumnFeaturePojo extends EntityPojo implements ColumnFeature
     
     setPossibleDataTypes(possibleDataTypes);
   }
+  
+  public ColumnFeaturePojo(String uniqueIdentifier, String name, int possibleDataTypes)
+  {
+    super(uniqueIdentifier, name);
+    
+    scale = new ScalePojo(name);
+    method = new MethodPojo(name, scale);
+    
+    setPossibleDataTypes(possibleDataTypes);
+  }
+  
+  public ColumnFeaturePojo(String uniqueIdentifier, String name, String description, int possibleDataTypes)
+  {
+    super(uniqueIdentifier, name, description);
+    
+    scale = new ScalePojo(name);
+    method = new MethodPojo(name, scale);
+    
+    setPossibleDataTypes(possibleDataTypes);
+  }
 
   /*
    * (non-Javadoc)
