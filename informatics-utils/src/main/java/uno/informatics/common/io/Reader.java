@@ -20,7 +20,7 @@ package uno.informatics.common.io;
  * @author Guy Davenport
  *
  */
-public interface Reader
+public interface Reader extends AutoCloseable
 {
 	/**
 	 * Determines if the data source can be read
@@ -28,8 +28,4 @@ public interface Reader
 	 */
 	public boolean ready();
 
-	/**
-	 * Closes the data source, freeing up an resources.
-	 */
-	public void close();
 }
