@@ -40,6 +40,8 @@ public class ZipFeatureDatasetFileHandler extends FileHandler
 	
 	protected static final String ROW_HEADER_FEATURE_ENTRY =  META_DATA_DIRECTORY + "/rowHeaderFeature.xml";
 	
+	protected static final String ROW_HEADER_ENTRY =  META_DATA_DIRECTORY + "/rowHeaders.xml";
+	
 	protected static final String DATA_VALUES_ENTRY_PREIFX =  DATA_DIRECTORY + "/values";
 	
 	protected static final String CSV_SUFFIX = ".csv";

@@ -57,7 +57,7 @@ public class FileReadDatasetCSVTest extends TestData
       FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
       
       checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          STRING_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, true);
+          STRING_FEATURES, dataset, BLANK_HEADERS, null, true);
           
     }
     catch (DatasetException e)
@@ -88,7 +88,7 @@ public class FileReadDatasetCSVTest extends TestData
       FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
       
       checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          STRING_FEATURES, dataset, ROW_NAMES, ROW_NAMES, NAMES_HEADER_FEATURE, true);
+          STRING_FEATURES, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, true);
           
     }
     catch (DatasetException e)
@@ -114,7 +114,7 @@ public class FileReadDatasetCSVTest extends TestData
       FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
       
       checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          STRING_FEATURES, dataset, ROW_NAMES, ROW_HEADERS, IDS_HEADER_FEATURE, true);
+          STRING_FEATURES, dataset, ROW_HEADERS_WITH_ID, IDS_HEADER_FEATURE, true);
           
     }
     catch (DatasetException e)
@@ -140,7 +140,7 @@ public class FileReadDatasetCSVTest extends TestData
       FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
       
       checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES, dataset, ROW_NAMES, ROW_NAMES, NAMES_HEADER_FEATURE, false);
+          OBJECT_FEATURES, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false);
           
     }
     catch (DatasetException e)
@@ -166,7 +166,7 @@ public class FileReadDatasetCSVTest extends TestData
       FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
       
       checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES, dataset, ROW_NAMES, ROW_HEADERS, IDS_HEADER_FEATURE, false);
+          OBJECT_FEATURES, dataset, ROW_HEADERS_WITH_ID, IDS_HEADER_FEATURE, false);
           
     }
     catch (DatasetException e)
@@ -192,7 +192,7 @@ public class FileReadDatasetCSVTest extends TestData
       FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
       
       checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES_MIN, dataset, ROW_NAMES, ROW_NAMES, NAMES_HEADER_FEATURE, false);
+          OBJECT_FEATURES_MIN, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false);
           
     }
     catch (DatasetException e)
@@ -218,7 +218,7 @@ public class FileReadDatasetCSVTest extends TestData
       FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
       
       checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES_MIN, dataset, ROW_NAMES, ROW_HEADERS, IDS_HEADER_FEATURE, false);
+          OBJECT_FEATURES_MIN, dataset, ROW_HEADERS_WITH_ID, IDS_HEADER_FEATURE, false);
           
     }
     catch (DatasetException e)
@@ -244,7 +244,7 @@ public class FileReadDatasetCSVTest extends TestData
       FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
       
       checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES_MIN_MAX, dataset, ROW_NAMES, ROW_NAMES, NAMES_HEADER_FEATURE, false);
+          OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false);
           
     }
     catch (DatasetException e)
@@ -270,7 +270,7 @@ public class FileReadDatasetCSVTest extends TestData
       FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
       
       checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES_MIN_MAX, dataset, ROW_NAMES, ROW_HEADERS, IDS_HEADER_FEATURE, false);
+          OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS_WITH_ID, IDS_HEADER_FEATURE, false);
     }
     catch (DatasetException e)
     {

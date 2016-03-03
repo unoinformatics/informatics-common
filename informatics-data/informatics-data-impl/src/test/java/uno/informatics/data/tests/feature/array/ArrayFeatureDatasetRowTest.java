@@ -39,8 +39,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		FeatureDatasetRow datasetRow = new ArrayFeatureDatasetRow(OBJECT_ROW1) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", null, datasetRow.getName()) ;
-		assertEquals("Header not correct!", null, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 		
 		
@@ -60,8 +59,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		FeatureDatasetRow datasetRow = new ArrayFeatureDatasetRow(OBJECT_ROW1) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", null, datasetRow.getName()) ;
-		assertEquals("Header not correct!", null, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 		
 		
@@ -81,8 +79,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		FeatureDatasetRow datasetRow = new ArrayFeatureDatasetRow(ROW1_HEADER, OBJECT_ROW1) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", ROW1_HEADER, datasetRow.getName()) ;
-		assertEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 		
 		
@@ -102,8 +99,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		FeatureDatasetRow datasetRow = new ArrayFeatureDatasetRow(OBJECT_TABLE_AS_LIST.get(0)) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", null, datasetRow.getName()) ;
-		assertEquals("Header not correct!", null, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 		
 		
@@ -123,8 +119,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		FeatureDatasetRow datasetRow = new ArrayFeatureDatasetRow(ROW1_HEADER, OBJECT_TABLE_AS_LIST.get(0)) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", ROW1_HEADER, datasetRow.getName()) ;
-		assertEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 		
 		
@@ -141,11 +136,10 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 	@Test
 	public void testArrayFeatureDatasetRowObjectListOfObject()
 	{
-		FeatureDatasetRow datasetRow = new ArrayFeatureDatasetRow(NAME, OBJECT_TABLE_AS_LIST.get(0)) ;
+		FeatureDatasetRow datasetRow = new ArrayFeatureDatasetRow(ROW_HEADER, OBJECT_TABLE_AS_LIST.get(0)) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", NAME, datasetRow.getName()) ;
-		assertEquals("Header not correct!", NAME, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", ROW_HEADER, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 		
 		assertEquals("Values not correct!", OBJECT_TABLE_AS_LIST.get(0), datasetRow.getValues()) ;
@@ -153,32 +147,6 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		
 		for (int i = 0 ; i < datasetRow.getColumnCount() ; ++i)
 			assertEquals("Value at " + i + " not correct!", OBJECT_ROW1[i], datasetRow.getValue(i)) ;
-	}
-
-	/**
-	 * Test method for {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#setName(java.lang.String)}.
-	 */
-	//@Test
-	public void testSetName()
-	{
-		FeatureDatasetRow datasetRow = new ArrayFeatureDatasetRow(OBJECT_ROW1) ;
-		
-		//datasetRow.setName(NAME) ;
-		
-		assertEquals("Name not correct!", NAME, datasetRow.getName()) ;
-	}
-
-	/**
-	 * Test method for {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#setHeader(java.lang.Object)}.
-	 */
-	//@Test
-	public void testSetHeader()
-	{
-		FeatureDatasetRow datasetRow = new ArrayFeatureDatasetRow(OBJECT_ROW1) ;
-		
-		//.setName(NAME) ;
-		
-		assertEquals("Name not correct!", NAME, datasetRow.getName()) ;
 	}
 
 	/**
@@ -190,8 +158,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		FeatureDatasetRow datasetRow = ArrayFeatureDatasetRow.createRow(true, OBJECT_TABLE_AS_LIST_WITH_HEADER.get(0)) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", ROW1_HEADER, datasetRow.getName()) ;
-		assertEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 
 		assertEquals("Values not correct!", OBJECT_TABLE_AS_LIST.get(0), datasetRow.getValues()) ;
@@ -203,8 +170,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		datasetRow = ArrayFeatureDatasetRow.createRow(false, OBJECT_TABLE_AS_LIST.get(0)) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", null, datasetRow.getName()) ;
-		assertEquals("Header not correct!", null, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 
 		assertEquals("Values not correct!", OBJECT_TABLE_AS_LIST.get(0), datasetRow.getValues()) ;
@@ -223,8 +189,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		FeatureDatasetRow datasetRow = ArrayFeatureDatasetRow.createRow(true, OBJECT_ROW1_WITH_HEADER) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", ROW1_HEADER, datasetRow.getName()) ;
-		assertEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 	
 		assertEquals("Values not correct!", OBJECT_TABLE_AS_LIST.get(0), datasetRow.getValues()) ;
@@ -236,8 +201,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
 		datasetRow = ArrayFeatureDatasetRow.createRow(false, OBJECT_ROW1) ;
 		
 		assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray()) ;
-		assertEquals("Name not correct!", null, datasetRow.getName()) ;
-		assertEquals("Header not correct!", null, datasetRow.getHeader()) ;
+		assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader()) ;
 		assertEquals("Column count not correct!", OBJECT_ROW1.length, datasetRow.getColumnCount()) ;
 
 		assertEquals("Values not correct!", OBJECT_TABLE_AS_LIST.get(0), datasetRow.getValues()) ;
@@ -254,7 +218,7 @@ public class ArrayFeatureDatasetRowTest extends DatasetRowTest
   @Override
   protected FeatureDatasetRow createDatasetRow()
   {
-	  return new ArrayFeatureDatasetRow(ROW1_NAME, OBJECT_ROW1);
+	  return new ArrayFeatureDatasetRow(ROW1_HEADER, OBJECT_ROW1);
   }
 
 }

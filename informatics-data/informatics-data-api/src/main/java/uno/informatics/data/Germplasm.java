@@ -19,5 +19,10 @@ import java.util.List;
 
 public interface Germplasm extends Entity
 {
+  /**
+   * Gets the source of the Germplasm. Returns an empty list
+   * is this is a 'founder' line with no known parent / source
+   * @return
+   */
   public List<Germplasm> getSource() ;
 }

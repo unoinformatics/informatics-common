@@ -35,10 +35,12 @@ import uno.informatics.data.FeatureDatasetRow;
 import uno.informatics.data.Method;
 import uno.informatics.data.Scale;
 import uno.informatics.data.ScaleType;
+import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.feature.array.ArrayFeatureDatasetRow;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
 import uno.informatics.data.pojo.ScalePojo;
+import uno.informatics.data.pojo.SimpleEntityPojo;
 import uno.informatics.data.pojo.SimpleFeaturePojo;
 
 /**
@@ -50,6 +52,8 @@ public class TestData
   protected final static String             UID                               = "uid";
   protected final static String             NAME                              = "name";
   protected final static String             DESCRIPTION                       = "description";
+  
+  protected final static SimpleEntity       ROW_HEADER                        = new SimpleEntityPojo(UID, NAME);
                                                                               
   protected final static String             ROW1_NAME                         = "row1";
   protected final static String             ROW2_NAME                         = "row2";
@@ -59,32 +63,48 @@ public class TestData
       ROW3_NAME };
   protected final static String[]           BLANK_NAMES                       = new String[] { null, null, null };
                                                                               
-  protected final static Object             ROW1_HEADER                       = "r1";
-  protected final static Object             ROW2_HEADER                       = "r2";
-  protected final static Object             ROW3_HEADER                       = "r3";
+  protected final static SimpleEntity       ROW1_HEADER                       = new SimpleEntityPojo(ROW1_NAME);
+  protected final static SimpleEntity       ROW2_HEADER                       = new SimpleEntityPojo(ROW2_NAME);
+  protected final static SimpleEntity       ROW3_HEADER                       = new SimpleEntityPojo(ROW3_NAME);
                                                                               
-  protected final static Object[]           ROW_HEADERS                       = new Object[] { ROW1_HEADER, ROW2_HEADER,
+  protected final static SimpleEntity[]     ROW_HEADERS                       = new SimpleEntity[] { ROW1_HEADER, ROW2_HEADER,
       ROW3_HEADER };
   
-  protected final static Set<Object>        ROW_HEADERS_AS_SET                = new TreeSet<Object>() ; 
+  protected final static List<SimpleEntity>        ROW_HEADERS_AS_LIST                = new ArrayList<SimpleEntity>() ; 
+  
+  static
+  {
+    ROW_HEADERS_AS_LIST.add(ROW1_HEADER);
+    ROW_HEADERS_AS_LIST.add(ROW2_HEADER);
+    ROW_HEADERS_AS_LIST.add(ROW3_HEADER);
+  }  
+  
+  protected final static SimpleEntity       ROW1_HEADER_WITH_ID               = new SimpleEntityPojo("r1", ROW1_NAME);
+  protected final static SimpleEntity       ROW2_HEADER_WITH_ID               = new SimpleEntityPojo("r2", ROW2_NAME);
+  protected final static SimpleEntity       ROW3_HEADER_WITH_ID               = new SimpleEntityPojo("r3", ROW3_NAME);
+                                                                              
+  protected final static SimpleEntity[]     ROW_HEADERS_WITH_ID               = new SimpleEntity[] { ROW1_HEADER_WITH_ID, ROW2_HEADER_WITH_ID,
+      ROW3_HEADER_WITH_ID };
+  
+  protected final static List<SimpleEntity>        ROW_HEADERS_WITH_IDS_AS_LIST                = new ArrayList<SimpleEntity>() ; 
       
   static
   {
-    ROW_HEADERS_AS_SET.add(ROW1_HEADER);
-    ROW_HEADERS_AS_SET.add(ROW2_HEADER);
-    ROW_HEADERS_AS_SET.add(ROW3_HEADER);
+    ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW1_HEADER_WITH_ID);
+    ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW2_HEADER_WITH_ID);
+    ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW3_HEADER_WITH_ID);
   }  
   
-  protected final static Set<Object>        ROW_NAMES_AS_SET                = new TreeSet<Object>() ; 
+  protected final static List<String>        ROW_NAMES_AS_LIST                = new ArrayList<String>() ; 
   
   static
   {
-    ROW_NAMES_AS_SET.add(ROW1_NAME);
-    ROW_NAMES_AS_SET.add(ROW2_NAME);
-    ROW_NAMES_AS_SET.add(ROW3_NAME);
+    ROW_NAMES_AS_LIST.add(ROW1_NAME);
+    ROW_NAMES_AS_LIST.add(ROW2_NAME);
+    ROW_NAMES_AS_LIST.add(ROW3_NAME);
   }  
   
-  protected final static Object[]           BLANK_HEADERS                     = new Object[] { null, null, null };
+  protected final static SimpleEntity[]     BLANK_HEADERS                     = new SimpleEntity[] { null, null, null };
                                                                               
   protected final static Object[]           OBJECT_ROW1                       = new Object[] { 1, 1.1, "R1C3", true,
       createDate("12/12/2012") };
@@ -269,9 +289,9 @@ public class TestData
     STRING_TABLE_AS_LIST_WITH_HEADER.get(2).add(STRING_ROW3_WITH_HEADER[5]);
   }
   
-  protected final static FeatureDatasetRow       ROW_WITH_NAME1 = new ArrayFeatureDatasetRow(ROW1_NAME, OBJECT_ROW1);
-  protected final static FeatureDatasetRow       ROW_WITH_NAME2 = new ArrayFeatureDatasetRow(ROW2_NAME, OBJECT_ROW2);
-  protected final static FeatureDatasetRow       ROW_WITH_NAME3 = new ArrayFeatureDatasetRow(ROW3_NAME, OBJECT_ROW3);
+  protected final static FeatureDatasetRow       ROW_WITH_NAME1 = new ArrayFeatureDatasetRow(new SimpleEntityPojo(ROW1_NAME), OBJECT_ROW1);
+  protected final static FeatureDatasetRow       ROW_WITH_NAME2 = new ArrayFeatureDatasetRow(new SimpleEntityPojo(ROW2_NAME), OBJECT_ROW2);
+  protected final static FeatureDatasetRow       ROW_WITH_NAME3 = new ArrayFeatureDatasetRow(new SimpleEntityPojo(ROW3_NAME), OBJECT_ROW3);
                                                                 
   protected final static FeatureDatasetRow       ROW1           = new ArrayFeatureDatasetRow(OBJECT_ROW1);
   protected final static FeatureDatasetRow       ROW2           = new ArrayFeatureDatasetRow(OBJECT_ROW2);
@@ -333,10 +353,10 @@ public class TestData
   }
   
   protected static final Feature NAMES_HEADER_FEATURE = new SimpleFeaturePojo("Names", DataType.STRING,
-      ScaleType.NOMINAL, ROW_NAMES_AS_SET);
+      ScaleType.NOMINAL, ROW_HEADERS_AS_LIST);
   
   protected static final Feature IDS_HEADER_FEATURE = new SimpleFeaturePojo("Ids", DataType.STRING,
-      ScaleType.NOMINAL, ROW_HEADERS_AS_SET);
+      ScaleType.NOMINAL, ROW_HEADERS_WITH_IDS_AS_LIST);
       
   /**
    * @param string
@@ -355,7 +375,7 @@ public class TestData
   }
   
   protected void checkCompleteDataset(String uid, String name, String description, List<Feature> features,
-      FeatureDataset dataset, Object[] names, Object[] rowHeaders, Feature rowHeaderFeature, boolean useStrings)
+      FeatureDataset dataset, SimpleEntity[] rowHeaders, Feature rowHeaderFeature, boolean useStrings)
   {
     assertEquals("uid not correct", uid, dataset.getUniqueIdentifier());
     assertEquals("name not correct", name, dataset.getName());
@@ -372,8 +392,7 @@ public class TestData
     
     for (int i = 0; i < rows.length; ++i)
     {
-      assertEquals("Row name " + i + " not correct", names[i], rows[i].getName());
-      assertEquals("Row header " + i + " not correct", rowHeaders[i], rows[i].getHeader());
+      assertSimpleEntityEquals("Row header " + i + " not correct", rowHeaders[i], rows[i].getHeader());
       assertEquals("Row size " + i + " not correct",
           useStrings ? STRING_TABLE_AS_LIST.get(i).size() : OBJECT_TABLE_AS_LIST.get(i).size(),
           rows[i].getColumnCount());
@@ -392,8 +411,7 @@ public class TestData
     while (iterator.hasNext())
     {
       row = iterator.next();
-      assertEquals("Row name " + i + " not correct", names[i], row.getName());
-      assertEquals("Row header " + i + " not correct", rowHeaders[i], row.getHeader());
+      assertSimpleEntityEquals("Row header " + i + " not correct", rowHeaders[i], row.getHeader());
       assertEquals("Row size " + i + " not correct",
           useStrings ? STRING_TABLE_AS_LIST.get(i).size() : OBJECT_TABLE_AS_LIST.get(i).size(), row.getColumnCount());
       assertEquals("Row values (list) " + i + " not correct",
@@ -405,8 +423,7 @@ public class TestData
     
     for (i = 0; i < dataset.getRowCount(); ++i)
     {
-      assertEquals("Row name " + i + " not correct", names[i], dataset.getRow(i).getName());
-      assertEquals("Row header " + i + " not correct", rowHeaders[i], dataset.getRow(i).getHeader());
+      assertSimpleEntityEquals("Row header " + i + " not correct", rowHeaders[i], dataset.getRow(i).getHeader());
       assertEquals("Row size " + i + " not correct",
           useStrings ? STRING_TABLE_AS_LIST.get(i).size() : OBJECT_TABLE_AS_LIST.get(i).size(),
           dataset.getRow(i).getColumnCount());
@@ -497,4 +514,18 @@ public class TestData
       assertNull("scale is not null", scale2);
     }
   }
+  
+  protected void assertSimpleEntityEquals(String label, SimpleEntity simpleEntity1, SimpleEntity simpleEntity2)
+  {
+    if (simpleEntity1 != null)
+    {
+      assertNotNull(label + " scale is null", simpleEntity1);
+      assertEquals(label + " scale uid not correct", simpleEntity1.getUniqueIdentifier(), simpleEntity2.getUniqueIdentifier());
+      assertEquals(label + " scale name not correct", simpleEntity1.getName(), simpleEntity2.getName());
+    }
+    else
+    {
+      assertNull("scale is not null", simpleEntity2);
+    }
+  } 
 }

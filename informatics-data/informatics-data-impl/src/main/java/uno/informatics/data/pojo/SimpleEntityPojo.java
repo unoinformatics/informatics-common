@@ -31,7 +31,7 @@ public class SimpleEntityPojo extends PropertyHandler implements SimpleEntity
   
   public SimpleEntityPojo(String name)
   {
-    this(null, name);
+    this(name, name);
   }
 
   public SimpleEntityPojo(String uniqueIdentifier, String name)

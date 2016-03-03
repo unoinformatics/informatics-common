@@ -27,6 +27,7 @@ public enum DataType
   BIG_DECIMAL(DataTypeConstants.BIG_DECIMAL_ID, "Big Decimal", "M"), 
   DATE(DataTypeConstants.DATE_ID, "Date", "A"), 
   STRING(DataTypeConstants.STRING_ID, "String", "S"), 
+  SIMPLE_ENTRY(DataTypeConstants.SIMPLE_ENTITY_ID, "SimpleEntry", "E"),
   UNKNOWN(DataTypeConstants.UNKNOWN_ID, "None", "X");
           
   private static final DataType[] allTypes = new DataType[] { BOOLEAN, SHORT, INTEGER, LONG, FLOAT, DOUBLE, BIG_INTEGER,

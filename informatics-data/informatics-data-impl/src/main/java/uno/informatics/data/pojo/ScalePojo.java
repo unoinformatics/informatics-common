@@ -15,6 +15,9 @@
  */
 package uno.informatics.data.pojo ;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -35,7 +38,7 @@ public class ScalePojo extends EntityPojo implements Scale
 	private static final String MINIMUM_VALUE_PROPERTY = Scale.class.getName() + ".minimumValue";
 	private static final String VALUES_PROPERTY = Scale.class.getName() + ".values" ;
   
-  private Set<Object> values = null ;
+  private List<Object> values = null ;
 
 	private DataType dataType ;
 	private ScaleType scaleType ;
@@ -115,7 +118,7 @@ public class ScalePojo extends EntityPojo implements Scale
   }
   
   public ScalePojo(String uniqueIdentifier, DataType dataType,
-      ScaleType scaleType, Set<Object> values)
+      ScaleType scaleType, List<? extends Object> values)
   {
     super(uniqueIdentifier);
     
@@ -125,7 +128,7 @@ public class ScalePojo extends EntityPojo implements Scale
   }
   
   public ScalePojo(String uniqueIdentifier, String name, DataType dataType,
-      ScaleType scaleType, Set<Object> values)
+      ScaleType scaleType, List<? extends Object> values)
   {
     super(uniqueIdentifier, name);
     
@@ -135,7 +138,7 @@ public class ScalePojo extends EntityPojo implements Scale
   }
   
   public ScalePojo(String uniqueIdentifier, String name, String description, DataType dataType,
-      ScaleType scaleType, Set<Object> values)
+      ScaleType scaleType, List<? extends Object> values)
   {
     super(uniqueIdentifier, name, description);
     
@@ -175,7 +178,7 @@ public class ScalePojo extends EntityPojo implements Scale
   }
 	
   public ScalePojo(String uniqueIdentifier, DataType dataType,
-      ScaleType scaleType, Number minimum, Number maximum, Set<Object> values)
+      ScaleType scaleType, Number minimum, Number maximum, List<Object> values)
   {
     super(uniqueIdentifier);
     
@@ -185,7 +188,7 @@ public class ScalePojo extends EntityPojo implements Scale
   }
   
   public ScalePojo(String uniqueIdentifier, String name, DataType dataType,
-      ScaleType scaleType, Number minimum, Number maximum, Set<Object> values)
+      ScaleType scaleType, Number minimum, Number maximum, List<Object> values)
   {
     super(uniqueIdentifier, name);
     
@@ -197,7 +200,7 @@ public class ScalePojo extends EntityPojo implements Scale
   }
   
   public ScalePojo(String uniqueIdentifier, String name, String description, DataType dataType,
-      ScaleType scaleType, Number minimum, Number maximum, Set<Object> values)
+      ScaleType scaleType, Number minimum, Number maximum, List<Object> values)
   {
     super(uniqueIdentifier, name, description);
     
@@ -349,19 +352,19 @@ public class ScalePojo extends EntityPojo implements Scale
    * @see uno.informatics.common.model.DiscreteScale#getValues()
    */
   @Override
-  public final Set<Object> getValues()
+  public final List<Object> getValues()
   {
     return values;
   }
   
-  public final void setValues(Set<Object> values)
+  public final void setValues(List<? extends Object> values)
   {
     if (values != null && scaleType == ScaleType.RATIO)
       throw new IllegalArgumentException("Values can not be set if the scale type is Ratio") ;
    
-    Set<Object> oldValue = this.values ;
+    List<Object> oldValue = this.values ;
     
-    this.values = createSet(values) ;
+    this.values = createList(values) ;
     
     getPropertyChangeSupport().firePropertyChange(
         VALUES_PROPERTY, oldValue, this.values) ;
@@ -372,9 +375,9 @@ public class ScalePojo extends EntityPojo implements Scale
     if (values != null && scaleType == ScaleType.RATIO)
       throw new IllegalArgumentException("Values can not be set if the scale type is Ratio") ;
    
-    Set<Object> oldValue = this.values ;
+    List<Object> oldValue = this.values ;
     
-    this.values = createSet(values) ;
+    this.values = createList(values) ;
     
     getPropertyChangeSupport().firePropertyChange(
         VALUES_PROPERTY, oldValue, this.values) ;
@@ -383,28 +386,59 @@ public class ScalePojo extends EntityPojo implements Scale
   public void addValue(Object value)
   {
     if (values == null)
-      values = createSet() ;
+      values = new ArrayList<Object>()  ;
     
-    values.add(value) ;
+    if (!values.contains(value))
+      values.add(value) ;
   }
   
-  protected Set<Object> createSet(Set<Object> values)
+  protected List<Object> createList(List<? extends Object> values)
   {
+    // TODO check if values are correct type
+    ArrayList<Object> list ;
+    
     if (values != null)
-      return new TreeSet<Object>(values) ;
+    {
+      list = new ArrayList<Object>(values.size()) ;
+      
+      Iterator<? extends Object> iterator = values.iterator() ;
+      
+      Object value ;
+  
+      while (iterator.hasNext())
+      {
+        value = iterator.next() ;
+        if (!list.contains(value))
+          list.add(value) ;
+      }
+    }
     else
-      return new TreeSet<Object>() ;
+    {
+      list = new ArrayList<Object>() ;
+    }
+    
+    return list ;
   }
   
-  protected Set<Object> createSet(Object[] values)
+  protected List<Object> createList(Object[] values)
   {
-    Set<Object> set = new TreeSet<Object>() ;
+    // TODO check if values are correct type
+    ArrayList<Object> list ;
     
     if (values != null)
+    {
+      list = new ArrayList<Object>(values.length) ;
+  
       for (int i = 0 ; i < values.length ; ++i)
-        set.add(values[i]) ;
+        if (!list.contains(values[i]))
+          list.add(values[i]) ;
+    }
+    else
+    {
+      list = new ArrayList<Object>() ;
+    }
     
-    return set ;
+    return list ;
   }
   
   protected Set<Object> createSet()

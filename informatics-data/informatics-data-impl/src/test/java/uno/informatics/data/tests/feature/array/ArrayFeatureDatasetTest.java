@@ -53,7 +53,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	{
 		ArrayFeatureDataset dataset = new ArrayFeatureDataset(NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY) ;
 		
-    checkCompleteDataset(null, NAME, null, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+    checkCompleteDataset(null, NAME, null, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	{
 		ArrayFeatureDataset dataset = new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY) ;
 		
-    checkCompleteDataset(UID, NAME, null, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+    checkCompleteDataset(UID, NAME, null, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	{
 		ArrayFeatureDataset dataset = new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY) ;
 		
-    checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+    checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	{
 		ArrayFeatureDataset dataset = new ArrayFeatureDataset(new EntityPojo(UID, NAME, DESCRIPTION), OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY) ;
 		
-    checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+    checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	{
 		ArrayFeatureDataset dataset = new ArrayFeatureDataset(NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST) ;
 		
-    checkCompleteDataset(null, NAME, null, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+    checkCompleteDataset(null, NAME, null, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	{
 		ArrayFeatureDataset dataset = new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST) ;
 		
-    checkCompleteDataset(UID, NAME, null, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+    checkCompleteDataset(UID, NAME, null, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	{
 		ArrayFeatureDataset dataset = new ArrayFeatureDataset(new EntityPojo(UID, NAME, DESCRIPTION), OBJECT_FEATURES, OBJECT_TABLE_AS_LIST) ;
 		
-    checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+    checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	{
 		ArrayFeatureDataset dataset = new ArrayFeatureDataset(new EntityPojo(UID, NAME, DESCRIPTION), OBJECT_FEATURES, OBJECT_TABLE_AS_LIST) ;
 		
-    checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+    checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	}
 
 	/**
@@ -142,12 +142,12 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	  FeatureDataset dataset = 
 	      new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST) ;
 	  
-	  checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+	  checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	  
 	  dataset = 
 	      new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST_WITH_HEADER, NAMES_HEADER_FEATURE) ;
 	  
-	  checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, ROW_HEADERS, ROW_HEADERS, NAMES_HEADER_FEATURE, false) ;
+	  checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false) ;
 
 	}
 
@@ -160,12 +160,12 @@ public class ArrayFeatureDatasetTest extends DatasetTest
 	  FeatureDataset dataset = 
 	      new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY) ;
 	  
-	  checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_NAMES, BLANK_HEADERS, null, false) ;
+	  checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, null, false) ;
 	  
 	  dataset = 
 	      new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY_WITH_HEADER, NAMES_HEADER_FEATURE) ;
 	  
-	  checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, ROW_HEADERS, ROW_HEADERS, NAMES_HEADER_FEATURE, false) ;
+	  checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false) ;
 
 	}
 

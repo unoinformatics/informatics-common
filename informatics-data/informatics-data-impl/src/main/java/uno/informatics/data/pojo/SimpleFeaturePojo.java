@@ -1,5 +1,6 @@
 package uno.informatics.data.pojo;
 
+import java.util.List;
 import java.util.Set;
 
 import uno.informatics.data.DataType;
@@ -53,21 +54,21 @@ public class SimpleFeaturePojo extends EntityPojo implements SimpleFeature
     method = createMethod(name, dataType, scaleType, minimumValue, maximumValue) ;
   }
   
-  public SimpleFeaturePojo(String name, DataType dataType, ScaleType scaleType, Set<Object> values)
+  public SimpleFeaturePojo(String name, DataType dataType, ScaleType scaleType, List<? extends Object> values)
   {
     super(name);
     
     method = createMethod(name, dataType, scaleType, values) ;
   }
 
-  public SimpleFeaturePojo(String uniqueIdentifier, String name, DataType dataType, ScaleType scaleType, Set<Object> values)
+  public SimpleFeaturePojo(String uniqueIdentifier, String name, DataType dataType, ScaleType scaleType, List<? extends Object> values)
   {
     super(uniqueIdentifier, name);
     
     method = createMethod(name, dataType, scaleType, values) ;
   }
   
-  public SimpleFeaturePojo(String uniqueIdentifier, String name, String description, DataType dataType, ScaleType scaleType, Set<Object> values)
+  public SimpleFeaturePojo(String uniqueIdentifier, String name, String description, DataType dataType, ScaleType scaleType, List<? extends Object> values)
   {
     super(uniqueIdentifier, name, description);
     
@@ -98,7 +99,7 @@ public class SimpleFeaturePojo extends EntityPojo implements SimpleFeature
     return method;
   }
   
-  private Method createMethod(String name, DataType dataType, ScaleType scaleType, Set<Object> values)
+  private Method createMethod(String name, DataType dataType, ScaleType scaleType, List<? extends Object> values)
   {
     ScalePojo scale = new ScalePojo(name, dataType, scaleType, values) ;
     

@@ -32,6 +32,7 @@ import uno.informatics.common.io.TableReader;
 import uno.informatics.data.Dataset;
 import uno.informatics.data.Entity;
 import uno.informatics.data.FeatureDataset;
+import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.io.DatasetReader;
 import uno.informatics.data.pojo.FeaturePojo;
@@ -90,6 +91,14 @@ public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implem
 				rowHeaderFeature = (FeaturePojo) xstream.fromXML(zipFile
 			    .getInputStream(zipEntry));
 			
+	    zipEntry = zipFile.getEntry(ROW_HEADER_ENTRY);
+
+	    List<SimpleEntity> rowHeaders = null ;
+	      
+	    if (zipEntry != null)
+	      rowHeaders = (List<SimpleEntity>) xstream.fromXML(zipFile
+	          .getInputStream(zipEntry));
+			
 			switch (fileType)
 			{
 				case CSV:
@@ -111,25 +120,18 @@ public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implem
 			TableReader reader = IOUtilities.createRowReader(new BufferedReader(new InputStreamReader(
 			        zipFile.getInputStream(zipEntry))), fileType);
 			
-			if (rowHeaderFeature != null)
-				reader.setAllConversionTypes(DatasetUtils.getConversionTypes(rowHeaderFeature, features)) ;
-			else
-				reader.setAllConversionTypes(DatasetUtils.getConversionTypes(features)) ;
+			reader.setAllConversionTypes(DatasetUtils.getConversionTypes(features)) ;
 		
-			Object[][] values = reader.readCellsAsArray();
+			List<List<Object>> values = reader.readCells() ;
 			
 			reader.close(); 
 
 			zipFile.close();
 
-			dataset = createDataset(identification, features, values, rowHeaderFeature);
+			dataset = createDataset(identification, features, rowHeaders, values, rowHeaderFeature);
 
 		}
-		catch (ZipException e)
-		{
-			throw new DatasetException(e);
-		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			throw new DatasetException(e);
 		}
@@ -139,10 +141,10 @@ public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implem
 
 	
 	private FeatureDataset createDataset(Entity identification,
-	    List<FeaturePojo> features, Object[][] values, FeaturePojo rowHeaderFeature) throws DatasetException
+	    List<FeaturePojo> features, List<SimpleEntity> rowHeaders, List<List<Object>> values, FeaturePojo rowHeaderFeature) throws DatasetException
 	{
 	  if (rowHeaderFeature != null)
-	    return new ArrayFeatureDataset(identification, features, values, rowHeaderFeature);
+	    return new ArrayFeatureDataset(identification, features, rowHeaders, values, rowHeaderFeature);
 	  else
 	     return new ArrayFeatureDataset(identification, features, values);
 	}

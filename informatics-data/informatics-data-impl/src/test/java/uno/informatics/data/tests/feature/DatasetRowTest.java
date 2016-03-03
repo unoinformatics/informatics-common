@@ -33,11 +33,11 @@ public abstract class DatasetRowTest extends TestData
 	 * Test method for {@link uno.informatics.data.tests.feature.array.ArrayFeatureDatasetRow.ArrayDatasetRow#getName()}.
 	 */
 	@Test
-	public void testGetName()
+	public void testGetHeader()
 	{
 		FeatureDatasetRow datasetRow = createDatasetRow() ;
 		
-		assertEquals(ROW1_NAME, datasetRow.getName()) ;
+		assertSimpleEntityEquals("Header no correct", ROW1_HEADER, datasetRow.getHeader()) ;
 	}
 
 	/**

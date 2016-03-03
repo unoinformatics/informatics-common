@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
@@ -33,9 +35,11 @@ import uno.informatics.common.io.RowWriter;
 import uno.informatics.data.Dataset;
 import uno.informatics.data.FeatureDataset;
 import uno.informatics.data.FeatureDatasetRow;
+import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.io.DatasetWriter;
 import uno.informatics.data.pojo.EntityPojo;
+import uno.informatics.data.pojo.SimpleEntityPojo;
 
 /**
  * @author Guy Davenport
@@ -43,7 +47,7 @@ import uno.informatics.data.pojo.EntityPojo;
  */
 public class ZipFeatureDatasetWriter extends ZipFeatureDatasetFileHandler implements DatasetWriter
 {
-	private FileType fileType ;
+  private FileType fileType ;
 
 	
 	public ZipFeatureDatasetWriter(File file)
@@ -131,43 +135,45 @@ public class ZipFeatureDatasetWriter extends ZipFeatureDatasetFileHandler implem
 				RowWriter writer = IOUtilities.createRowWriter(new BufferedWriter(new OutputStreamWriter(outputStream)), fileType) ;
 				
 				Iterator<FeatureDatasetRow> iterator = featureDataset.getRows().iterator() ;
-
-				if (featureDataset.getRowHeaderFeature() != null)
-				{
-					FeatureDatasetRow row ;
-					
-					if (iterator.hasNext())
-					{
-						row = iterator.next() ;
-						writer.writeCell(row.getHeader()) ;
-						if (row.getColumnCount() > 0)
-							writer.newColumn() ;
-						writer.writeRowCells(row.getValues()) ;
-						
-						while (iterator.hasNext() && writer.newRow())
-						{
-							row = iterator.next() ;
-							writer.writeCell(row.getHeader()) ;
-							if (row.getColumnCount() > 0)
-								writer.newColumn() ;
-							writer.writeRowCells(row.getValues()) ;
-						}
-					}
-				}
-				else
-				{
-					if (iterator.hasNext())
-					{
-						writer.writeRowCells(iterator.next().getValues()) ;
-						
-						while (iterator.hasNext() && writer.newRow())
-						{
-							writer.writeRowCells(iterator.next().getValues()) ;
-						}
-					}
-				}
+				
+				FeatureDatasetRow row ;
+				
+				List<SimpleEntity> rowHeaders = new ArrayList<SimpleEntity>(featureDataset.getRowCount()) ;
+				
+        if (iterator.hasNext())
+        {
+          row = iterator.next() ;
+          writer.writeRowCells(row.getValues()) ;
+          
+          if (featureDataset.getRowHeaderFeature() != null)
+            if (row.getHeader() != null)
+              rowHeaders.add(row.getHeader()) ;
+            else
+              rowHeaders.add(new SimpleEntityPojo("")) ;
+          
+          while (iterator.hasNext() && writer.newRow())
+          {
+            row = iterator.next() ;
+            writer.writeRowCells(row.getValues()) ;
+            
+            if (featureDataset.getRowHeaderFeature() != null)
+              if (row.getHeader() != null)
+                rowHeaders.add(row.getHeader()) ;
+              else
+                rowHeaders.add(new SimpleEntityPojo("")) ;
+          }
+        }
 	
 				outputStream.closeEntry();
+				
+        if (featureDataset.getRowHeaderFeature() != null)
+        {
+          outputStream.putNextEntry(new ZipEntry(ROW_HEADER_ENTRY)) ;
+          
+          xstream.toXML(rowHeaders, outputStream) ;
+          
+          outputStream.closeEntry();
+        }
 	
 				outputStream.close(); 
 				

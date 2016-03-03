@@ -75,7 +75,7 @@ public class ZipDatasetWriteReadTest extends TestData
 
 			FeatureDataset readDataset = (FeatureDataset) reader.read();
 
-			checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, readDataset, BLANK_NAMES, BLANK_HEADERS, null, false);
+			checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, readDataset, BLANK_HEADERS, null, false);
 		}
 		catch (DatasetException e)
 		{
@@ -99,7 +99,7 @@ public class ZipDatasetWriteReadTest extends TestData
 			FeatureDataset readDataset = (FeatureDataset) reader.read();
 
 			checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES,
-					readDataset, ROW_HEADERS, ROW_HEADERS, NAMES_HEADER_FEATURE, false);
+					readDataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false);
 		}
 		catch (DatasetException e)
 		{

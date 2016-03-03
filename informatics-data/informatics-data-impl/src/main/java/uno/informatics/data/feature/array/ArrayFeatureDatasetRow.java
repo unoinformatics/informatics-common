@@ -22,6 +22,7 @@ import java.util.List;
 import uno.informatics.data.FeatureDatasetRow;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.pojo.PropertyHandler;
+import uno.informatics.data.pojo.SimpleEntityPojo;
 
 /**
  * @author Guy Davenport
@@ -29,9 +30,10 @@ import uno.informatics.data.pojo.PropertyHandler;
  */
 public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDatasetRow
 {
-	private Object header ;
+  public static final String HEADER_PROPERTY = FeatureDatasetRow.class.getName() + ".header" ;
+  
+	private SimpleEntity header ;
 	private Object[] values ;
-  private String name;
 
 	/**
 	 * Creates a new ArrayFeatureDatasetRow using the given values. The values array is not
@@ -56,7 +58,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	 * @param header the header of the row
 	 * @param values values for the new row
 	 */
-	public ArrayFeatureDatasetRow(Object header, Object[] values)
+	public ArrayFeatureDatasetRow(SimpleEntity header, Object[] values)
   {
 	  super();
 	  
@@ -66,27 +68,6 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	  	this.values = values;
 	  else
 	  	this.values = new Object[0];
-  }
-	
-	 /**
-   * Creates a new ArrayFeatureDatasetRow using the given values. The values array is not
-   * copied, but used as is.
-   * 
-   * @param header the header of the row
-   * @param name name of the row
-   * @param values values for the new row
-   */
-  public ArrayFeatureDatasetRow(Object header, String name, Object[] values)
-  {
-    super();
-    
-    setHeader(header) ;
-    setName(name) ;
-    
-    if (values != null)
-      this.values = values;
-    else
-      this.values = new Object[0];
   }
 
   /**
@@ -109,7 +90,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 		  {
 		  	this.values = new Object[values.length - 1];
 		  	
-			  setHeader(values[0]) ;
+		  	setHeaderAsObject(values[0]) ;
 		  	
 		  	for (int i = 0 ; i < values.length - 1 ; ++i)
 		  		this.values[i] = values[i + 1] ;
@@ -148,33 +129,14 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 	 * @param header the header of the row
 	 * @param values values for the new row
 	 */
-	public ArrayFeatureDatasetRow(Object header, List<Object> values)
+	public ArrayFeatureDatasetRow(SimpleEntity header, List<Object> values)
   {
-	  setHeader(header) ;
+	  setHeaderAsObject(header) ;
 	  
 	  if (values != null)
 	  	this.values = values.toArray();
 	  else
 	  	this.values = new Object[0];
-  }
-	
-	 /**
-   * Creates a new ArrayFeatureDatasetRow using the given values. The values array is not
-   * copied, but used as is.
-   * 
-   * @param header the header of the row
-   * @param name name of the row
-   * @param values values for the new row
-   */
-  public ArrayFeatureDatasetRow(Object header, String name, List<Object> values)
-  {
-    setHeader(header) ;
-    setName(name) ;
-    
-    if (values != null)
-      this.values = values.toArray();
-    else
-      this.values = new Object[0];
   }
 	
 	/**
@@ -199,7 +161,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 		  	
 		  	Object header = iterator.next() ;
 		  	
-			  setHeader(header) ;
+		  	setHeaderAsObject(header) ;
 		  	
 		  	int i = 0 ;
 		  	
@@ -223,21 +185,31 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
 
 	
 	@Override
-	public final Object getHeader()
+	public final SimpleEntity getHeader()
 	{
 		return header;
 	}
 	
-	public final void setHeader(Object header)
+	public final void setHeader(SimpleEntity header)
 	{
-		Object oldValue = this.header ;
+	  SimpleEntity oldValue = this.header ;
   	
     this.header = header;
     
     getPropertyChangeSupport().firePropertyChange(
     		HEADER_PROPERTY, oldValue, this.header) ;
-    
-    setName(createName(header));
+	}
+	
+	private final void setHeaderAsObject(Object header)
+	{
+    if (header != null)
+      if (header instanceof String)
+        setHeader(new SimpleEntityPojo((String)values[0])) ;
+      else
+        if (header instanceof SimpleEntity)
+          setHeader((SimpleEntity)header) ;
+        else
+          setHeader(new SimpleEntityPojo(header.toString())) ;
 	}
 
 	/* (non-Javadoc)
@@ -275,12 +247,6 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
   {
 	  // TODO Auto-generated method stub
 	  return values.length ;
-  }
-	
-  @Override
-  public String getName()
-  {
-    return name;
   }
 
 	/**
@@ -333,7 +299,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
    * @param values for the row
    * @return created row
    */
-  public static FeatureDatasetRow createRow(Object header, List<Object> values)
+  public static FeatureDatasetRow createRow(SimpleEntity header, List<Object> values)
   {
     return new ArrayFeatureDatasetRow(header, values) ;
   }
@@ -344,49 +310,8 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
    * @param values for the row
    * @return created row
    */
-  public static FeatureDatasetRow createRow(Object header, Object[] values)
+  public static FeatureDatasetRow createRow(SimpleEntity header, Object[] values)
   {
     return new ArrayFeatureDatasetRow(header, values) ;
-  }
-  
-  /**
-   * Creates new ArrayFeatureDatasetRow 
-   * @param header the header value
-   * @param name the name for the row
-   * @param values for the row
-   * @return created row
-   */
-  public static FeatureDatasetRow createRow(Object header, String name, List<Object> values)
-  {
-    return new ArrayFeatureDatasetRow(header, name, values) ;
-  }
-  
-  /**
-   * Creates new ArrayFeatureDatasetRow 
-   * @param rowId id
-   * @param rowName name
-   * @param values for the row
-   * @return created row
-   */
-  public static FeatureDatasetRow createRow(String rowId, String rowName, Object[] values)
-  {
-    return new ArrayFeatureDatasetRow(rowId, rowName, values) ;
-  }
-  
-	
-  private String createName(Object value)
-  {
-  	if (value != null)
-  		if (value instanceof SimpleEntity)
-  			return ((SimpleEntity)value).getName();
-  		else
-  			return value.toString() ;
-  	else
-  		return null ;
-  }
-  
-  private void setName(String name)
-  {
-    this.name = name ;
   }
 }

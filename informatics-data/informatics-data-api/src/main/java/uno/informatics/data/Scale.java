@@ -15,6 +15,7 @@
  *******************************************************************************/
 package uno.informatics.data;
 
+import java.util.List;
 import java.util.Set;
 
 public interface Scale extends Entity
@@ -34,12 +35,13 @@ public interface Scale extends Entity
   public Number getMinimumValue() ;
   
   /**
-   * Gets all possible values for this scale
+   * Gets all possible values for this scale. Values can not be repeated. The order of
+   * the values is important for Ordinal scales
    * 
    * @return all possible values for this scale, or <code>null</code>
    * the number of possible values is large or infinite, e.g. for ratio and interval scales
    */
-  public Set<Object> getValues() ;
+  public List<Object> getValues() ;
   
 	public DataType getDataType() ;
 	

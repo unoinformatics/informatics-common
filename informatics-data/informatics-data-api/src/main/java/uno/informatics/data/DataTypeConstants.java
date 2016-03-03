@@ -34,7 +34,8 @@ public class DataTypeConstants
 	public static final int	INTEGER_IDS	      = SHORT_ID | INT_ID | LONG_ID | BIG_INTEGER_ID;
 	public static final int	REAL_IDS	        = FLOAT_ID | DOUBLE_ID | BIG_DECIMAL_ID;
 	public static final int	BIG_NUMBER_IDS	  = BIG_INTEGER_ID | BIG_DECIMAL_ID;
-
+	public static final int SIMPLE_ENTITY_ID  = 1 << 10;
+	
 	/**
 	 * Gets the conversion type for data type
          * @param dataType data type

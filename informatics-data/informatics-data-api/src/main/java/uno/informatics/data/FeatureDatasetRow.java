@@ -23,10 +23,6 @@ import java.util.List;
  */
 public interface FeatureDatasetRow
 {
-	public static final String HEADER_PROPERTY = FeatureDatasetRow.class.getName() + ".header" ;
-	
-	public String getName() ;
-	
 	public List<Object> getValues() ;
 	
 	public Object[] getValuesAsArray() ;
@@ -35,5 +31,5 @@ public interface FeatureDatasetRow
 
   public int getColumnCount();
 
-  public Object getHeader();
+  public SimpleEntity getHeader();
 }
