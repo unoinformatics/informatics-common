@@ -13,42 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uno.informatics.data.pojo ;
+
+package uno.informatics.data.pojo;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class PropertyHandler
-{
-	private transient PropertyChangeSupport propertyChangeSupport;
-  
-  public PropertyHandler()
-  {
-    propertyChangeSupport = new PropertyChangeSupport(this);
-  }
-  
-  @Override
-  public String toString()
-  {
-    return ToStringBuilder.reflectionToString(this) ;
-  }
-  
-	public final synchronized void addPropertyChangeListener(
-	    PropertyChangeListener listener)
-	{
-		propertyChangeSupport.addPropertyChangeListener(listener);
-	}
+public class PropertyHandler {
+    private transient PropertyChangeSupport propertyChangeSupport;
 
-	public final synchronized void removePropertyChangeListener(
-	    PropertyChangeListener listener)
-	{
-		propertyChangeSupport.removePropertyChangeListener(listener);
-	}
+    public PropertyHandler() {
+        propertyChangeSupport = new PropertyChangeSupport(this);
+    }
 
-	protected final PropertyChangeSupport getPropertyChangeSupport()
-	{
-		return propertyChangeSupport;
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+
+    public final synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public final synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    protected final PropertyChangeSupport getPropertyChangeSupport() {
+        return propertyChangeSupport;
+    }
 }

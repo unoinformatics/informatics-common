@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
-public interface OntologyTerm extends Entity
-{
-  public Ontology getOntology() ;
+public interface OntologyTerm extends Entity {
+    /**
+     * Gets the ontology to which this term belongs
+     * @return the ontology to which this term belongs
+     */
+    public Ontology getOntology();
 }

@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uno.informatics.data.pojo ;
+
+package uno.informatics.data.pojo;
 
 import uno.informatics.data.Method;
 import uno.informatics.data.Scale;
@@ -22,49 +23,44 @@ import uno.informatics.data.Scale;
  * @author Guy Davenport
  *
  */
-public class MethodPojo extends EntityPojo implements Method
-{
-  private ScalePojo scale;
-  
-	public MethodPojo(String name, ScalePojo Scale)
-  {
-	  super(name);
-	  
-	  setScale(Scale) ;
-  }
-	
-	public MethodPojo(String uniqueIdentifier, String name, ScalePojo Scale)
-  {
-	  super(uniqueIdentifier, name);
-	  
-	  setScale(Scale) ;
-  }
-	
-	public MethodPojo(String uniqueIdentifier, String name, String description, ScalePojo Scale)
-  {
-	  super(uniqueIdentifier, name, description);
-	  
-	  setScale(Scale) ;
-  }
-	
-	public MethodPojo(Method method)
-  {
-	  super(method);
-	  
-	  setScale(new ScalePojo(method.getScale())) ;
-  }
-	
-	 /* (non-Javadoc)
-   * @see uno.informatics.common.model.Feature#getScale()
-   */
-  @Override
-  public Scale getScale()
-  {
-    return scale;
-  }
+public class MethodPojo extends EntityPojo implements Method {
+    private ScalePojo scale;
 
-  public void setScale(ScalePojo scale)
-  {
-    this.scale = scale ;
-  }
+    public MethodPojo(String name, ScalePojo Scale) {
+        super(name);
+
+        setScale(Scale);
+    }
+
+    public MethodPojo(String uniqueIdentifier, String name, ScalePojo Scale) {
+        super(uniqueIdentifier, name);
+
+        setScale(Scale);
+    }
+
+    public MethodPojo(String uniqueIdentifier, String name, String description, ScalePojo Scale) {
+        super(uniqueIdentifier, name, description);
+
+        setScale(Scale);
+    }
+
+    public MethodPojo(Method method) {
+        super(method);
+
+        setScale(new ScalePojo(method.getScale()));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.Feature#getScale()
+     */
+    @Override
+    public Scale getScale() {
+        return scale;
+    }
+
+    public void setScale(ScalePojo scale) {
+        this.scale = scale;
+    }
 }

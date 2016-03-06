@@ -13,138 +13,128 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uno.informatics.data.pojo ;
+
+package uno.informatics.data.pojo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import uno.informatics.data.SimpleEntity;
 
-public class SimpleEntityPojo extends PropertyHandler implements SimpleEntity
-{
-  public static final String UNIQUE_IDENTIFIER_PROPERTY = SimpleEntity.class.getName() + ".unuqueIdentifier" ;
-  public static final String NAME_PROPERTY  = SimpleEntity.class.getName() + ".name" ;
-  
-	private String uniqueIdentifier ;
-  
-  private String name ;
-  
-  public SimpleEntityPojo(String name)
-  {
-    this(name, name);
-  }
+public class SimpleEntityPojo extends PropertyHandler implements SimpleEntity {
+    public static final String UNIQUE_IDENTIFIER_PROPERTY = SimpleEntity.class.getName() + ".unuqueIdentifier";
+    public static final String NAME_PROPERTY = SimpleEntity.class.getName() + ".name";
 
-  public SimpleEntityPojo(String uniqueIdentifier, String name)
-  {
-    super();
-    initialise();
-    
-    setUniqueIdentifier(uniqueIdentifier) ;
-    setName(name) ;
-  }
+    private String uniqueIdentifier;
 
-  public SimpleEntityPojo(SimpleEntity simpleEntity)
-  {
-    super();
-    initialise();
-    
-    if (simpleEntity != null)
-    {
-	    setUniqueIdentifier(simpleEntity.getUniqueIdentifier()) ;
-	    setName(simpleEntity.getName()) ;
+    private String name;
+
+    public SimpleEntityPojo(String name) {
+        this(name, name);
     }
-    else
-    {
-    	throw new NullPointerException("Can not copy null!") ;
+
+    public SimpleEntityPojo(String uniqueIdentifier, String name) {
+        super();
+        initialise();
+
+        setUniqueIdentifier(uniqueIdentifier);
+        setName(name);
     }
-  }
 
-  @Override
-  /* (non-Javadoc)
-   * @see uno.informatics.common.model.Identifier#getAbbreviation()
-   */
-  public final String getUniqueIdentifier()
-  {
-    return uniqueIdentifier;
-  }
+    public SimpleEntityPojo(SimpleEntity simpleEntity) {
+        super();
+        initialise();
 
-  /**
-   * Sets the unique identifier of the entity being identified. <p>
-   * @param uniqueIdentifier the unique identifier to be set
-   */
-  public final void setUniqueIdentifier(String uniqueIdentifier)
-  {
-  	String oldValue = this.uniqueIdentifier ;
-  	
-    this.uniqueIdentifier = uniqueIdentifier ;
-    
-    getPropertyChangeSupport().firePropertyChange(
-    		UNIQUE_IDENTIFIER_PROPERTY, oldValue, this.uniqueIdentifier) ;
-  } 
-  
-  @Override
-  /* (non-Javadoc)
-   * @see uno.informatics.common.model.Entity#getName()
-   */
-  public final String getName()
-  {
-    return name;
-  }
-  
-  /**
-   * Sets a (usually more) human readable name of the entity being
-   * identified. This name could be used in GUIs, etc.
-   * @param name the name to be set
-   */
-  public final void setName(String name)
-  {
-  	String oldValue = this.name ;
-  	
-    this.name = name;
-    
-    getPropertyChangeSupport().firePropertyChange(
-    		NAME_PROPERTY, oldValue, this.name) ;
-  }
-
-  @Override
-  public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((name == null) ? 0 : name.hashCode());
-    result = prime * result + ((uniqueIdentifier == null) ? 0 : uniqueIdentifier.hashCode());
-    return result;
-  }
-
-  @Override
-  public String toString()
-  {
-    return ToStringBuilder.reflectionToString(this) ;
-  }
-  
-  @Override
-  public boolean equals(Object object)
-  {
-    if (object == null)
-      return false;
-
-    if (object instanceof SimpleEntity)
-    {
-      if (getUniqueIdentifier() != null && ((SimpleEntity) object).getUniqueIdentifier() != null)
-        return this == object || StringUtils.equals(((SimpleEntityPojo) object)
-          .getUniqueIdentifier(), this.getUniqueIdentifier());
-      else
-        return super.equals(object);
+        if (simpleEntity != null) {
+            setUniqueIdentifier(simpleEntity.getUniqueIdentifier());
+            setName(simpleEntity.getName());
+        } else {
+            throw new NullPointerException("Can not copy null!");
+        }
     }
-    else
-    {
-      return super.equals(object);
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.Identifier#getAbbreviation()
+     */
+    public final String getUniqueIdentifier() {
+        return uniqueIdentifier;
     }
-  }
-  
-  protected void initialise()
-  {
-    uniqueIdentifier = null ;
-    name = null;
-  }
+
+    /**
+     * Sets the unique identifier of the entity being identified.
+     * <p>
+     * 
+     * @param uniqueIdentifier
+     *            the unique identifier to be set
+     */
+    public final void setUniqueIdentifier(String uniqueIdentifier) {
+        String oldValue = this.uniqueIdentifier;
+
+        this.uniqueIdentifier = uniqueIdentifier;
+
+        getPropertyChangeSupport().firePropertyChange(UNIQUE_IDENTIFIER_PROPERTY, oldValue, this.uniqueIdentifier);
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.Entity#getName()
+     */
+    public final String getName() {
+        return name;
+    }
+
+    /**
+     * Sets a (usually more) human readable name of the entity being identified.
+     * This name could be used in GUIs, etc.
+     * 
+     * @param name
+     *            the name to be set
+     */
+    public final void setName(String name) {
+        String oldValue = this.name;
+
+        this.name = name;
+
+        getPropertyChangeSupport().firePropertyChange(NAME_PROPERTY, oldValue, this.name);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((uniqueIdentifier == null) ? 0 : uniqueIdentifier.hashCode());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null)
+            return false;
+
+        if (object instanceof SimpleEntity) {
+            if (getUniqueIdentifier() != null && ((SimpleEntity) object).getUniqueIdentifier() != null)
+                return this == object || StringUtils.equals(((SimpleEntityPojo) object).getUniqueIdentifier(),
+                        this.getUniqueIdentifier());
+            else
+                return super.equals(object);
+        } else {
+            return super.equals(object);
+        }
+    }
+
+    protected void initialise() {
+        uniqueIdentifier = null;
+        name = null;
+    }
 }

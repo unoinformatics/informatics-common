@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package uno.informatics.data.feature.array;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import com.thoughtworks.xstream.XStream;
@@ -41,112 +40,91 @@ import uno.informatics.data.utils.DatasetUtils;
 /**
  * @author Guy Davenport
  */
-public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implements DatasetReader
-{
-	@SuppressWarnings("unused")
-  private static final String	SPREADSHEET_NAME	= "values";
+public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implements DatasetReader {
+    @SuppressWarnings("unused")
+    private static final String SPREADSHEET_NAME = "values";
 
-	
-	public ZipFeatureDatasetReader(File file)
-	{
-		super(file);
-	}
+    public ZipFeatureDatasetReader(File file) {
+        super(file);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see uno.informatics.data.io.DatasetWriter#read()
-	 */
-	@Override
-	public Dataset read() throws DatasetException
-	{
-		FeatureDataset dataset = null;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.data.io.DatasetWriter#read()
+     */
+    @Override
+    public Dataset read() throws DatasetException {
+        FeatureDataset dataset = null;
 
-		try
-		{
-			ZipFile zipFile = new ZipFile(getFile());
+        try {
+            ZipFile zipFile = new ZipFile(getFile());
 
-			XStream xstream = createXStream();
+            XStream xstream = createXStream();
 
-			ZipEntry zipEntry = zipFile.getEntry(IDENTIFICATION_ENTRY);
+            ZipEntry zipEntry = zipFile.getEntry(IDENTIFICATION_ENTRY);
 
-			 Entity identification = (Entity) xstream.fromXML(zipFile
-			    .getInputStream(zipEntry));
+            Entity identification = (Entity) xstream.fromXML(zipFile.getInputStream(zipEntry));
 
-			zipEntry = zipFile.getEntry(FEATURES_ENTRY);
+            zipEntry = zipFile.getEntry(FEATURES_ENTRY);
 
-			@SuppressWarnings("unchecked")
-			List<FeaturePojo> features = (List<FeaturePojo>) xstream.fromXML(zipFile
-			    .getInputStream(zipEntry));
+            @SuppressWarnings("unchecked")
+            List<FeaturePojo> features = (List<FeaturePojo>) xstream.fromXML(zipFile.getInputStream(zipEntry));
 
-			zipEntry = zipFile.getEntry(FILE_TYPE_ENTRY);
+            zipEntry = zipFile.getEntry(FILE_TYPE_ENTRY);
 
-			FileType fileType = (FileType) xstream.fromXML(zipFile
-			    .getInputStream(zipEntry));
-			
-			zipEntry = zipFile.getEntry(ROW_HEADER_FEATURE_ENTRY);
+            FileType fileType = (FileType) xstream.fromXML(zipFile.getInputStream(zipEntry));
 
-			FeaturePojo rowHeaderFeature = null ;
-			
-			if (zipEntry != null)
-				rowHeaderFeature = (FeaturePojo) xstream.fromXML(zipFile
-			    .getInputStream(zipEntry));
-			
-	    zipEntry = zipFile.getEntry(ROW_HEADER_ENTRY);
+            zipEntry = zipFile.getEntry(ROW_HEADER_ENTRY);
 
-	    List<SimpleEntity> rowHeaders = null ;
-	      
-	    if (zipEntry != null)
-	      rowHeaders = (List<SimpleEntity>) xstream.fromXML(zipFile
-	          .getInputStream(zipEntry));
-			
-			switch (fileType)
-			{
-				case CSV:
-					zipEntry = zipFile.getEntry(DATA_VALUES_ENTRY_PREIFX + CSV_SUFFIX);
-					break;
-				case TXT:
-					zipEntry = zipFile.getEntry(DATA_VALUES_ENTRY_PREIFX + TXT_SUFFIX);
-					break;
-				case XLS:
-					zipEntry = zipFile.getEntry(DATA_VALUES_ENTRY_PREIFX + XLS_SUFFIX) ;
-					break;
-				case XLSX:
-					zipEntry = zipFile.getEntry(DATA_VALUES_ENTRY_PREIFX + XLSX_SUFFIX) ;
-					break;
-				default:
-					break;
-			}
+            List<SimpleEntity> rowHeaders = null;
 
-			TableReader reader = IOUtilities.createRowReader(new BufferedReader(new InputStreamReader(
-			        zipFile.getInputStream(zipEntry))), fileType);
-			
-			reader.setAllConversionTypes(DatasetUtils.getConversionTypes(features)) ;
-		
-			List<List<Object>> values = reader.readCells() ;
-			
-			reader.close(); 
+            if (zipEntry != null)
+                rowHeaders = (List<SimpleEntity>) xstream.fromXML(zipFile.getInputStream(zipEntry));
 
-			zipFile.close();
+            switch (fileType) {
+                case CSV:
+                    zipEntry = zipFile.getEntry(DATA_VALUES_ENTRY_PREIFX + CSV_SUFFIX);
+                    break;
+                case TXT:
+                    zipEntry = zipFile.getEntry(DATA_VALUES_ENTRY_PREIFX + TXT_SUFFIX);
+                    break;
+                case XLS:
+                    zipEntry = zipFile.getEntry(DATA_VALUES_ENTRY_PREIFX + XLS_SUFFIX);
+                    break;
+                case XLSX:
+                    zipEntry = zipFile.getEntry(DATA_VALUES_ENTRY_PREIFX + XLSX_SUFFIX);
+                    break;
+                default:
+                    break;
+            }
 
-			dataset = createDataset(identification, features, rowHeaders, values, rowHeaderFeature);
+            TableReader reader = IOUtilities.createRowReader(
+                    new BufferedReader(new InputStreamReader(zipFile.getInputStream(zipEntry))), fileType);
 
-		}
-		catch (Exception e)
-		{
-			throw new DatasetException(e);
-		}
+            reader.setAllConversionTypes(DatasetUtils.getConversionTypes(features));
 
-		return dataset;
-	}
+            List<List<Object>> values = reader.readCells();
 
-	
-	private FeatureDataset createDataset(Entity identification,
-	    List<FeaturePojo> features, List<SimpleEntity> rowHeaders, List<List<Object>> values, FeaturePojo rowHeaderFeature) throws DatasetException
-	{
-	  if (rowHeaderFeature != null)
-	    return new ArrayFeatureDataset(identification, features, rowHeaders, values, rowHeaderFeature);
-	  else
-	     return new ArrayFeatureDataset(identification, features, values);
-	}
+            reader.close();
+
+            zipFile.close();
+
+            dataset = createDataset(identification, features, rowHeaders, values);
+
+        } catch (Exception e) {
+            throw new DatasetException(e);
+        }
+
+        return dataset;
+    }
+
+    private FeatureDataset createDataset(Entity identification, List<FeaturePojo> features,
+            List<SimpleEntity> rowHeaders, List<List<Object>> values) throws DatasetException {
+        if (rowHeaders != null)
+            return new ArrayFeatureDataset(identification, features, rowHeaders, values);
+        else
+            return new ArrayFeatureDataset(identification, features, values);
+    }
 
 }

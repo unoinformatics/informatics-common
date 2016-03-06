@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package uno.informatics.data.feature;
 
-public interface ColumnFeature extends SimpleFeature
-{
+public interface ColumnFeature extends SimpleFeature {
 
-  public int getPossibleDataTypes();
-  
-  public void setPossibleDataTypes(int integer);
-  
+    public int getPossibleDataTypes();
+
+    public void setPossibleDataTypes(int integer);
+
 }

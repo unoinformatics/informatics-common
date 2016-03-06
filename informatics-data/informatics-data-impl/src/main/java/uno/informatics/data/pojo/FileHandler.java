@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package uno.informatics.data.pojo;
 
 import java.io.File;
@@ -21,23 +22,19 @@ import java.io.File;
  * @author Guy Davenport
  *
  */
-public class FileHandler
-{
-	private File file ;
-	
-	public FileHandler(File file)
-  {
-	  super();
-	  this.file = file;
-  }
+public class FileHandler {
+    private File file;
 
-	public final File getFile()
-	{
-		return file;
-	}
+    public FileHandler(File file) {
+        super();
+        this.file = file;
+    }
 
-	public final void setFile(File file)
-	{
-		this.file = file;
-	}
+    public final File getFile() {
+        return file;
+    }
+
+    public final void setFile(File file) {
+        this.file = file;
+    }
 }

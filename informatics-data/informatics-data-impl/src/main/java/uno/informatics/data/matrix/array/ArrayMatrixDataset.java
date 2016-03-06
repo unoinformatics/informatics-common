@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package uno.informatics.data.matrix.array;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import uno.informatics.data.Feature;
+import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.Study;
 import uno.informatics.data.matrix.AbstractMatrixDataset;
 
@@ -27,395 +29,373 @@ import uno.informatics.data.matrix.AbstractMatrixDataset;
  * @author Guy Davenport
  *
  */
-public abstract class ArrayMatrixDataset<ValueType extends Object> extends AbstractMatrixDataset<ValueType>
-{
-	private ValueType[][] values ;
-	private Object[] rowHeaders ;
-	private Object[] columnHeaders ;
-	
-	private int rowCount ;
-	private int columnCount ;
-	
-	public ArrayMatrixDataset(String name, Feature elementFeature, ValueType[][] values)
-  {
-	  super(null, name, elementFeature);
-	  
-	  setValues(values) ;
-  }
+public abstract class ArrayMatrixDataset<ValueType extends Object> extends AbstractMatrixDataset<ValueType> {
+    private ValueType[][] values;
+    private SimpleEntity[] rowHeaders;
+    private SimpleEntity[] columnHeaders;
 
-	public ArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature, ValueType[][] values)
-  {
-	  super(uniqueIdentifier, name, elementFeature);
-	  
-	  setValues(values) ;
-  }
-	
-	public ArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature, ValueType[][] values)
-  {
-	  super(uniqueIdentifier, name, desription, elementFeature);
-	  
-	  setValues(values) ;
-  }
+    private int rowCount;
+    private int columnCount;
 
-	public ArrayMatrixDataset(String name, Feature elementFeature, List<List<ValueType>> values)
-  {
-	  super(null, name, elementFeature);
-	  
-	  setValues(values) ;
-  }
+    public ArrayMatrixDataset(String name, Feature elementFeature, ValueType[][] values) {
+        super(null, name, elementFeature);
 
-	public ArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature, List<List<ValueType>> values)
-  {
-	  super(uniqueIdentifier, name, elementFeature);
-	  
-	  setValues(values) ;
-  }
-	
-	public ArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature, List<List<ValueType>> values)
-  {
-	  super(uniqueIdentifier, name, desription, elementFeature);
-	  
-	  setValues(values) ;
-  }
+        setValues(values);
+    }
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.dataset.MatrixDataset#getValues()
-	 */
-  @Override
-  public final List<List<ValueType>> getValues()
-  {
-	  return toValueListList(values);
-  }
+    public ArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature, ValueType[][] values) {
+        super(uniqueIdentifier, name, elementFeature);
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.dataset.MatrixDataset#getValuesAsArray()
-	 */
-  @Override
-  public final ValueType[][] getValuesAsArray()
-  {
-	  return values;
-  }
+        setValues(values);
+    }
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.dataset.MatrixDataset#getValue(int, int)
-	 */
-  @Override
-  public final ValueType getValue(int rowIndex, int columnIndex)
-  {
-	  return values[rowIndex][columnIndex];
-  }
+    public ArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
+            ValueType[][] values) {
+        super(uniqueIdentifier, name, desription, elementFeature);
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.matrix.AbstractMatrixDataset#getRowCount()
-	 */
-  @Override
-  public final int getRowCount()
-  {
-	  return rowCount ;
-  }
+        setValues(values);
+    }
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.matrix.AbstractMatrixDataset#getColumnCount()
-	 */
-  @Override
-  public final int getColumnCount()
-  {
-	  return columnCount ;
-  }
-  
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.model.MatrixDataset#hasRowHeaders()
-	 */
-  @Override
-  public boolean hasRowHeaders()
-  {
-	  return rowHeaders != null ;
-  }
-  
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.model.MatrixDataset#getRowHeaders()
-	 */
-  @Override
-  public List<Object> getRowHeaders()
-  {
-	  return rowHeaders != null && rowHeaders.length > 0 ? toObjectList(rowHeaders) : null;
-  }
+    public ArrayMatrixDataset(String name, Feature elementFeature, List<List<ValueType>> values) {
+        super(null, name, elementFeature);
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.model.MatrixDataset#getRowHeadersAsArray()
-	 */
-  @Override
-  public Object[] getRowHeadersAsArray()
-  {
-	  return rowHeaders;
-  }
+        setValues(values);
+    }
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.model.MatrixDataset#getRowHeader(int)
-	 */
-  @Override
-  public Object getRowHeader(int rowIndex)
-  {
-	  return rowHeaders[rowIndex];
-  }
-  
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.model.MatrixDataset#hasColumnHeaders()
-	 */
-  @Override
-  public boolean hasColumnHeaders()
-  {
-	  return columnHeaders != null ;
-  }
+    public ArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature,
+            List<List<ValueType>> values) {
+        super(uniqueIdentifier, name, elementFeature);
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.model.MatrixDataset#getColumnHeaders()
-	 */
-  @Override
-  public List<Object> getColumnHeaders()
-  {
-	  return columnHeaders != null && columnHeaders.length > 0 ? toObjectList(columnHeaders) : null;
-  }
+        setValues(values);
+    }
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.model.MatrixDataset#getColumnHeadersAsArray()
-	 */
-  @Override
-  public Object[] getColumnHeadersAsArray()
-  {
-	  return columnHeaders;
-  }
+    public ArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
+            List<List<ValueType>> values) {
+        super(uniqueIdentifier, name, desription, elementFeature);
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.model.MatrixDataset#getColumnHeader(int)
-	 */
-  @Override
-  public Object getColumnHeader(int columnIndex)
-  {
-	  return columnHeaders != null && columnHeaders.length > 0 ? columnHeaders[columnIndex] : null;
-  }
+        setValues(values);
+    }
 
-	public final void setRowHeaders(Object[] rowHeaders)
-	{
-		if (rowHeaders != null && rowHeaders.length > 0)
-			setRowHeadersInternal(copyObjectArray(rowHeaders));
-		else
-			this.rowHeaders = null;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.data.dataset.MatrixDataset#getValues()
+     */
+    @Override
+    public final List<List<ValueType>> getValues() {
+        return toValueListList(values);
+    }
 
-	public final void setRowHeaders(List<Object> rowHeaders)
-	{
-		this.rowHeaders = rowHeaders != null && rowHeaders.size() > 0 ? toObjectArray(rowHeaders) : null;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.data.dataset.MatrixDataset#getValuesAsArray()
+     */
+    @Override
+    public final ValueType[][] getValuesAsArray() {
+        return values;
+    }
 
-	public final void setColumnHeaders(Object[] columnHeaders)
-	{
-		if (columnHeaders != null && columnHeaders.length > 0)
-			setColumnHeadersInternal(copyObjectArray(columnHeaders));
-		else
-			this.columnHeaders = null;
-	}
-	
-	public final void setColumnHeaders(List<Object> columnHeaders)
-	{
-		this.columnHeaders = columnHeaders != null && columnHeaders.size() > 0 ? toObjectArray(columnHeaders) : null;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.data.dataset.MatrixDataset#getValue(int, int)
+     */
+    @Override
+    public final ValueType getValue(int rowIndex, int columnIndex) {
+        return values[rowIndex][columnIndex];
+    }
 
-	@Override
-  public Study getStudy()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.data.matrix.AbstractMatrixDataset#getRowCount()
+     */
+    @Override
+    public final int getRowCount() {
+        return rowCount;
+    }
 
-  /**
-	 * @param values2
-	 */
-  private final void setValues(List<List<ValueType>> values)
-  {
-  	if (values != null)
-  	{
-  		this.values = createArrayArray(values.size());
-  		
-    	Iterator<List<ValueType>> iterator = values.iterator() ;
-  		
-    	int i = 0 ;
-    	
-    	if (iterator.hasNext())
-    	{
-    		this.values[0] = toValueArray(iterator.next()) ;
-    		
-    		columnCount = this.values[0].length ;
-    		
-    		++i ;
-    		
-      	while (iterator.hasNext())
-      	{
-      		this.values[i] = toValueArray(iterator.next()) ;
-      		
-      		if (columnCount != this.values[i].length)
-      			throw new IllegalArgumentException("Row " + i + " size : " + this.values[i].length + " does not match column count : " + columnCount) ;
-      		
-      		++i ;
-      	}
-    	}
-    	
-    	rowCount = this.values.length ;
-  	}
-  	else
-  	{
-  		this.values = createArrayArray(0);
-  		
-  		columnCount = 0 ;
-  		rowCount = 0 ;
-  	}
-  }
-  
-	/**
-	 * @param values2
-	 */
-  private final void setValues(ValueType[][] values)
-  {
-  	if (values != null)
-  	{
-  		this.values = createArrayArray(values.length);
-  		
-    	if (values.length > 0)
-    	{
-    		this.values[0] = copyValueArray(values[0]) ;
-    		
-    		columnCount = this.values.length ;
-    				
-      	for (int i = 1 ; i < values[i].length ; ++i)
-      	{
-      		this.values[i] = copyValueArray(values[i]) ;
-      		
-      		if (columnCount != this.values[i].length)
-      			throw new IllegalArgumentException("Row " + i + " size : " + this.values[i].length + " does not match column count : " + columnCount) ;
-      		
-      		++i ;
-      	}
-    	}
-    	
-    	rowCount = this.values.length ;
-  	}
-  	else
-  	{
-  		this.values = createArrayArray(0);
-  		
-  		columnCount = 0 ;
-  		rowCount = 0 ;
-  	}
-  }
-  
-  private final List<List<ValueType>> toValueListList(ValueType[][] array)
-  {
-  	if (array != null)
-  	{
-	  	List<List<ValueType>> list = new ArrayList<List<ValueType>>(array.length) ;
-	
-	  	for (int i = 0 ; i < array.length ; ++i)
-	  		list.add(toValueList(array[i])) ;
-	  	
-		  return list;
-  	}
-  	else
-  	{
-  		return new ArrayList<List<ValueType>>() ;
-  	}
-  }
-  
-  private final List<ValueType> toValueList(ValueType[] array)
-  {
-  	List<ValueType> list = new ArrayList<ValueType>(array.length) ;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.data.matrix.AbstractMatrixDataset#getColumnCount()
+     */
+    @Override
+    public final int getColumnCount() {
+        return columnCount;
+    }
 
-  	for (int i = 0 ; i < array.length ; ++i)
-  		list.add(array[i]) ;
-  	
-	  return list;
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.MatrixDataset#hasRowHeaders()
+     */
+    @Override
+    public boolean hasRowHeaders() {
+        return rowHeaders != null;
+    }
 
-  private final ValueType[] toValueArray(List<ValueType> list)
-  {
-  	ValueType[] array = createArray(list.size());
-  	
-  	Iterator<ValueType> iterator = list.iterator() ;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.MatrixDataset#getRowHeaders()
+     */
+    @Override
+    public List<SimpleEntity> getRowHeaders() {
+        return rowHeaders != null && rowHeaders.length > 0 ? toObjectList(rowHeaders) : null;
+    }
 
-  	int i = 0 ;
-  	
-  	while (iterator.hasNext())
-  	{
-  		array[i] = iterator.next() ;
-  		++i ;
-  	}
-  	
-	  return array;
-  }
-  
-  private ValueType[] copyValueArray(ValueType[] oldArray)
-  {
-  	ValueType[] array = createArray(oldArray.length) ;
-  	
-  	for (int i = 0 ; i < oldArray.length ; ++i)
-  		array[i] = oldArray[i] ;
-  	
-	  return array ;
-  }
-  
-  private final Object[] toObjectArray(List<Object> list)
-  {
-  	Object[] array = new Object[list.size()];
-  	
-  	Iterator<Object> iterator = list.iterator() ;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.MatrixDataset#getRowHeadersAsArray()
+     */
+    @Override
+    public SimpleEntity[] getRowHeadersAsArray() {
+        return rowHeaders;
+    }
 
-  	int i = 0 ;
-  	
-  	while (iterator.hasNext())
-  	{
-  		array[i] = iterator.next() ;
-  		++i ;
-  	}
-  	
-	  return array;
-  }
-  
-  private final List<Object> toObjectList(Object[] array)
-  {
-  	List<Object> list = new ArrayList<Object>(array.length);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.MatrixDataset#getRowHeader(int)
+     */
+    @Override
+    public SimpleEntity getRowHeader(int rowIndex) {
+        return rowHeaders[rowIndex];
+    }
 
-  	for (int i = 0 ; i < array.length ; ++i)
-  		list.add(array[i]) ;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.MatrixDataset#hasColumnHeaders()
+     */
+    @Override
+    public boolean hasColumnHeaders() {
+        return columnHeaders != null;
+    }
 
-	  return list ;
-  }
-  
-	/**
-	 * @param rowHeaders2
-	 * @return
-	 */
-  private Object[] copyObjectArray(Object[] oldArray)
-  {
-  	Object[] array = new Object[oldArray.length];
-  	
-  	for (int i = 0 ; i < oldArray.length ; ++i)
-  		array[i] = oldArray[i] ;
-  	
-	  return array ;
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.MatrixDataset#getColumnHeaders()
+     */
+    @Override
+    public List<SimpleEntity> getColumnHeaders() {
+        return columnHeaders != null && columnHeaders.length > 0 ? toObjectList(columnHeaders) : null;
+    }
 
-	private final void setRowHeadersInternal(Object[] rowHeaders)
-	{
-		this.rowHeaders = rowHeaders;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.MatrixDataset#getColumnHeadersAsArray()
+     */
+    @Override
+    public SimpleEntity[] getColumnHeadersAsArray() {
+        return columnHeaders;
+    }
 
-	private final void setColumnHeadersInternal(Object[] columnHeaders)
-	{
-		this.columnHeaders = columnHeaders;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.model.MatrixDataset#getColumnHeader(int)
+     */
+    @Override
+    public SimpleEntity getColumnHeader(int columnIndex) {
+        return columnHeaders != null && columnHeaders.length > 0 ? columnHeaders[columnIndex] : null;
+    }
 
-	
-  protected abstract ValueType[][] createArrayArray(int size) ;
-  
-  
-	protected abstract ValueType[] createArray(int size) ;
+    public final void setRowHeaders(SimpleEntity[] rowHeaders) {
+        if (rowHeaders != null && rowHeaders.length > 0)
+            setRowHeadersInternal(copyObjectArray(rowHeaders));
+        else
+            this.rowHeaders = null;
+    }
+
+    public final void setRowHeaders(List<SimpleEntity> rowHeaders) {
+        this.rowHeaders = rowHeaders != null && rowHeaders.size() > 0 ? toObjectArray(rowHeaders) : null;
+    }
+
+    public final void setColumnHeaders(SimpleEntity[] columnHeaders) {
+        if (columnHeaders != null && columnHeaders.length > 0)
+            setColumnHeadersInternal(copyObjectArray(columnHeaders));
+        else
+            this.columnHeaders = null;
+    }
+
+    public final void setColumnHeaders(List<SimpleEntity> columnHeaders) {
+        this.columnHeaders = columnHeaders != null && columnHeaders.size() > 0 ? toObjectArray(columnHeaders) : null;
+    }
+
+    @Override
+    public Study getStudy() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @param values2
+     */
+    private final void setValues(List<List<ValueType>> values) {
+        if (values != null) {
+            this.values = createArrayArray(values.size());
+
+            Iterator<List<ValueType>> iterator = values.iterator();
+
+            int i = 0;
+
+            if (iterator.hasNext()) {
+                this.values[0] = toValueArray(iterator.next());
+
+                columnCount = this.values[0].length;
+
+                ++i;
+
+                while (iterator.hasNext()) {
+                    this.values[i] = toValueArray(iterator.next());
+
+                    if (columnCount != this.values[i].length)
+                        throw new IllegalArgumentException("Row " + i + " size : " + this.values[i].length
+                                + " does not match column count : " + columnCount);
+
+                    ++i;
+                }
+            }
+
+            rowCount = this.values.length;
+        } else {
+            this.values = createArrayArray(0);
+
+            columnCount = 0;
+            rowCount = 0;
+        }
+    }
+
+    /**
+     * @param values2
+     */
+    private final void setValues(ValueType[][] values) {
+        if (values != null) {
+            this.values = createArrayArray(values.length);
+
+            if (values.length > 0) {
+                this.values[0] = copyValueArray(values[0]);
+
+                columnCount = this.values.length;
+
+                for (int i = 1; i < values[i].length; ++i) {
+                    this.values[i] = copyValueArray(values[i]);
+
+                    if (columnCount != this.values[i].length)
+                        throw new IllegalArgumentException("Row " + i + " size : " + this.values[i].length
+                                + " does not match column count : " + columnCount);
+
+                    ++i;
+                }
+            }
+
+            rowCount = this.values.length;
+        } else {
+            this.values = createArrayArray(0);
+
+            columnCount = 0;
+            rowCount = 0;
+        }
+    }
+
+    private final List<List<ValueType>> toValueListList(ValueType[][] array) {
+        if (array != null) {
+            List<List<ValueType>> list = new ArrayList<List<ValueType>>(array.length);
+
+            for (int i = 0; i < array.length; ++i)
+                list.add(toValueList(array[i]));
+
+            return list;
+        } else {
+            return new ArrayList<List<ValueType>>();
+        }
+    }
+
+    private final List<ValueType> toValueList(ValueType[] array) {
+        List<ValueType> list = new ArrayList<ValueType>(array.length);
+
+        for (int i = 0; i < array.length; ++i)
+            list.add(array[i]);
+
+        return list;
+    }
+
+    private final ValueType[] toValueArray(List<ValueType> list) {
+        ValueType[] array = createArray(list.size());
+
+        Iterator<ValueType> iterator = list.iterator();
+
+        int i = 0;
+
+        while (iterator.hasNext()) {
+            array[i] = iterator.next();
+            ++i;
+        }
+
+        return array;
+    }
+
+    private ValueType[] copyValueArray(ValueType[] oldArray) {
+        ValueType[] array = createArray(oldArray.length);
+
+        for (int i = 0; i < oldArray.length; ++i)
+            array[i] = oldArray[i];
+
+        return array;
+    }
+
+    private final SimpleEntity[] toObjectArray(List<SimpleEntity> list) {
+        SimpleEntity[] array = new SimpleEntity[list.size()];
+
+        Iterator<SimpleEntity> iterator = list.iterator();
+
+        int i = 0;
+
+        while (iterator.hasNext()) {
+            array[i] = iterator.next();
+            ++i;
+        }
+
+        return array;
+    }
+
+    private final List<SimpleEntity> toObjectList(SimpleEntity[] array) {
+        List<SimpleEntity> list = new ArrayList<SimpleEntity>(array.length);
+
+        for (int i = 0; i < array.length; ++i)
+            list.add(array[i]);
+
+        return list;
+    }
+
+    /**
+     * @param rowHeaders2
+     * @return
+     */
+    private SimpleEntity[] copyObjectArray(SimpleEntity[] oldArray) {
+        SimpleEntity[] array = new SimpleEntity[oldArray.length];
+
+        for (int i = 0; i < oldArray.length; ++i)
+            array[i] = oldArray[i];
+
+        return array;
+    }
+
+    private final void setRowHeadersInternal(SimpleEntity[] rowHeaders) {
+        this.rowHeaders = rowHeaders;
+    }
+
+    private final void setColumnHeadersInternal(SimpleEntity[] columnHeaders) {
+        this.columnHeaders = columnHeaders;
+    }
+
+    protected abstract ValueType[][] createArrayArray(int size);
+
+    protected abstract ValueType[] createArray(int size);
 }

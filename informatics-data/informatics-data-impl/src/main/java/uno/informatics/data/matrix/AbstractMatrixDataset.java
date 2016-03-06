@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package uno.informatics.data.matrix;
 
 import uno.informatics.data.Feature;
@@ -23,65 +24,39 @@ import uno.informatics.data.pojo.EntityPojo;
  * @author Guy Davenport
  *
  */
-public abstract class AbstractMatrixDataset<ValueType extends Object> 
-	extends EntityPojo implements MatrixDataset<ValueType>
-{
-	private Feature elementFeature ;
-	private Feature rowHeaderFeature ;
-	private Feature columnHeaderFeature ;
-	
-	protected AbstractMatrixDataset(String name, Feature elementFeature)
-  {
-	  super(null, name);
-	  
-	  setElementFeature(elementFeature) ;
-  }
+public abstract class AbstractMatrixDataset<ValueType extends Object> extends EntityPojo
+        implements MatrixDataset<ValueType> {
+    private Feature valueFeature;
 
-	protected AbstractMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature)
-  {
-	  super(uniqueIdentifier, name);
-	  
-	  setElementFeature(elementFeature) ;
-  }
-	
-	protected AbstractMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature)
-  {
-	  super(uniqueIdentifier, name, desription);
-	  
-	  setElementFeature(elementFeature) ;
-  }
+    protected AbstractMatrixDataset(String name, Feature elementFeature) {
+        super(null, name);
 
-	public abstract int getRowCount() ;
-	
-	public abstract int getColumnCount() ;
-	
-	public final Feature getElementFeature()
-	{
-		return elementFeature;
-	}
+        setValueFeature(elementFeature);
+    }
 
-	public final void setElementFeature(Feature elementFeature)
-	{
-		this.elementFeature = elementFeature;
-	}
+    protected AbstractMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature) {
+        super(uniqueIdentifier, name);
 
-	public final Feature getRowHeaderFeature()
-	{
-		return rowHeaderFeature;
-	}
+        setValueFeature(elementFeature);
+    }
 
-	public final void setRowHeaderFeature(Feature rowHeaderFeature)
-	{
-		this.rowHeaderFeature = rowHeaderFeature;
-	}
+    protected AbstractMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature) {
+        super(uniqueIdentifier, name, desription);
 
-	public final Feature getColumnHeaderFeature()
-	{
-		return columnHeaderFeature;
-	}
+        setValueFeature(elementFeature);
+    }
 
-	public final void setColumnHeaderFeature(Feature columnHeaderFeature)
-	{
-		this.columnHeaderFeature = columnHeaderFeature;
-	}
+    public abstract int getRowCount();
+
+    public abstract int getColumnCount();
+
+    @Override
+    public final Feature getValueFeature() {
+        return valueFeature;
+    }
+
+    public final void setValueFeature(Feature valueFeature) {
+        this.valueFeature = valueFeature;
+    }
+
 }

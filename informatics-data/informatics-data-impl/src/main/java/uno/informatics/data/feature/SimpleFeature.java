@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package uno.informatics.data.feature;
 
 import uno.informatics.data.DataType;
 import uno.informatics.data.Feature;
 import uno.informatics.data.ScaleType;
 
-public interface SimpleFeature extends Feature
-{  
-	public DataType getDataType() ;
+public interface SimpleFeature extends Feature {
+    public DataType getDataType();
 
-	public ScaleType getScaleType() ;
+    public ScaleType getScaleType();
 }

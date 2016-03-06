@@ -13,19 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
 import java.util.List;
 
-public interface Study extends Entity
-{
-	public List<Dataset> getDatasets();
+public interface Study extends Entity {
+    /**
+     * Gets all the datasets belonging to this study
+     * @return all the datasets belonging to this study
+     */
+    public List<Dataset> getDatasets();
 
-	public String getStartDate();
+    /**
+     * Gets the start date of the study
+     * @return the start date of the study
+     */
+    public String getStartDate();
 
-	public void setStartDate(String value);
-
-	public String getEndDate();
-
-	public void setEndDate(String value);
-} 
+    /**
+     * Gets the end date of the study
+     * @return the end date of the study
+     */
+    public String getEndDate();
+}

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package uno.informatics.data.feature;
 
 import java.util.ArrayList;
@@ -24,77 +25,78 @@ import uno.informatics.data.FeatureDataset;
 import uno.informatics.data.FeatureDatasetRow;
 import uno.informatics.data.pojo.EntityPojo;
 
-
 /**
  * @author Guy Davenport
  *
  */
-public abstract class AbstractFeatureDataset extends EntityPojo implements FeatureDataset
-{
-	private List<Feature> features ;
+public abstract class AbstractFeatureDataset extends EntityPojo implements FeatureDataset {
+    private List<Feature> features;
 
-	protected AbstractFeatureDataset(String name, List<? extends Feature> features)
-  {
-	  super(null, name);
+    protected AbstractFeatureDataset(String name, List<? extends Feature> features) {
+        super(null, name);
 
-	  setFeatures(features) ;
-  }
+        setFeatures(features);
+    }
 
-	protected AbstractFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features)
-  {
-	  super(uniqueIdentifier, name);
-	  
-	  setFeatures(features) ;
-  }
-	
-	protected AbstractFeatureDataset(String uniqueIdentifier, String name, String desription, List<? extends Feature> features)
-  {
-	  super(uniqueIdentifier, name, desription);
-	  
-	  setFeatures(features) ;
-  }
-	
-	 protected AbstractFeatureDataset(Entity entity, List<? extends Feature> features)
-	  {
-	    super(entity);
-	    
-	    setFeatures(features) ;
-	  }
+    protected AbstractFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features) {
+        super(uniqueIdentifier, name);
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.tests.feature.array.array.Dataset#getFeatures()
-	 */
-	@Override
-	public final List<Feature> getFeatures()
-	{
-		return features ;
-	}
+        setFeatures(features);
+    }
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.tests.feature.array.array.Dataset#getFeatures()
-	 */
-	@Override
-  public Feature[] getFeaturesAsArray()
-  {
-	  return features.toArray(new Feature[features.size()]);
-  }
+    protected AbstractFeatureDataset(String uniqueIdentifier, String name, String desription,
+            List<? extends Feature> features) {
+        super(uniqueIdentifier, name, desription);
 
-	public abstract int getRowCount() ;
+        setFeatures(features);
+    }
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.tests.feature.array.array.Dataset#getRowsAsArray()
-	 */
-	public abstract FeatureDatasetRow[] getRowsAsArray() ;
+    protected AbstractFeatureDataset(Entity entity, List<? extends Feature> features) {
+        super(entity);
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.tests.feature.array.array.Dataset#getRows()
-	 */
-	public abstract List<FeatureDatasetRow> getRows() ;
+        setFeatures(features);
+    }
 
-	protected final void setFeatures(List<? extends Feature> features)
-	{
-	  this.features = new ArrayList<Feature>(); 
-	  
-	  this.features.addAll(features);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.data.tests.feature.array.array.Dataset#getFeatures()
+     */
+    @Override
+    public final List<Feature> getFeatures() {
+        return features;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.data.tests.feature.array.array.Dataset#getFeatures()
+     */
+    @Override
+    public Feature[] getFeaturesAsArray() {
+        return features.toArray(new Feature[features.size()]);
+    }
+
+    public abstract int getRowCount();
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * uno.informatics.data.tests.feature.array.array.Dataset#getRowsAsArray()
+     */
+    public abstract FeatureDatasetRow[] getRowsAsArray();
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.data.tests.feature.array.array.Dataset#getRows()
+     */
+    public abstract List<FeatureDatasetRow> getRows();
+
+    protected final void setFeatures(List<? extends Feature> features) {
+        this.features = new ArrayList<Feature>();
+
+        this.features.addAll(features);
+    }
 }

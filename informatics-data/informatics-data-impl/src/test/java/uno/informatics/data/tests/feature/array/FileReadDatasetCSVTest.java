@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data.tests.feature.array;
 
 import static org.junit.Assert.fail;
@@ -29,254 +30,220 @@ import uno.informatics.data.tests.TestData;
 
 /**
  * @author Guy Davenport
- *        
+ * 
  */
-public class FileReadDatasetCSVTest extends TestData
-{
-  private static final String OBJECT_TABLE                   = "/object_table_with_col_headers.csv";
-  private static final String OBJECT_TABLE_WITH_ROW_NAMES    = "/object_table_with_col_name_row_headers.csv";
-  private static final String OBJECT_TABLE_WITH_ROW_NAMES_IDS = "/object_table_with_col_name_id_row_headers.csv";
-  private static final String OBJECT_TABLE_WITH_TYPE_ROW_NAMES    = "/object_table_with_col_type_name_row_headers.csv";
-  private static final String OBJECT_TABLE_WITH_TYPE_ROW_NAMES_IDS = "/object_table_with_col_type_name_id_row_headers.csv";        
-  private static final String OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES    = "/object_table_with_col_type_min_name_row_headers.csv";
-  private static final String OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES_IDS = "/object_table_with_col_type_min_name_id_row_headers.csv"; 
-  private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES    = "/object_table_with_col_type_min_max_name_row_headers.csv";
-  private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS = "/object_table_with_col_type_min_max_name_id_row_headers.csv"; 
-  /**
-   * Test method for
-   * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
-   * .
-   */
-  @Test
-  public void testReadFeatureDatasetFromTextFile()
-  {
-    try
-    {
-      File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE).getFile());
-      
-      FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
-      
-      checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          STRING_FEATURES, dataset, BLANK_HEADERS, null, true);
-          
+public class FileReadDatasetCSVTest extends TestData {
+    private static final String OBJECT_TABLE = "/object_table_with_col_headers.csv";
+    private static final String OBJECT_TABLE_WITH_ROW_NAMES = "/object_table_with_col_name_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_ROW_NAMES_IDS = "/object_table_with_col_name_id_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_ROW_NAMES = "/object_table_with_col_type_name_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_ROW_NAMES_IDS = "/object_table_with_col_type_name_id_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES = "/object_table_with_col_type_min_name_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES_IDS = "/object_table_with_col_type_min_name_id_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES = "/object_table_with_col_type_min_max_name_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS = "/object_table_with_col_type_min_max_name_id_row_headers.csv";
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * .
+     */
+    @Test
+    public void testReadFeatureDatasetFromTextFile() {
+        try {
+            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE).getFile());
+
+            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+
+            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
+                    STRING_FEATURES, dataset, BLANK_HEADERS, true);
+
+        } catch (DatasetException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
     }
-    catch (DatasetException e)
-    {
-      e.printStackTrace();
-      
-      fail(e.getLocalizedMessage());
+
+    protected FileType getFileType() {
+        return FileType.CSV;
     }
-  }
-  
-  protected FileType getFileType()
-  {
-    return FileType.CSV;
-  }
-  
-  /**
-   * Test method for
-   * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
-   * .
-   */
-  @Test
-  public void testReadFeatureDatasetFromTextFileWithNameRowHeaders()
-  {
-    try
-    {
-      File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES).getFile());
-      
-      FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
-      
-      checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          STRING_FEATURES, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, true);
-          
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * .
+     */
+    @Test
+    public void testReadFeatureDatasetFromTextFileWithNameRowHeaders() {
+        try {
+            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES).getFile());
+
+            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+
+            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
+                    STRING_FEATURES, dataset, ROW_HEADERS, true);
+
+        } catch (DatasetException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
     }
-    catch (DatasetException e)
-    {
-      e.printStackTrace();
-      
-      fail(e.getLocalizedMessage());
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * .
+     */
+    @Test
+    public void testReadFeatureDatasetFromTextFileWithNameAndIDRowHeaders() {
+        try {
+            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES_IDS).getFile());
+
+            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+
+            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
+                    STRING_FEATURES, dataset, ROW_HEADERS_WITH_ID, true);
+
+        } catch (DatasetException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
     }
-  }
-  
-  /**
-   * Test method for
-   * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
-   * .
-   */
-  @Test
-  public void testReadFeatureDatasetFromTextFileWithNameAndIDRowHeaders()
-  {
-    try
-    {
-      File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES_IDS).getFile());
-      
-      FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
-      
-      checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          STRING_FEATURES, dataset, ROW_HEADERS_WITH_ID, IDS_HEADER_FEATURE, true);
-          
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * .
+     */
+    @Test
+    public void testReadFeatureDatasetFromTextFileWithTypeNameRowHeaders() {
+        try {
+            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES).getFile());
+
+            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+
+            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
+                    OBJECT_FEATURES, dataset, ROW_HEADERS, false);
+
+        } catch (DatasetException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
     }
-    catch (DatasetException e)
-    {
-      e.printStackTrace();
-      
-      fail(e.getLocalizedMessage());
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * .
+     */
+    @Test
+    public void testReadFeatureDatasetFromTextFileWithTypeNameAndIDRowHeaders() {
+        try {
+            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES_IDS).getFile());
+
+            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+
+            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
+                    OBJECT_FEATURES, dataset, ROW_HEADERS_WITH_ID, false);
+
+        } catch (DatasetException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
     }
-  }
-  
-  /**
-   * Test method for
-   * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
-   * .
-   */
-  @Test
-  public void testReadFeatureDatasetFromTextFileWithTypeNameRowHeaders()
-  {
-    try
-    {
-      File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES).getFile());
-      
-      FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
-      
-      checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false);
-          
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * .
+     */
+    @Test
+    public void testReadFeatureDatasetFromTextFileWithTypeMinNameRowHeaders() {
+        try {
+            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES).getFile());
+
+            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+
+            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
+                    OBJECT_FEATURES_MIN, dataset, ROW_HEADERS, false);
+
+        } catch (DatasetException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
     }
-    catch (DatasetException e)
-    {
-      e.printStackTrace();
-      
-      fail(e.getLocalizedMessage());
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * .
+     */
+    @Test
+    public void testReadFeatureDatasetFromTextFileWithTypeMinNameAndIDRowHeaders() {
+        try {
+            File file = new File(
+                    ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES_IDS).getFile());
+
+            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+
+            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
+                    OBJECT_FEATURES_MIN, dataset, ROW_HEADERS_WITH_ID, false);
+
+        } catch (DatasetException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
     }
-  }
-  
-  /**
-   * Test method for
-   * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
-   * .
-   */
-  @Test
-  public void testReadFeatureDatasetFromTextFileWithTypeNameAndIDRowHeaders()
-  {
-    try
-    {
-      File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES_IDS).getFile());
-      
-      FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
-      
-      checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES, dataset, ROW_HEADERS_WITH_ID, IDS_HEADER_FEATURE, false);
-          
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * .
+     */
+    @Test
+    public void testReadFeatureDatasetFromTextFileWithTypeMinMaxNameRowHeaders() {
+        try {
+            File file = new File(
+                    ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES).getFile());
+
+            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+
+            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
+                    OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS, false);
+
+        } catch (DatasetException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
     }
-    catch (DatasetException e)
-    {
-      e.printStackTrace();
-      
-      fail(e.getLocalizedMessage());
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * .
+     */
+    @Test
+    public void testReadFeatureDatasetFromTextFileWithTypeMinMaxNameAndIDRowHeaders() {
+        try {
+            File file = new File(
+                    ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS).getFile());
+
+            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+
+            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
+                    OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS_WITH_ID, false);
+        } catch (DatasetException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
     }
-  }
-  
-  /**
-   * Test method for
-   * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
-   * .
-   */
-  @Test
-  public void testReadFeatureDatasetFromTextFileWithTypeMinNameRowHeaders()
-  {
-    try
-    {
-      File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES).getFile());
-      
-      FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
-      
-      checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES_MIN, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false);
-          
-    }
-    catch (DatasetException e)
-    {
-      e.printStackTrace();
-      
-      fail(e.getLocalizedMessage());
-    }
-  }
-  
-  /**
-   * Test method for
-   * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
-   * .
-   */
-  @Test
-  public void testReadFeatureDatasetFromTextFileWithTypeMinNameAndIDRowHeaders()
-  {
-    try
-    {
-      File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES_IDS).getFile());
-      
-      FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
-      
-      checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES_MIN, dataset, ROW_HEADERS_WITH_ID, IDS_HEADER_FEATURE, false);
-          
-    }
-    catch (DatasetException e)
-    {
-      e.printStackTrace();
-      
-      fail(e.getLocalizedMessage());
-    }
-  }
-  
-  /**
-   * Test method for
-   * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
-   * .
-   */
-  @Test
-  public void testReadFeatureDatasetFromTextFileWithTypeMinMaxNameRowHeaders()
-  {
-    try
-    {
-      File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES).getFile());
-      
-      FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
-      
-      checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false);
-          
-    }
-    catch (DatasetException e)
-    {
-      e.printStackTrace();
-      
-      fail(e.getLocalizedMessage());
-    }
-  }
-  
-  /**
-   * Test method for
-   * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
-   * .
-   */
-  @Test
-  public void testReadFeatureDatasetFromTextFileWithTypeMinMaxNameAndIDRowHeaders()
-  {
-    try
-    {
-      File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS).getFile());
-      
-      FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
-      
-      checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-          OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS_WITH_ID, IDS_HEADER_FEATURE, false);
-    }
-    catch (DatasetException e)
-    {
-      e.printStackTrace();
-      
-      fail(e.getLocalizedMessage());
-    }
-  }
 }

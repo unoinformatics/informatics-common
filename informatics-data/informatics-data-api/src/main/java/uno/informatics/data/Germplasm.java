@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
 import java.util.List;
 
-public interface Germplasm extends Entity
-{
-  /**
-   * Gets the source of the Germplasm. Returns an empty list
-   * is this is a 'founder' line with no known parent / source
-   * @return
-   */
-  public List<Germplasm> getSource() ;
+public interface Germplasm extends Entity {
+    /**
+     * Gets the source of the Germplasm. Returns an empty list is this is a
+     * 'founder' line with no known parent / source
+     * 
+     * @return the source of the Germplasm
+     */
+    public List<Germplasm> getSource();
 }

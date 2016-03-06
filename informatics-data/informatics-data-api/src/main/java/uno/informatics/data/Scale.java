@@ -13,37 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
 import java.util.List;
 import java.util.Set;
 
-public interface Scale extends Entity
-{
-  /**
-   * Gets the maximum value in the scale
-   * @return the maximum value in the scale, or <code>null</code>
-   * if the maximum value is not applicable, e.g. for nominal scales
-   */
-  public Number getMaximumValue() ;
-  
-  /**
-   * Gets the minimum value in the scale
-   * @return the minimum value in the scale, or <code>null</code>
-   * if the maximum value is not applicable, e.g. for nominal scales
-   */
-  public Number getMinimumValue() ;
-  
-  /**
-   * Gets all possible values for this scale. Values can not be repeated. The order of
-   * the values is important for Ordinal scales
-   * 
-   * @return all possible values for this scale, or <code>null</code>
-   * the number of possible values is large or infinite, e.g. for ratio and interval scales
-   */
-  public List<Object> getValues() ;
-  
-	public DataType getDataType() ;
-	
-	public ScaleType getScaleType() ;
+public interface Scale extends Entity {
+    /**
+     * Gets the maximum value in the scale
+     * 
+     * @return the maximum value in the scale, or <code>null</code> if the
+     *         maximum value is not applicable, e.g. for nominal scales
+     */
+    public Number getMaximumValue();
+
+    /**
+     * Gets the minimum value in the scale
+     * 
+     * @return the minimum value in the scale, or <code>null</code> if the
+     *         maximum value is not applicable, e.g. for nominal scales
+     */
+    public Number getMinimumValue();
+
+    /**
+     * Gets all possible values for this scale. Values can not be repeated. The
+     * order of the values is important for Ordinal scales
+     * 
+     * @return all possible values for this scale, or <code>null</code> the
+     *         number of possible values is large or infinite, e.g. for ratio
+     *         and interval scales
+     */
+    public List<Object> getValues();
+
+    /**
+     * Gets the data type for this scale
+     * @return the data type for this scale
+     */
+    public DataType getDataType();
+
+    /**
+     * Gets the scale type for this scale
+     * @return the scale type for this scale
+     */
+    public ScaleType getScaleType();
 }
