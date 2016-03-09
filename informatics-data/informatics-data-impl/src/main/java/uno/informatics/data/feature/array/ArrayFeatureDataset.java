@@ -367,7 +367,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
      * @see uno.informatics.data.dataset.FeatureDataset#getRowHeaderFeature()
      */
 
-    public static final FeatureDataset readFeatureDatasetFromTextFile(File file, FileType fileType)
+    public static final ArrayFeatureDataset readFeatureDatasetFromTextFile(File file, FileType fileType)
             throws DatasetException {
         RowReader reader = null;
         List<List<Object>> rowList = new LinkedList<List<Object>>();
