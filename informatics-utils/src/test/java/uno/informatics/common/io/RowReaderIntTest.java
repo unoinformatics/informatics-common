@@ -37,11 +37,18 @@ public abstract class RowReaderIntTest extends RowReaderTest
 	protected final static int[] ROW2 = new int[] {12,22,32} ;
 	protected final static int[] ROW3 = new int[] {13,23,33} ;
 	
+	       protected final static int[] ROW2_WITH_GAPS = new int[] {12,0,32} ;
+	        protected final static int[] ROW3_WITH_GAPS = new int[] {13,23,0} ;
+	        
+	        
 	protected final static Object[] OBJ_ROW1 = new Object[] {11,21,31} ;
 	protected final static Object[] OBJ_ROW2 = new Object[] {12,22,32} ;
 	protected final static Object[] OBJ_ROW3 = new Object[] {13,23,33} ;
 	
-	private static final List<List<Object>> TABLE_AS_LIST = new ArrayList<List<Object>>();
+	       protected final static Object[] OBJ_ROW2_WITH_GAPS = new Object[] {12,null,32} ;
+	        protected final static Object[] OBJ_ROW3_WITH_GAPS = new Object[] {13,23,null} ;
+	
+	protected static final List<List<Object>> TABLE_AS_LIST = new ArrayList<List<Object>>();
 	
 	static
 	{
@@ -64,10 +71,36 @@ public abstract class RowReaderIntTest extends RowReaderTest
 		TABLE_AS_LIST.get(2).add(ROW3[2]) ;
 	}
 	
-	private static final Object[][] TABLE_AS_ARRAY = new Object[][]
-			{OBJ_ROW1, OBJ_ROW2, OBJ_ROW3};
+	       protected static final Object[][] TABLE_AS_ARRAY = new Object[][]
+                       {OBJ_ROW1, OBJ_ROW2, OBJ_ROW3};
 	
-	private static final List<List<Integer>> TABLE_AS_LIST2 = new ArrayList<List<Integer>>();
+	       protected static final List<List<Object>> TABLE_AS_LIST_WITH_GAPS = new ArrayList<List<Object>>();
+	        
+	        static
+	        {
+	            TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(ROW1.length)) ;
+	                
+	            TABLE_AS_LIST_WITH_GAPS.get(0).add(ROW1[0]) ;
+	            TABLE_AS_LIST_WITH_GAPS.get(0).add(ROW1[1]) ;
+	            TABLE_AS_LIST_WITH_GAPS.get(0).add(ROW1[2]) ;
+	                
+	            TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(ROW2.length)) ;
+	                
+	            TABLE_AS_LIST_WITH_GAPS.get(1).add(ROW2[0]) ;
+	            TABLE_AS_LIST_WITH_GAPS.get(1).add(null) ;
+	            TABLE_AS_LIST_WITH_GAPS.get(1).add(ROW2[2]) ;
+	                
+	            TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(ROW3.length)) ;
+	                
+	            TABLE_AS_LIST_WITH_GAPS.get(2).add(ROW3[0]) ;
+	            TABLE_AS_LIST_WITH_GAPS.get(2).add(ROW3[1]) ;
+	            TABLE_AS_LIST_WITH_GAPS.get(2).add(null) ;
+	        }
+	        
+	              protected static final Object[][] TABLE_AS_ARRAY_WITH_GAPS = new Object[][]
+	                       {OBJ_ROW1, OBJ_ROW2_WITH_GAPS, OBJ_ROW3_WITH_GAPS};
+	
+	protected static final List<List<Integer>> TABLE_AS_LIST2 = new ArrayList<List<Integer>>();
 	
 	static
 	{
@@ -90,28 +123,43 @@ public abstract class RowReaderIntTest extends RowReaderTest
 		TABLE_AS_LIST2.get(2).add(ROW3[2]) ;
 	}
 	
-	private static final int[][] TABLE_AS_ARRAY2 = new int[][]
+	protected static final int[][] TABLE_AS_ARRAY2 = new int[][]
 			{ROW1, ROW2, ROW3};
-	
-  protected final List<List<Object>> getExpectedList()
-  {
-	  return TABLE_AS_LIST;
-  }
+			
 
-  protected final Object[][] getExpectedArray()
-  {
-	  return TABLE_AS_ARRAY;
-  }
+	        protected static final List<List<Integer>> TABLE_AS_LIST2_WITH_GAPS = new ArrayList<List<Integer>>();
+	        
+	        static
+	        {
+	            TABLE_AS_LIST2_WITH_GAPS.add(new ArrayList<Integer>(ROW1.length)) ;
+	                
+	            TABLE_AS_LIST2_WITH_GAPS.get(0).add(ROW1[0]) ;
+	            TABLE_AS_LIST2_WITH_GAPS.get(0).add(ROW1[1]) ;
+	            TABLE_AS_LIST2_WITH_GAPS.get(0).add(ROW1[2]) ;
+	                
+	            TABLE_AS_LIST2_WITH_GAPS.add(new ArrayList<Integer>(ROW2.length)) ;
+	                
+	            TABLE_AS_LIST2_WITH_GAPS.get(1).add(ROW2[0]) ;
+	            TABLE_AS_LIST2_WITH_GAPS.get(1).add(null) ;
+	            TABLE_AS_LIST2_WITH_GAPS.get(1).add(ROW2[2]) ;
+	                
+	            TABLE_AS_LIST2_WITH_GAPS.add(new ArrayList<Integer>(ROW3.length)) ;
+	                
+	            TABLE_AS_LIST2_WITH_GAPS.get(2).add(ROW3[0]) ;
+	            TABLE_AS_LIST2_WITH_GAPS.get(2).add(ROW3[1]) ;
+	            TABLE_AS_LIST2_WITH_GAPS.get(2).add(null) ;
+	        }
+	        
+	        protected static final int[][] TABLE_AS_ARRAY2_WITH_GAPS = new int[][]
+	                        {ROW1, ROW2_WITH_GAPS, ROW3_WITH_GAPS};	
+	                        
+  protected abstract List<List<Object>> getExpectedList() ;
+  
+  protected abstract Object[][] getExpectedArray() ;
 
-  protected final List<List<Integer>> getExpectedAsList()
-  {
-	  return TABLE_AS_LIST2;
-  }
+  protected abstract List<List<Integer>> getExpectedAsList() ;
 
-  protected final int[][] getExpectedAsArray()
-  {
-	  return TABLE_AS_ARRAY2;
-  }
+  protected abstract int[][] getExpectedAsArray() ;
   
 	@Test
 	public void testReadCellsAsInt()

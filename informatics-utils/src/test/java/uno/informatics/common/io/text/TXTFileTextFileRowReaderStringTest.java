@@ -17,6 +17,7 @@ package uno.informatics.common.io.text;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowReaderStringTest;
@@ -34,4 +35,32 @@ public class TXTFileTextFileRowReaderStringTest extends RowReaderStringTest
 		
 		return reader ;
 	}
+	
+	       /* (non-Javadoc)
+         * @see uno.informatics.common.io.RowReaderTest#getExpectedList()
+         */
+  @Override
+  protected final List<List<Object>> getExpectedList()
+  {
+          return STRING_TABLE_AS_LIST;
+  }
+
+        /* (non-Javadoc)
+         * @see uno.informatics.common.io.RowReaderTest#getExpectedArray()
+         */
+  @Override
+  protected final Object[][] getExpectedArray()
+  {
+          return STRING_TABLE_AS_ARRAY;
+  }
+
+  protected final List<List<String>> getExpectedAsStringList()
+  {
+          return STRING_TABLE_AS_LIST2;
+  }
+
+  protected final String[][] getExpectedAsStringArray()
+  {
+          return STRING_TABLE_AS_ARRAY;
+  }
 }

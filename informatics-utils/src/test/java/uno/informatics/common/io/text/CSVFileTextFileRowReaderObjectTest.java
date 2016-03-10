@@ -17,6 +17,7 @@ package uno.informatics.common.io.text;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowReaderObjectTest;
@@ -34,4 +35,22 @@ public class CSVFileTextFileRowReaderObjectTest extends RowReaderObjectTest
 		
 		return reader ;
 	}
+	
+	       /* (non-Javadoc)
+         * @see uno.informatics.common.io.RowReaderTest#getExpectedList()
+         */
+  @Override
+  protected final List<List<Object>> getExpectedList()
+  {
+          return OBJECT_TABLE_AS_LIST;
+  }
+
+        /* (non-Javadoc)
+         * @see uno.informatics.common.io.RowReaderTest#getExpectedArray()
+         */
+  @Override
+  protected final Object[][] getExpectedArray()
+  {
+          return OBJECT_TABLE_AS_ARRAY;
+  }
 }

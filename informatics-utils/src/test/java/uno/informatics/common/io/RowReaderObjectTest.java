@@ -83,23 +83,9 @@ public abstract class RowReaderObjectTest extends RowReaderTest
     }
 	}
 	
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.io.RowReaderTest#getExpectedList()
-	 */
-  @Override
-  protected final List<List<Object>> getExpectedList()
-  {
-	  return OBJECT_TABLE_AS_LIST;
-  }
+  protected abstract List<List<Object>> getExpectedList() ;
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.common.io.RowReaderTest#getExpectedArray()
-	 */
-  @Override
-  protected final Object[][] getExpectedArray()
-  {
-	  return OBJECT_TABLE_AS_ARRAY;
-  }
+  protected abstract Object[][] getExpectedArray() ;
 
 	/**
 	 * @param reader 

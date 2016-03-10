@@ -35,11 +35,17 @@ public abstract class RowReaderBooleanTest extends RowReaderTest
 	protected final static boolean[] ROW2 = new boolean[] {false,true,false} ;
 	protected final static boolean[] ROW3 = new boolean[] {true,false,false} ;
 	
+	protected final static boolean[] ROW2_WITH_GAPS = new boolean[] {false,false,false} ;
+	protected final static boolean[] ROW3_WITH_GAPS = new boolean[] {true,false,false} ;
+	
 	protected final static Object[] OBJ_ROW1 = new Object[] {true,false,true} ;
 	protected final static Object[] OBJ_ROW2 = new Object[] {false,true,false} ;
 	protected final static Object[] OBJ_ROW3 = new Object[] {true,false,false} ;
 	
-	private static final List<List<Object>> TABLE_AS_LIST = new ArrayList<List<Object>>();
+	protected final static Object[] OBJ_ROW2_WITH_GAPS = new Object[] {false,null,false} ;
+	protected final static Object[] OBJ_ROW3_WITH_GAPS = new Object[] {true,false,null} ;
+	        
+	protected static final List<List<Object>> TABLE_AS_LIST = new ArrayList<List<Object>>();
 	
 	static
 	{
@@ -62,10 +68,37 @@ public abstract class RowReaderBooleanTest extends RowReaderTest
 		TABLE_AS_LIST.get(2).add(ROW3[2]) ;
 	}
 	
-	private static final Object[][] TABLE_AS_ARRAY = new Object[][]
-			{OBJ_ROW1, OBJ_ROW2, OBJ_ROW3};
+        protected static final List<List<Object>> TABLE_AS_LIST_WITH_GAPS = new ArrayList<List<Object>>();
+        
+        static
+        {
+            TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(ROW1.length)) ;
+                
+            TABLE_AS_LIST_WITH_GAPS.get(0).add(ROW1[0]) ;
+            TABLE_AS_LIST_WITH_GAPS.get(0).add(ROW1[1]) ;
+            TABLE_AS_LIST_WITH_GAPS.get(0).add(ROW1[2]) ;
+                
+            TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(ROW2.length)) ;
+                
+            TABLE_AS_LIST_WITH_GAPS.get(1).add(ROW2[0]) ;
+            TABLE_AS_LIST_WITH_GAPS.get(1).add(null) ;
+            TABLE_AS_LIST_WITH_GAPS.get(1).add(ROW2[2]) ;
+                
+            TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(ROW3.length)) ;
+                
+            TABLE_AS_LIST_WITH_GAPS.get(2).add(ROW3[0]) ;
+            TABLE_AS_LIST_WITH_GAPS.get(2).add(ROW3[1]) ;
+            TABLE_AS_LIST_WITH_GAPS.get(2).add(null) ;
+        }
+        	
 	
-	private static final List<List<Boolean>> TABLE_AS_LIST2 = new ArrayList<List<Boolean>>();
+	protected static final Object[][] TABLE_AS_ARRAY = new Object[][]
+			{OBJ_ROW1, OBJ_ROW2, OBJ_ROW3};
+			
+	protected static final Object[][] TABLE_AS_ARRAY_WITH_GAPS = new Object[][]
+	                {OBJ_ROW1, OBJ_ROW2_WITH_GAPS, OBJ_ROW3_WITH_GAPS};
+	
+	protected static final List<List<Boolean>> TABLE_AS_LIST2 = new ArrayList<List<Boolean>>();
 	
 	static
 	{
@@ -87,28 +120,42 @@ public abstract class RowReaderBooleanTest extends RowReaderTest
 		TABLE_AS_LIST2.get(2).add(ROW3[1]) ;
 		TABLE_AS_LIST2.get(2).add(ROW3[2]) ;
 	}
-	private static final boolean[][] TABLE_AS_ARRAY2 = new boolean[][]
-			{ROW1, ROW2, ROW3};
 	
-  protected final List<List<Object>> getExpectedList()
-  {
-	  return TABLE_AS_LIST;
-  }
+	protected static final boolean[][] TABLE_AS_ARRAY2 = new boolean[][]
+			{ROW1, ROW2, ROW3};
 
-  protected final Object[][] getExpectedArray()
-  {
-	  return TABLE_AS_ARRAY;
-  }
+		        protected static final List<List<Boolean>> TABLE_AS_LIST2_WITH_GAPS = new ArrayList<List<Boolean>>();
+		        
+		        static
+		        {
+		            TABLE_AS_LIST2_WITH_GAPS.add(new ArrayList<Boolean>(ROW1.length)) ;
+		                
+		            TABLE_AS_LIST2_WITH_GAPS.get(0).add(ROW1[0]) ;
+		            TABLE_AS_LIST2_WITH_GAPS.get(0).add(ROW1[1]) ;
+		            TABLE_AS_LIST2_WITH_GAPS.get(0).add(ROW1[2]) ;
+		                
+		            TABLE_AS_LIST2_WITH_GAPS.add(new ArrayList<Boolean>(ROW2.length)) ;
+		                
+		            TABLE_AS_LIST2_WITH_GAPS.get(1).add(ROW2[0]) ;
+		            TABLE_AS_LIST2_WITH_GAPS.get(1).add(null) ;
+		            TABLE_AS_LIST2_WITH_GAPS.get(1).add(ROW2[2]) ;
+		                
+		            TABLE_AS_LIST2_WITH_GAPS.add(new ArrayList<Boolean>(ROW3.length)) ;
+		                
+		            TABLE_AS_LIST2_WITH_GAPS.get(2).add(ROW3[0]) ;
+		            TABLE_AS_LIST2_WITH_GAPS.get(2).add(ROW3[1]) ;
+		            TABLE_AS_LIST2_WITH_GAPS.get(2).add(null) ;
+		        }
+		        protected static final boolean[][] TABLE_AS_ARRAY2_WITH_GAPS = new boolean[][]
+		                        {ROW1, ROW2_WITH_GAPS, ROW3_WITH_GAPS};
+		                        
+  protected abstract List<List<Object>> getExpectedList() ;
 
-  protected final List<List<Boolean>> getExpectedAsList()
-  {
-	  return TABLE_AS_LIST2;
-  }
+  protected abstract Object[][] getExpectedArray() ;
 
-  protected final boolean[][] getExpectedAsArray()
-  {
-	  return TABLE_AS_ARRAY2;
-  }
+  protected abstract List<List<Boolean>> getExpectedAsList() ;
+
+  protected abstract boolean[][] getExpectedAsArray() ;
 	
 	@Test
 	public void testReadCellsAsBoolean()
@@ -141,7 +188,7 @@ public abstract class RowReaderBooleanTest extends RowReaderTest
 	}
 
 	@Test
-	public void testReadCellsAsArrayAsString()
+	public void testReadCellsAsArrayAsBoolean()
 	{
 		try
     {

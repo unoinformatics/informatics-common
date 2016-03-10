@@ -20,39 +20,39 @@ import java.io.IOException;
 import java.util.List;
 
 import uno.informatics.common.io.RowReader;
-import uno.informatics.common.io.RowReaderBooleanTest;
+import uno.informatics.common.io.RowReaderIntTest;
 import uno.informatics.common.io.TextFileHandler;
 
-public class CSVFileTextFileRowReaderBooleanTest extends RowReaderBooleanTest
+public class TXTFileTextFileRowReaderIntTestWithGaps extends RowReaderIntTest
 {
-	private static final String FILE = "/boolean_table.csv";
+	private static final String FILE = "/int_table_with_gaps.txt";
 	
 	protected RowReader createReader() throws FileNotFoundException, IOException 
 	{
 		TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath()) ;
 		
-		reader.setDelimiterString(TextFileHandler.COMMA);
+		reader.setDelimiterString(TextFileHandler.TAB);
 		
 		return reader ;
 	}
 	
 	  protected final List<List<Object>> getExpectedList()
 	  {
-	          return TABLE_AS_LIST;
+	          return TABLE_AS_LIST_WITH_GAPS;
 	  }
 
 	  protected final Object[][] getExpectedArray()
 	  {
-	          return TABLE_AS_ARRAY;
+	          return TABLE_AS_ARRAY_WITH_GAPS;
 	  }
 
-	  protected final List<List<Boolean>> getExpectedAsList()
+	  protected final List<List<Integer>> getExpectedAsList()
 	  {
-	          return TABLE_AS_LIST2;
+	          return TABLE_AS_LIST2_WITH_GAPS;
 	  }
 
-	  protected final boolean[][] getExpectedAsArray()
+	  protected final int[][] getExpectedAsArray()
 	  {
-	          return TABLE_AS_ARRAY2;
+	          return TABLE_AS_ARRAY2_WITH_GAPS;
 	  }
 }

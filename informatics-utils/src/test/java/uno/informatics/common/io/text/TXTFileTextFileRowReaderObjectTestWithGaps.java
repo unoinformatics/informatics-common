@@ -20,39 +20,37 @@ import java.io.IOException;
 import java.util.List;
 
 import uno.informatics.common.io.RowReader;
-import uno.informatics.common.io.RowReaderBooleanTest;
+import uno.informatics.common.io.RowReaderObjectTest;
 import uno.informatics.common.io.TextFileHandler;
 
-public class CSVFileTextFileRowReaderBooleanTest extends RowReaderBooleanTest
+public class TXTFileTextFileRowReaderObjectTestWithGaps extends RowReaderObjectTest
 {
-	private static final String FILE = "/boolean_table.csv";
+	private static final String FILE = "/object_table_with_gaps.txt";
 	
 	protected RowReader createReader() throws FileNotFoundException, IOException 
 	{
 		TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath()) ;
 		
-		reader.setDelimiterString(TextFileHandler.COMMA);
+		reader.setDelimiterString(TextFileHandler.TAB);
 		
 		return reader ;
 	}
 	
-	  protected final List<List<Object>> getExpectedList()
-	  {
-	          return TABLE_AS_LIST;
-	  }
+	       /* (non-Javadoc)
+         * @see uno.informatics.common.io.RowReaderTest#getExpectedList()
+         */
+  @Override
+  protected final List<List<Object>> getExpectedList()
+  {
+          return OBJECT_TABLE_AS_LIST_WITH_GAPS;
+  }
 
-	  protected final Object[][] getExpectedArray()
-	  {
-	          return TABLE_AS_ARRAY;
-	  }
-
-	  protected final List<List<Boolean>> getExpectedAsList()
-	  {
-	          return TABLE_AS_LIST2;
-	  }
-
-	  protected final boolean[][] getExpectedAsArray()
-	  {
-	          return TABLE_AS_ARRAY2;
-	  }
+        /* (non-Javadoc)
+         * @see uno.informatics.common.io.RowReaderTest#getExpectedArray()
+         */
+  @Override
+  protected final Object[][] getExpectedArray()
+  {
+          return OBJECT_TABLE_AS_ARRAY_WITH_GAPS;
+  }
 }

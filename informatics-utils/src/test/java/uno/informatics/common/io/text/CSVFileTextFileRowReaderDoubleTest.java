@@ -17,6 +17,7 @@ package uno.informatics.common.io.text;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowReaderDoubleTest;
@@ -34,4 +35,24 @@ public class CSVFileTextFileRowReaderDoubleTest extends RowReaderDoubleTest
 		
 		return reader ;
 	}
+	
+	  protected final List<List<Object>> getExpectedList()
+	  {
+	          return TABLE_AS_LIST;
+	  }
+
+	  protected final Object[][] getExpectedArray()
+	  {
+	          return TABLE_AS_ARRAY;
+	  }
+
+	  protected final List<List<Double>> getExpectedAsList()
+	  {
+	          return TABLE_AS_LIST2;
+	  }
+
+	  protected final double[][] getExpectedAsArray()
+	  {
+	          return TABLE_AS_ARRAY2;
+	  }
 }
