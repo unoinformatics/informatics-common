@@ -33,6 +33,8 @@ public class CSVFileTextFileRowReaderBooleanTestWithGaps extends RowReaderBoolea
 		
 		reader.setDelimiterString(TextFileHandler.COMMA);
 		
+	        reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE);
+		
 		return reader ;
 	}
 	

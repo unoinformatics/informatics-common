@@ -39,9 +39,45 @@ import uno.informatics.common.io.RowReader;
 import uno.informatics.data.DataTypeConstants;
 
 public class TextFileRowReader extends AbstractTextFileHandler implements RowReader {
-    private boolean parsingEmptyStrings;
+    
+    
+    /**
+     * Sets no options, all options are set to false
+     */
+    public static final int NO_OPTIONS = 0 ;
+    
+    /**
+     * Sets if two more more delimiters are encountered together if these should
+     * be treated as one delimiters
+     */
+    
+    /**
+     * Sets if the reader should parse empty strings.
+     */
+    public static final int PARSE_EMPTY_STRINGS = 1 ;
+    
+    /**
+     * Sets if the reader should attempt to convert values.
+     */
+    public static final int CONVERT_VALUES = 2 ;
+  
+    /**
+     * Sets if two more more delimiters are encountered together if these should
+     * be treated as one delimiters
+     */
+    public static final int IGNORE_MULTIPLE_DELIMITERS = 4 ;
+    
+    /**
+     * Sets if rows are adjusted to be all the same size as the first row
+     */
+    public static final int ROWS_SAME_SIZE = 8 ;
 
-    private boolean convertingValues;
+    /**
+     * Sets if the reader remove any prefix or suffix white space for Strings
+     */
+    public static final int REMOVE_WHITE_SPACE = 16 ;
+    
+    private int options = NO_OPTIONS ;
 
     private Map<Integer, Integer> conversionTypesMap;
 
@@ -54,10 +90,6 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     private Pattern pattern;
 
     private BufferedReader bufferedReader;
-
-    private boolean ignoringMultipleDelimiters;
-    
-    private boolean rowsTreatedSameSize = true ;
 
     private String[] line;
     private String[] nextLine;
@@ -161,123 +193,27 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     }
 
     /**
-     * Determines if two more more delimiters are encountered together if these
-     * should be treated as one delimiters
+     * Gets an int representing a bit array of options
      * 
-     * @return <code>true</code> if two more more delimiters are encountered
-     *         together if these should be treated as one delimiters,
-     *         <code>false</code> otherwise
+     * @return an int preresenting a bit array of options
      */
-    public final boolean isIgnoringMultipleDelimiters() {
-        return ignoringMultipleDelimiters;
+    public final int getOptions() {
+        return options;
     }
 
     /**
-     * Sets if two more more delimiters are encountered together if these should
-     * be treated as one delimiters
+     * Sets an int representing a bit array of options
      * 
-     * @param ignoringMultipleDelimiters
-     *            <code>true</code> if two more more delimiters are encountered
-     *            together if these should be treated as one delimiters,
-     *            <code>false</code> otherwise
-     * @exception IOException
-     *                if the reader is already is use
+     * @param options an int preresenting a bit array of options
      */
-    public final void setIgnoringMultipleDelimiters(boolean ignoringMultipleDelimiters) throws IOException {
-        if (ignoringMultipleDelimiters != this.ignoringMultipleDelimiters) {
+    public final void setOptions(int options) throws IOException {
+        if (options != this.options) {
             if (isInUse())
-                throw new IOException("Paramater can not be changed while reader is in use");
+                throw new IOException("Options can not be changed while reader is in use");
 
-            this.ignoringMultipleDelimiters = ignoringMultipleDelimiters;
-        }
-    }
-    
-    /**
-     * Determines if two more more delimiters are encountered together if these
-     * should be treated as one delimiters
-     * 
-     * @return <code>true</code> if two more more delimiters are encountered
-     *         together if these should be treated as one delimiters,
-     *         <code>false</code> otherwise
-     */
-    public final boolean isRowsTreatedSameSize() {
-        return rowsTreatedSameSize;
-    }
-
-    /**
-     * Sets if rows are adjusted to be all the same size as the first row
-     * 
-     * @param rowsTreatedSameSize
-     *            <code>true</code> if rows are adjusted to be all the same size as the first row
-     *            <code>false</code> otherwise
-     * @exception IOException
-     *                if the reader is already is use
-     */
-    public final void setRowsTreatedSameSize(boolean rowsTreatedSameSize) throws IOException {
-        if (rowsTreatedSameSize != this.rowsTreatedSameSize) {
-            if (isInUse())
-                throw new IOException("Paramater can not be changed while reader is in use");
-
-            this.rowsTreatedSameSize = rowsTreatedSameSize;
-        }
-    }
-
-
-    /**
-     * Determines if the reader should attempt to convert values
-     * 
-     * @return <code>true</code> if the reader should attempt to convert values,
-     *         <code>false</code> otherwise
-     */
-    public final boolean isConvertingValues() {
-        return convertingValues;
-    }
-
-    /**
-     * Sets if the reader should attempt to convert values.
-     * 
-     * @param convertingValues
-     *            <code>true</code> if the read should attempt to convert
-     *            values, <code>false</code> otherwise
-     * @exception IOException
-     *                if the reader is already is use
-     */
-    public final void setConvertingValues(boolean convertingValues) throws IOException {
-        if (convertingValues != this.convertingValues) {
-            if (isInUse())
-                throw new IOException("Paramater can not be changed while reader is in use");
-
-            this.convertingValues = convertingValues;
-        }
-    }
-
-    /**
-     * Determines if the reader should parse empty strings
-     * 
-     * @return <code>true</code> if the reader should parse empty strings,
-     *         <code>false</code> otherwise
-     */
-    public final boolean isParsingEmptyStrings() {
-        return parsingEmptyStrings;
-    }
-
-    /**
-     * Sets if the reader should parse empty strings.
-     * 
-     * @param parsingEmptyStrings
-     *            <code>true</code> if the read should should parse empty
-     *            strings, <code>false</code> otherwise
-     * @exception IOException
-     *                if the reader is already is use
-     */
-    public final void setParsingEmptyStrings(boolean parsingEmptyStrings) throws IOException {
-        if (this.parsingEmptyStrings != parsingEmptyStrings) {
-            if (isInUse())
-                throw new IOException("Paramater can not be changed while reader is in use");
-
-            this.parsingEmptyStrings = parsingEmptyStrings;
-
-            updatePattern();
+            this.options = options;
+            
+            updatePattern(); 
         }
     }
 
@@ -570,7 +506,10 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
                 || (getCommentString() != null && line.trim().startsWith(getCommentString())))) {
             return null;
         } else {
-            return pattern.split(line);
+            if (hasOption(IGNORE_MULTIPLE_DELIMITERS))
+                return pattern.split(line);
+            else
+                return pattern.split(line, -1);
         }
     }
 
@@ -589,14 +528,11 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
 
     private final void updatePattern() {
         // TODO need to check for special characters
-        if (ignoringMultipleDelimiters)
-            pattern = Pattern.compile(getDelimiterString() + "+", Pattern.DOTALL);
-        else
-            pattern = Pattern.compile(getDelimiterString(), Pattern.DOTALL);
+        pattern = Pattern.compile(getDelimiterString(), Pattern.DOTALL);
     }
 
     protected String convertToken(String string) {
-        if (isParsingEmptyStrings())
+        if (hasOption(PARSE_EMPTY_STRINGS))
             return string;
         else if (string != null)
             if ("".equals(string.trim()))
@@ -604,6 +540,16 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             else
                 return string;
         else
+            return null;
+    }
+    
+    protected String convertTokenWithTrim(String string) {
+        
+        String token = convertToken(string) ;
+        
+        if (token != null)
+            return token.trim() ;
+        else 
             return null;
     }
 
@@ -783,7 +729,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new ArrayList<Object>(requestedSize - startIndex);
             }
@@ -816,7 +762,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new ArrayList<String>(requestedSize - startIndex);
             }
@@ -844,7 +790,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new ArrayList<Integer>(requestedSize - startIndex);
             }
@@ -872,7 +818,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new ArrayList<Double>(requestedSize - startIndex);
             }
@@ -900,7 +846,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new ArrayList<Boolean>(requestedSize - startIndex);
             }
@@ -928,7 +874,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new Object[requestedSize - startIndex];
             }
@@ -958,7 +904,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new String[requestedSize - startIndex];
             }
@@ -967,8 +913,12 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
                 row = new String[size - startIndex];               
             }
             
-            for (int i = startIndex; i < size; ++i)
-                row[i - startIndex] = convertToken(line[i]);
+            if (this.hasOption(REMOVE_WHITE_SPACE))
+                for (int i = startIndex; i < size; ++i)
+                    row[i - startIndex] = convertTokenWithTrim(line[i]);
+            else
+                for (int i = startIndex; i < size; ++i)
+                    row[i - startIndex] = convertToken(line[i]);                
         } else {
             row = new String[0];
         }
@@ -983,7 +933,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new int[requestedSize - startIndex];
             }
@@ -1008,7 +958,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new double[requestedSize - startIndex];
             }
@@ -1033,7 +983,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (rowsTreatedSameSize)
+            if (hasOption(ROWS_SAME_SIZE))
             {
                 row = new boolean[requestedSize - startIndex];
             }
@@ -1049,6 +999,10 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         }
 
         return row;
+    }
+    
+    private boolean hasOption(int option) {
+        return (options & option) > 0;
     }
 
     /**

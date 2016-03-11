@@ -33,6 +33,8 @@ public class TXTFileTextFileRowReaderIntTestWithGaps extends RowReaderIntTest
 		
 		reader.setDelimiterString(TextFileHandler.TAB);
 		
+		reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE);
+		
 		return reader ;
 	}
 	

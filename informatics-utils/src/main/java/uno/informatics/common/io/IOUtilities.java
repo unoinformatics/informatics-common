@@ -34,12 +34,12 @@ import uno.informatics.common.io.text.TextFileRowWriter;
  */
 public class IOUtilities
 {
-	public static final RowReader createRowReader(FileProperties fileProperties) throws IOException
+	public static final RowReader createRowReader(FileProperties fileProperties, int... options) throws IOException
 	{
-		return createRowReader(fileProperties.getFile(), fileProperties.getFileType()) ;
+		return createRowReader(fileProperties.getFile(), fileProperties.getFileType(), options) ;
 	}
 
-	public static final RowReader createRowReader(File file, FileType fileType) throws IOException
+	public static final RowReader createRowReader(File file, FileType fileType, int... options) throws IOException
 	{
 		RowReader reader = null ;
 		
@@ -49,6 +49,8 @@ public class IOUtilities
 				TextFileRowReader textFileRowStringReader = new TextFileRowReader(file) ;
 
 				textFileRowStringReader.setDelimiterString(COMMA) ;
+				
+	                        textFileRowStringReader.setOptions(getOptions(options));
 
 				reader = textFileRowStringReader ;
 				break;
@@ -56,6 +58,8 @@ public class IOUtilities
 				textFileRowStringReader = new TextFileRowReader(file) ;
 
 				textFileRowStringReader.setDelimiterString(TAB) ;
+				
+	                        textFileRowStringReader.setOptions(getOptions(options));
 
 				reader = textFileRowStringReader ;
 				break;
@@ -73,7 +77,7 @@ public class IOUtilities
 	}	
 	
 	public static RowReader createRowReader(BufferedReader bufferedReader,
-			FileType fileType) throws IOException
+			FileType fileType, int... options) throws IOException
 	{
 		RowReader reader = null ;
 		
@@ -83,6 +87,8 @@ public class IOUtilities
 				TextFileRowReader textFileRowStringReader = new TextFileRowReader(bufferedReader) ;
 
 				textFileRowStringReader.setDelimiterString(COMMA) ;
+				
+                                textFileRowStringReader.setOptions(getOptions(options));
 
 				reader = textFileRowStringReader ;
 				break;
@@ -90,6 +96,8 @@ public class IOUtilities
 				textFileRowStringReader = new TextFileRowReader(bufferedReader) ;
 
 				textFileRowStringReader.setDelimiterString(TAB) ;
+				
+	                        textFileRowStringReader.setOptions(getOptions(options));
 
 				reader = textFileRowStringReader ;
 				break;
@@ -106,12 +114,12 @@ public class IOUtilities
 		return reader ;
 	}
 	
-	public static final RowWriter createRowWriter(FileProperties fileProperties) throws IOException
+	public static final RowWriter createRowWriter(FileProperties fileProperties, int... options) throws IOException
 	{
-		return createRowWriter(fileProperties.getFile(), fileProperties.getFileType()) ;
+		return createRowWriter(fileProperties.getFile(), fileProperties.getFileType(), options) ;
 	}
 
-	public static final RowWriter createRowWriter(File file, FileType fileType) throws IOException
+	public static final RowWriter createRowWriter(File file, FileType fileType, int... options) throws IOException
 	{
 		RowWriter writer = null ;
 		
@@ -144,7 +152,7 @@ public class IOUtilities
 		return writer ;
 	}	
 	
-	public static final RowWriter createRowWriter(BufferedWriter bufferedWriter, FileType fileType) throws IOException
+	public static final RowWriter createRowWriter(BufferedWriter bufferedWriter, FileType fileType, int... options) throws IOException
 	{
 		RowWriter writer = null ;
 		
@@ -177,7 +185,7 @@ public class IOUtilities
 		return writer ;
 	}
 	
-	public static final List<String> getSheets(FileProperties fileProperties) throws IOException
+	public static final List<String> getSheets(FileProperties fileProperties, int... options) throws IOException
 	{
 		if (fileProperties == null)
 			throw new IOException("File properties not defined!") ;
@@ -214,5 +222,15 @@ public class IOUtilities
 		{
 			throw new DatasetException(e) ;
 		}*/
+	}
+	
+	private static final int getOptions(int... options)
+	{
+	    int combinedOptions = 0 ;
+	    
+	    for (int i = 0 ; i < options.length ;  ++i)
+	        combinedOptions = combinedOptions | options[i] ;
+	    
+	    return combinedOptions ;
 	}
 }
