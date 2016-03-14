@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import uno.informatics.common.io.TextFileHandler;
 
-public class DoubleCSVTextFileRowReaderText {
+public class DoubleCSVTextFileRowReaderTest {
     
     @Test
     public void testReadCells1a() {
