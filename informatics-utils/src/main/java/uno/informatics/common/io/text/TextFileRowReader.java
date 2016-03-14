@@ -532,6 +532,24 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     }
 
     protected String convertToken(String string) {
+        if (hasOption(REMOVE_WHITE_SPACE))
+            return convertTokenWithTrim(string) ;
+        else
+            return convertTokenWithoutTrim(string) ;
+    }
+    
+    protected String convertTokenWithTrim(String string) {
+        
+        String token = convertTokenWithoutTrim(string) ;
+        
+        if (token != null)
+            return token.trim() ;
+        else 
+            return null;
+    }
+    
+    protected String convertTokenWithoutTrim(String string) {
+        
         if (hasOption(PARSE_EMPTY_STRINGS))
             return string;
         else if (string != null)
@@ -542,16 +560,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         else
             return null;
     }
-    
-    protected String convertTokenWithTrim(String string) {
-        
-        String token = convertToken(string) ;
-        
-        if (token != null)
-            return token.trim() ;
-        else 
-            return null;
-    }
+
 
     protected int getDefaultConversionTypes() {
         return defaultConversionTypes;
@@ -635,7 +644,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     private int parseCellAsInt(int index) throws IOException {
         if (line != null) {
             try {
-                Integer value = ConversionUtilities.convertToInteger(convertToken(line[index]));
+                Integer value = ConversionUtilities.convertToInteger(convertTokenWithoutTrim(line[index]));
                 if (value != null)
                     return (int) value;
                 else
@@ -652,7 +661,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     private Integer parseCellAsIntegerObject(int index) throws IOException {
         if (line != null) {
             try {
-                return ConversionUtilities.convertToInteger(convertToken(line[index]));
+                return ConversionUtilities.convertToInteger(convertTokenWithoutTrim(line[index]));
             } catch (Exception e) {
                 throw new IOException("Can not parse cell position " + getRowIndex() + "," + index + " due to "
                         + e.getLocalizedMessage(), e);
@@ -665,7 +674,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     private double parseCellAsDouble(int index) throws IOException {
         if (line != null) {
             try {
-                Double value = ConversionUtilities.convertToDouble(convertToken(line[index]));
+                Double value = ConversionUtilities.convertToDouble(convertTokenWithoutTrim(line[index]));
                 if (value != null)
                     return (double) value;
                 else
@@ -682,7 +691,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     private Double parseCellAsDoubleObject(int index) throws IOException {
         if (line != null) {
             try {
-                return ConversionUtilities.convertToDouble(convertToken(line[index]));
+                return ConversionUtilities.convertToDouble(convertTokenWithoutTrim(line[index]));
             } catch (Exception e) {
                 throw new IOException("Can not parse cell position " + getRowIndex() + "," + index + " due to "
                         + e.getLocalizedMessage(), e);
@@ -695,7 +704,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     private boolean parseCellAsBoolean(int index) throws IOException {
         if (line != null) {
             try {
-                Boolean value = ConversionUtilities.convertToBoolean(convertToken(line[index]));
+                Boolean value = ConversionUtilities.convertToBoolean(convertTokenWithoutTrim(line[index]));
                 if (value != null)
                     return (boolean) value;
                 else
@@ -712,7 +721,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     private Boolean parseCellAsBooleanObject(int index) throws IOException {
         if (line != null) {
             try {
-                return ConversionUtilities.convertToBoolean(convertToken(line[index]));
+                return ConversionUtilities.convertToBoolean(convertTokenWithoutTrim(line[index]));
             } catch (Exception e) {
                 throw new IOException("Can not parse cell position " + getRowIndex() + "," + index + " due to "
                         + e.getLocalizedMessage(), e);
@@ -739,11 +748,21 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             }
 
             if (conversionTypesCount > 0) {
-                for (int i = startIndex; i < size; ++i)
-                    row.add(parseValue(convertToken(line[i]), getRowIndex(), i, getConversionTypes(i)));
+                if (hasOption(REMOVE_WHITE_SPACE)) {
+                    for (int i = startIndex; i < size; ++i)
+                        row.add(parseValue(convertTokenWithTrim(line[i]), getRowIndex(), i, getConversionTypes(i)));
+                } else {
+                    for (int i = startIndex; i < size; ++i)
+                        row.add(parseValue(convertTokenWithoutTrim(line[i]), getRowIndex(), i));
+                }
             } else {
-                for (int i = startIndex; i < size; ++i)
-                    row.add(parseValue(convertToken(line[i]), getRowIndex(), i));
+                if (hasOption(REMOVE_WHITE_SPACE)) {
+                    for (int i = startIndex; i < size; ++i)
+                        row.add(parseValue(convertTokenWithTrim(line[i]), getRowIndex(), i, getConversionTypes(i)));
+                } else {
+                    for (int i = startIndex; i < size; ++i)
+                        row.add(parseValue(convertTokenWithoutTrim(line[i]), getRowIndex(), i));
+                }  
             }
             
             for (int i = size; i < requestedSize; ++i)
@@ -771,8 +790,12 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
                 row = new ArrayList<String>(size - startIndex);               
             }
             
-            for (int i = startIndex; i < size; ++i)
-                row.add(convertToken(line[i]));
+            if (hasOption(REMOVE_WHITE_SPACE))
+                for (int i = startIndex; i < size; ++i)
+                    row.add(convertTokenWithTrim(line[i]));
+            else
+                for (int i = startIndex; i < size; ++i)
+                    row.add(convertTokenWithoutTrim(line[i]));    
             
             for (int i = size; i < requestedSize; ++i)
                 row.add(null);
@@ -884,11 +907,21 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             }
 
             if (conversionTypesCount > 0) {
-                for (int i = startIndex; i < size; ++i)
-                    row[i - startIndex] = parseValue(convertToken(line[i]), getRowIndex(), i, getConversionTypes(i));
+                if (hasOption(REMOVE_WHITE_SPACE)) {
+                    for (int i = startIndex; i < size; ++i)
+                        row[i - startIndex] = parseValue(convertTokenWithTrim(line[i]), getRowIndex(), i, getConversionTypes(i));
+                } else {
+                    for (int i = startIndex; i < size; ++i)
+                        row[i - startIndex] = parseValue(convertTokenWithoutTrim(line[i]), getRowIndex(), i);
+                }
             } else {
-                for (int i = startIndex; i < size; ++i)
-                    row[i - startIndex] = parseValue(convertToken(line[i]), getRowIndex(), i);
+                if (hasOption(REMOVE_WHITE_SPACE)) {
+                    for (int i = startIndex; i < size; ++i)
+                        row[i - startIndex] = parseValue(convertTokenWithTrim(line[i]), getRowIndex(), i, getConversionTypes(i));
+                } else {
+                    for (int i = startIndex; i < size; ++i)
+                        row[i - startIndex] = parseValue(convertTokenWithoutTrim(line[i]), getRowIndex(), i);
+                }
             }
         } else {
             row = new Object[0];
@@ -918,7 +951,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
                     row[i - startIndex] = convertTokenWithTrim(line[i]);
             else
                 for (int i = startIndex; i < size; ++i)
-                    row[i - startIndex] = convertToken(line[i]);                
+                    row[i - startIndex] = convertTokenWithoutTrim(line[i]);                
         } else {
             row = new String[0];
         }
