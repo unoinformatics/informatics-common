@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import uno.informatics.common.ConversionException;
@@ -51,12 +52,13 @@ import uno.informatics.data.utils.DatasetUtils;
  *
  */
 public class ArrayFeatureDataset extends AbstractFeatureDataset {
+    
     private static final String NAME = "NAME";
     private static final String ID = "ID";
     private static final String TYPE = "TYPE";
     private static final String MIN = "MIN";
     private static final String MAX = "MAX";
-
+    
     private FeatureDatasetRow[] rows;
     private int rowCount;
     private FeaturePojo rowHeaderFeature;
@@ -656,7 +658,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
     private static List<FeaturePojo> createFeatures(List<String> columnNames, List<String> typeCells,
             List<String> minCells, List<String> maxCells) throws DatasetException {
-        List<FeaturePojo> features = new ArrayList<FeaturePojo>(columnNames.size());
+        List<FeaturePojo> features = new ArrayList<>(columnNames.size());
 
         Iterator<String> iterator1 = columnNames.iterator();
         Iterator<String> iterator2 = typeCells.iterator();
@@ -676,10 +678,15 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
             ScalePojo scale;
 
-            ScaleType scaleType = type != null && type.length() > 0 ? getScaleTypeByAbbreviation(type.substring(0, 1))
+            // default to nominal
+            ScaleType scaleType = type != null && type.length() > 0
+                    ? getScaleTypeByAbbreviation(type.substring(0, 1))
                     : ScaleType.NOMINAL;
-            DataType dataType = type != null && type.length() > 1 ? getDataTypeByAbbreviation(type.substring(1, 2))
-                    : DataType.STRING;
+            
+            // set default or specified encoding
+            DataType dataType = type != null && type.length() > 1
+                    ? getDataTypeByAbbreviation(type.substring(1, 2))
+                    : scaleType.getDefaultEncoding();
 
             Number minNumber = null;
             Number maxNumber = null;

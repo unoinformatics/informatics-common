@@ -17,17 +17,23 @@ package uno.informatics.data;
 
 public enum ScaleType
 {
-  NONE("None", "X"), NOMINAL("Nominal", "N"), ORDINAL("Ordinal", "O"), INTERVAL("Interval", "I"), RATIO("Ratio", "R");
+  NONE("None", "X", DataType.UNKNOWN),
+  NOMINAL("Nominal", "N", DataType.STRING),
+  ORDINAL("Ordinal", "O", DataType.INTEGER),
+  INTERVAL("Interval", "I", DataType.INTEGER),
+  RATIO("Ratio", "R", DataType.DOUBLE);
   
-  private String                   name;
-  private String                   abbreviation;
+  private String   name;
+  private String   abbreviation;
+  private DataType defaultEncoding;
                                    
   private static final ScaleType[] allTypes = new ScaleType[] { NONE, NOMINAL, ORDINAL, INTERVAL, RATIO };
                                             
-  private ScaleType(String name, String abbreviation)
+  private ScaleType(String name, String abbreviation, DataType defaultEncoding)
   {
     this.name = name;
     this.abbreviation = abbreviation;
+    this.defaultEncoding = defaultEncoding;
   }
   
   private ScaleType(String name)
@@ -40,9 +46,13 @@ public enum ScaleType
     return name;
   }
   
-  public final String getAbbreviation()
+  public String getAbbreviation()
   {
     return abbreviation;
+  }
+  
+  public DataType getDefaultEncoding(){
+      return defaultEncoding;
   }
   
   public static final ScaleType[] getAllTypes()
