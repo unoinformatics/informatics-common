@@ -664,22 +664,22 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         Iterator<String> iterator4 = maxCells.iterator();
 
         while (iterator1.hasNext())
-            features.add(createFeaure(iterator1.next(), iterator2.hasNext() ? iterator2.next() : null,
+            features.add(createFeature(iterator1.next(), iterator2.hasNext() ? iterator2.next() : null,
                     iterator3.hasNext() ? iterator3.next() : null, iterator4.hasNext() ? iterator4.next() : null));
 
         return features;
     }
 
-    private static FeaturePojo createFeaure(String name, String type, String min, String max) throws DatasetException {
+    private static FeaturePojo createFeature(String name, String type, String min, String max) throws DatasetException {
         try {
             FeaturePojo feature = new FeaturePojo(name);
 
             ScalePojo scale;
 
-            DataType dataType = type != null && type.length() > 0 ? getDataTypeByAbbreviation(type.substring(1, 2))
-                    : DataType.STRING;
-            ScaleType scaleType = type != null && type.length() > 1 ? getScaleTypeByAbbreviation(type.substring(0, 1))
+            ScaleType scaleType = type != null && type.length() > 0 ? getScaleTypeByAbbreviation(type.substring(0, 1))
                     : ScaleType.NOMINAL;
+            DataType dataType = type != null && type.length() > 1 ? getDataTypeByAbbreviation(type.substring(1, 2))
+                    : DataType.STRING;
 
             Number minNumber = null;
             Number maxNumber = null;
