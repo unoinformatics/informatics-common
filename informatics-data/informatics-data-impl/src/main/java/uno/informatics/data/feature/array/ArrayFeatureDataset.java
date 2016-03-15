@@ -727,12 +727,12 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         Iterator<String> iterator = cells.iterator();
 
         while (iterator.hasNext())
-            features.add(createDefaultFeaure(iterator.next()));
+            features.add(createDefaultFeature(iterator.next()));
 
         return features;
     }
 
-    private static FeaturePojo createDefaultFeaure(String name) {
+    private static FeaturePojo createDefaultFeature(String name) {
         FeaturePojo feature = new FeaturePojo(name);
 
         ScalePojo scale = new ScalePojo(name);
@@ -840,7 +840,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length)
                     throw new IllegalArgumentException("Row : " + i + " size : " + values[i].length
-                            + " does not match the number of feaures : " + columnCount);
+                            + " does not match the number of features : " + columnCount);
 
                 rows[i] = new ArrayFeatureDatasetRow(values[i]);
             }
@@ -867,7 +867,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
-                            + " does not match the number of feaures : " + columnCount);
+                            + " does not match the number of features : " + columnCount);
 
                 rows[i] = ArrayFeatureDatasetRow.createRow(true, values[i]);
             }
@@ -897,7 +897,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
-                            + " does not match the number of feaures : " + columnCount);
+                            + " does not match the number of features : " + columnCount);
 
                 rows[i] = ArrayFeatureDatasetRow.createRow(headers[i], values[i]);
             }
@@ -931,7 +931,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
-                            + " does not match the number of feaures : " + columnCount);
+                            + " does not match the number of features : " + columnCount);
 
                 rows[i] = ArrayFeatureDatasetRow.createRow(headers[i], values[i]);
             }

@@ -15,6 +15,7 @@
  */
 package uno.informatics.data.pojo ;
 
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -111,8 +112,7 @@ public class SimpleEntityPojo extends PropertyHandler implements SimpleEntity
   {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((name == null) ? 0 : name.hashCode());
-    result = prime * result + ((uniqueIdentifier == null) ? 0 : uniqueIdentifier.hashCode());
+    result = prime * result + Objects.hashCode(this.uniqueIdentifier);
     return result;
   }
 
@@ -122,25 +122,26 @@ public class SimpleEntityPojo extends PropertyHandler implements SimpleEntity
     return ToStringBuilder.reflectionToString(this) ;
   }
   
-  @Override
-  public boolean equals(Object object)
-  {
-    if (object == null)
-      return false;
+    @Override
+    public boolean equals(Object object) {
+        
+        if (object == null) {
+            return false;
+        }
+        
+        if (object == this) {
+            return true;
+        }
 
-    if (object instanceof SimpleEntity)
-    {
-      if (getUniqueIdentifier() != null && ((SimpleEntity) object).getUniqueIdentifier() != null)
-        return this == object || StringUtils.equals(((SimpleEntityPojo) object)
-          .getUniqueIdentifier(), this.getUniqueIdentifier());
-      else
-        return super.equals(object);
+        if (object instanceof SimpleEntity) {
+            SimpleEntity se = (SimpleEntity) object;
+            return getUniqueIdentifier() != null && se.getUniqueIdentifier() != null
+                   && StringUtils.equals(se.getUniqueIdentifier(), this.getUniqueIdentifier());
+        }
+        
+        return false;
+        
     }
-    else
-    {
-      return super.equals(object);
-    }
-  }
   
   protected void initialise()
   {
