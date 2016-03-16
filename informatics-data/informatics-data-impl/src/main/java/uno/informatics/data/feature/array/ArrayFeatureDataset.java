@@ -636,23 +636,25 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         updateRowScales(features, values);
     }
 
-    private static void addHeaders(FeaturePojo rowHeaderFeature, String rowName, String rowId,
-            List<SimpleEntity> rowHeaders) {
-        if (rowName != null) {
-            if (rowId != null) {
-                SimpleEntityPojo simpleEntityPojo = new SimpleEntityPojo(rowId, rowName);
-                rowHeaders.add(simpleEntityPojo);
-
-                if (rowHeaderFeature != null)
-                    updateRowHeaderScale(rowHeaderFeature, simpleEntityPojo);
+    private static void addHeaders(FeaturePojo rowHeaderFeature,
+                                   String rowName, String rowId,
+                                   List<SimpleEntity> rowHeaders) {
+        
+        if(rowHeaders != null && (rowName != null || rowId != null)){
+            SimpleEntity header;
+            if(rowId == null){
+                // only name set
+                header = new SimpleEntityPojo(rowName);
             } else {
-                SimpleEntityPojo simpleEntityPojo = new SimpleEntityPojo(rowName);
-                rowHeaders.add(simpleEntityPojo);
-
-                if (rowHeaderFeature != null)
-                    updateRowHeaderScale(rowHeaderFeature, simpleEntityPojo);
+                // id assigned (name might be undefined)
+                header = new SimpleEntityPojo(rowId, rowName);
+            }
+            rowHeaders.add(header);
+            if(rowHeaderFeature != null){
+                updateRowHeaderScale(rowHeaderFeature, header);
             }
         }
+
     }
 
     private static String createDescription(File file) {
