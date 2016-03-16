@@ -640,17 +640,19 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
                                    String rowName, String rowId,
                                    List<SimpleEntity> rowHeaders) {
         
-        if(rowHeaders != null && (rowName != null || rowId != null)){
-            SimpleEntity header;
-            if(rowId == null){
-                // only name set
-                header = new SimpleEntityPojo(rowName);
-            } else {
-                // id assigned (name might be undefined)
-                header = new SimpleEntityPojo(rowId, rowName);
+        if(rowHeaders != null){
+            SimpleEntity header = null;
+            if(rowName != null || rowId != null){
+                if(rowId == null){
+                    // only name set
+                    header = new SimpleEntityPojo(rowName);
+                } else {
+                    // id set (name might be undefined)
+                    header = new SimpleEntityPojo(rowId, rowName);
+                }
             }
             rowHeaders.add(header);
-            if(rowHeaderFeature != null){
+            if(header != null && rowHeaderFeature != null){
                 updateRowHeaderScale(rowHeaderFeature, header);
             }
         }
