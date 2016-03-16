@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import uno.informatics.common.ConversionException;
@@ -421,7 +420,11 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             throw new DatasetException("File does not exist : " + file);
 
         try {
-            reader = IOUtilities.createRowReader(file, fileType, TextFileRowReader.ROWS_SAME_SIZE);
+            reader = IOUtilities.createRowReader(
+                    file, fileType,
+                    TextFileRowReader.ROWS_SAME_SIZE,
+                    TextFileRowReader.REMOVE_WHITE_SPACE
+            );
 
             if (reader != null && reader.ready()) {
                 int columnCount = 0;
