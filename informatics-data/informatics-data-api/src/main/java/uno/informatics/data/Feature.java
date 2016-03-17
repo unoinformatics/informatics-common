@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
-public interface Feature extends Entity
-{
-  /**
-   * Gets the method by which is feature is measured
-   * 
-   * @return the method by which is feature is measured
-   */
-	public Method getMethod();
+public interface Feature extends Entity {
+    /**
+     * Gets the method by which is feature is measured
+     * 
+     * @return the method by which is feature is measured
+     */
+    public Method getMethod();
 }

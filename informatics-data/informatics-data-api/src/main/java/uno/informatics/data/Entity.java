@@ -13,27 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
-public interface Entity extends SimpleEntity
-{  
+public interface Entity extends SimpleEntity {
 
-  public String getDescription();
-  
-  /**
-   * Gets a short abbreviation that can be used in place of the name. 
-   * @return a short abbreviation that can be used in place of the name, 
-   * or <code>null</code> if no abbreviation is available
-   */
-  public String getAbbreviation();
+    /**
+     * Get a description for this entity
+     * 
+     * @return a description for this entity
+     */
+    public String getDescription();
 
-  /**
-   * Gets the type of this entity as defined in a specific ontology. 
-   *  
-   * @return the type of this entity, null if the type has no defined, 
-   * or <code>null</code> if the type is not defined is available
-   */
-  public OntologyTerm getType();
+    /**
+     * Gets a short abbreviation that can be used in place of the name.
+     * 
+     * @return a short abbreviation that can be used in place of the name, or
+     *         <code>null</code> if no abbreviation is available
+     */
+    public String getAbbreviation();
 
+    /**
+     * Gets the type of this entity as defined in a specific ontology.
+     * 
+     * @return the type of this entity, null if the type has no defined, or
+     *         <code>null</code> if the type is not defined is available
+     */
+    public OntologyTerm getType();
 
 }

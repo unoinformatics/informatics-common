@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data.tests.feature;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -30,61 +31,63 @@ import uno.informatics.data.tests.TestData;
  * @author Guy Davenport
  *
  */
-public abstract class DatasetTest extends TestData
-{
-	
-	
-	/**
-	 * Test method for {@link uno.informatics.data.tests.feature.array.ArrayFeatureDataset.ArrayDataset#getRowCount()}.
-	 */
-	@Test
-	public void testGetRowCount()
-	{
-		FeatureDataset dataset = createDataset() ;
-		
-		assertEquals(ROWS_AS_LIST.size(), dataset.getRowCount()) ;
-	}
+public abstract class DatasetTest extends TestData {
 
-	/**
-	 * Test method for {@link uno.informatics.data.tests.feature.array.ArrayFeatureDataset.ArrayDataset#getRowsAsArray()}.
-	 */
-	@Test
-	public void testGetRowsAsArray()
-	{
-		FeatureDataset dataset = createDataset() ;
-		
-		FeatureDatasetRow[] rows = dataset.getRowsAsArray() ;
-		
-		for (int i = 0 ; i < rows.length ; ++i)
-			assertArrayEquals(OBJECT_TABLE_AS_ARRAY[i], rows[i].getValuesAsArray()) ;
-	}
+    /**
+     * Test method for
+     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDataset.ArrayDataset#getRowCount()}
+     * .
+     */
+    @Test
+    public void testGetRowCount() {
+        FeatureDataset dataset = createDataset();
 
-	/**
-	 * Test method for {@link uno.informatics.data.tests.feature.array.ArrayFeatureDataset.ArrayDataset#getRows()}.
-	 */
-	@Test
-	public void testGetRows()
-	{
-		FeatureDataset dataset = createDataset() ;
-		
-		List<FeatureDatasetRow> rows = dataset.getRows() ;
-		
-		FeatureDatasetRow[] array = dataset.getRows().toArray(new FeatureDatasetRow[rows.size()]) ;
-		
-		for (int i = 0 ; i < array.length ; ++i)
-			assertArrayEquals(OBJECT_TABLE_AS_ARRAY[i], array[i].getValuesAsArray()) ;
-	}
+        assertEquals(ROWS_AS_LIST.size(), dataset.getRowCount());
+    }
 
-	/**
-	 * Test method for {@link uno.uno.informatics.data.feature.AbstractFeatureDataset.AbstractDataset#getFeatures()}.
-	 */
-	@Test
-	public void testGetFeatures()
-	{
-		FeatureDataset dataset = createDataset() ;
-		
-		assertEquals(OBJECT_FEATURES, dataset.getFeatures()) ;
-	}
+    /**
+     * Test method for
+     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDataset.ArrayDataset#getRowsAsArray()}
+     * .
+     */
+    @Test
+    public void testGetRowsAsArray() {
+        FeatureDataset dataset = createDataset();
 
-  protected abstract FeatureDataset createDataset() ;
+        FeatureDatasetRow[] rows = dataset.getRowsAsArray();
+
+        for (int i = 0; i < rows.length; ++i)
+            assertArrayEquals(OBJECT_TABLE_AS_ARRAY[i], rows[i].getValuesAsArray());
+    }
+
+    /**
+     * Test method for
+     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDataset.ArrayDataset#getRows()}
+     * .
+     */
+    @Test
+    public void testGetRows() {
+        FeatureDataset dataset = createDataset();
+
+        List<FeatureDatasetRow> rows = dataset.getRows();
+
+        FeatureDatasetRow[] array = dataset.getRows().toArray(new FeatureDatasetRow[rows.size()]);
+
+        for (int i = 0; i < array.length; ++i)
+            assertArrayEquals(OBJECT_TABLE_AS_ARRAY[i], array[i].getValuesAsArray());
+    }
+
+    /**
+     * Test method for
+     * {@link uno.uno.informatics.data.feature.AbstractFeatureDataset.AbstractDataset#getFeatures()}
+     * .
+     */
+    @Test
+    public void testGetFeatures() {
+        FeatureDataset dataset = createDataset();
+
+        assertEquals(OBJECT_FEATURES, dataset.getFeatures());
+    }
+
+    protected abstract FeatureDataset createDataset();
 }

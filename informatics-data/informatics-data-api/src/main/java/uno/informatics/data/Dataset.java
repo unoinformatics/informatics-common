@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
-public interface Dataset extends Entity
-{
-  /**
-   * Gets the study to which this dataset belongs
-   * 
-   * @return the study to which this dataset belongs
-   */
-  public Study getStudy() ;
+public interface Dataset extends Entity {
+    /**
+     * Gets the study to which this dataset belongs
+     * 
+     * @return the study to which this dataset belongs
+     */
+    public Study getStudy();
 
 }

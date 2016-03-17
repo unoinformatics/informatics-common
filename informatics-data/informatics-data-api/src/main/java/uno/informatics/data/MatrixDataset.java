@@ -13,50 +13,110 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
 import java.util.List;
 
 /**
- * API for datasets that consist of a 2-dimensional matrix of elements of a single type
- * The efficiency of each of the methods depends highly on the implementation, 
- * which may be Array based, List based, or a wrapper around another type of storage.
- * The methods {@link #getRowCount()} and {@link #getColumnCount()} should be efficient and give a good
- * indication of the size of the dataset. If the row count and or column count is high use 
+ * API for datasets that consist of a 2-dimensional matrix of elements of a
+ * single type. The efficiency of each of the methods depends highly on the
+ * implementation, which may be Array based, List based, or a wrapper around
+ * another type of storage. The methods {@link #getRowCount()} and
+ * {@link #getColumnCount()} should be efficient and give a good indication of
+ * the size of the dataset. If the row count and or column count is high use
  * {@link #getValue(int, int)} to subset the dataset.
  * 
  * @author Guy Davenport
  *
  */
-public interface MatrixDataset<ValueType extends Object> extends Dataset
-{
-  public List<List<ValueType>> getValues();
-  
-  public ValueType[][] getValuesAsArray();
-  
-  public ValueType getValue(int rowIndex, int columnIndex);
-	
-  public int getRowCount() ;
-	
-  public int getColumnCount() ;
-	
-	public boolean hasRowHeaders();
-	
-	public Feature getRowHeaderFeature();
-	
-  public List<Object> getRowHeaders();
-  
-  public Object[] getRowHeadersAsArray();
-  
-  public Object getRowHeader(int rowIndex);
-	
-	public Feature getColumnHeaderFeature();
-	
-  public List<Object> getColumnHeaders();
-  
-  public Object[] getColumnHeadersAsArray();
-  
-  public Object getColumnHeader(int columnIndex);
+public interface MatrixDataset<ValueType extends Object> extends Dataset {
+    /**
+     * Gets all the values in the matrix as a list of lists
+     * @return all the values in the matrix as a list of lists
+     */
+    public List<List<ValueType>> getValues();
 
-  public boolean hasColumnHeaders();
+    /**
+     * Gets all values as 2-dimension array
+     * @return all values as 2-dimension array
+     */
+    public ValueType[][] getValuesAsArray();
+
+    /**
+     * Gets the value in the matrix at a given row and column
+     * @param rowIndex the row index of the required value
+     * @param columnIndex the column index of the required value
+     * @return the value in the matrix at a given row index and column index
+     */
+    public ValueType getValue(int rowIndex, int columnIndex);
+
+    /**
+     * Gets the row dimension size of the matrix
+     * @return the number of rows in the matrix
+     */
+    public int getRowCount();
+
+    /**
+     * Gets the column dimension size of the matrix
+     * @return the number of columns in the matrix
+     */
+    public int getColumnCount();
+
+    /**
+     * Determines if the matrix has row headers
+     * @return <code>true</code> if the matrix has row headers, <code>false</code> otherwise 
+     */
+    public boolean hasRowHeaders();
+
+    /**
+     * Gets a list of the row headers for the matrix
+     * @return a list of the row headers
+     */
+    public List<SimpleEntity> getRowHeaders();
+
+    /**
+     * Gets an array of the row headers for the matrix
+     * @return an array of the row headers
+     */
+    public SimpleEntity[] getRowHeadersAsArray();
+
+    /**
+     * Gets the row header at a given row
+     * @param rowIndex the row index of the required value
+     * @return the row header at a given row index
+     */
+    public SimpleEntity getRowHeader(int rowIndex);
+
+    /**
+     * Determines if the matrix has column headers
+     * @return <code>true</code> if the matrix has column headers, <code>false</code> otherwise 
+     */
+    public boolean hasColumnHeaders();
+
+    /**
+     * Gets a list of the column headers for the matrix
+     * @return a list of the column headers
+     */
+    public List<SimpleEntity> getColumnHeaders();
+
+    /**
+     * Gets an array of the column headers for the matrix
+     * @return an array of the column headers
+     */
+    public SimpleEntity[] getColumnHeadersAsArray();
+
+    /**
+     * Gets the column header at a given row
+     * @param columnIndex the column index of the required value
+     * @return the column header at a given column index
+     */
+    public SimpleEntity getColumnHeader(int columnIndex);
+    
+    /**
+     * Gets the feature that describes the values in the matrix
+     * @return the feature that describes the values in the matrix
+     */
+    public Feature getValueFeature() ;
+
 }

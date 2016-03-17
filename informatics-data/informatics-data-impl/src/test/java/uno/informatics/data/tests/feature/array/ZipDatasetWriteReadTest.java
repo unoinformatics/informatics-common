@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data.tests.feature.array;
 
 import static org.junit.Assert.fail;
@@ -33,90 +34,72 @@ import uno.informatics.data.tests.TestData;
  * @author Guy Davenport
  *
  */
-public class ZipDatasetWriteReadTest extends TestData
-{
-	private static final String FILE = "target/test.zip";
-	private static final String FILE_WITH_HEADER = "target/test_with_header.zip";
+public class ZipDatasetWriteReadTest extends TestData {
+    private static final String FILE = "target/test.zip";
+    private static final String FILE_WITH_HEADER = "target/test_with_header.zip";
 
-	@Test
-	public void testWriteReadTxt()
-	{
-		testWriteRead(FileType.TXT);
-	}
-	
-	@Test
-	public void testWriteReadCSV()
-	{
-		testWriteRead(FileType.CSV);
-	}
+    @Test
+    public void testWriteReadTxt() {
+        testWriteRead(FileType.TXT);
+    }
 
-	/**
-	 * Test method for
-	 * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetReader#read()}
-	 * and
-	 * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetWriter#write(uno.informatics.data.feature.FeatureDataset)}
-	 * ..
-	 */
-	public void testWriteRead(FileType fileType)
-	{
-		FeatureDataset originalDataset = createDataset();
+    @Test
+    public void testWriteReadCSV() {
+        testWriteRead(FileType.CSV);
+    }
 
-		ZipFeatureDatasetWriter writer = new ZipFeatureDatasetWriter(new File(
-				FILE));
+    /**
+     * Test method for
+     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetReader#read()}
+     * and
+     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetWriter#write(uno.informatics.data.feature.FeatureDataset)}
+     * ..
+     */
+    public void testWriteRead(FileType fileType) {
+        FeatureDataset originalDataset = createDataset();
 
-		writer.setFileType(fileType);
+        ZipFeatureDatasetWriter writer = new ZipFeatureDatasetWriter(new File(FILE));
 
-		try
-		{
-			writer.write(originalDataset);
+        writer.setFileType(fileType);
 
-			ZipFeatureDatasetReader reader = new ZipFeatureDatasetReader(
-					new File(FILE));
+        try {
+            writer.write(originalDataset);
 
-			FeatureDataset readDataset = (FeatureDataset) reader.read();
+            ZipFeatureDatasetReader reader = new ZipFeatureDatasetReader(new File(FILE));
 
-			checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, readDataset, BLANK_HEADERS, null, false);
-		}
-		catch (DatasetException e)
-		{
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
+            FeatureDataset readDataset = (FeatureDataset) reader.read();
 
-		try
-		{
-			originalDataset = createDatasetWithHeaders();
+            checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, readDataset, BLANK_HEADERS, false);
+        } catch (DatasetException e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
 
-			writer = new ZipFeatureDatasetWriter(new File(FILE_WITH_HEADER));
+        try {
+            originalDataset = createDatasetWithHeaders();
 
-			writer.setFileType(fileType);
+            writer = new ZipFeatureDatasetWriter(new File(FILE_WITH_HEADER));
 
-			writer.write(originalDataset);
+            writer.setFileType(fileType);
 
-			ZipFeatureDatasetReader reader = new ZipFeatureDatasetReader(
-					new File(FILE_WITH_HEADER));
+            writer.write(originalDataset);
 
-			FeatureDataset readDataset = (FeatureDataset) reader.read();
+            ZipFeatureDatasetReader reader = new ZipFeatureDatasetReader(new File(FILE_WITH_HEADER));
 
-			checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES,
-					readDataset, ROW_HEADERS, NAMES_HEADER_FEATURE, false);
-		}
-		catch (DatasetException e)
-		{
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
+            FeatureDataset readDataset = (FeatureDataset) reader.read();
 
-	protected FeatureDataset createDataset()
-	{
-		return new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES,
-				OBJECT_TABLE_AS_ARRAY);
-	}
+            checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, readDataset, ROW_HEADERS, false);
+        } catch (DatasetException e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+    }
 
-	protected FeatureDataset createDatasetWithHeaders() throws DatasetException
-	{
-		return new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES,
-				OBJECT_TABLE_AS_ARRAY_WITH_HEADER, NAMES_HEADER_FEATURE);
-	}
+    protected FeatureDataset createDataset() {
+        return new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY);
+    }
+
+    protected FeatureDataset createDatasetWithHeaders() throws DatasetException {
+        return new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY_WITH_HEADER, true);
+    }
 }

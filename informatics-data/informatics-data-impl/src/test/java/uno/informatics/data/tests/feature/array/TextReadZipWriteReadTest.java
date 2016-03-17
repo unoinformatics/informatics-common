@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data.tests.feature.array;
 
 /**
  * @author Guy Davenport
  *
  */
-public class TextReadZipWriteReadTest
-{
+public class TextReadZipWriteReadTest {
 
 }

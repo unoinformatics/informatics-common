@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
-public interface SimpleEntity
-{
-  /**
-   * Gets the unique identifier entity, which may be a LSID or other type of identifier
-   * 
-   * @return the unique identifier of the entity being identified
-   */
-  public String getUniqueIdentifier();
-  
-  /**
-   * Gets a human readable name of the entity being identified. 
-   * This name could be used in GUIs, etc.
-   * 
-   * @return a human readable name of the entity being identified
-   */
-  public String getName();
+public interface SimpleEntity {
+    /**
+     * Gets the unique identifier entity, which may be a LSID or other type of
+     * identifier
+     * 
+     * @return the unique identifier of the entity being identified
+     */
+    public String getUniqueIdentifier();
+
+    /**
+     * Gets a human readable name of the entity being identified. This name
+     * could be used in GUIs, etc.
+     * 
+     * @return a human readable name of the entity being identified
+     */
+    public String getName();
 }

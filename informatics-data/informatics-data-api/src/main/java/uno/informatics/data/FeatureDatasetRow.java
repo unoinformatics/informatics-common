@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
 import java.util.List;
@@ -21,15 +22,35 @@ import java.util.List;
  * @author Guy Davenport
  *
  */
-public interface FeatureDatasetRow
-{
-	public List<Object> getValues() ;
-	
-	public Object[] getValuesAsArray() ;
-	
-	public Object getValue(int columnIndex) ;
+public interface FeatureDatasetRow {
+    /**
+     * Gets all the values in the Row as a list
+     * @return all the values in the Row
+     */
+    public List<Object> getValues();
+    
+    /**
+     * Gets all the values in the Row as an array
+     * @return all the values in the Row
+     */
+    public Object[] getValuesAsArray();
 
-  public int getColumnCount();
+    /**
+     * Gets a value in the row at a specific column
+     * @param columnIndex 
+     * @return the value in the row at the give column
+     */
+    public Object getValue(int columnIndex);
 
-  public SimpleEntity getHeader();
+    /**
+     * Gets the size of the row
+     * @return the number values in the row
+     */
+    public int getColumnCount();
+
+    /**
+     * Get the header for the row, or <code>null</code> if the row has no header
+     * @return the header for the row
+     */
+    public SimpleEntity getHeader();
 }

@@ -13,251 +13,234 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package uno.informatics.data.matrix.array;
 
 import static uno.informatics.common.Constants.UNKNOWN_COUNT;
 import static uno.informatics.common.Constants.UNKNOWN_INDEX;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import uno.informatics.common.ConversionUtilities;
 import uno.informatics.common.io.FileProperties;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.data.Feature;
 import uno.informatics.data.MatrixDataset;
+import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.utils.DatasetUtils;
+import uno.informatics.data.pojo.SimpleEntityPojo;
 
 /**
  * @author Guy Davenport
  *
  */
-public class DoubleArrayMatrixDataset extends ArrayMatrixDataset<Double>
-{
-	public DoubleArrayMatrixDataset(String name, Feature elementFeature, Double[][] values)
-	{
-		super(name, elementFeature, values);
-	}
+public class DoubleArrayMatrixDataset extends ArrayMatrixDataset<Double> {
+    public DoubleArrayMatrixDataset(String name, Feature elementFeature, Double[][] values) {
+        super(name, elementFeature, values);
+    }
 
-	public DoubleArrayMatrixDataset(String name, Feature elementFeature, List<List<Double>> values)
-	{
-		super(name, elementFeature, values);
-	}
+    public DoubleArrayMatrixDataset(String name, Feature elementFeature, List<List<Double>> values) {
+        super(name, elementFeature, values);
+    }
 
-	public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature,
-			Double[][] values)
-	{
-		super(uniqueIdentifier, name, elementFeature, values);
-	}
+    public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature, Double[][] values) {
+        super(uniqueIdentifier, name, elementFeature, values);
+    }
 
-	public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature,
-			List<List<Double>> values)
-	{
-		super(uniqueIdentifier, name, elementFeature, values);
-	}
+    public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature,
+            List<List<Double>> values) {
+        super(uniqueIdentifier, name, elementFeature, values);
+    }
 
-	public DoubleArrayMatrixDataset(String uniqueIdentifier, String name,
-			String desription, Feature elementFeature, Double[][] values)
-	{
-		super(uniqueIdentifier, name, desription, elementFeature, values);
-	}
+    public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
+            Double[][] values) {
+        super(uniqueIdentifier, name, desription, elementFeature, values);
+    }
 
-	public DoubleArrayMatrixDataset(String uniqueIdentifier, String name,
-			String desription, Feature elementFeature, List<List<Double>> values)
-	{
-		super(uniqueIdentifier, name, desription, elementFeature, values);
-	}
+    public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
+            List<List<Double>> values) {
+        super(uniqueIdentifier, name, desription, elementFeature, values);
+    }
 
-	public static final MatrixDataset<Double> createMatrixDataset(String uniqueIdentifier, String name, String description, 
-			Feature elementFeature, FileProperties fileProperties, Feature rowHeaderFeature, Feature columnHeaderFeature) throws DatasetException
-	{
-		List<Object> columnHeaders = null ;
-		List<Object> rowHeaders = null ;
-		RowReader reader = null ;
-		List<List<Double>> rowList = new LinkedList<List<Double>>() ;
+    public static final MatrixDataset<Double> createMatrixDataset(String uniqueIdentifier, String name,
+            String description, Feature elementFeature, FileProperties fileProperties) throws DatasetException {
+        List<SimpleEntity> columnHeaders = null;
+        List<SimpleEntity> rowHeaders = null;
+        RowReader reader = null;
+        List<List<Double>> rowList = new LinkedList<List<Double>>();
 
-		if (fileProperties == null)
-			throw new DatasetException("File properties not defined!") ;
+        if (fileProperties == null)
+            throw new DatasetException("File properties not defined!");
 
-		if (fileProperties.getFile() == null)
-			throw new DatasetException("File not defined!") ;
+        if (fileProperties.getFile() == null)
+            throw new DatasetException("File not defined!");
 
-		if (fileProperties.getFileType() == null)
-			throw new DatasetException("File type not defined!") ;
+        if (fileProperties.getFileType() == null)
+            throw new DatasetException("File type not defined!");
 
-		if (fileProperties.getRowHeaderPosition() > UNKNOWN_INDEX && 
-				fileProperties.getDataRowPosition() > UNKNOWN_INDEX && 
-				fileProperties.getDataRowPosition() <= fileProperties.getColumnHeaderPosition())
-			throw new DatasetException("Column header position : " + 
-					fileProperties.getDataRowPosition() + " must be before data position : " + fileProperties.getColumnHeaderPosition()) ;
+        if (fileProperties.getRowHeaderPosition() > UNKNOWN_INDEX && fileProperties.getDataRowPosition() > UNKNOWN_INDEX
+                && fileProperties.getDataRowPosition() <= fileProperties.getColumnHeaderPosition())
+            throw new DatasetException("Column header position : " + fileProperties.getDataRowPosition()
+                    + " must be before data position : " + fileProperties.getColumnHeaderPosition());
 
-		if (!fileProperties.getFile().exists())
-			throw new DatasetException("File does not exist : " + fileProperties.getFile()) ;
+        if (!fileProperties.getFile().exists())
+            throw new DatasetException("File does not exist : " + fileProperties.getFile());
 
-		try
-		{
-			reader = IOUtilities.createRowReader(fileProperties) ;
+        try {
+            reader = IOUtilities.createRowReader(fileProperties);
 
-			if (reader != null && reader.ready())
-			{
-				int columnCount = UNKNOWN_COUNT ;
-				int row = 0 ;
-				List<String> headers ;
-				String rowHeader ;
+            if (reader != null && reader.ready()) {
+                int columnCount = UNKNOWN_COUNT;
+                int row = 0;
+                List<String> headers;
+                String rowHeader;
 
-				if (fileProperties.hasColumnHeader() && columnHeaderFeature != null && reader.nextRow())
-				{
-					++row ;
-					
-					if (fileProperties.getColumnHeaderPosition() > UNKNOWN_INDEX) 
-						while (row < fileProperties.getColumnHeaderPosition() && reader.nextRow())
-							++row ;
+                if (fileProperties.hasColumnHeader() && reader.nextRow()) {
+                    ++row;
 
-					headers = reader.getRowCellsAsString() ;
+                    if (fileProperties.getColumnHeaderPosition() > UNKNOWN_INDEX)
+                        while (row < fileProperties.getColumnHeaderPosition() && reader.nextRow())
+                            ++row;
 
-					if (fileProperties.hasRowHeader() && rowHeaderFeature != null)
-						headers.remove(0) ; // ignore cell!
+                    headers = reader.getRowCellsAsString();
 
-					columnCount = headers.size() ;
+                    if (fileProperties.hasRowHeader())
+                        headers.remove(0); // ignore cell!
 
-					columnHeaders = ConversionUtilities.convertToObjectList(headers, DatasetUtils.getConversionType(columnHeaderFeature)) ;
-				}
+                    columnCount = headers.size();
 
-				List<Double> cells ;
-				
-				if (reader.nextRow())
-				{
-					++row ;
-					
-					if (fileProperties.getDataRowPosition() > UNKNOWN_INDEX) 
-						while (row < fileProperties.getDataRowPosition() && reader.nextRow())
-							++row ;
+                    columnHeaders = new ArrayList<SimpleEntity>(columnCount);
 
-					if (fileProperties.hasRowHeader() && rowHeaderFeature != null)
-					{
-						rowHeaders = new LinkedList<Object>() ;
+                    Iterator<String> iterator = headers.iterator();
 
-						int rowHeaderType = DatasetUtils.getConversionType(rowHeaderFeature) ;
-						
-						reader.nextColumn() ;
-						
-						rowHeader = reader.getCellAsString() ;
-						
-						reader.nextColumn() ;
+                    while (iterator.hasNext())
+                        columnHeaders.add(new SimpleEntityPojo(iterator.next()));
+                }
 
-						cells = reader.getRowCellsAsDouble() ;
+                List<Double> cells;
 
-						rowHeaders.add(ConversionUtilities.convertToObject(rowHeader, rowHeaderType)) ;
+                if (reader.nextRow()) {
+                    ++row;
 
-						if (columnCount == UNKNOWN_COUNT)
-						{
-							columnCount = cells.size() ;
-						}
-						else
-						{
-							if (cells.size() != columnCount)
-								throw new DatasetException("Rows are not all the same size!") ;
-						}
+                    if (fileProperties.getDataRowPosition() > UNKNOWN_INDEX)
+                        while (row < fileProperties.getDataRowPosition() && reader.nextRow())
+                            ++row;
 
-						rowList.add(cells) ;
+                    if (fileProperties.hasRowHeader()) {
+                        rowHeaders = new LinkedList<SimpleEntity>();
 
-						++row ;
+                        reader.nextColumn();
 
-						while (reader.nextRow())
-						{
-							reader.nextColumn() ;
-							
-							rowHeader = reader.getCellAsString() ;
-							
-							reader.nextColumn() ;
-							
-							cells = reader.getRowCellsAsDouble() ;
+                        rowHeader = reader.getCellAsString();
 
-							rowHeaders.add(ConversionUtilities.convertToObject(rowHeader, rowHeaderType)) ;
+                        reader.nextColumn();
 
-							if (cells.size() != columnCount)
-								throw new DatasetException("Rows are not all the same size!") ;
+                        cells = reader.getRowCellsAsDouble();
 
-							rowList.add(cells) ;
+                        rowHeaders.add(new SimpleEntityPojo(rowHeader));
 
-							++row ;
-						}	
-					}
-					else
-					{
-						cells = reader.getRowCellsAsDouble() ;
+                        if (columnCount == UNKNOWN_COUNT) {
+                            columnCount = cells.size();
+                        } else {
+                            if (cells.size() != columnCount)
+                                throw new DatasetException("Rows are not all the same size!");
+                        }
 
-						if (columnCount == UNKNOWN_COUNT)
-						{
-							columnCount = cells.size() ;
-						}
-						else
-						{
-							if (cells.size() != columnCount)
-								throw new DatasetException("Rows are not all the same size!") ;
-						}
+                        rowList.add(cells);
 
-						rowList.add(cells) ;
+                        ++row;
 
-						++row ;
+                        while (reader.nextRow()) {
+                            reader.nextColumn();
 
-						while (reader.nextRow())
-						{
-							cells = reader.getRowCellsAsDouble() ;
+                            rowHeader = reader.getCellAsString();
 
-							if (cells.size() != columnCount)
-								throw new DatasetException("Rows are not all the same size!") ;
+                            reader.nextColumn();
 
-							rowList.add(cells) ;
+                            cells = reader.getRowCellsAsDouble();
 
-							++row ;
-						}
-					}
-				}      	
-			}
+                            rowHeaders.add(new SimpleEntityPojo(rowHeader));
 
-			if (reader != null)
-				reader.close() ;
+                            if (cells.size() != columnCount)
+                                throw new DatasetException("Rows are not all the same size!");
 
-			///updateRowsScales(newFeatures, rowList) ;
+                            rowList.add(cells);
 
-			DoubleArrayMatrixDataset matrix = new DoubleArrayMatrixDataset(uniqueIdentifier, name, description, elementFeature, rowList) ;
+                            ++row;
+                        }
+                    } else {
+                        cells = reader.getRowCellsAsDouble();
 
-			matrix.setColumnHeaderFeature(columnHeaderFeature) ;
-			matrix.setRowHeaderFeature(rowHeaderFeature) ;
+                        if (columnCount == UNKNOWN_COUNT) {
+                            columnCount = cells.size();
+                        } else {
+                            if (cells.size() != columnCount)
+                                throw new DatasetException("Rows are not all the same size!");
+                        }
 
-			if (columnHeaders != null && !columnHeaders.isEmpty())
-				matrix.setColumnHeaders(columnHeaders) ;
-			
-			if (rowHeaders != null && !rowHeaders.isEmpty())
-				matrix.setRowHeaders(rowHeaders) ;
+                        rowList.add(cells);
 
-			return matrix ;
+                        ++row;
 
-		}
-		catch (Exception e)
-		{
-			throw new DatasetException(e) ;
-		}
-	}
+                        while (reader.nextRow()) {
+                            cells = reader.getRowCellsAsDouble();
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.matrix.array.ArrayMatrixDataset#createArrayArray(int)
-	 */
-	@Override
-	protected final Double[][] createArrayArray(int size)
-	{
-		return new Double[size][];
-	}
+                            if (cells.size() != columnCount)
+                                throw new DatasetException("Rows are not all the same size!");
 
-	/* (non-Javadoc)
-	 * @see uno.informatics.data.matrix.array.ArrayMatrixDataset#createArray(int)
-	 */
-	@Override
-	protected final Double[] createArray(int size)
-	{
-		return new Double[size];
-	}
+                            rowList.add(cells);
+
+                            ++row;
+                        }
+                    }
+                }
+            }
+
+            if (reader != null)
+                reader.close();
+
+            /// updateRowsScales(newFeatures, rowList) ;
+
+            DoubleArrayMatrixDataset matrix = new DoubleArrayMatrixDataset(uniqueIdentifier, name, description,
+                    elementFeature, rowList);
+
+            if (columnHeaders != null && !columnHeaders.isEmpty())
+                matrix.setColumnHeaders(columnHeaders);
+
+            if (rowHeaders != null && !rowHeaders.isEmpty())
+                matrix.setRowHeaders(rowHeaders);
+
+            return matrix;
+
+        } catch (Exception e) {
+            throw new DatasetException(e);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * uno.informatics.data.matrix.array.ArrayMatrixDataset#createArrayArray(
+     * int)
+     */
+    @Override
+    protected final Double[][] createArrayArray(int size) {
+        return new Double[size][];
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * uno.informatics.data.matrix.array.ArrayMatrixDataset#createArray(int)
+     */
+    @Override
+    protected final Double[] createArray(int size) {
+        return new Double[size];
+    }
+
 }

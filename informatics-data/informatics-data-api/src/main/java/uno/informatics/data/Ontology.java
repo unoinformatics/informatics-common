@@ -1,6 +1,6 @@
+
 package uno.informatics.data;
 
-public interface Ontology extends Entity
-{
+public interface Ontology extends Entity {
 
 }

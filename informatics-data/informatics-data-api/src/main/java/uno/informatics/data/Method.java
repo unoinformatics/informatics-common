@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data;
 
-public interface Method extends Entity
-{
-  public Scale getScale();
+public interface Method extends Entity {
+    /**
+     * Gets the scale for this method
+     * @return the scale for this method
+     */
+    public Scale getScale();
 }
