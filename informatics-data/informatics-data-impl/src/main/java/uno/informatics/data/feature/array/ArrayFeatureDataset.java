@@ -28,6 +28,7 @@ import uno.informatics.common.ConversionUtilities;
 import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
+import uno.informatics.common.io.text.TextFileRowReader;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
 import uno.informatics.data.Entity;
@@ -382,7 +383,11 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             throw new DatasetException("File does not exist : " + file);
 
         try {
-            reader = IOUtilities.createRowReader(file, fileType);
+            reader = IOUtilities.createRowReader(
+                    file, fileType,
+                    TextFileRowReader.ROWS_SAME_SIZE,
+                    TextFileRowReader.REMOVE_WHITE_SPACE
+            );
 
             if (reader != null && reader.ready()) {
                 int columnCount = 0;
@@ -587,15 +592,21 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
     }
 
     private static void addHeaders(String rowName, String rowId, List<SimpleEntity> rowHeaders) {
-        if (rowName != null) {
-            if (rowId != null) {
-                SimpleEntityPojo simpleEntityPojo = new SimpleEntityPojo(rowId, rowName);
-                rowHeaders.add(simpleEntityPojo);
-            } else {
-                SimpleEntityPojo simpleEntityPojo = new SimpleEntityPojo(rowName);
-                rowHeaders.add(simpleEntityPojo);
+         
+        if(rowHeaders != null){
+            SimpleEntity header = null;
+            if(rowName != null || rowId != null){
+                if(rowId == null){
+                    // only name set
+                    header = new SimpleEntityPojo(rowName);
+                } else {
+                    // id set (name might be undefined)
+                    header = new SimpleEntityPojo(rowId, rowName);
+                }
             }
+            rowHeaders.add(header);
         }
+
     }
 
     private static String createDescription(File file) {
@@ -604,7 +615,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
     private static List<FeaturePojo> createFeatures(List<String> columnNames, List<String> typeCells,
             List<String> minCells, List<String> maxCells) throws DatasetException {
-        List<FeaturePojo> features = new ArrayList<FeaturePojo>(columnNames.size());
+        List<FeaturePojo> features = new ArrayList<>(columnNames.size());
 
         Iterator<String> iterator1 = columnNames.iterator();
         Iterator<String> iterator2 = typeCells.iterator();
@@ -612,22 +623,26 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         Iterator<String> iterator4 = maxCells.iterator();
 
         while (iterator1.hasNext())
-            features.add(createFeaure(iterator1.next(), iterator2.hasNext() ? iterator2.next() : null,
+            features.add(createFeature(iterator1.next(), iterator2.hasNext() ? iterator2.next() : null,
                     iterator3.hasNext() ? iterator3.next() : null, iterator4.hasNext() ? iterator4.next() : null));
 
         return features;
     }
 
-    private static FeaturePojo createFeaure(String name, String type, String min, String max) throws DatasetException {
+    private static FeaturePojo createFeature(String name, String type, String min, String max) throws DatasetException {
         try {
             FeaturePojo feature = new FeaturePojo(name);
 
             ScalePojo scale;
 
-            DataType dataType = type != null && type.length() > 0 ? getDataTypeByAbbreviation(type.substring(1, 2))
-                    : DataType.STRING;
-            ScaleType scaleType = type != null && type.length() > 1 ? getScaleTypeByAbbreviation(type.substring(0, 1))
+            // default to nominal
+            ScaleType scaleType = type != null && type.length() > 0
+                    ? getScaleTypeByAbbreviation(type.substring(0, 1))
                     : ScaleType.NOMINAL;
+            // set default or specified encoding
+             DataType dataType = type != null && type.length() > 1
+                    ? getDataTypeByAbbreviation(type.substring(1, 2))
+                    : scaleType.getDefaultEncoding();
 
             Number minNumber = null;
             Number maxNumber = null;
@@ -675,12 +690,12 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         Iterator<String> iterator = cells.iterator();
 
         while (iterator.hasNext())
-            features.add(createDefaultFeaure(iterator.next()));
+            features.add(createDefaultFeature(iterator.next()));
 
         return features;
     }
 
-    private static FeaturePojo createDefaultFeaure(String name) {
+    private static FeaturePojo createDefaultFeature(String name) {
         FeaturePojo feature = new FeaturePojo(name);
 
         ScalePojo scale = new ScalePojo(name);
@@ -785,7 +800,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length)
                     throw new IllegalArgumentException("Row : " + i + " size : " + values[i].length
-                            + " does not match the number of feaures : " + columnCount);
+                            + " does not match the number of features : " + columnCount);
 
                 rows[i] = new ArrayFeatureDatasetRow(values[i]);
             }
@@ -811,7 +826,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
-                            + " does not match the number of feaures : " + columnCount);
+                            + " does not match the number of features : " + columnCount);
 
                 rows[i] = ArrayFeatureDatasetRow.createRow(true, values[i]);
             }
@@ -840,7 +855,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
-                            + " does not match the number of feaures : " + columnCount);
+                            + " does not match the number of features : " + columnCount);
 
                 rows[i] = ArrayFeatureDatasetRow.createRow(headers[i], values[i]);
             }
@@ -873,7 +888,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
-                            + " does not match the number of feaures : " + columnCount);
+                            + " does not match the number of features : " + columnCount);
 
                 rows[i] = ArrayFeatureDatasetRow.createRow(headers[i], values[i]);
             }
