@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import uno.informatics.data.FeatureDatasetRow;
 import uno.informatics.data.SimpleEntity;
+import uno.informatics.data.dataset.FeatureDatasetRow;
 import uno.informatics.data.pojo.PropertyHandler;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 

@@ -28,9 +28,9 @@ import uno.informatics.common.io.FileProperties;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.data.Feature;
-import uno.informatics.data.MatrixDataset;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
+import uno.informatics.data.dataset.MatrixDataset;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 
 /**

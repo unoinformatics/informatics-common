@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import uno.informatics.data.FeatureDataset;
-import uno.informatics.data.FeatureDatasetRow;
+import uno.informatics.data.dataset.FeatureDataset;
+import uno.informatics.data.dataset.FeatureDatasetRow;
 import uno.informatics.data.tests.TestData;
 
 /**

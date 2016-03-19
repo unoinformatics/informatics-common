@@ -14,54 +14,40 @@
  * limitations under the License.
  */
 
+
 package uno.informatics.data.pojo;
 
-import uno.informatics.data.Method;
-import uno.informatics.data.Scale;
+import uno.informatics.data.Entity;
+import uno.informatics.data.Ontology;
+import uno.informatics.data.OntologyTerm;
 
-/**
- * @author Guy Davenport
- *
- */
-public class MethodPojo extends EntityPojo implements Method {
-    private ScalePojo scale;
+public class OntologyTermPojo extends EntityPojo implements OntologyTerm {
+    
+    private Ontology ontology;
 
-    public MethodPojo(String name, ScalePojo Scale) {
+    public OntologyTermPojo(String name) {
         super(name);
-
-        setScale(Scale);
     }
 
-    public MethodPojo(String uniqueIdentifier, String name, ScalePojo Scale) {
+    public OntologyTermPojo(String uniqueIdentifier, String name) {
         super(uniqueIdentifier, name);
-
-        setScale(Scale);
     }
 
-    public MethodPojo(String uniqueIdentifier, String name, String description, ScalePojo Scale) {
+    public OntologyTermPojo(String uniqueIdentifier, String name, String description) {
         super(uniqueIdentifier, name, description);
-
-        setScale(Scale);
     }
 
-    public MethodPojo(Method method) {
-        super(method);
-
-        setScale(new ScalePojo(method.getScale()));
+    public OntologyTermPojo(Entity identifier) {
+        super(identifier);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.common.model.Feature#getScale()
-     */
     @Override
-    public Scale getScale() {
-        return scale;
+    public Ontology getOntology() {
+        return ontology;
     }
 
-    public void setScale(ScalePojo scale) {
+    public final void setOntology(Ontology ontology) {
         // TODO property event
-        this.scale = scale;
-    }
+        this.ontology = ontology;
+    } 
 }

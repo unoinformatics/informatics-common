@@ -14,9 +14,11 @@
  * limitations under the License.
  *******************************************************************************/
 
-package uno.informatics.data;
+package uno.informatics.data.dataset;
 
 import java.util.List;
+
+import uno.informatics.data.SimpleEntity;
 
 /**
  * @author Guy Davenport

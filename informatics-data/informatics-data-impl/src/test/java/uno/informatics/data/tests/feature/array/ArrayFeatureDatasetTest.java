@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import uno.informatics.data.FeatureDataset;
+import uno.informatics.data.dataset.FeatureDataset;
 import uno.informatics.data.feature.array.ArrayFeatureDataset;
 import uno.informatics.data.pojo.EntityPojo;
 import uno.informatics.data.tests.feature.DatasetTest;

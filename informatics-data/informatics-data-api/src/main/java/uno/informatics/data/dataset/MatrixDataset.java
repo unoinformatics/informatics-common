@@ -14,9 +14,13 @@
  * limitations under the License.
  *******************************************************************************/
 
-package uno.informatics.data;
+package uno.informatics.data.dataset;
 
 import java.util.List;
+
+import uno.informatics.data.Dataset;
+import uno.informatics.data.Feature;
+import uno.informatics.data.SimpleEntity;
 
 /**
  * API for datasets that consist of a 2-dimensional matrix of elements of a

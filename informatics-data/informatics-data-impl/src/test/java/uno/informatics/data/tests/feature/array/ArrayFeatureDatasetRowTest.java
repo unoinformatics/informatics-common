@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import uno.informatics.data.FeatureDatasetRow;
+import uno.informatics.data.dataset.FeatureDatasetRow;
 import uno.informatics.data.feature.array.ArrayFeatureDatasetRow;
 import uno.informatics.data.tests.feature.DatasetRowTest;
 

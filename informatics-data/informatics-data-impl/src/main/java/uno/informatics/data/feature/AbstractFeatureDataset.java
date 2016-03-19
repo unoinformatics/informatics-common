@@ -21,8 +21,8 @@ import java.util.List;
 
 import uno.informatics.data.Entity;
 import uno.informatics.data.Feature;
-import uno.informatics.data.FeatureDataset;
-import uno.informatics.data.FeatureDatasetRow;
+import uno.informatics.data.dataset.FeatureDataset;
+import uno.informatics.data.dataset.FeatureDatasetRow;
 import uno.informatics.data.pojo.EntityPojo;
 
 /**

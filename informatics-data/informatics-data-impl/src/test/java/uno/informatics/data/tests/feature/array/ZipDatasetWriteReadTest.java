@@ -23,8 +23,8 @@ import java.io.File;
 import org.junit.Test;
 
 import uno.informatics.common.io.FileType;
-import uno.informatics.data.FeatureDataset;
 import uno.informatics.data.dataset.DatasetException;
+import uno.informatics.data.dataset.FeatureDataset;
 import uno.informatics.data.feature.array.ArrayFeatureDataset;
 import uno.informatics.data.feature.array.ZipFeatureDatasetReader;
 import uno.informatics.data.feature.array.ZipFeatureDatasetWriter;
@@ -52,7 +52,7 @@ public class ZipDatasetWriteReadTest extends TestData {
      * Test method for
      * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetReader#read()}
      * and
-     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetWriter#write(uno.informatics.data.feature.FeatureDataset)}
+     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetWriter#write(uno.uno.informatics.data.dataset.FeatureDataset)}
      * ..
      */
     public void testWriteRead(FileType fileType) {

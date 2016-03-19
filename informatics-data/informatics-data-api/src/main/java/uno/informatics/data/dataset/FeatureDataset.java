@@ -14,9 +14,12 @@
  * limitations under the License.
  *******************************************************************************/
 
-package uno.informatics.data;
+package uno.informatics.data.dataset;
 
 import java.util.List;
+
+import uno.informatics.data.Dataset;
+import uno.informatics.data.Feature;
 
 /**
  * A dataset that consists of columns recorded for a specific feature, with each

@@ -17,7 +17,7 @@
 package uno.informatics.data.matrix;
 
 import uno.informatics.data.Feature;
-import uno.informatics.data.MatrixDataset;
+import uno.informatics.data.dataset.MatrixDataset;
 import uno.informatics.data.pojo.EntityPojo;
 
 /**
