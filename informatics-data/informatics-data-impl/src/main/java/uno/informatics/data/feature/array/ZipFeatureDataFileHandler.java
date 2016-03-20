@@ -27,7 +27,7 @@ import uno.informatics.data.pojo.FileHandler;
  * @author Guy Davenport
  *
  */
-public class ZipFeatureDatasetFileHandler extends FileHandler {
+public class ZipFeatureDataFileHandler extends FileHandler {
     protected static final String DATA_DIRECTORY = "data";
 
     protected static final String META_DATA_DIRECTORY = "metadata";
@@ -52,7 +52,7 @@ public class ZipFeatureDatasetFileHandler extends FileHandler {
 
     protected static final String SPREADSHEET_NAME = "values";
 
-    public ZipFeatureDatasetFileHandler(File file) {
+    public ZipFeatureDataFileHandler(File file) {
         super(file);
     }
 

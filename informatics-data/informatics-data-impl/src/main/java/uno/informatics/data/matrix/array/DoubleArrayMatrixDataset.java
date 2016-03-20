@@ -27,10 +27,11 @@ import java.util.List;
 import uno.informatics.common.io.FileProperties;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
+import uno.informatics.data.Dataset;
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.dataset.MatrixDataset;
+import uno.informatics.data.dataset.MatrixData;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 
 /**
@@ -55,17 +56,7 @@ public class DoubleArrayMatrixDataset extends ArrayMatrixDataset<Double> {
         super(uniqueIdentifier, name, elementFeature, values);
     }
 
-    public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
-            Double[][] values) {
-        super(uniqueIdentifier, name, desription, elementFeature, values);
-    }
-
-    public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
-            List<List<Double>> values) {
-        super(uniqueIdentifier, name, desription, elementFeature, values);
-    }
-
-    public static final MatrixDataset<Double> createMatrixDataset(String uniqueIdentifier, String name,
+    public static final MatrixData<Double> createMatrixDataset(String uniqueIdentifier, String name,
             String description, Feature elementFeature, FileProperties fileProperties) throws DatasetException {
         List<SimpleEntity> columnHeaders = null;
         List<SimpleEntity> rowHeaders = null;
@@ -204,7 +195,7 @@ public class DoubleArrayMatrixDataset extends ArrayMatrixDataset<Double> {
 
             /// updateRowsScales(newFeatures, rowList) ;
 
-            DoubleArrayMatrixDataset matrix = new DoubleArrayMatrixDataset(uniqueIdentifier, name, description,
+            DoubleArrayMatrixDataset matrix = new DoubleArrayMatrixDataset(uniqueIdentifier, name,
                     elementFeature, rowList);
 
             if (columnHeaders != null && !columnHeaders.isEmpty())
@@ -242,5 +233,4 @@ public class DoubleArrayMatrixDataset extends ArrayMatrixDataset<Double> {
     protected final Double[] createArray(int size) {
         return new Double[size];
     }
-
 }

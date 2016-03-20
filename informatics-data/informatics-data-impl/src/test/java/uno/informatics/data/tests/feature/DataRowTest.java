@@ -21,58 +21,39 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import uno.informatics.data.dataset.FeatureDatasetRow;
+import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.tests.TestData;
 
 /**
  * @author Guy Davenport
  *
  */
-public abstract class DatasetRowTest extends TestData {
-    /**
-     * Test method for
-     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDatasetRow.ArrayDatasetRow#getName()}
-     * .
-     */
+public abstract class DataRowTest extends TestData {
+
     @Test
     public void testGetHeader() {
-        FeatureDatasetRow datasetRow = createDatasetRow();
+        FeatureDataRow datasetRow = createDatasetRow();
 
         assertSimpleEntityEquals("Header no correct", ROW1_HEADER, datasetRow.getHeader());
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDatasetRow.ArrayDatasetRow#getValues()}
-     * .
-     */
     @Test
     public void testGetValues() {
-        FeatureDatasetRow datasetRow = createDatasetRow();
+        FeatureDataRow datasetRow = createDatasetRow();
 
         assertEquals(OBJECT_TABLE_AS_LIST.get(0), datasetRow.getValues());
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDatasetRow.ArrayDatasetRow#getValuesAsArray()}
-     * .
-     */
     @Test
     public void testGetValuesAsArray() {
-        FeatureDatasetRow datasetRow = createDatasetRow();
+        FeatureDataRow datasetRow = createDatasetRow();
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDatasetRow.ArrayDatasetRow#getValue()}
-     * .
-     */
     @Test
     public void testGetValue() {
-        FeatureDatasetRow datasetRow = createDatasetRow();
+        FeatureDataRow datasetRow = createDatasetRow();
 
         for (int i = 0; i < datasetRow.getColumnCount(); ++i)
             assertEquals(OBJECT_ROW1[i], datasetRow.getValue(i));
@@ -81,5 +62,5 @@ public abstract class DatasetRowTest extends TestData {
     /**
      * @return
      */
-    protected abstract FeatureDatasetRow createDatasetRow();
+    protected abstract FeatureDataRow createDatasetRow();
 }

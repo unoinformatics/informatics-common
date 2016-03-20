@@ -29,7 +29,7 @@ import uno.informatics.data.Feature;
 import uno.informatics.data.ScaleType;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.dataset.MatrixDataset;
+import uno.informatics.data.dataset.MatrixData;
 import uno.informatics.data.matrix.array.DoubleArrayMatrixDataset;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 import uno.informatics.data.pojo.SimpleFeaturePojo;
@@ -93,7 +93,7 @@ public class DoubleArrayMatrixDatasetTest {
     public void testCreateMatrixDataset(FileProperties fileProperties) {
         try {
             Feature valueFeature = new SimpleFeaturePojo(ELEMENT_NAME, DataType.STRING, ScaleType.NOMINAL);
-            MatrixDataset<Double> matrix = DoubleArrayMatrixDataset.createMatrixDataset(UID, NAME, DESCRIPTION,
+            MatrixData<Double> matrix = DoubleArrayMatrixDataset.createMatrixDataset(UID, NAME, DESCRIPTION,
                     valueFeature, fileProperties);
 
             assertEquals("row count not equal!", ROW_HEADERS.length, matrix.getRowCount());

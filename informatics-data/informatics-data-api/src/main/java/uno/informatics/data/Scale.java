@@ -48,12 +48,14 @@ public interface Scale extends Entity {
 
     /**
      * Gets the data type for this scale
+     * 
      * @return the data type for this scale
      */
     public DataType getDataType();
 
     /**
      * Gets the scale type for this scale
+     * 
      * @return the scale type for this scale
      */
     public ScaleType getScaleType();

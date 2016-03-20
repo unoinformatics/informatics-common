@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import uno.informatics.data.SimpleEntity;
-import uno.informatics.data.dataset.FeatureDatasetRow;
+import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.pojo.PropertyHandler;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 
@@ -29,8 +29,8 @@ import uno.informatics.data.pojo.SimpleEntityPojo;
  * @author Guy Davenport
  *
  */
-public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDatasetRow {
-    public static final String HEADER_PROPERTY = FeatureDatasetRow.class.getName() + ".header";
+public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDataRow {
+    public static final String HEADER_PROPERTY = FeatureDataRow.class.getName() + ".header";
 
     private SimpleEntity header;
     private Object[] values;
@@ -270,7 +270,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
      *            for the row
      * @return created row
      */
-    public static FeatureDatasetRow createRow(boolean header, List<Object> values) {
+    public static FeatureDataRow createRow(boolean header, List<Object> values) {
         if (header)
             return new ArrayFeatureDatasetRow(header, values);
         else
@@ -287,7 +287,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
      *            for the row
      * @return created row
      */
-    public static FeatureDatasetRow createRow(boolean header, Object[] values) {
+    public static FeatureDataRow createRow(boolean header, Object[] values) {
         if (header)
             return new ArrayFeatureDatasetRow(header, values);
         else
@@ -303,7 +303,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
      *            for the row
      * @return created row
      */
-    public static FeatureDatasetRow createRow(SimpleEntity header, List<Object> values) {
+    public static FeatureDataRow createRow(SimpleEntity header, List<Object> values) {
         return new ArrayFeatureDatasetRow(header, values);
     }
 
@@ -316,7 +316,7 @@ public class ArrayFeatureDatasetRow extends PropertyHandler implements FeatureDa
      *            for the row
      * @return created row
      */
-    public static FeatureDatasetRow createRow(SimpleEntity header, Object[] values) {
+    public static FeatureDataRow createRow(SimpleEntity header, Object[] values) {
         return new ArrayFeatureDatasetRow(header, values);
     }
 }

@@ -325,7 +325,7 @@ public class ScalePojo extends EntityPojo implements Scale {
     }
 
     public final void setValues(List<? extends Object> values) {
-        if (values != null && scaleType == ScaleType.RATIO)
+        if (values != null && !values.isEmpty() && scaleType == ScaleType.RATIO)
             throw new IllegalArgumentException("Values can not be set if the scale type is Ratio");
 
         List<Object> oldValue = this.values;

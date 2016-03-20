@@ -24,34 +24,39 @@ import uno.informatics.data.SimpleEntity;
  * @author Guy Davenport
  *
  */
-public interface FeatureDatasetRow {
+public interface FeatureDataRow {
     /**
      * Gets all the values in the Row as a list
+     * 
      * @return all the values in the Row
      */
     public List<Object> getValues();
-    
+
     /**
      * Gets all the values in the Row as an array
+     * 
      * @return all the values in the Row
      */
     public Object[] getValuesAsArray();
 
     /**
      * Gets a value in the row at a specific column
-     * @param columnIndex 
+     * 
+     * @param columnIndex
      * @return the value in the row at the give column
      */
     public Object getValue(int columnIndex);
 
     /**
      * Gets the size of the row
+     * 
      * @return the number values in the row
      */
     public int getColumnCount();
 
     /**
      * Get the header for the row, or <code>null</code> if the row has no header
+     * 
      * @return the header for the row
      */
     public SimpleEntity getHeader();

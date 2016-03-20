@@ -17,6 +17,7 @@
 package uno.informatics.data.pojo;
 
 import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -50,7 +51,7 @@ public class SimpleEntityPojo extends PropertyHandler implements SimpleEntity {
             setUniqueIdentifier(simpleEntity.getUniqueIdentifier());
             setName(simpleEntity.getName());
         } else {
-            throw new NullPointerException("Can not copy null!");
+            throw new NullPointerException("Simple Entity is not optional!");
         }
     }
 

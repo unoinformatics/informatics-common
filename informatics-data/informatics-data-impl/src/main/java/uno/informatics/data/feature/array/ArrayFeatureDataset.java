@@ -37,8 +37,8 @@ import uno.informatics.data.ScaleType;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.Study;
 import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.dataset.FeatureDataset;
-import uno.informatics.data.dataset.FeatureDatasetRow;
+import uno.informatics.data.dataset.FeatureData;
+import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.feature.AbstractFeatureDataset;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
@@ -57,7 +57,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
     private static final String MIN = "MIN";
     private static final String MAX = "MAX";
 
-    private FeatureDatasetRow[] rows;
+    private FeatureDataRow[] rows;
     private int rowCount;
     private Study study;
     private boolean hasRowHeaders;
@@ -71,19 +71,6 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
     public ArrayFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features,
             Object[][] values) {
         super(uniqueIdentifier, name, features);
-
-        setValues(values);
-    }
-
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, String description,
-            List<? extends Feature> features, Object[][] values) {
-        super(uniqueIdentifier, name, description, features);
-
-        setValues(values);
-    }
-
-    public ArrayFeatureDataset(Entity identification, List<? extends Feature> features, Object[][] values) {
-        super(identification, features);
 
         setValues(values);
     }
@@ -108,26 +95,6 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             setValues(values);
     }
 
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, String description,
-            List<? extends Feature> features, Object[][] values, boolean hasRowHeaders) {
-        super(uniqueIdentifier, name, description, features);
-
-        if (hasRowHeaders)
-            setValuesWithHeaders(values);
-        else
-            setValues(values);
-    }
-
-    public ArrayFeatureDataset(Entity identification, List<? extends Feature> features, Object[][] values,
-            boolean hasRowHeaders) {
-        super(identification, features);
-
-        if (hasRowHeaders)
-            setValuesWithHeaders(values);
-        else
-            setValues(values);
-    }
-
     public ArrayFeatureDataset(String name, List<? extends Feature> features, SimpleEntity[] headers,
             Object[][] values) {
         super(name, features);
@@ -138,20 +105,6 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
     public ArrayFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features,
             SimpleEntity[] headers, Object[][] values) {
         super(uniqueIdentifier, name, features);
-
-        setValuesWithHeaders(headers, values);
-    }
-
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, String description,
-            List<? extends Feature> features, SimpleEntity[] headers, Object[][] values) {
-        super(uniqueIdentifier, name, description, features);
-
-        setValuesWithHeaders(headers, values);
-    }
-
-    public ArrayFeatureDataset(Entity identification, List<? extends Feature> features, SimpleEntity[] headers,
-            Object[][] values) {
-        super(identification, features);
 
         setValuesWithHeaders(headers, values);
     }
@@ -169,21 +122,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
         setValuesWithHeaders(headers, rowNames, values);
     }
-
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, String description,
-            List<? extends Feature> features, SimpleEntity[] headers, String[] rowNames, Object[][] values) {
-        super(uniqueIdentifier, name, description, features);
-
-        setValuesWithHeaders(headers, rowNames, values);
-    }
-
-    public ArrayFeatureDataset(Entity identification, List<? extends Feature> features, SimpleEntity[] headers,
-            String[] rowNames, Object[][] values) {
-        super(identification, features);
-
-        setValuesWithHeaders(headers, rowNames, values);
-    }
-
+    
     public ArrayFeatureDataset(String name, List<? extends Feature> features, List<List<Object>> values) {
         super(name, features);
 
@@ -196,22 +135,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
         setValues(values);
     }
-
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, String description,
-            List<? extends Feature> features, List<List<Object>> values) {
-        super(uniqueIdentifier, name, description, features);
-
-        setValues(values);
-    }
-
-    public ArrayFeatureDataset(Entity identification, List<? extends Feature> features, List<List<Object>> values) {
-        super(identification != null ? identification.getUniqueIdentifier() : null,
-                identification != null ? identification.getName() : null,
-                identification != null ? identification.getDescription() : null, features);
-
-        setValues(values);
-    }
-
+    
     public ArrayFeatureDataset(String name, List<? extends Feature> features, List<List<Object>> values,
             boolean hasRowHeaders) {
         super(name, features);
@@ -232,28 +156,6 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             setValues(values);
     }
 
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, String description,
-            List<? extends Feature> features, List<List<Object>> values, boolean hasRowHeaders) {
-        super(uniqueIdentifier, name, description, features);
-
-        if (hasRowHeaders)
-            setValuesWithHeaders(values);
-        else
-            setValues(values);
-    }
-
-    public ArrayFeatureDataset(Entity identification, List<? extends Feature> features, List<List<Object>> values,
-            Feature rowHeaderFeature) {
-        super(identification != null ? identification.getUniqueIdentifier() : null,
-                identification != null ? identification.getName() : null,
-                identification != null ? identification.getDescription() : null, features);
-
-        if (rowHeaderFeature != null)
-            setValuesWithHeaders(values);
-        else
-            setValues(values);
-    }
-
     public ArrayFeatureDataset(String name, List<? extends Feature> features, List<SimpleEntity> headers,
             List<List<Object>> values) {
         super(name, features);
@@ -266,31 +168,6 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         super(uniqueIdentifier, name, features);
 
         setValuesWithHeaders(headers, values);
-    }
-
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, String description,
-            List<? extends Feature> features, List<SimpleEntity> headers, List<List<Object>> values) {
-        super(uniqueIdentifier, name, description, features);
-
-        setValuesWithHeaders(headers, values);
-    }
-
-    public ArrayFeatureDataset(Entity identification, List<? extends Feature> features, List<SimpleEntity> headers,
-            List<List<Object>> values) {
-        super(identification != null ? identification.getUniqueIdentifier() : null,
-                identification != null ? identification.getName() : null,
-                identification != null ? identification.getDescription() : null, features);
-
-        setValuesWithHeaders(headers, values);
-    }
-
-    @Override
-    public final Study getStudy() {
-        return study;
-    }
-
-    public synchronized final void setStudy(Study study) {
-        this.study = study;
     }
 
     @Override
@@ -316,7 +193,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
      * uno.informatics.data.tests.feature.array.array.AbstractDataset#getRow()
      */
     @Override
-    public FeatureDatasetRow getRow(int rowIndex) {
+    public FeatureDataRow getRow(int rowIndex) {
         return rows[rowIndex];
     }
 
@@ -327,7 +204,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
      * getRowsAsArray()
      */
     @Override
-    public final FeatureDatasetRow[] getRowsAsArray() {
+    public final FeatureDataRow[] getRowsAsArray() {
         return rows;
     }
 
@@ -338,7 +215,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
      * uno.informatics.data.tests.feature.array.array.AbstractDataset#getRows()
      */
     @Override
-    public final List<FeatureDatasetRow> getRows() {
+    public final List<FeatureDataRow> getRows() {
         return toRowList(rows);
     }
 
@@ -568,10 +445,10 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
                     reader.close();
 
                 if (hasNames)
-                    return new ArrayFeatureDataset(file.getName(), file.getName(), createDescription(file), newFeatures,
+                    return new ArrayFeatureDataset(file.getName(), file.getName(), newFeatures,
                             rowHeaders, rowList);
                 else
-                    return new ArrayFeatureDataset(file.getName(), file.getName(), createDescription(file), newFeatures,
+                    return new ArrayFeatureDataset(file.getName(), file.getName(), newFeatures,
                             rowList);
             }
 
@@ -609,10 +486,6 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
     }
 
-    private static String createDescription(File file) {
-        return "Dataset loading from " + file.getAbsolutePath();
-    }
-
     private static List<FeaturePojo> createFeatures(List<String> columnNames, List<String> typeCells,
             List<String> minCells, List<String> maxCells) throws DatasetException {
         List<FeaturePojo> features = new ArrayList<>(columnNames.size());
@@ -631,7 +504,6 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
     private static FeaturePojo createFeature(String name, String type, String min, String max) throws DatasetException {
         try {
-            FeaturePojo feature = new FeaturePojo(name);
 
             ScalePojo scale;
 
@@ -658,9 +530,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             else
                 scale = new ScalePojo(name, dataType, scaleType);
 
-            feature.setMethod(new MethodPojo(name, scale));
-
-            return feature;
+            return new FeaturePojo(name, new MethodPojo(name, scale));
         } catch (ConversionException e) {
             throw new DatasetException(e);
         }
@@ -696,20 +566,16 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
     }
 
     private static FeaturePojo createDefaultFeature(String name) {
-        FeaturePojo feature = new FeaturePojo(name);
-
         ScalePojo scale = new ScalePojo(name);
 
         scale.setDataType(DataType.STRING);
         scale.setScaleType(ScaleType.NOMINAL);
-
-        feature.setMethod(new MethodPojo(name, scale));
-
-        return feature;
+        
+        return new FeaturePojo(name, new MethodPojo(name, scale));
     }
 
-    public static final FeatureDataset createSubsetFeatureDataset(String uniqueIdentifier, String name,
-            String description, FeatureDataset dataset, Set<Integer> indices) throws DatasetException {
+    public static final FeatureData createSubsetFeatureDataset(String uniqueIdentifier, String name,
+            FeatureData dataset, Set<Integer> indices) throws DatasetException {
         Iterator<Integer> iterator = indices.iterator();
 
         Object[][] values = new Object[indices.size()][dataset.getFeatures().size()];
@@ -720,18 +586,18 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             values[i] = dataset.getRow(iterator.next()).getValuesAsArray();
         }
 
-        return new ArrayFeatureDataset(uniqueIdentifier, name, description, dataset.getFeatures(), values);
+        return new ArrayFeatureDataset(uniqueIdentifier, name, dataset.getFeatures(), values);
     }
 
-    public static final FeatureDataset createSubsetFeatureDataset(String uniqueIdentifier, String name,
-            String description, FeatureDataset dataset, int[] indices) throws DatasetException {
+    public static final FeatureData createSubsetFeatureDataset(String uniqueIdentifier, String name,
+            FeatureData dataset, int[] indices) throws DatasetException {
         Object[][] values = new Object[indices.length][dataset.getFeatures().size()];
 
         for (int i = 0; i < indices.length; ++i) {
             values[i] = dataset.getRow(indices[i]).getValuesAsArray();
         }
 
-        return new ArrayFeatureDataset(uniqueIdentifier, name, description, dataset.getFeatures(), values);
+        return new ArrayFeatureDataset(uniqueIdentifier, name, dataset.getFeatures(), values);
     }
 
     /**
@@ -795,7 +661,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             rowCount = values.length;
             int columnCount = getFeatures().size();
 
-            rows = new FeatureDatasetRow[rowCount];
+            rows = new FeatureDataRow[rowCount];
 
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length)
@@ -821,7 +687,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
             int columnCount = getFeatures().size();
 
-            rows = new FeatureDatasetRow[rowCount];
+            rows = new FeatureDataRow[rowCount];
 
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
@@ -850,7 +716,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
             int columnCount = getFeatures().size();
 
-            rows = new FeatureDatasetRow[rowCount];
+            rows = new FeatureDataRow[rowCount];
 
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
@@ -883,7 +749,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
             int columnCount = getFeatures().size();
 
-            rows = new FeatureDatasetRow[rowCount];
+            rows = new FeatureDataRow[rowCount];
 
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
@@ -904,7 +770,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         if (values != null) {
             rowCount = values.size();
 
-            rows = new FeatureDatasetRow[rowCount];
+            rows = new FeatureDataRow[rowCount];
 
             Iterator<List<Object>> iterator = values.iterator();
 
@@ -926,7 +792,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         if (values != null) {
             rowCount = values.size();
 
-            rows = new FeatureDatasetRow[rowCount];
+            rows = new FeatureDataRow[rowCount];
 
             Iterator<List<Object>> iterator = values.iterator();
 
@@ -955,7 +821,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
                 throw new IllegalArgumentException(
                         "Number of headers : " + headers.size() + " does not match row count : " + rowCount);
 
-            rows = new FeatureDatasetRow[rowCount];
+            rows = new FeatureDataRow[rowCount];
 
             Iterator<List<Object>> iterator1 = values.iterator();
             Iterator<SimpleEntity> iterator2 = headers.iterator();
@@ -970,8 +836,8 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         }
     }
 
-    private List<FeatureDatasetRow> toRowList(FeatureDatasetRow[] array) {
-        List<FeatureDatasetRow> list = new ArrayList<FeatureDatasetRow>(array.length);
+    private List<FeatureDataRow> toRowList(FeatureDataRow[] array) {
+        List<FeatureDataRow> list = new ArrayList<FeatureDataRow>(array.length);
 
         for (int i = 0; i < array.length; ++i)
             list.add(array[i]);
@@ -979,7 +845,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         return list;
     }
 
-    private List<List<Object>> toObjectListList(FeatureDatasetRow[] array) {
+    private List<List<Object>> toObjectListList(FeatureDataRow[] array) {
         List<List<Object>> list = new ArrayList<List<Object>>(array.length);
 
         for (int i = 0; i < array.length; ++i)
@@ -997,7 +863,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
         return list;
     }
 
-    private Object[][] toObjectArray(FeatureDatasetRow[] array) {
+    private Object[][] toObjectArray(FeatureDataRow[] array) {
         Object[][] list = new Object[array.length][];
 
         for (int i = 0; i < array.length; ++i)

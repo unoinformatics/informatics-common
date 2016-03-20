@@ -16,14 +16,18 @@
 
 package uno.informatics.data.pojo;
 
+import uno.informatics.data.Feature;
 import uno.informatics.data.Method;
 import uno.informatics.data.Scale;
+import uno.informatics.data.Study;
 
 /**
  * @author Guy Davenport
  *
  */
 public class MethodPojo extends EntityPojo implements Method {
+    public static final String SCALE_PROPERTY =  Method.class.getName() + ".scale";
+    
     private ScalePojo scale;
 
     public MethodPojo(String name, ScalePojo Scale) {
@@ -47,7 +51,10 @@ public class MethodPojo extends EntityPojo implements Method {
     public MethodPojo(Method method) {
         super(method);
 
-        setScale(new ScalePojo(method.getScale()));
+        if (method != null)
+            setScale(method.getScale());
+        else
+            throw new IllegalArgumentException("Method is not optional!") ;
     }
 
     /*
@@ -60,8 +67,14 @@ public class MethodPojo extends EntityPojo implements Method {
         return scale;
     }
 
-    public void setScale(ScalePojo scale) {
-        // TODO property event
-        this.scale = scale;
+    public void setScale(Scale scale) {
+        
+        if (scale == null)
+            throw new IllegalArgumentException("Scale is not optional for method!") ;
+        
+        ScalePojo oldValue = this.scale;
+        this.scale = new ScalePojo(scale) ;
+        
+        getPropertyChangeSupport().firePropertyChange(SCALE_PROPERTY, oldValue, this.scale);
     }
 }

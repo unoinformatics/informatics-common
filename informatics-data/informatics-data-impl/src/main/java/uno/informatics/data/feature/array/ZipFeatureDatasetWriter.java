@@ -33,12 +33,13 @@ import com.thoughtworks.xstream.XStream;
 import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowWriter;
+import uno.informatics.data.Data;
 import uno.informatics.data.Dataset;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.dataset.FeatureDataset;
-import uno.informatics.data.dataset.FeatureDatasetRow;
-import uno.informatics.data.io.DatasetWriter;
+import uno.informatics.data.dataset.FeatureData;
+import uno.informatics.data.dataset.FeatureDataRow;
+import uno.informatics.data.io.DataWriter;
 import uno.informatics.data.pojo.EntityPojo;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 
@@ -46,7 +47,7 @@ import uno.informatics.data.pojo.SimpleEntityPojo;
  * @author Guy Davenport
  *
  */
-public class ZipFeatureDatasetWriter extends ZipFeatureDatasetFileHandler implements DatasetWriter {
+public class ZipFeatureDatasetWriter extends ZipFeatureDataFileHandler implements DataWriter {
     private FileType fileType;
 
     public ZipFeatureDatasetWriter(File file) {
@@ -71,9 +72,9 @@ public class ZipFeatureDatasetWriter extends ZipFeatureDatasetFileHandler implem
      * feature.array.Dataset)
      */
     @Override
-    public void write(Dataset dataset) throws DatasetException {
-        if (dataset instanceof FeatureDataset) {
-            FeatureDataset featureDataset = (FeatureDataset) dataset;
+    public void write(Data dataset) throws DatasetException {
+        if (dataset instanceof FeatureData) {
+            FeatureData featureDataset = (FeatureData) dataset;
 
             try {
                 ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(getFile()));
@@ -88,7 +89,7 @@ public class ZipFeatureDatasetWriter extends ZipFeatureDatasetFileHandler implem
 
                 outputStream.putNextEntry(new ZipEntry(IDENTIFICATION_ENTRY));
 
-                xstream.toXML(new EntityPojo(dataset), outputStream);
+                xstream.toXML(new SimpleEntityPojo(dataset), outputStream);
 
                 outputStream.closeEntry();
 
@@ -122,9 +123,9 @@ public class ZipFeatureDatasetWriter extends ZipFeatureDatasetFileHandler implem
                 RowWriter writer = IOUtilities.createRowWriter(new BufferedWriter(new OutputStreamWriter(outputStream)),
                         fileType);
 
-                Iterator<FeatureDatasetRow> iterator = featureDataset.getRows().iterator();
+                Iterator<FeatureDataRow> iterator = featureDataset.getRows().iterator();
 
-                FeatureDatasetRow row;
+                FeatureDataRow row;
 
                 List<SimpleEntity> rowHeaders = new ArrayList<SimpleEntity>(featureDataset.getRowCount());
 

@@ -28,23 +28,24 @@ import com.thoughtworks.xstream.XStream;
 import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.TableReader;
+import uno.informatics.data.Data;
 import uno.informatics.data.Dataset;
 import uno.informatics.data.Entity;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.dataset.FeatureDataset;
-import uno.informatics.data.io.DatasetReader;
+import uno.informatics.data.dataset.FeatureData;
+import uno.informatics.data.io.DataReader;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.utils.DatasetUtils;
 
 /**
  * @author Guy Davenport
  */
-public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implements DatasetReader {
+public class ZipFeatureDataReader extends ZipFeatureDataFileHandler implements DataReader {
     @SuppressWarnings("unused")
     private static final String SPREADSHEET_NAME = "values";
 
-    public ZipFeatureDatasetReader(File file) {
+    public ZipFeatureDataReader(File file) {
         super(file);
     }
 
@@ -54,8 +55,8 @@ public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implem
      * @see uno.informatics.data.io.DatasetWriter#read()
      */
     @Override
-    public Dataset read() throws DatasetException {
-        FeatureDataset dataset = null;
+    public Data read() throws DatasetException {
+        FeatureData dataset = null;
 
         try {
             ZipFile zipFile = new ZipFile(getFile());
@@ -64,7 +65,7 @@ public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implem
 
             ZipEntry zipEntry = zipFile.getEntry(IDENTIFICATION_ENTRY);
 
-            Entity identification = (Entity) xstream.fromXML(zipFile.getInputStream(zipEntry));
+            SimpleEntity identification = (SimpleEntity) xstream.fromXML(zipFile.getInputStream(zipEntry));
 
             zipEntry = zipFile.getEntry(FEATURES_ENTRY);
 
@@ -119,12 +120,12 @@ public class ZipFeatureDatasetReader extends ZipFeatureDatasetFileHandler implem
         return dataset;
     }
 
-    private FeatureDataset createDataset(Entity identification, List<FeaturePojo> features,
+    private FeatureData createDataset(SimpleEntity identification, List<FeaturePojo> features,
             List<SimpleEntity> rowHeaders, List<List<Object>> values) throws DatasetException {
         if (rowHeaders != null)
-            return new ArrayFeatureDataset(identification, features, rowHeaders, values);
+            return new ArrayFeatureDataset(identification.getUniqueIdentifier(), identification.getName(), features, rowHeaders, values);
         else
-            return new ArrayFeatureDataset(identification, features, values);
+            return new ArrayFeatureDataset(identification.getUniqueIdentifier(), identification.getName(), features, values);
     }
 
 }

@@ -19,10 +19,12 @@ package uno.informatics.data.pojo;
 import java.util.List;
 
 import uno.informatics.data.Entity;
+import uno.informatics.data.Feature;
 import uno.informatics.data.Germplasm;
 
 public class GermplasmPojo extends EntityPojo implements Germplasm {
-
+    public static final String SOURCE_PROPERTY = Feature.class.getName() + ".source";
+    
     private List<Germplasm> source;
 
     public GermplasmPojo(String name) {
@@ -37,8 +39,10 @@ public class GermplasmPojo extends EntityPojo implements Germplasm {
         super(uniqueIdentifier, name, description);
     }
 
-    public GermplasmPojo(Entity identifier) {
+    public GermplasmPojo(Germplasm identifier) {
         super(identifier);
+        
+        // TODO add sources
     }
 
     @Override

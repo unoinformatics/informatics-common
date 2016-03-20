@@ -13,33 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
+
 package uno.informatics.data.dataset;
 
-public class DatasetException extends Exception
-{
+public class DatasetException extends Exception {
 
-	/**
-	 * 
-	 */
-  private static final long serialVersionUID = 1L;
-  
-	public DatasetException(String message)
-  {
-	  super(message);
-  }
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-	public DatasetException(Throwable cause)
-  {
-	  super(cause);
-  }
+    public DatasetException(String message) {
+        super(message);
+    }
 
-	public DatasetException()
-  {
-	  super();
-  }
+    public DatasetException(Throwable cause) {
+        super(cause);
+    }
 
-	public DatasetException(String message, Throwable cause)
-  {
-	  super(message, cause);
-  }
+    public DatasetException() {
+        super();
+    }
+
+    public DatasetException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

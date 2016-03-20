@@ -18,7 +18,7 @@ package uno.informatics.data.dataset;
 
 import java.util.List;
 
-import uno.informatics.data.Dataset;
+import uno.informatics.data.Data;
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
 
@@ -34,93 +34,113 @@ import uno.informatics.data.SimpleEntity;
  * @author Guy Davenport
  *
  */
-public interface MatrixDataset<ValueType extends Object> extends Dataset {
+public interface MatrixData<ValueType extends Object> extends Data {
     /**
      * Gets all the values in the matrix as a list of lists
+     * 
      * @return all the values in the matrix as a list of lists
      */
     public List<List<ValueType>> getValues();
 
     /**
      * Gets all values as 2-dimension array
+     * 
      * @return all values as 2-dimension array
      */
     public ValueType[][] getValuesAsArray();
 
     /**
      * Gets the value in the matrix at a given row and column
-     * @param rowIndex the row index of the required value
-     * @param columnIndex the column index of the required value
+     * 
+     * @param rowIndex
+     *            the row index of the required value
+     * @param columnIndex
+     *            the column index of the required value
      * @return the value in the matrix at a given row index and column index
      */
     public ValueType getValue(int rowIndex, int columnIndex);
 
     /**
      * Gets the row dimension size of the matrix
+     * 
      * @return the number of rows in the matrix
      */
     public int getRowCount();
 
     /**
      * Gets the column dimension size of the matrix
+     * 
      * @return the number of columns in the matrix
      */
     public int getColumnCount();
 
     /**
      * Determines if the matrix has row headers
-     * @return <code>true</code> if the matrix has row headers, <code>false</code> otherwise 
+     * 
+     * @return <code>true</code> if the matrix has row headers,
+     *         <code>false</code> otherwise
      */
     public boolean hasRowHeaders();
 
     /**
      * Gets a list of the row headers for the matrix
+     * 
      * @return a list of the row headers
      */
     public List<SimpleEntity> getRowHeaders();
 
     /**
      * Gets an array of the row headers for the matrix
+     * 
      * @return an array of the row headers
      */
     public SimpleEntity[] getRowHeadersAsArray();
 
     /**
      * Gets the row header at a given row
-     * @param rowIndex the row index of the required value
+     * 
+     * @param rowIndex
+     *            the row index of the required value
      * @return the row header at a given row index
      */
     public SimpleEntity getRowHeader(int rowIndex);
 
     /**
      * Determines if the matrix has column headers
-     * @return <code>true</code> if the matrix has column headers, <code>false</code> otherwise 
+     * 
+     * @return <code>true</code> if the matrix has column headers,
+     *         <code>false</code> otherwise
      */
     public boolean hasColumnHeaders();
 
     /**
      * Gets a list of the column headers for the matrix
+     * 
      * @return a list of the column headers
      */
     public List<SimpleEntity> getColumnHeaders();
 
     /**
      * Gets an array of the column headers for the matrix
+     * 
      * @return an array of the column headers
      */
     public SimpleEntity[] getColumnHeadersAsArray();
 
     /**
      * Gets the column header at a given row
-     * @param columnIndex the column index of the required value
+     * 
+     * @param columnIndex
+     *            the column index of the required value
      * @return the column header at a given column index
      */
     public SimpleEntity getColumnHeader(int columnIndex);
-    
+
     /**
      * Gets the feature that describes the values in the matrix
+     * 
      * @return the feature that describes the values in the matrix
      */
-    public Feature getValueFeature() ;
+    public Feature getValueFeature();
 
 }

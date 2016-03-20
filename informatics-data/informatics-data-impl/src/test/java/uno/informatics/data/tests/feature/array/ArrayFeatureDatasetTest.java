@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import uno.informatics.data.dataset.FeatureDataset;
+import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureDataset;
 import uno.informatics.data.pojo.EntityPojo;
 import uno.informatics.data.tests.feature.DatasetTest;
@@ -37,7 +37,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest {
      */
     @Test
     public void testSetName() {
-        ArrayFeatureDataset dataset = new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES,
+        ArrayFeatureDataset dataset = new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES,
                 OBJECT_TABLE_AS_ARRAY);
 
         assertEquals(NAME, dataset.getName());
@@ -78,20 +78,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest {
      */
     @Test
     public void testArrayFeatureDatasetStringStringStringListOfDatasetFeatureObjectArrayArray() {
-        ArrayFeatureDataset dataset = new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES,
-                OBJECT_TABLE_AS_ARRAY);
-
-        checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, false);
-    }
-
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#ArrayFeatureDataset(uno.informatics.common.model.Identifier, java.util.List, java.lang.Object[][])}
-     * .
-     */
-    @Test
-    public void testArrayFeatureDatasetIdentifierListOfDatasetFeatureObjectArrayArray() {
-        ArrayFeatureDataset dataset = new ArrayFeatureDataset(new EntityPojo(UID, NAME, DESCRIPTION), OBJECT_FEATURES,
+        ArrayFeatureDataset dataset = new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES,
                 OBJECT_TABLE_AS_ARRAY);
 
         checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, false);
@@ -123,42 +110,16 @@ public class ArrayFeatureDatasetTest extends DatasetTest {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#ArrayFeatureDataset(java.lang.String, java.lang.String, java.lang.String, java.util.List, java.util.List)}
-     * .
-     */
-    @Test
-    public void testArrayFeatureDatasetStringStringStringListOfDatasetFeatureListOfListOfObject() {
-        ArrayFeatureDataset dataset = new ArrayFeatureDataset(new EntityPojo(UID, NAME, DESCRIPTION), OBJECT_FEATURES,
-                OBJECT_TABLE_AS_LIST);
-
-        checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, false);
-    }
-
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#ArrayFeatureDataset(uno.informatics.common.model.Identifier, java.util.List, java.util.List)}
-     * .
-     */
-    @Test
-    public void testArrayFeatureDatasetIdentifierListOfDatasetFeatureListOfListOfObject() {
-        ArrayFeatureDataset dataset = new ArrayFeatureDataset(new EntityPojo(UID, NAME, DESCRIPTION), OBJECT_FEATURES,
-                OBJECT_TABLE_AS_LIST);
-
-        checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, false);
-    }
-
-    /**
-     * Test method for
      * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#createFeatureDataset(java.lang.String, java.lang.String, java.lang.String, java.util.List, java.util.List, boolean)}
      * .
      */
     @Test
     public void testCreateFeatureDatasetStringStringStringListOfDatasetFeatureListOfListOfObjectBoolean() {
-        FeatureDataset dataset = new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST);
+        FeatureData dataset = new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST);
 
         checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, false);
 
-        dataset = new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST_WITH_HEADER, true);
+        dataset = new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST_WITH_HEADER, true);
 
         checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, ROW_HEADERS, false);
 
@@ -171,12 +132,12 @@ public class ArrayFeatureDatasetTest extends DatasetTest {
      */
     @Test
     public void testCreateFeatureDatasetStringStringStringListOfDatasetFeatureObjectArrayArrayBoolean() {
-        FeatureDataset dataset = new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES,
+        FeatureData dataset = new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES,
                 OBJECT_TABLE_AS_ARRAY);
 
         checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, BLANK_HEADERS, false);
 
-        dataset = new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY_WITH_HEADER, true);
+        dataset = new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY_WITH_HEADER, true);
 
         checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, dataset, ROW_HEADERS, false);
 
@@ -190,7 +151,7 @@ public class ArrayFeatureDatasetTest extends DatasetTest {
      * )
      */
     @Override
-    protected FeatureDataset createDataset() {
+    protected FeatureData createDataset() {
         return new ArrayFeatureDataset(NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY);
     }
 }

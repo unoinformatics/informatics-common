@@ -23,13 +23,13 @@ import java.util.List;
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.Study;
-import uno.informatics.data.matrix.AbstractMatrixDataset;
+import uno.informatics.data.matrix.AbstractMatrixData;
 
 /**
  * @author Guy Davenport
  *
  */
-public abstract class ArrayMatrixDataset<ValueType extends Object> extends AbstractMatrixDataset<ValueType> {
+public abstract class ArrayMatrixDataset<ValueType extends Object> extends AbstractMatrixData<ValueType> {
     private ValueType[][] values;
     private SimpleEntity[] rowHeaders;
     private SimpleEntity[] columnHeaders;
@@ -49,13 +49,6 @@ public abstract class ArrayMatrixDataset<ValueType extends Object> extends Abstr
         setValues(values);
     }
 
-    public ArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
-            ValueType[][] values) {
-        super(uniqueIdentifier, name, desription, elementFeature);
-
-        setValues(values);
-    }
-
     public ArrayMatrixDataset(String name, Feature elementFeature, List<List<ValueType>> values) {
         super(null, name, elementFeature);
 
@@ -65,13 +58,6 @@ public abstract class ArrayMatrixDataset<ValueType extends Object> extends Abstr
     public ArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature,
             List<List<ValueType>> values) {
         super(uniqueIdentifier, name, elementFeature);
-
-        setValues(values);
-    }
-
-    public ArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
-            List<List<ValueType>> values) {
-        super(uniqueIdentifier, name, desription, elementFeature);
 
         setValues(values);
     }
@@ -226,12 +212,6 @@ public abstract class ArrayMatrixDataset<ValueType extends Object> extends Abstr
 
     public final void setColumnHeaders(List<SimpleEntity> columnHeaders) {
         this.columnHeaders = columnHeaders != null && columnHeaders.size() > 0 ? toObjectArray(columnHeaders) : null;
-    }
-
-    @Override
-    public Study getStudy() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /**

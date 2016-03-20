@@ -18,12 +18,14 @@
 package uno.informatics.data.pojo;
 
 import uno.informatics.data.Entity;
+import uno.informatics.data.Method;
 import uno.informatics.data.Ontology;
 import uno.informatics.data.OntologyTerm;
 
 public class OntologyTermPojo extends EntityPojo implements OntologyTerm {
-    
-    private Ontology ontology;
+    private static final String ONTOLOGY_PROPERTY =  OntologyTerm.class.getName() + ".onology";
+
+    private OntologyPojo ontology;
 
     public OntologyTermPojo(String name) {
         super(name);
@@ -37,8 +39,10 @@ public class OntologyTermPojo extends EntityPojo implements OntologyTerm {
         super(uniqueIdentifier, name, description);
     }
 
-    public OntologyTermPojo(Entity identifier) {
-        super(identifier);
+    public OntologyTermPojo(OntologyTerm ontologyTerm) {
+        super(ontologyTerm);
+        
+        setOntology(ontologyTerm.getOntology());
     }
 
     @Override
@@ -47,7 +51,13 @@ public class OntologyTermPojo extends EntityPojo implements OntologyTerm {
     }
 
     public final void setOntology(Ontology ontology) {
-        // TODO property event
-        this.ontology = ontology;
+        
+        if (ontology == null)
+            throw new IllegalArgumentException("Ontology is not optional for ontology term!") ; 
+        
+        OntologyPojo oldValue = this.ontology;
+        this.ontology = new OntologyPojo(ontology) ;
+        
+        getPropertyChangeSupport().firePropertyChange(ONTOLOGY_PROPERTY, oldValue, this.ontology);
     } 
 }

@@ -19,6 +19,7 @@ package uno.informatics.data;
 public interface Method extends Entity {
     /**
      * Gets the scale for this method
+     * 
      * @return the scale for this method
      */
     public Scale getScale();

@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import uno.informatics.data.dataset.FeatureDataset;
-import uno.informatics.data.dataset.FeatureDatasetRow;
+import uno.informatics.data.dataset.FeatureData;
+import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.tests.TestData;
 
 /**
@@ -40,7 +40,7 @@ public abstract class DatasetTest extends TestData {
      */
     @Test
     public void testGetRowCount() {
-        FeatureDataset dataset = createDataset();
+        FeatureData dataset = createDataset();
 
         assertEquals(ROWS_AS_LIST.size(), dataset.getRowCount());
     }
@@ -52,9 +52,9 @@ public abstract class DatasetTest extends TestData {
      */
     @Test
     public void testGetRowsAsArray() {
-        FeatureDataset dataset = createDataset();
+        FeatureData dataset = createDataset();
 
-        FeatureDatasetRow[] rows = dataset.getRowsAsArray();
+        FeatureDataRow[] rows = dataset.getRowsAsArray();
 
         for (int i = 0; i < rows.length; ++i)
             assertArrayEquals(OBJECT_TABLE_AS_ARRAY[i], rows[i].getValuesAsArray());
@@ -67,11 +67,11 @@ public abstract class DatasetTest extends TestData {
      */
     @Test
     public void testGetRows() {
-        FeatureDataset dataset = createDataset();
+        FeatureData dataset = createDataset();
 
-        List<FeatureDatasetRow> rows = dataset.getRows();
+        List<FeatureDataRow> rows = dataset.getRows();
 
-        FeatureDatasetRow[] array = dataset.getRows().toArray(new FeatureDatasetRow[rows.size()]);
+        FeatureDataRow[] array = dataset.getRows().toArray(new FeatureDataRow[rows.size()]);
 
         for (int i = 0; i < array.length; ++i)
             assertArrayEquals(OBJECT_TABLE_AS_ARRAY[i], array[i].getValuesAsArray());
@@ -84,10 +84,10 @@ public abstract class DatasetTest extends TestData {
      */
     @Test
     public void testGetFeatures() {
-        FeatureDataset dataset = createDataset();
+        FeatureData dataset = createDataset();
 
         assertEquals(OBJECT_FEATURES, dataset.getFeatures());
     }
 
-    protected abstract FeatureDataset createDataset();
+    protected abstract FeatureData createDataset();
 }

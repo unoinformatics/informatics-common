@@ -16,24 +16,21 @@
 
 package uno.informatics.data;
 
-import java.util.List;
+import org.joda.time.DateTime;
 
 public interface Study extends Entity {
-    /**
-     * Gets all the datasets belonging to this study
-     * @return all the datasets belonging to this study
-     */
-    public List<Dataset> getDatasets();
 
     /**
      * Gets the start date of the study
+     * 
      * @return the start date of the study
      */
-    public String getStartDate();
+    public DateTime getStartDate();
 
     /**
      * Gets the end date of the study
+     * 
      * @return the end date of the study
      */
-    public String getEndDate();
+    public DateTime getEndDate();
 }

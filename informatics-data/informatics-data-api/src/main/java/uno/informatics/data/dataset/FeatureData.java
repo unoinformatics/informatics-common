@@ -18,7 +18,7 @@ package uno.informatics.data.dataset;
 
 import java.util.List;
 
-import uno.informatics.data.Dataset;
+import uno.informatics.data.Data;
 import uno.informatics.data.Feature;
 
 /**
@@ -33,60 +33,71 @@ import uno.informatics.data.Feature;
  * @author Guy Davenport
  *
  */
-public interface FeatureDataset extends Dataset {
+public interface FeatureData extends Data {
     /**
      * Gets the features in the dataset as a list
+     * 
      * @return a list of features in the database
      */
     public List<Feature> getFeatures();
 
     /**
      * Gets the features in the dataset as an array
+     * 
      * @return an array of features in the database
      */
     public Feature[] getFeaturesAsArray();
 
     /**
      * Gets all the values in the database as a list of lists
+     * 
      * @return a list of list of the values in the database
      */
     public List<List<Object>> getValues();
 
     /**
      * Gets all the values in the database as a 2-dimensional array
+     * 
      * @return a 2-dimensional array of the values in the database
      */
     public Object[][] getValuesAsArray();
 
     /**
      * Gets the number of rows in the dataset
+     * 
      * @return the number of rows in the dataset
      */
     public int getRowCount();
-    
+
     /**
      * Determines if the dataset has row headers
-     * @return <code>true</code> if the dataset has row headers, <code>false</code> otherwise 
+     * 
+     * @return <code>true</code> if the dataset has row headers,
+     *         <code>false</code> otherwise
      */
     public boolean hasRowHeaders();
 
     /**
      * Gets the row at a specific position
-     * @param rowIndex the index of the row required
+     * 
+     * @param rowIndex
+     *            the index of the row required
      * @return the row at the given position
      */
-    public FeatureDatasetRow getRow(int rowIndex);
+    public FeatureDataRow getRow(int rowIndex);
 
     /**
      * Gets all the rows in the dataset as a list
+     * 
      * @return a list of all the rows in the dataset
      */
-    public List<FeatureDatasetRow> getRows();
-    
+    public List<FeatureDataRow> getRows();
+
     /**
      * Gets all the rows in the dataset as an array
+     * 
      * @return an array of all the rows in the dataset
      */
-    public FeatureDatasetRow[] getRowsAsArray();
+    public FeatureDataRow[] getRowsAsArray();
 
 }

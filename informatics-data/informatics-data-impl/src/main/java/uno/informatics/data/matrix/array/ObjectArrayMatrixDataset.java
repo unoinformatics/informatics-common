@@ -32,7 +32,7 @@ import uno.informatics.common.io.RowReader;
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.dataset.MatrixDataset;
+import uno.informatics.data.dataset.MatrixData;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 
 /**
@@ -57,30 +57,20 @@ public class ObjectArrayMatrixDataset extends ArrayMatrixDataset<Object> {
         super(uniqueIdentifier, name, elementFeature, values);
     }
 
-    public ObjectArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
-            Object[][] values) {
-        super(uniqueIdentifier, name, desription, elementFeature, values);
+    public static final MatrixData<Object> createMatrixDataset(String uniqueIdentifier, String name,
+            FileProperties fileProperties, Feature elementFeature) throws DatasetException {
+        return createMatrixDataset(uniqueIdentifier, name, fileProperties, elementFeature, null, null);
     }
 
-    public ObjectArrayMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature,
-            List<List<Object>> values) {
-        super(uniqueIdentifier, name, desription, elementFeature, values);
-    }
-
-    public static final MatrixDataset<Object> createMatrixDataset(String uniqueIdentifier, String name,
-            String description, FileProperties fileProperties, Feature elementFeature) throws DatasetException {
-        return createMatrixDataset(uniqueIdentifier, name, description, fileProperties, elementFeature, null, null);
-    }
-
-    public static final MatrixDataset<Object> createMatrixDataset(String uniqueIdentifier, String name,
-            String description, FileProperties fileProperties, Feature elementFeature, Feature headerFeature)
+    public static final MatrixData<Object> createMatrixDataset(String uniqueIdentifier, String name,
+            FileProperties fileProperties, Feature elementFeature, Feature headerFeature)
                     throws DatasetException {
-        return createMatrixDataset(uniqueIdentifier, name, description, fileProperties, elementFeature, headerFeature,
+        return createMatrixDataset(uniqueIdentifier, name, fileProperties, elementFeature, headerFeature,
                 headerFeature);
     }
 
-    public static final MatrixDataset<Object> createMatrixDataset(String uniqueIdentifier, String name,
-            String description, FileProperties fileProperties, Feature elementFeature, Feature rowHeaderFeature,
+    public static final MatrixData<Object> createMatrixDataset(String uniqueIdentifier, String name,
+            FileProperties fileProperties, Feature elementFeature, Feature rowHeaderFeature,
             Feature columnHeaderFeature) throws DatasetException {
         List<SimpleEntity> columnHeaders = null;
         List<SimpleEntity> rowHeaders = null;
@@ -217,7 +207,7 @@ public class ObjectArrayMatrixDataset extends ArrayMatrixDataset<Object> {
             if (reader != null)
                 reader.close();
 
-            ObjectArrayMatrixDataset matrix = new ObjectArrayMatrixDataset(uniqueIdentifier, name, description,
+            ObjectArrayMatrixDataset matrix = new ObjectArrayMatrixDataset(uniqueIdentifier, name,
                     elementFeature, rowList);
 
             if (columnHeaders != null && !columnHeaders.isEmpty())

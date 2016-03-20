@@ -12,27 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *******************************************************************************/
 
-package uno.informatics.data.pojo;
+package uno.informatics.data;
 
-import uno.informatics.data.Ontology;
-
-public class OntologyPojo extends EntityPojo implements Ontology {
-
-    public OntologyPojo(String name) {
-        super(name);
-    }
-
-    public OntologyPojo(String uniqueIdentifier, String name) {
-        super(uniqueIdentifier, name);
-    }
-
-    public OntologyPojo(String uniqueIdentifier, String name, String description) {
-        super(uniqueIdentifier, name, description);
-    }
-
-    public OntologyPojo(Ontology identifier) {
-        super(identifier);
-    }
+public interface Data extends SimpleEntity {
+    /**
+     * Gets the dataset to which this data belongs
+     * 
+     * @return the dataset to which this data belongs
+     */
+    public Dataset getDataset();
 }

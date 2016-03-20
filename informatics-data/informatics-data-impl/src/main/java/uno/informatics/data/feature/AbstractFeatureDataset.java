@@ -19,18 +19,19 @@ package uno.informatics.data.feature;
 import java.util.ArrayList;
 import java.util.List;
 
-import uno.informatics.data.Entity;
+import uno.informatics.data.Dataset;
 import uno.informatics.data.Feature;
-import uno.informatics.data.dataset.FeatureDataset;
-import uno.informatics.data.dataset.FeatureDatasetRow;
-import uno.informatics.data.pojo.EntityPojo;
+import uno.informatics.data.dataset.FeatureData;
+import uno.informatics.data.dataset.FeatureDataRow;
+import uno.informatics.data.pojo.DataPojo;
 
 /**
  * @author Guy Davenport
  *
  */
-public abstract class AbstractFeatureDataset extends EntityPojo implements FeatureDataset {
+public abstract class AbstractFeatureDataset extends DataPojo implements FeatureData {
     private List<Feature> features;
+    private Dataset dataset;
 
     protected AbstractFeatureDataset(String name, List<? extends Feature> features) {
         super(null, name);
@@ -44,34 +45,11 @@ public abstract class AbstractFeatureDataset extends EntityPojo implements Featu
         setFeatures(features);
     }
 
-    protected AbstractFeatureDataset(String uniqueIdentifier, String name, String desription,
-            List<? extends Feature> features) {
-        super(uniqueIdentifier, name, desription);
-
-        setFeatures(features);
-    }
-
-    protected AbstractFeatureDataset(Entity entity, List<? extends Feature> features) {
-        super(entity);
-
-        setFeatures(features);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.tests.feature.array.array.Dataset#getFeatures()
-     */
     @Override
     public final List<Feature> getFeatures() {
         return features;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.tests.feature.array.array.Dataset#getFeatures()
-     */
     @Override
     public Feature[] getFeaturesAsArray() {
         return features.toArray(new Feature[features.size()]);
@@ -79,20 +57,16 @@ public abstract class AbstractFeatureDataset extends EntityPojo implements Featu
 
     public abstract int getRowCount();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * uno.informatics.data.tests.feature.array.array.Dataset#getRowsAsArray()
-     */
-    public abstract FeatureDatasetRow[] getRowsAsArray();
+    public abstract FeatureDataRow[] getRowsAsArray();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.tests.feature.array.array.Dataset#getRows()
-     */
-    public abstract List<FeatureDatasetRow> getRows();
+    public abstract List<FeatureDataRow> getRows();
+
+    @Override
+    public Dataset getDataset() {
+        return dataset;
+    }
+    
+    
 
     protected final void setFeatures(List<? extends Feature> features) {
         this.features = new ArrayList<Feature>();

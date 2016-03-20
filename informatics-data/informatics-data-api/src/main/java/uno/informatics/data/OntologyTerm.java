@@ -19,6 +19,7 @@ package uno.informatics.data;
 public interface OntologyTerm extends Entity {
     /**
      * Gets the ontology to which this term belongs
+     * 
      * @return the ontology to which this term belongs
      */
     public Ontology getOntology();

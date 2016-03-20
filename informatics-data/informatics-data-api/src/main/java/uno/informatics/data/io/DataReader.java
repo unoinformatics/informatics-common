@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.data.io;
 
+import uno.informatics.data.Data;
 import uno.informatics.data.Dataset;
 import uno.informatics.data.dataset.DatasetException;
 
-public interface DatasetWriter
-{
-	public void write(Dataset dataset) throws DatasetException ;
+public interface DataReader {
+    public Data read() throws DatasetException;
 }

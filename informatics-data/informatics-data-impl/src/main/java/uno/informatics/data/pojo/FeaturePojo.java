@@ -19,22 +19,24 @@ package uno.informatics.data.pojo;
 import uno.informatics.data.Feature;
 import uno.informatics.data.Method;
 
+
 /**
  * @author Guy Davenport
  * 
  */
 public class FeaturePojo extends EntityPojo implements Feature {
-    private Method method;
+    public static final String METHOD_PROPERTY = Feature.class.getName() + ".method";
+    private MethodPojo method;
 
-    public FeaturePojo(String name) {
+    protected FeaturePojo(String name) {
         super(name);
     }
 
-    public FeaturePojo(String uniqueIdentifier, String name) {
+    protected FeaturePojo(String uniqueIdentifier, String name) {
         super(uniqueIdentifier, name);
     }
 
-    public FeaturePojo(String uniqueIdentifier, String name, String description) {
+    protected FeaturePojo(String uniqueIdentifier, String name, String description) {
         super(uniqueIdentifier, name, description);
     }
 
@@ -59,22 +61,31 @@ public class FeaturePojo extends EntityPojo implements Feature {
     public FeaturePojo(Feature feature) {
         super(feature);
 
-        if (feature.getMethod() != null)
+        if (feature != null)
             setMethod(new MethodPojo(feature.getMethod()));
+        else
+            throw new IllegalArgumentException("Feature is not optional!") ;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.common.model.Feature#getMethod()
-     */
     @Override
     public Method getMethod() {
         return method;
     }
 
+    /**
+     * Sets the method associated with this feature.
+     * 
+     * @param method the method associated with this feature.
+     */
     public void setMethod(Method method) {
-        // TODO property event
-        this.method = method;
+        
+        if (method == null)
+            throw new IllegalArgumentException("Method is not optional for feature!") ;
+        
+        MethodPojo oldValue = this.method;
+
+        this.method = new MethodPojo(method);
+
+        getPropertyChangeSupport().firePropertyChange(METHOD_PROPERTY, oldValue, this.method);
     }
 }

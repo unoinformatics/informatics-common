@@ -24,7 +24,7 @@ import org.junit.Test;
 
 import uno.informatics.common.io.FileType;
 import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.dataset.FeatureDataset;
+import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureDataset;
 import uno.informatics.data.tests.TestData;
 
@@ -53,7 +53,7 @@ public class FileReadDatasetCSVTest extends TestData {
         try {
             File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE).getFile());
 
-            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
 
             checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
                     STRING_FEATURES, dataset, BLANK_HEADERS, true);
@@ -79,7 +79,7 @@ public class FileReadDatasetCSVTest extends TestData {
         try {
             File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES).getFile());
 
-            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
 
             checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
                     STRING_FEATURES, dataset, ROW_HEADERS, true);
@@ -101,7 +101,7 @@ public class FileReadDatasetCSVTest extends TestData {
         try {
             File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES_IDS).getFile());
 
-            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
 
             checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
                     STRING_FEATURES, dataset, ROW_HEADERS_WITH_ID, true);
@@ -123,7 +123,7 @@ public class FileReadDatasetCSVTest extends TestData {
         try {
             File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES).getFile());
 
-            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
 
             checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
                     OBJECT_FEATURES, dataset, ROW_HEADERS, false);
@@ -145,7 +145,7 @@ public class FileReadDatasetCSVTest extends TestData {
         try {
             File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES_IDS).getFile());
 
-            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
 
             checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
                     OBJECT_FEATURES, dataset, ROW_HEADERS_WITH_ID, false);
@@ -167,7 +167,7 @@ public class FileReadDatasetCSVTest extends TestData {
         try {
             File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES).getFile());
 
-            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
 
             checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
                     OBJECT_FEATURES_MIN, dataset, ROW_HEADERS, false);
@@ -190,7 +190,7 @@ public class FileReadDatasetCSVTest extends TestData {
             File file = new File(
                     ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES_IDS).getFile());
 
-            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
 
             checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
                     OBJECT_FEATURES_MIN, dataset, ROW_HEADERS_WITH_ID, false);
@@ -213,7 +213,7 @@ public class FileReadDatasetCSVTest extends TestData {
             File file = new File(
                     ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES).getFile());
 
-            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
 
             checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
                     OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS, false);
@@ -236,7 +236,7 @@ public class FileReadDatasetCSVTest extends TestData {
             File file = new File(
                     ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS).getFile());
 
-            FeatureDataset dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
 
             checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
                     OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS_WITH_ID, false);

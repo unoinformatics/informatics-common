@@ -17,31 +17,26 @@
 package uno.informatics.data.matrix;
 
 import uno.informatics.data.Feature;
-import uno.informatics.data.dataset.MatrixDataset;
+import uno.informatics.data.dataset.MatrixData;
+import uno.informatics.data.pojo.DataPojo;
 import uno.informatics.data.pojo.EntityPojo;
 
 /**
  * @author Guy Davenport
  *
  */
-public abstract class AbstractMatrixDataset<ValueType extends Object> extends EntityPojo
-        implements MatrixDataset<ValueType> {
+public abstract class AbstractMatrixData<ValueType extends Object> extends DataPojo
+        implements MatrixData<ValueType> {
     private Feature valueFeature;
 
-    protected AbstractMatrixDataset(String name, Feature elementFeature) {
+    protected AbstractMatrixData(String name, Feature elementFeature) {
         super(null, name);
 
         setValueFeature(elementFeature);
     }
 
-    protected AbstractMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature) {
+    protected AbstractMatrixData(String uniqueIdentifier, String name, Feature elementFeature) {
         super(uniqueIdentifier, name);
-
-        setValueFeature(elementFeature);
-    }
-
-    protected AbstractMatrixDataset(String uniqueIdentifier, String name, String desription, Feature elementFeature) {
-        super(uniqueIdentifier, name, desription);
 
         setValueFeature(elementFeature);
     }

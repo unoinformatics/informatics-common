@@ -35,7 +35,7 @@ public class EntityPojo extends SimpleEntityPojo implements Entity {
 
     private String abbreviation;
 
-    private OntologyTerm type;
+    private OntologyTermPojo type;
 
     public EntityPojo(String name) {
         this(null, name, null);
@@ -51,19 +51,17 @@ public class EntityPojo extends SimpleEntityPojo implements Entity {
         setDescription(description);
     }
 
-    public EntityPojo(Entity identifier) {
-        super(identifier);
+    public EntityPojo(Entity entity) {
+        super(entity);
 
-        setDescription(identifier.getDescription());
-        setAbbreviation(identifier.getAbbreviation());
-        setType(identifier.getType());
+        if (entity == null)
+            throw new IllegalArgumentException("Entity is not optional!") ;
+        
+        setDescription(entity.getDescription());
+        setAbbreviation(entity.getAbbreviation());
+        setType(entity.getType());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.Identifier#getAbbreviation()
-     */
     @Override
     public final String getDescription() {
         return description;
@@ -85,20 +83,16 @@ public class EntityPojo extends SimpleEntityPojo implements Entity {
         getPropertyChangeSupport().firePropertyChange(DESCRIPTION_PROPERTY, oldValue, this.description);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.common.model.Identifier#getAbbreviation()
-     */
     @Override
     public final String getAbbreviation() {
         return abbreviation;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Sets the optional short abbreviation that can be used in place of the name.
      * 
-     * @see uno.informatics.data.Identifier#setAbbreviation(java.lang.String)
+     * @param abbreviation
+     *            the abbreviation to be set
      */
     public final void setAbbreviation(String abbreviation) {
         String oldValue = this.abbreviation;
@@ -107,22 +101,25 @@ public class EntityPojo extends SimpleEntityPojo implements Entity {
 
         getPropertyChangeSupport().firePropertyChange(ABBREVIATION_PROPERTY, oldValue, this.abbreviation);
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.Identifier#getType()
-     */
+    
     @Override
     public final OntologyTerm getType() {
-        // TODO Auto-generated method stub
-        return null;
+        return type;
     }
 
+    /**
+     * Sets the optional type of the entity, which is a term with an ontology
+     * 
+     * @param type
+     *            the type of the entity
+     */
     public final void setType(OntologyTerm type) {
-        OntologyTerm oldValue = this.type;
+        OntologyTermPojo oldValue = this.type;
 
-        this.type = type;
+        if (type != null)
+            this.type = new OntologyTermPojo(type) ;
+        else
+            this.type = null ;
 
         getPropertyChangeSupport().firePropertyChange(TYPE_PROPERTY, oldValue, this.type);
     }

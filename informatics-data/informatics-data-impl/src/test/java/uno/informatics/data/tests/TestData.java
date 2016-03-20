@@ -33,8 +33,8 @@ import uno.informatics.data.Method;
 import uno.informatics.data.Scale;
 import uno.informatics.data.ScaleType;
 import uno.informatics.data.SimpleEntity;
-import uno.informatics.data.dataset.FeatureDataset;
-import uno.informatics.data.dataset.FeatureDatasetRow;
+import uno.informatics.data.dataset.FeatureData;
+import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.feature.array.ArrayFeatureDatasetRow;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
@@ -268,20 +268,20 @@ public class TestData {
         STRING_TABLE_AS_LIST_WITH_HEADER.get(2).add(STRING_ROW3_WITH_HEADER[5]);
     }
 
-    protected final static FeatureDatasetRow ROW_WITH_NAME1 = new ArrayFeatureDatasetRow(
+    protected final static FeatureDataRow ROW_WITH_NAME1 = new ArrayFeatureDatasetRow(
             new SimpleEntityPojo(ROW1_NAME), OBJECT_ROW1);
-    protected final static FeatureDatasetRow ROW_WITH_NAME2 = new ArrayFeatureDatasetRow(
+    protected final static FeatureDataRow ROW_WITH_NAME2 = new ArrayFeatureDatasetRow(
             new SimpleEntityPojo(ROW2_NAME), OBJECT_ROW2);
-    protected final static FeatureDatasetRow ROW_WITH_NAME3 = new ArrayFeatureDatasetRow(
+    protected final static FeatureDataRow ROW_WITH_NAME3 = new ArrayFeatureDatasetRow(
             new SimpleEntityPojo(ROW3_NAME), OBJECT_ROW3);
 
-    protected final static FeatureDatasetRow ROW1 = new ArrayFeatureDatasetRow(OBJECT_ROW1);
-    protected final static FeatureDatasetRow ROW2 = new ArrayFeatureDatasetRow(OBJECT_ROW2);
-    protected final static FeatureDatasetRow ROW3 = new ArrayFeatureDatasetRow(OBJECT_ROW3);
+    protected final static FeatureDataRow ROW1 = new ArrayFeatureDatasetRow(OBJECT_ROW1);
+    protected final static FeatureDataRow ROW2 = new ArrayFeatureDatasetRow(OBJECT_ROW2);
+    protected final static FeatureDataRow ROW3 = new ArrayFeatureDatasetRow(OBJECT_ROW3);
 
-    protected final static FeatureDatasetRow[] ROWS_AS_ARRAY = new FeatureDatasetRow[] { ROW1, ROW2, ROW3 };
+    protected final static FeatureDataRow[] ROWS_AS_ARRAY = new FeatureDataRow[] { ROW1, ROW2, ROW3 };
 
-    protected static final List<FeatureDatasetRow> ROWS_AS_LIST = new ArrayList<FeatureDatasetRow>();
+    protected static final List<FeatureDataRow> ROWS_AS_LIST = new ArrayList<FeatureDataRow>();
 
     static {
         ROWS_AS_LIST.add(ROW1);
@@ -362,17 +362,16 @@ public class TestData {
     }
 
     protected void checkCompleteDataset(String uid, String name, String description, List<Feature> features,
-            FeatureDataset dataset, SimpleEntity[] rowHeaders, boolean useStrings) {
+            FeatureData dataset, SimpleEntity[] rowHeaders, boolean useStrings) {
         assertEquals("uid not correct", uid, dataset.getUniqueIdentifier());
         assertEquals("name not correct", name, dataset.getName());
-        assertEquals("description not correct", description, dataset.getDescription());
 
         // TODO
         // assertEquals("Data type not correct", type,dataset.getType()) ;
 
         assertEquals("Number of rows incorrect", OBJECT_TABLE_AS_ARRAY_WITH_HEADER.length, dataset.getRowCount());
 
-        FeatureDatasetRow[] rows = dataset.getRowsAsArray();
+        FeatureDataRow[] rows = dataset.getRowsAsArray();
 
         for (int i = 0; i < rows.length; ++i) {
             assertSimpleEntityEquals("Row header " + i + " not correct", rowHeaders[i], rows[i].getHeader());
@@ -385,11 +384,11 @@ public class TestData {
                     useStrings ? STRING_TABLE_AS_ARRAY[i] : OBJECT_TABLE_AS_ARRAY[i], rows[i].getValuesAsArray());
         }
 
-        Iterator<FeatureDatasetRow> iterator = dataset.getRows().iterator();
+        Iterator<FeatureDataRow> iterator = dataset.getRows().iterator();
 
         int i = 0;
 
-        FeatureDatasetRow row;
+        FeatureDataRow row;
 
         while (iterator.hasNext()) {
             row = iterator.next();

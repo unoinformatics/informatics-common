@@ -24,9 +24,9 @@ import org.junit.Test;
 
 import uno.informatics.common.io.FileType;
 import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.dataset.FeatureDataset;
+import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureDataset;
-import uno.informatics.data.feature.array.ZipFeatureDatasetReader;
+import uno.informatics.data.feature.array.ZipFeatureDataReader;
 import uno.informatics.data.feature.array.ZipFeatureDatasetWriter;
 import uno.informatics.data.tests.TestData;
 
@@ -34,7 +34,7 @@ import uno.informatics.data.tests.TestData;
  * @author Guy Davenport
  *
  */
-public class ZipDatasetWriteReadTest extends TestData {
+public class ZipDataWriteReadTest extends TestData {
     private static final String FILE = "target/test.zip";
     private static final String FILE_WITH_HEADER = "target/test_with_header.zip";
 
@@ -50,13 +50,13 @@ public class ZipDatasetWriteReadTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetReader#read()}
+     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDataReader#read()}
      * and
-     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetWriter#write(uno.uno.informatics.data.dataset.FeatureDataset)}
+     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetWriter#write(uno.FeatureData.informatics.data.dataset.FeatureDataset)}
      * ..
      */
     public void testWriteRead(FileType fileType) {
-        FeatureDataset originalDataset = createDataset();
+        FeatureData originalDataset = createDataset();
 
         ZipFeatureDatasetWriter writer = new ZipFeatureDatasetWriter(new File(FILE));
 
@@ -65,9 +65,9 @@ public class ZipDatasetWriteReadTest extends TestData {
         try {
             writer.write(originalDataset);
 
-            ZipFeatureDatasetReader reader = new ZipFeatureDatasetReader(new File(FILE));
+            ZipFeatureDataReader reader = new ZipFeatureDataReader(new File(FILE));
 
-            FeatureDataset readDataset = (FeatureDataset) reader.read();
+            FeatureData readDataset = (FeatureData) reader.read();
 
             checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, readDataset, BLANK_HEADERS, false);
         } catch (DatasetException e) {
@@ -84,9 +84,9 @@ public class ZipDatasetWriteReadTest extends TestData {
 
             writer.write(originalDataset);
 
-            ZipFeatureDatasetReader reader = new ZipFeatureDatasetReader(new File(FILE_WITH_HEADER));
+            ZipFeatureDataReader reader = new ZipFeatureDataReader(new File(FILE_WITH_HEADER));
 
-            FeatureDataset readDataset = (FeatureDataset) reader.read();
+            FeatureData readDataset = (FeatureData) reader.read();
 
             checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, readDataset, ROW_HEADERS, false);
         } catch (DatasetException e) {
@@ -95,11 +95,11 @@ public class ZipDatasetWriteReadTest extends TestData {
         }
     }
 
-    protected FeatureDataset createDataset() {
-        return new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY);
+    protected FeatureData createDataset() {
+        return new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY);
     }
 
-    protected FeatureDataset createDatasetWithHeaders() throws DatasetException {
-        return new ArrayFeatureDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY_WITH_HEADER, true);
+    protected FeatureData createDatasetWithHeaders() throws DatasetException {
+        return new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY_WITH_HEADER, true);
     }
 }
