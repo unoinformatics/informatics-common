@@ -16,18 +16,21 @@
 
 package uno.informatics.data.matrix;
 
+import uno.informatics.data.Dataset;
 import uno.informatics.data.Feature;
 import uno.informatics.data.dataset.MatrixData;
-import uno.informatics.data.pojo.DataPojo;
-import uno.informatics.data.pojo.EntityPojo;
+import uno.informatics.data.pojo.SimpleEntityPojo;
 
 /**
  * @author Guy Davenport
  *
  */
-public abstract class AbstractMatrixData<ValueType extends Object> extends DataPojo
+public abstract class AbstractMatrixData<ValueType extends Object> extends SimpleEntityPojo
         implements MatrixData<ValueType> {
+
+
     private Feature valueFeature;
+    private Dataset dataset;
 
     protected AbstractMatrixData(String name, Feature elementFeature) {
         super(null, name);
@@ -54,4 +57,12 @@ public abstract class AbstractMatrixData<ValueType extends Object> extends DataP
         this.valueFeature = valueFeature;
     }
 
+    @Override
+    public Dataset getDataset() {
+        return dataset;
+    }
+
+    public final void setDataset(Dataset dataset) {
+        this.dataset = dataset;
+    }
 }

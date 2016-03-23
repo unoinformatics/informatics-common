@@ -35,7 +35,7 @@ import uno.informatics.data.ScaleType;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.dataset.FeatureDataRow;
-import uno.informatics.data.feature.array.ArrayFeatureDatasetRow;
+import uno.informatics.data.feature.array.ArrayFeatureDataRow;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
 import uno.informatics.data.pojo.ScalePojo;
@@ -268,16 +268,16 @@ public class TestData {
         STRING_TABLE_AS_LIST_WITH_HEADER.get(2).add(STRING_ROW3_WITH_HEADER[5]);
     }
 
-    protected final static FeatureDataRow ROW_WITH_NAME1 = new ArrayFeatureDatasetRow(
+    protected final static FeatureDataRow ROW_WITH_NAME1 = new ArrayFeatureDataRow(
             new SimpleEntityPojo(ROW1_NAME), OBJECT_ROW1);
-    protected final static FeatureDataRow ROW_WITH_NAME2 = new ArrayFeatureDatasetRow(
+    protected final static FeatureDataRow ROW_WITH_NAME2 = new ArrayFeatureDataRow(
             new SimpleEntityPojo(ROW2_NAME), OBJECT_ROW2);
-    protected final static FeatureDataRow ROW_WITH_NAME3 = new ArrayFeatureDatasetRow(
+    protected final static FeatureDataRow ROW_WITH_NAME3 = new ArrayFeatureDataRow(
             new SimpleEntityPojo(ROW3_NAME), OBJECT_ROW3);
 
-    protected final static FeatureDataRow ROW1 = new ArrayFeatureDatasetRow(OBJECT_ROW1);
-    protected final static FeatureDataRow ROW2 = new ArrayFeatureDatasetRow(OBJECT_ROW2);
-    protected final static FeatureDataRow ROW3 = new ArrayFeatureDatasetRow(OBJECT_ROW3);
+    protected final static FeatureDataRow ROW1 = new ArrayFeatureDataRow(OBJECT_ROW1);
+    protected final static FeatureDataRow ROW2 = new ArrayFeatureDataRow(OBJECT_ROW2);
+    protected final static FeatureDataRow ROW3 = new ArrayFeatureDataRow(OBJECT_ROW3);
 
     protected final static FeatureDataRow[] ROWS_AS_ARRAY = new FeatureDataRow[] { ROW1, ROW2, ROW3 };
 
@@ -361,7 +361,7 @@ public class TestData {
         }
     }
 
-    protected void checkCompleteDataset(String uid, String name, String description, List<Feature> features,
+    protected void checkCompleteData(String uid, String name, List<Feature> features,
             FeatureData dataset, SimpleEntity[] rowHeaders, boolean useStrings) {
         assertEquals("uid not correct", uid, dataset.getUniqueIdentifier());
         assertEquals("name not correct", name, dataset.getName());

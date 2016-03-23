@@ -17,8 +17,10 @@
 package uno.informatics.data.matrix.array;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
@@ -29,33 +31,35 @@ import uno.informatics.data.matrix.AbstractMatrixData;
  * @author Guy Davenport
  *
  */
-public abstract class ArrayMatrixDataset<ValueType extends Object> extends AbstractMatrixData<ValueType> {
+public abstract class ArrayMatrixData<ValueType extends Object> extends AbstractMatrixData<ValueType> {
     private ValueType[][] values;
     private SimpleEntity[] rowHeaders;
     private SimpleEntity[] columnHeaders;
 
     private int rowCount;
     private int columnCount;
+    
+    private Set<Integer> ids;
 
-    public ArrayMatrixDataset(String name, Feature elementFeature, ValueType[][] values) {
+    public ArrayMatrixData(String name, Feature elementFeature, ValueType[][] values) {
         super(null, name, elementFeature);
 
         setValues(values);
     }
 
-    public ArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature, ValueType[][] values) {
+    public ArrayMatrixData(String uniqueIdentifier, String name, Feature elementFeature, ValueType[][] values) {
         super(uniqueIdentifier, name, elementFeature);
 
         setValues(values);
     }
 
-    public ArrayMatrixDataset(String name, Feature elementFeature, List<List<ValueType>> values) {
+    public ArrayMatrixData(String name, Feature elementFeature, List<List<ValueType>> values) {
         super(null, name, elementFeature);
 
         setValues(values);
     }
 
-    public ArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature,
+    public ArrayMatrixData(String uniqueIdentifier, String name, Feature elementFeature,
             List<List<ValueType>> values) {
         super(uniqueIdentifier, name, elementFeature);
 
@@ -369,6 +373,25 @@ public abstract class ArrayMatrixDataset<ValueType extends Object> extends Abstr
 
     private final void setRowHeadersInternal(SimpleEntity[] rowHeaders) {
         this.rowHeaders = rowHeaders;
+        
+        int n = rowHeaders.length;
+        
+        ids = new HashSet<Integer>();
+
+        // check unique identifiers
+        Set<String> identifiers = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            ids.add(i);
+            SimpleEntity header = rowHeaders[i];
+            if (header == null || header.getUniqueIdentifier() == null) {
+                throw new IllegalArgumentException(String.format("No identifier defined for item %d.", i));
+            }
+            if (!identifiers.add(header.getUniqueIdentifier())) {
+                throw new IllegalArgumentException(
+                        String.format("Identifiers are not unique. Duplicate identifier %s for item %d.",
+                                header.getUniqueIdentifier(), i));
+            }
+        }
     }
 
     private final void setColumnHeadersInternal(SimpleEntity[] columnHeaders) {
@@ -378,4 +401,20 @@ public abstract class ArrayMatrixDataset<ValueType extends Object> extends Abstr
     protected abstract ValueType[][] createArrayArray(int size);
 
     protected abstract ValueType[] createArray(int size);
+    
+    @Override
+    public SimpleEntity getHeader(int id) {
+        return rowHeaders[id];
+    }
+
+    @Override
+    public int getSize() {
+        return rowHeaders.length;
+    }
+
+    @Override
+    public Set<Integer> getIDs() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

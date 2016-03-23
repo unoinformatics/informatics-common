@@ -17,7 +17,11 @@
 package uno.informatics.data.feature.array;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,15 +35,13 @@ import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.text.TextFileRowReader;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
-import uno.informatics.data.Entity;
 import uno.informatics.data.Feature;
 import uno.informatics.data.ScaleType;
 import uno.informatics.data.SimpleEntity;
-import uno.informatics.data.Study;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.dataset.FeatureDataRow;
-import uno.informatics.data.feature.AbstractFeatureDataset;
+import uno.informatics.data.feature.AbstractFeatureData;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
 import uno.informatics.data.pojo.ScalePojo;
@@ -50,7 +52,7 @@ import uno.informatics.data.utils.DatasetUtils;
  * @author Guy Davenport
  *
  */
-public class ArrayFeatureDataset extends AbstractFeatureDataset {
+public class ArrayFeatureData extends AbstractFeatureData {
     private static final String NAME = "NAME";
     private static final String ID = "ID";
     private static final String TYPE = "TYPE";
@@ -59,23 +61,25 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
     private FeatureDataRow[] rows;
     private int rowCount;
-    private Study study;
     private boolean hasRowHeaders;
 
-    public ArrayFeatureDataset(String name, List<? extends Feature> features, Object[][] values) {
+    // item IDs (0..n-1)
+    private Set<Integer> ids;
+
+    public ArrayFeatureData(String name, List<? extends Feature> features, Object[][] values) {
         super(name, features);
 
         setValues(values);
     }
 
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features,
+    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
             Object[][] values) {
         super(uniqueIdentifier, name, features);
 
         setValues(values);
     }
 
-    public ArrayFeatureDataset(String name, List<? extends Feature> features, Object[][] values,
+    public ArrayFeatureData(String name, List<? extends Feature> features, Object[][] values,
             boolean hasRowHeaders) {
         super(name, features);
 
@@ -85,7 +89,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             setValues(values);
     }
 
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features,
+    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
             Object[][] values, boolean hasRowHeaders) {
         super(uniqueIdentifier, name, features);
 
@@ -95,48 +99,48 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             setValues(values);
     }
 
-    public ArrayFeatureDataset(String name, List<? extends Feature> features, SimpleEntity[] headers,
+    public ArrayFeatureData(String name, List<? extends Feature> features, SimpleEntity[] headers,
             Object[][] values) {
         super(name, features);
 
         setValuesWithHeaders(headers, values);
     }
 
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features,
+    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
             SimpleEntity[] headers, Object[][] values) {
         super(uniqueIdentifier, name, features);
 
         setValuesWithHeaders(headers, values);
     }
 
-    public ArrayFeatureDataset(String name, List<? extends Feature> features, SimpleEntity[] headers, String[] rowNames,
+    public ArrayFeatureData(String name, List<? extends Feature> features, SimpleEntity[] headers, String[] rowNames,
             Object[][] values) {
         super(name, features);
 
         setValuesWithHeaders(headers, rowNames, values);
     }
 
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features,
+    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
             SimpleEntity[] headers, String[] rowNames, Object[][] values) {
         super(uniqueIdentifier, name, features);
 
         setValuesWithHeaders(headers, rowNames, values);
     }
-    
-    public ArrayFeatureDataset(String name, List<? extends Feature> features, List<List<Object>> values) {
+
+    public ArrayFeatureData(String name, List<? extends Feature> features, List<List<Object>> values) {
         super(name, features);
 
         setValues(values);
     }
 
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features,
+    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
             List<List<Object>> values) {
         super(uniqueIdentifier, name, features);
 
         setValues(values);
     }
-    
-    public ArrayFeatureDataset(String name, List<? extends Feature> features, List<List<Object>> values,
+
+    public ArrayFeatureData(String name, List<? extends Feature> features, List<List<Object>> values,
             boolean hasRowHeaders) {
         super(name, features);
 
@@ -146,7 +150,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             setValues(values);
     }
 
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features,
+    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
             List<List<Object>> values, boolean hasRowHeaders) {
         super(uniqueIdentifier, name, features);
 
@@ -156,14 +160,14 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             setValues(values);
     }
 
-    public ArrayFeatureDataset(String name, List<? extends Feature> features, List<SimpleEntity> headers,
+    public ArrayFeatureData(String name, List<? extends Feature> features, List<SimpleEntity> headers,
             List<List<Object>> values) {
         super(name, features);
 
         setValuesWithHeaders(headers, values);
     }
 
-    public ArrayFeatureDataset(String uniqueIdentifier, String name, List<? extends Feature> features,
+    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
             List<SimpleEntity> headers, List<List<Object>> values) {
         super(uniqueIdentifier, name, features);
 
@@ -232,7 +236,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
     /*
      * (non-Javadoc)
      * 
-     * @see uno.informatics.data.feature.FeatureDataset#getValuesAsArray()
+     * @see uno.informatics.data.feature.FeatureData#getValuesAsArray()
      */
     @Override
     public Object[][] getValuesAsArray() {
@@ -245,26 +249,36 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
      * @see uno.informatics.data.dataset.FeatureDataset#getRowHeaderFeature()
      */
 
-    public static final ArrayFeatureDataset readFeatureDatasetFromTextFile(File file, FileType fileType)
-            throws DatasetException {
+    public static final ArrayFeatureData readData(Path filePath, FileType type)
+            throws IOException {
+
+        ArrayFeatureData data = null;
+
         RowReader reader = null;
         List<List<Object>> rowList = new LinkedList<List<Object>>();
 
-        if (file == null)
-            throw new DatasetException("File not defined!");
+        // validate arguments
 
-        if (fileType == null)
-            throw new DatasetException("File type not defined!");
+        if (filePath == null) {
+            throw new IllegalArgumentException("File path not defined.");
+        }
 
-        if (!file.exists())
-            throw new DatasetException("File does not exist : " + file);
+        if (!filePath.toFile().exists()) {
+            throw new IOException("File does not exist : " + filePath + ".");
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException("File type not defined.");
+        }
+
+        if (type != FileType.TXT && type != FileType.CSV) {
+            throw new IllegalArgumentException(
+                    String.format("Only file types TXT and CSV are supported. Got: %s.", type));
+        }
 
         try {
-            reader = IOUtilities.createRowReader(
-                    file, fileType,
-                    TextFileRowReader.ROWS_SAME_SIZE,
-                    TextFileRowReader.REMOVE_WHITE_SPACE
-            );
+            reader = IOUtilities.createRowReader(new File(filePath.toString()), type, TextFileRowReader.ROWS_SAME_SIZE,
+                    TextFileRowReader.REMOVE_WHITE_SPACE);
 
             if (reader != null && reader.ready()) {
                 int columnCount = 0;
@@ -432,7 +446,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
                             cells = reader.getRowCellsAsString();
 
                             if (cells.size() != columnCount)
-                                throw new DatasetException("Rows are not all the same size in row + " + row + " !");
+                                throw new IOException("Rows are not all the same size in row + " + row + " !");
 
                             addValues(rowList, cells, newFeatures, types);
                         }
@@ -445,18 +459,36 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
                     reader.close();
 
                 if (hasNames)
-                    return new ArrayFeatureDataset(file.getName(), file.getName(), newFeatures,
-                            rowHeaders, rowList);
+                    data = new ArrayFeatureData(filePath.getFileName().toString(), filePath.getFileName().toString(),
+                            newFeatures, rowHeaders, rowList);
                 else
-                    return new ArrayFeatureDataset(file.getName(), file.getName(), newFeatures,
-                            rowList);
+                    data = new ArrayFeatureData(filePath.getFileName().toString(), filePath.getFileName().toString(),
+                            newFeatures, rowList);
+
+                // check unique identifiers
+                Set<String> uniqueIds = new HashSet<>();
+                for (int i = 0; i < data.getRowCount(); i++) {
+                    SimpleEntity header = data.getRow(i).getHeader();
+                    if (header != null && !uniqueIds.add(header.getUniqueIdentifier())) {
+                        throw new IOException(String.format(
+                                "Duplicate name/id %s for item %d. "
+                                        + "Names should either be unique or complemented with unique identifiers.",
+                                header.getUniqueIdentifier(), i));
+                    }
+                }
+                // check for missing identifiers
+                if (!uniqueIds.isEmpty() && uniqueIds.size() < data.getRowCount()) {
+                    throw new IOException("Missing names/ids. Unique identifier is "
+                            + "required for items whose name is not defined.");
+                }
+
             }
 
-            return null;
-
-        } catch (Exception e) {
-            throw new DatasetException(e);
+            return data;
+        } catch (ConversionException | DatasetException e) {
+            throw new IOException(e);
         }
+
     }
 
     private static void addValues(List<List<Object>> rowList, List<String> cells, List<FeaturePojo> features,
@@ -469,11 +501,11 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
     }
 
     private static void addHeaders(String rowName, String rowId, List<SimpleEntity> rowHeaders) {
-         
-        if(rowHeaders != null){
+
+        if (rowHeaders != null) {
             SimpleEntity header = null;
-            if(rowName != null || rowId != null){
-                if(rowId == null){
+            if (rowName != null || rowId != null) {
+                if (rowId == null) {
                     // only name set
                     header = new SimpleEntityPojo(rowName);
                 } else {
@@ -508,12 +540,10 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             ScalePojo scale;
 
             // default to nominal
-            ScaleType scaleType = type != null && type.length() > 0
-                    ? getScaleTypeByAbbreviation(type.substring(0, 1))
+            ScaleType scaleType = type != null && type.length() > 0 ? getScaleTypeByAbbreviation(type.substring(0, 1))
                     : ScaleType.NOMINAL;
             // set default or specified encoding
-             DataType dataType = type != null && type.length() > 1
-                    ? getDataTypeByAbbreviation(type.substring(1, 2))
+            DataType dataType = type != null && type.length() > 1 ? getDataTypeByAbbreviation(type.substring(1, 2))
                     : scaleType.getDefaultEncoding();
 
             Number minNumber = null;
@@ -570,7 +600,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
 
         scale.setDataType(DataType.STRING);
         scale.setScaleType(ScaleType.NOMINAL);
-        
+
         return new FeaturePojo(name, new MethodPojo(name, scale));
     }
 
@@ -586,7 +616,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             values[i] = dataset.getRow(iterator.next()).getValuesAsArray();
         }
 
-        return new ArrayFeatureDataset(uniqueIdentifier, name, dataset.getFeatures(), values);
+        return new ArrayFeatureData(uniqueIdentifier, name, dataset.getFeatures(), values);
     }
 
     public static final FeatureData createSubsetFeatureDataset(String uniqueIdentifier, String name,
@@ -597,7 +627,7 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             values[i] = dataset.getRow(indices[i]).getValuesAsArray();
         }
 
-        return new ArrayFeatureDataset(uniqueIdentifier, name, dataset.getFeatures(), values);
+        return new ArrayFeatureData(uniqueIdentifier, name, dataset.getFeatures(), values);
     }
 
     /**
@@ -668,9 +698,11 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
                     throw new IllegalArgumentException("Row : " + i + " size : " + values[i].length
                             + " does not match the number of features : " + columnCount);
 
-                rows[i] = new ArrayFeatureDatasetRow(values[i]);
+                rows[i] = new ArrayFeatureDataRow(values[i]);
             }
         }
+
+        createIds(rows.length);
     }
 
     /**
@@ -694,9 +726,11 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
                             + " does not match the number of features : " + columnCount);
 
-                rows[i] = ArrayFeatureDatasetRow.createRow(true, values[i]);
+                rows[i] = ArrayFeatureDataRow.createRow(true, values[i]);
             }
         }
+
+        createIds(rows.length);
     }
 
     /**
@@ -723,9 +757,11 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
                             + " does not match the number of features : " + columnCount);
 
-                rows[i] = ArrayFeatureDatasetRow.createRow(headers[i], values[i]);
+                rows[i] = ArrayFeatureDataRow.createRow(headers[i], values[i]);
             }
         }
+
+        createIds(rows.length);
     }
 
     /**
@@ -756,9 +792,11 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
                             + " does not match the number of features : " + columnCount);
 
-                rows[i] = ArrayFeatureDatasetRow.createRow(headers[i], values[i]);
+                rows[i] = ArrayFeatureDataRow.createRow(headers[i], values[i]);
             }
         }
+
+        createIds(rows.length);
     }
 
     /**
@@ -777,10 +815,12 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             int i = 0;
 
             while (iterator.hasNext()) {
-                rows[i] = new ArrayFeatureDatasetRow(iterator.next());
+                rows[i] = new ArrayFeatureDataRow(iterator.next());
                 ++i;
             }
         }
+
+        createIds(rows.length);
     }
 
     /**
@@ -799,10 +839,12 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             int i = 0;
 
             while (iterator.hasNext()) {
-                rows[i] = ArrayFeatureDatasetRow.createRow(true, iterator.next());
+                rows[i] = ArrayFeatureDataRow.createRow(true, iterator.next());
                 ++i;
             }
         }
+
+        createIds(rows.length);
     }
 
     /**
@@ -829,11 +871,13 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             int i = 0;
 
             while (iterator1.hasNext()) {
-                rows[i] = ArrayFeatureDatasetRow.createRow(iterator2.hasNext() ? iterator2.next() : null,
+                rows[i] = ArrayFeatureDataRow.createRow(iterator2.hasNext() ? iterator2.next() : null,
                         iterator1.next());
                 ++i;
             }
         }
+
+        createIds(rows.length);
     }
 
     private List<FeatureDataRow> toRowList(FeatureDataRow[] array) {
@@ -870,6 +914,32 @@ public class ArrayFeatureDataset extends AbstractFeatureDataset {
             list[i] = array[i].getValuesAsArray();
 
         return list;
+    }
+
+    @Override
+    public SimpleEntity getHeader(int id) {
+        return rows[id].getHeader();
+    }
+
+    @Override
+    public int getSize() {
+        return rows.length;
+    }
+
+    @Override
+    public Set<Integer> getIDs() {
+        return ids;
+    }
+
+    private void createIds(int n) {
+
+        ids = new HashSet<Integer>();
+
+        for (int i = 0; i < n; i++) {
+            ids.add(i);
+        }
+
+        ids = Collections.unmodifiableSet(ids);
     }
 
 }

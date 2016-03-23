@@ -25,9 +25,9 @@ import org.junit.Test;
 import uno.informatics.common.io.FileType;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
-import uno.informatics.data.feature.array.ArrayFeatureDataset;
+import uno.informatics.data.feature.array.ArrayFeatureData;
 import uno.informatics.data.feature.array.ZipFeatureDataReader;
-import uno.informatics.data.feature.array.ZipFeatureDatasetWriter;
+import uno.informatics.data.feature.array.ZipFeatureDataWriter;
 import uno.informatics.data.tests.TestData;
 
 /**
@@ -52,13 +52,13 @@ public class ZipDataWriteReadTest extends TestData {
      * Test method for
      * {@link uno.informatics.data.tests.feature.array.ZipFeatureDataReader#read()}
      * and
-     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDatasetWriter#write(uno.FeatureData.informatics.data.dataset.FeatureDataset)}
+     * {@link uno.informatics.data.tests.feature.array.ZipFeatureDataWriter#write(uno.FeatureData.informatics.data.dataset.FeatureDataset)}
      * ..
      */
     public void testWriteRead(FileType fileType) {
         FeatureData originalDataset = createDataset();
 
-        ZipFeatureDatasetWriter writer = new ZipFeatureDatasetWriter(new File(FILE));
+        ZipFeatureDataWriter writer = new ZipFeatureDataWriter(new File(FILE));
 
         writer.setFileType(fileType);
 
@@ -69,7 +69,7 @@ public class ZipDataWriteReadTest extends TestData {
 
             FeatureData readDataset = (FeatureData) reader.read();
 
-            checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, readDataset, BLANK_HEADERS, false);
+            checkCompleteData(UID, NAME, OBJECT_FEATURES, readDataset, BLANK_HEADERS, false);
         } catch (DatasetException e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -78,7 +78,7 @@ public class ZipDataWriteReadTest extends TestData {
         try {
             originalDataset = createDatasetWithHeaders();
 
-            writer = new ZipFeatureDatasetWriter(new File(FILE_WITH_HEADER));
+            writer = new ZipFeatureDataWriter(new File(FILE_WITH_HEADER));
 
             writer.setFileType(fileType);
 
@@ -88,7 +88,7 @@ public class ZipDataWriteReadTest extends TestData {
 
             FeatureData readDataset = (FeatureData) reader.read();
 
-            checkCompleteDataset(UID, NAME, DESCRIPTION, OBJECT_FEATURES, readDataset, ROW_HEADERS, false);
+            checkCompleteData(UID, NAME, OBJECT_FEATURES, readDataset, ROW_HEADERS, false);
         } catch (DatasetException e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -96,10 +96,10 @@ public class ZipDataWriteReadTest extends TestData {
     }
 
     protected FeatureData createDataset() {
-        return new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY);
+        return new ArrayFeatureData(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY);
     }
 
     protected FeatureData createDatasetWithHeaders() throws DatasetException {
-        return new ArrayFeatureDataset(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY_WITH_HEADER, true);
+        return new ArrayFeatureData(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_ARRAY_WITH_HEADER, true);
     }
 }

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import uno.informatics.common.io.FileProperties;
 import uno.informatics.common.io.IOUtilities;
@@ -38,20 +39,20 @@ import uno.informatics.data.pojo.SimpleEntityPojo;
  * @author Guy Davenport
  *
  */
-public class DoubleArrayMatrixDataset extends ArrayMatrixDataset<Double> {
-    public DoubleArrayMatrixDataset(String name, Feature elementFeature, Double[][] values) {
+public class DoubleArrayMatrixData extends ArrayMatrixData<Double> {
+    public DoubleArrayMatrixData(String name, Feature elementFeature, Double[][] values) {
         super(name, elementFeature, values);
     }
 
-    public DoubleArrayMatrixDataset(String name, Feature elementFeature, List<List<Double>> values) {
+    public DoubleArrayMatrixData(String name, Feature elementFeature, List<List<Double>> values) {
         super(name, elementFeature, values);
     }
 
-    public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature, Double[][] values) {
+    public DoubleArrayMatrixData(String uniqueIdentifier, String name, Feature elementFeature, Double[][] values) {
         super(uniqueIdentifier, name, elementFeature, values);
     }
 
-    public DoubleArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature,
+    public DoubleArrayMatrixData(String uniqueIdentifier, String name, Feature elementFeature,
             List<List<Double>> values) {
         super(uniqueIdentifier, name, elementFeature, values);
     }
@@ -195,7 +196,7 @@ public class DoubleArrayMatrixDataset extends ArrayMatrixDataset<Double> {
 
             /// updateRowsScales(newFeatures, rowList) ;
 
-            DoubleArrayMatrixDataset matrix = new DoubleArrayMatrixDataset(uniqueIdentifier, name,
+            DoubleArrayMatrixData matrix = new DoubleArrayMatrixData(uniqueIdentifier, name,
                     elementFeature, rowList);
 
             if (columnHeaders != null && !columnHeaders.isEmpty())

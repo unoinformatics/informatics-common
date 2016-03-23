@@ -19,13 +19,17 @@ package uno.informatics.data.tests.feature.array;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.Test;
 
 import uno.informatics.common.io.FileType;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
-import uno.informatics.data.feature.array.ArrayFeatureDataset;
+import uno.informatics.data.feature.array.ArrayFeatureData;
 import uno.informatics.data.tests.TestData;
 
 /**
@@ -44,21 +48,22 @@ public class FileReadDatasetCSVTest extends TestData {
     private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS = "/object_table_with_col_type_min_max_name_id_row_headers.csv";
 
     /**
+     * @throws IOException 
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
      * .
+     * @throws  
      */
     @Test
-    public void testReadFeatureDatasetFromTextFile() {
+    public void testReadFeatureDatasetFromTextFile()  {
         try {
-            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE).getFile());
+            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE).getPath());
 
-            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
 
-            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-                    STRING_FEATURES, dataset, BLANK_HEADERS, true);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), STRING_FEATURES, dataset, BLANK_HEADERS, true);
 
-        } catch (DatasetException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
@@ -71,20 +76,20 @@ public class FileReadDatasetCSVTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
      * .
      */
     @Test
     public void testReadFeatureDatasetFromTextFileWithNameRowHeaders() {
+        
         try {
-            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES).getFile());
+            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
 
-            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-                    STRING_FEATURES, dataset, ROW_HEADERS, true);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), STRING_FEATURES, dataset, ROW_HEADERS, true);
 
-        } catch (DatasetException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
@@ -93,20 +98,19 @@ public class FileReadDatasetCSVTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
      * .
      */
     @Test
     public void testReadFeatureDatasetFromTextFileWithNameAndIDRowHeaders() {
         try {
-            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES_IDS).getFile());
+            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_NAMES_IDS).getPath());
 
-            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
 
-            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-                    STRING_FEATURES, dataset, ROW_HEADERS_WITH_ID, true);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), STRING_FEATURES, dataset, ROW_HEADERS_WITH_ID, true);
 
-        } catch (DatasetException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
@@ -115,64 +119,61 @@ public class FileReadDatasetCSVTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
      * .
      */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeNameRowHeaders() {
         try {
-            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES).getFile());
+            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
 
-            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-                    OBJECT_FEATURES, dataset, ROW_HEADERS, false);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES, dataset, ROW_HEADERS, false);
 
-        } catch (DatasetException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
-        }
+        }       
     }
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
      * .
      */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeNameAndIDRowHeaders() {
         try {
-            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES_IDS).getFile());
+            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_TYPE_ROW_NAMES_IDS).getPath());
 
-            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
 
-            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-                    OBJECT_FEATURES, dataset, ROW_HEADERS_WITH_ID, false);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES, dataset, ROW_HEADERS_WITH_ID, false);
 
-        } catch (DatasetException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
-        }
+        }       
     }
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
      * .
      */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeMinNameRowHeaders() {
         try {
-            File file = new File(ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES).getFile());
+            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
 
-            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-                    OBJECT_FEATURES_MIN, dataset, ROW_HEADERS, false);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN, dataset, ROW_HEADERS, false);
 
-        } catch (DatasetException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
@@ -181,21 +182,19 @@ public class FileReadDatasetCSVTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
      * .
      */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeMinNameAndIDRowHeaders() {
         try {
-            File file = new File(
-                    ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES_IDS).getFile());
+            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES_IDS).getPath());
 
-            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
 
-            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-                    OBJECT_FEATURES_MIN, dataset, ROW_HEADERS_WITH_ID, false);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN, dataset, ROW_HEADERS_WITH_ID, false);
 
-        } catch (DatasetException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
@@ -204,21 +203,19 @@ public class FileReadDatasetCSVTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
      * .
      */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeMinMaxNameRowHeaders() {
         try {
-            File file = new File(
-                    ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES).getFile());
+            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
 
-            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-                    OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS, false);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS, false);
 
-        } catch (DatasetException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
@@ -227,20 +224,19 @@ public class FileReadDatasetCSVTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDataset#readFeatureDatasetFromTextFile(java.io.File, uno.informatics.common.io.FileType)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
      * .
      */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeMinMaxNameAndIDRowHeaders() {
         try {
-            File file = new File(
-                    ArrayFeatureDataset.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS).getFile());
+            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS).getPath());
 
-            FeatureData dataset = ArrayFeatureDataset.readFeatureDatasetFromTextFile(file, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
 
-            checkCompleteDataset(file.getName(), file.getName(), "Dataset loading from " + file.getAbsolutePath(),
-                    OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS_WITH_ID, false);
-        } catch (DatasetException e) {
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS_WITH_ID, false);
+
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());

@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import uno.informatics.data.dataset.FeatureDataRow;
-import uno.informatics.data.feature.array.ArrayFeatureDatasetRow;
+import uno.informatics.data.feature.array.ArrayFeatureDataRow;
 import uno.informatics.data.tests.feature.DataRowTest;
 
 /**
@@ -32,12 +32,12 @@ import uno.informatics.data.tests.feature.DataRowTest;
 public class ArrayFeatureDataRowTest extends DataRowTest {
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#ArrayFeatureDatasetRow(java.lang.Object[])}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataRow#ArrayFeatureDatasetRow(java.lang.Object[])}
      * .
      */
     @Test
     public void testArrayFeatureDatasetRowObjectArray() {
-        FeatureDataRow datasetRow = new ArrayFeatureDatasetRow(OBJECT_ROW1);
+        FeatureDataRow datasetRow = new ArrayFeatureDataRow(OBJECT_ROW1);
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader());
@@ -52,12 +52,12 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#ArrayFeatureDatasetRow(java.lang.String, java.lang.Object[])}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataRow#ArrayFeatureDatasetRow(java.lang.String, java.lang.Object[])}
      * .
      */
     @Test
     public void testArrayFeatureDatasetRowStringObjectArray() {
-        FeatureDataRow datasetRow = new ArrayFeatureDatasetRow(OBJECT_ROW1);
+        FeatureDataRow datasetRow = new ArrayFeatureDataRow(OBJECT_ROW1);
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader());
@@ -72,12 +72,12 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#ArrayFeatureDatasetRow(java.lang.Object, java.lang.Object[])}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataRow#ArrayFeatureDatasetRow(java.lang.Object, java.lang.Object[])}
      * .
      */
     @Test
     public void testArrayFeatureDatasetRowObjectObjectArray() {
-        FeatureDataRow datasetRow = new ArrayFeatureDatasetRow(ROW1_HEADER, OBJECT_ROW1);
+        FeatureDataRow datasetRow = new ArrayFeatureDataRow(ROW1_HEADER, OBJECT_ROW1);
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader());
@@ -92,12 +92,12 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#ArrayFeatureDatasetRow(java.util.List)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataRow#ArrayFeatureDatasetRow(java.util.List)}
      * .
      */
     @Test
     public void testArrayFeatureDatasetRowListOfObject() {
-        FeatureDataRow datasetRow = new ArrayFeatureDatasetRow(OBJECT_TABLE_AS_LIST.get(0));
+        FeatureDataRow datasetRow = new ArrayFeatureDataRow(OBJECT_TABLE_AS_LIST.get(0));
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader());
@@ -112,12 +112,12 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#ArrayFeatureDatasetRow(java.lang.String, java.util.List)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataRow#ArrayFeatureDatasetRow(java.lang.String, java.util.List)}
      * .
      */
     @Test
     public void testArrayFeatureDatasetRowStringListOfObject() {
-        FeatureDataRow datasetRow = new ArrayFeatureDatasetRow(ROW1_HEADER, OBJECT_TABLE_AS_LIST.get(0));
+        FeatureDataRow datasetRow = new ArrayFeatureDataRow(ROW1_HEADER, OBJECT_TABLE_AS_LIST.get(0));
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader());
@@ -132,12 +132,12 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#ArrayFeatureDatasetRow(java.lang.Object, java.util.List)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataRow#ArrayFeatureDatasetRow(java.lang.Object, java.util.List)}
      * .
      */
     @Test
     public void testArrayFeatureDatasetRowObjectListOfObject() {
-        FeatureDataRow datasetRow = new ArrayFeatureDatasetRow(ROW_HEADER, OBJECT_TABLE_AS_LIST.get(0));
+        FeatureDataRow datasetRow = new ArrayFeatureDataRow(ROW_HEADER, OBJECT_TABLE_AS_LIST.get(0));
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", ROW_HEADER, datasetRow.getHeader());
@@ -152,12 +152,12 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#createRow(boolean, java.util.List)}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataRow#createRow(boolean, java.util.List)}
      * .
      */
     @Test
     public void testCreateRowBooleanListOfObject() {
-        FeatureDataRow datasetRow = ArrayFeatureDatasetRow.createRow(true, OBJECT_TABLE_AS_LIST_WITH_HEADER.get(0));
+        FeatureDataRow datasetRow = ArrayFeatureDataRow.createRow(true, OBJECT_TABLE_AS_LIST_WITH_HEADER.get(0));
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader());
@@ -169,7 +169,7 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
         for (int i = 0; i < datasetRow.getColumnCount(); ++i)
             assertEquals("Value at " + i + " not correct!", OBJECT_ROW1[i], datasetRow.getValue(i));
 
-        datasetRow = ArrayFeatureDatasetRow.createRow(false, OBJECT_TABLE_AS_LIST.get(0));
+        datasetRow = ArrayFeatureDataRow.createRow(false, OBJECT_TABLE_AS_LIST.get(0));
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader());
@@ -184,12 +184,12 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureDatasetRow#createRow(boolean, java.lang.Object[])}
+     * {@link uno.informatics.data.feature.array.ArrayFeatureDataRow#createRow(boolean, java.lang.Object[])}
      * .
      */
     @Test
     public void testCreateRowBooleanObjectArray() {
-        FeatureDataRow datasetRow = ArrayFeatureDatasetRow.createRow(true, OBJECT_ROW1_WITH_HEADER);
+        FeatureDataRow datasetRow = ArrayFeatureDataRow.createRow(true, OBJECT_ROW1_WITH_HEADER);
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", ROW1_HEADER, datasetRow.getHeader());
@@ -201,7 +201,7 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
         for (int i = 0; i < datasetRow.getColumnCount(); ++i)
             assertEquals("Value at " + i + " not correct!", OBJECT_ROW1[i], datasetRow.getValue(i));
 
-        datasetRow = ArrayFeatureDatasetRow.createRow(false, OBJECT_ROW1);
+        datasetRow = ArrayFeatureDataRow.createRow(false, OBJECT_ROW1);
 
         assertArrayEquals(OBJECT_ROW1, datasetRow.getValuesAsArray());
         assertSimpleEntityEquals("Header not correct!", null, datasetRow.getHeader());
@@ -222,7 +222,7 @@ public class ArrayFeatureDataRowTest extends DataRowTest {
      */
     @Override
     protected FeatureDataRow createDatasetRow() {
-        return new ArrayFeatureDatasetRow(ROW1_HEADER, OBJECT_ROW1);
+        return new ArrayFeatureDataRow(ROW1_HEADER, OBJECT_ROW1);
     }
 
 }

@@ -39,20 +39,20 @@ import uno.informatics.data.pojo.SimpleEntityPojo;
  * @author Guy Davenport
  *
  */
-public class ObjectArrayMatrixDataset extends ArrayMatrixDataset<Object> {
-    public ObjectArrayMatrixDataset(String name, Feature elementFeature, Object[][] values) {
+public class ObjectArrayMatrixData extends ArrayMatrixData<Object> {
+    public ObjectArrayMatrixData(String name, Feature elementFeature, Object[][] values) {
         super(name, elementFeature, values);
     }
 
-    public ObjectArrayMatrixDataset(String name, Feature elementFeature, List<List<Object>> values) {
+    public ObjectArrayMatrixData(String name, Feature elementFeature, List<List<Object>> values) {
         super(name, elementFeature, values);
     }
 
-    public ObjectArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature, Object[][] values) {
+    public ObjectArrayMatrixData(String uniqueIdentifier, String name, Feature elementFeature, Object[][] values) {
         super(uniqueIdentifier, name, elementFeature, values);
     }
 
-    public ObjectArrayMatrixDataset(String uniqueIdentifier, String name, Feature elementFeature,
+    public ObjectArrayMatrixData(String uniqueIdentifier, String name, Feature elementFeature,
             List<List<Object>> values) {
         super(uniqueIdentifier, name, elementFeature, values);
     }
@@ -207,7 +207,7 @@ public class ObjectArrayMatrixDataset extends ArrayMatrixDataset<Object> {
             if (reader != null)
                 reader.close();
 
-            ObjectArrayMatrixDataset matrix = new ObjectArrayMatrixDataset(uniqueIdentifier, name,
+            ObjectArrayMatrixData matrix = new ObjectArrayMatrixData(uniqueIdentifier, name,
                     elementFeature, rowList);
 
             if (columnHeaders != null && !columnHeaders.isEmpty())

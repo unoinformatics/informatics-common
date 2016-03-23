@@ -30,7 +30,7 @@ import uno.informatics.data.ScaleType;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.MatrixData;
-import uno.informatics.data.matrix.array.DoubleArrayMatrixDataset;
+import uno.informatics.data.matrix.array.DoubleArrayMatrixData;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 import uno.informatics.data.pojo.SimpleFeaturePojo;
 
@@ -55,7 +55,7 @@ public class DoubleArrayMatrixDatasetTest {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.matrix.array.DoubleArrayMatrixDataset#createMatrixDataset(java.lang.String, java.lang.String, java.lang.String, uno.informatics.common.model.Feature, uno.informatics.common.io.FileProperties, uno.informatics.common.model.Feature, uno.informatics.common.model.Feature)}
+     * {@link uno.informatics.data.matrix.array.DoubleArrayMatrixData#createMatrixDataset(java.lang.String, java.lang.String, java.lang.String, uno.informatics.common.model.Feature, uno.informatics.common.io.FileProperties, uno.informatics.common.model.Feature, uno.informatics.common.model.Feature)}
      * .
      */
     @Test
@@ -93,7 +93,7 @@ public class DoubleArrayMatrixDatasetTest {
     public void testCreateMatrixDataset(FileProperties fileProperties) {
         try {
             Feature valueFeature = new SimpleFeaturePojo(ELEMENT_NAME, DataType.STRING, ScaleType.NOMINAL);
-            MatrixData<Double> matrix = DoubleArrayMatrixDataset.createMatrixDataset(UID, NAME, DESCRIPTION,
+            MatrixData<Double> matrix = DoubleArrayMatrixData.createMatrixDataset(UID, NAME, DESCRIPTION,
                     valueFeature, fileProperties);
 
             assertEquals("row count not equal!", ROW_HEADERS.length, matrix.getRowCount());

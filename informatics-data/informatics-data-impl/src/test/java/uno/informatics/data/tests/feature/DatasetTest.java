@@ -35,7 +35,7 @@ public abstract class DatasetTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDataset.ArrayDataset#getRowCount()}
+     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureData.ArrayDataset#getRowCount()}
      * .
      */
     @Test
@@ -47,7 +47,7 @@ public abstract class DatasetTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDataset.ArrayDataset#getRowsAsArray()}
+     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureData.ArrayDataset#getRowsAsArray()}
      * .
      */
     @Test
@@ -62,7 +62,7 @@ public abstract class DatasetTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureDataset.ArrayDataset#getRows()}
+     * {@link uno.informatics.data.tests.feature.array.ArrayFeatureData.ArrayDataset#getRows()}
      * .
      */
     @Test
@@ -79,7 +79,7 @@ public abstract class DatasetTest extends TestData {
 
     /**
      * Test method for
-     * {@link uno.uno.informatics.data.feature.AbstractFeatureDataset.AbstractDataset#getFeatures()}
+     * {@link uno.AbstractFeatureData.informatics.data.feature.AbstractFeatureDataset.AbstractDataset#getFeatures()}
      * .
      */
     @Test

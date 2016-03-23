@@ -123,9 +123,9 @@ public class ZipFeatureDataReader extends ZipFeatureDataFileHandler implements D
     private FeatureData createDataset(SimpleEntity identification, List<FeaturePojo> features,
             List<SimpleEntity> rowHeaders, List<List<Object>> values) throws DatasetException {
         if (rowHeaders != null)
-            return new ArrayFeatureDataset(identification.getUniqueIdentifier(), identification.getName(), features, rowHeaders, values);
+            return new ArrayFeatureData(identification.getUniqueIdentifier(), identification.getName(), features, rowHeaders, values);
         else
-            return new ArrayFeatureDataset(identification.getUniqueIdentifier(), identification.getName(), features, values);
+            return new ArrayFeatureData(identification.getUniqueIdentifier(), identification.getName(), features, values);
     }
 
 }

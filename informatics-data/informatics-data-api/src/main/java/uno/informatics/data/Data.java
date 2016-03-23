@@ -16,6 +16,8 @@
 
 package uno.informatics.data;
 
+import java.util.Set;
+
 public interface Data extends SimpleEntity {
     /**
      * Gets the dataset to which this data belongs
@@ -23,4 +25,27 @@ public interface Data extends SimpleEntity {
      * @return the dataset to which this data belongs
      */
     public Dataset getDataset();
+    
+    /**
+     * Get the header of an entry by id.
+     *
+     * @param id of an entry, should be within the range from 0 to n-1, where n is the number of
+     *           entries as returned by {@link #getSize()}
+     * @return the header of an entry by id, <code>null</code> if no header is assigned to this entry
+     */
+    public SimpleEntity getHeader(int id);
+    
+    /**
+     * Get the number of entries in the data.
+     * 
+     * @return data size
+     */
+    public int getSize();
+
+    /**
+     * Get the set of all integer IDs corresponding to an item in the data set.
+     * 
+     * @return set of all IDs
+     */
+    Set<Integer> getIDs();
 }

@@ -47,10 +47,10 @@ import uno.informatics.data.pojo.SimpleEntityPojo;
  * @author Guy Davenport
  *
  */
-public class ZipFeatureDatasetWriter extends ZipFeatureDataFileHandler implements DataWriter {
+public class ZipFeatureDataWriter extends ZipFeatureDataFileHandler implements DataWriter {
     private FileType fileType;
 
-    public ZipFeatureDatasetWriter(File file) {
+    public ZipFeatureDataWriter(File file) {
         super(file);
 
         setFileType(FileType.TXT);
