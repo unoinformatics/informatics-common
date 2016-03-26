@@ -24,7 +24,6 @@ import java.util.Set;
 
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
-import uno.informatics.data.Study;
 import uno.informatics.data.matrix.AbstractMatrixData;
 
 /**

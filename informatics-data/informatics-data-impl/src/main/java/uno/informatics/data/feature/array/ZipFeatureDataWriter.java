@@ -34,14 +34,14 @@ import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowWriter;
 import uno.informatics.data.Data;
-import uno.informatics.data.Dataset;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.io.DataWriter;
-import uno.informatics.data.pojo.EntityPojo;
 import uno.informatics.data.pojo.SimpleEntityPojo;
+
+//TODO  needs updating 
 
 /**
  * @author Guy Davenport
@@ -133,33 +133,23 @@ public class ZipFeatureDataWriter extends ZipFeatureDataFileHandler implements D
                     row = iterator.next();
                     writer.writeRowCells(row.getValues());
 
-                    if (featureDataset.hasRowHeaders())
-                        if (row.getHeader() != null)
-                            rowHeaders.add(row.getHeader());
-                        else
-                            rowHeaders.add(new SimpleEntityPojo(""));
+                    rowHeaders.add(row.getHeader());
 
                     while (iterator.hasNext() && writer.newRow()) {
                         row = iterator.next();
                         writer.writeRowCells(row.getValues());
 
-                        if (featureDataset.hasRowHeaders())
-                            if (row.getHeader() != null)
-                                rowHeaders.add(row.getHeader());
-                            else
-                                rowHeaders.add(new SimpleEntityPojo(""));
+                        rowHeaders.add(row.getHeader());
                     }
                 }
 
                 outputStream.closeEntry();
 
-                if (featureDataset.hasRowHeaders()) {
-                    outputStream.putNextEntry(new ZipEntry(ROW_HEADER_ENTRY));
+                outputStream.putNextEntry(new ZipEntry(ROW_HEADER_ENTRY));
 
-                    xstream.toXML(rowHeaders, outputStream);
+                xstream.toXML(rowHeaders, outputStream);
 
-                    outputStream.closeEntry();
-                }
+                outputStream.closeEntry();
 
                 outputStream.close();
 

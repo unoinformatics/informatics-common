@@ -96,8 +96,6 @@ public class TestData {
         ROW_NAMES_AS_LIST.add(ROW3_NAME);
     }
 
-    protected final static SimpleEntity[] BLANK_HEADERS = new SimpleEntity[] { null, null, null };
-
     protected final static Object[] OBJECT_ROW1 = new Object[] { 1, 1.1, "R1C3", true, createDate("12/12/2012") };
     protected final static Object[] OBJECT_ROW2 = new Object[] { 2, 2.2, "R2C3", false, createDate("13/12/2012") };
     protected final static Object[] OBJECT_ROW3 = new Object[] { 3, 3.3, "R3C3", true, createDate("14/12/2012") };
@@ -268,12 +266,12 @@ public class TestData {
         STRING_TABLE_AS_LIST_WITH_HEADER.get(2).add(STRING_ROW3_WITH_HEADER[5]);
     }
 
-    protected final static FeatureDataRow ROW_WITH_NAME1 = new ArrayFeatureDataRow(
-            new SimpleEntityPojo(ROW1_NAME), OBJECT_ROW1);
-    protected final static FeatureDataRow ROW_WITH_NAME2 = new ArrayFeatureDataRow(
-            new SimpleEntityPojo(ROW2_NAME), OBJECT_ROW2);
-    protected final static FeatureDataRow ROW_WITH_NAME3 = new ArrayFeatureDataRow(
-            new SimpleEntityPojo(ROW3_NAME), OBJECT_ROW3);
+    protected final static FeatureDataRow ROW_WITH_NAME1 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW1_NAME),
+            OBJECT_ROW1);
+    protected final static FeatureDataRow ROW_WITH_NAME2 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW2_NAME),
+            OBJECT_ROW2);
+    protected final static FeatureDataRow ROW_WITH_NAME3 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW3_NAME),
+            OBJECT_ROW3);
 
     protected final static FeatureDataRow ROW1 = new ArrayFeatureDataRow(OBJECT_ROW1);
     protected final static FeatureDataRow ROW2 = new ArrayFeatureDataRow(OBJECT_ROW2);
@@ -303,6 +301,19 @@ public class TestData {
         OBJECT_FEATURES.add(new FeaturePojo("col5",
                 new MethodPojo("col5", new ScalePojo("col5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))));
     }
+
+    protected static final Feature[] OBJECT_FEATURES_AS_ARRAY = new Feature[] {
+            new FeaturePojo("col1",
+                    new MethodPojo("col1",
+                            new ScalePojo("col1", DataType.INTEGER, ScaleType.INTERVAL, 1, 3, OBJECT_COL1))),
+            new FeaturePojo("col2",
+                    new MethodPojo("col2", new ScalePojo("col2", DataType.DOUBLE, ScaleType.RATIO, 1.1, 3.3))),
+            new FeaturePojo("col3",
+                    new MethodPojo("col3", new ScalePojo("col3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))),
+            new FeaturePojo("col4",
+                    new MethodPojo("col4", new ScalePojo("col4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))),
+            new FeaturePojo("col5",
+                    new MethodPojo("col5", new ScalePojo("col5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))) };
 
     protected static final List<Feature> OBJECT_FEATURES_MIN = new ArrayList<Feature>();
 
@@ -361,8 +372,8 @@ public class TestData {
         }
     }
 
-    protected void checkCompleteData(String uid, String name, List<Feature> features,
-            FeatureData dataset, SimpleEntity[] rowHeaders, boolean useStrings) {
+    protected void checkCompleteData(String uid, String name, List<Feature> features, FeatureData dataset,
+            SimpleEntity[] rowHeaders, boolean useStrings) {
         assertEquals("uid not correct", uid, dataset.getUniqueIdentifier());
         assertEquals("name not correct", name, dataset.getName());
 
@@ -496,7 +507,7 @@ public class TestData {
                     simpleEntity2.getUniqueIdentifier());
             assertEquals(label + " entity name not correct", simpleEntity1.getName(), simpleEntity2.getName());
         } else {
-            assertNull("scale is not null", simpleEntity2);
+            assertNull("Entity is not null", simpleEntity2);
         }
     }
 }

@@ -18,7 +18,6 @@ package uno.informatics.data.pojo;
 
 import java.util.List;
 
-import uno.informatics.data.Entity;
 import uno.informatics.data.Feature;
 import uno.informatics.data.Germplasm;
 

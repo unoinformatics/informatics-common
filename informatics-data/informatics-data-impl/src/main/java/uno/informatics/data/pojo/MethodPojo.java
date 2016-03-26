@@ -16,10 +16,8 @@
 
 package uno.informatics.data.pojo;
 
-import uno.informatics.data.Feature;
 import uno.informatics.data.Method;
 import uno.informatics.data.Scale;
-import uno.informatics.data.Study;
 
 /**
  * @author Guy Davenport

@@ -193,54 +193,31 @@ public class ArrayFeatureDataRow extends PropertyHandler implements FeatureDataR
     }
 
     private final void setHeaderAsObject(Object header) {
-        if (header != null)
-            if (header instanceof String)
-                setHeader(new SimpleEntityPojo((String) values[0]));
-            else if (header instanceof SimpleEntity)
+        if (header != null) {
+            if (header instanceof String) {
+                setHeader(new SimpleEntityPojo((String) header, (String) header));
+            } else if (header instanceof SimpleEntity) {
                 setHeader((SimpleEntity) header);
-            else
-                setHeader(new SimpleEntityPojo(header.toString()));
+            } else {
+                setHeader(new SimpleEntityPojo(header.toString(), header.toString()));
+            }
+        }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * uno.informatics.data.tests.feature.array.array.DatasetRow#getValues()
-     */
     @Override
     public final List<Object> getValues() {
         return toList(values);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.tests.feature.array.array.DatasetRow#
-     * getValuesAsArray()
-     */
     @Override
     public final Object[] getValuesAsArray() {
         return values;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.tests.feature.array.array.DatasetRow#getValue()
-     */
     @Override
     public final Object getValue(int columnIndex) {
         return values[columnIndex];
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * uno.informatics.data.tests.feature.array.array.DatasetRow#getColumnCount(
-     * )
-     */
     @Override
     public int getColumnCount() {
         // TODO Auto-generated method stub

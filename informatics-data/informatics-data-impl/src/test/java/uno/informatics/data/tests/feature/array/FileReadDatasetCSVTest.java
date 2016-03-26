@@ -18,16 +18,13 @@ package uno.informatics.data.tests.feature.array;
 
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.Test;
 
 import uno.informatics.common.io.FileType;
-import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureData;
 import uno.informatics.data.tests.TestData;
@@ -37,7 +34,6 @@ import uno.informatics.data.tests.TestData;
  * 
  */
 public class FileReadDatasetCSVTest extends TestData {
-    private static final String OBJECT_TABLE = "/object_table_with_col_headers.csv";
     private static final String OBJECT_TABLE_WITH_ROW_NAMES = "/object_table_with_col_name_row_headers.csv";
     private static final String OBJECT_TABLE_WITH_ROW_NAMES_IDS = "/object_table_with_col_name_id_row_headers.csv";
     private static final String OBJECT_TABLE_WITH_TYPE_ROW_NAMES = "/object_table_with_col_type_name_row_headers.csv";
@@ -47,38 +43,10 @@ public class FileReadDatasetCSVTest extends TestData {
     private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES = "/object_table_with_col_type_min_max_name_row_headers.csv";
     private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS = "/object_table_with_col_type_min_max_name_id_row_headers.csv";
 
-    /**
-     * @throws IOException 
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
-     * .
-     * @throws  
-     */
-    @Test
-    public void testReadFeatureDatasetFromTextFile()  {
-        try {
-            Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE).getPath());
-
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
-
-            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), STRING_FEATURES, dataset, BLANK_HEADERS, true);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            fail(e.getLocalizedMessage());
-        }
-    }
-
     protected FileType getFileType() {
         return FileType.CSV;
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
-     * .
-     */
     @Test
     public void testReadFeatureDatasetFromTextFileWithNameRowHeaders() {
         
@@ -96,11 +64,6 @@ public class FileReadDatasetCSVTest extends TestData {
         }
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
-     * .
-     */
     @Test
     public void testReadFeatureDatasetFromTextFileWithNameAndIDRowHeaders() {
         try {
@@ -117,11 +80,6 @@ public class FileReadDatasetCSVTest extends TestData {
         }
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
-     * .
-     */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeNameRowHeaders() {
         try {
@@ -138,11 +96,6 @@ public class FileReadDatasetCSVTest extends TestData {
         }       
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
-     * .
-     */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeNameAndIDRowHeaders() {
         try {
@@ -159,11 +112,6 @@ public class FileReadDatasetCSVTest extends TestData {
         }       
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
-     * .
-     */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeMinNameRowHeaders() {
         try {
@@ -180,11 +128,6 @@ public class FileReadDatasetCSVTest extends TestData {
         }
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
-     * .
-     */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeMinNameAndIDRowHeaders() {
         try {
@@ -201,11 +144,6 @@ public class FileReadDatasetCSVTest extends TestData {
         }
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
-     * .
-     */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeMinMaxNameRowHeaders() {
         try {
@@ -222,11 +160,6 @@ public class FileReadDatasetCSVTest extends TestData {
         }
     }
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.feature.array.ArrayFeatureData#readData(java.io.File, uno.informatics.common.io.FileType)}
-     * .
-     */
     @Test
     public void testReadFeatureDatasetFromTextFileWithTypeMinMaxNameAndIDRowHeaders() {
         try {

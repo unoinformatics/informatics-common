@@ -17,8 +17,6 @@
 
 package uno.informatics.data.pojo;
 
-import uno.informatics.data.Entity;
-import uno.informatics.data.Method;
 import uno.informatics.data.Ontology;
 import uno.informatics.data.OntologyTerm;
 

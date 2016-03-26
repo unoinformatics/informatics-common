@@ -20,6 +20,7 @@ import java.util.List;
 
 import uno.informatics.data.Data;
 import uno.informatics.data.Feature;
+import uno.informatics.data.SimpleEntity;
 
 /**
  * A dataset that consists of columns recorded for a specific feature, with each
@@ -70,14 +71,6 @@ public interface FeatureData extends Data {
     public int getRowCount();
 
     /**
-     * Determines if the dataset has row headers
-     * 
-     * @return <code>true</code> if the dataset has row headers,
-     *         <code>false</code> otherwise
-     */
-    public boolean hasRowHeaders();
-
-    /**
      * Gets the row at a specific position
      * 
      * @param rowIndex
@@ -99,5 +92,19 @@ public interface FeatureData extends Data {
      * @return an array of all the rows in the dataset
      */
     public FeatureDataRow[] getRowsAsArray();
+    
+    /**
+     * Get the all the row headers
+     * 
+     * @return all the row headers
+     */
+    public List<SimpleEntity> getRowHeaders() ;
+    
+    /**
+     * Get the all the row headers as an array
+     * 
+     * @return all the row headers as an array
+     */
+    public SimpleEntity[] getRowHeadersAsArray() ;
 
 }

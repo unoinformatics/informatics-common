@@ -61,194 +61,107 @@ public class ArrayFeatureData extends AbstractFeatureData {
 
     private FeatureDataRow[] rows;
     private int rowCount;
-    private boolean hasRowHeaders;
 
     // item IDs (0..n-1)
     private Set<Integer> ids;
+    private SimpleEntity[] rowHeaders;
 
-    public ArrayFeatureData(String name, List<? extends Feature> features, Object[][] values) {
+    public ArrayFeatureData(String name, Feature[] features, Object[][] values) {
         super(name, features);
 
-        setValues(values);
+        setValuesWithHeaders(values);
     }
 
-    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
+    public ArrayFeatureData(String uniqueIdentifier, String name, Feature[] features,
             Object[][] values) {
         super(uniqueIdentifier, name, features);
 
-        setValues(values);
+        setValuesWithHeaders(values);
     }
 
-    public ArrayFeatureData(String name, List<? extends Feature> features, Object[][] values,
-            boolean hasRowHeaders) {
-        super(name, features);
-
-        if (hasRowHeaders)
-            setValuesWithHeaders(values);
-        else
-            setValues(values);
-    }
-
-    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
-            Object[][] values, boolean hasRowHeaders) {
-        super(uniqueIdentifier, name, features);
-
-        if (hasRowHeaders)
-            setValuesWithHeaders(values);
-        else
-            setValues(values);
-    }
-
-    public ArrayFeatureData(String name, List<? extends Feature> features, SimpleEntity[] headers,
+    public ArrayFeatureData(String name, List<? extends Feature> features, SimpleEntity[] rowHeaders,
             Object[][] values) {
         super(name, features);
 
-        setValuesWithHeaders(headers, values);
+        setValuesWithHeaders(rowHeaders, values);
     }
 
     public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
-            SimpleEntity[] headers, Object[][] values) {
+            SimpleEntity[] rowHeaders, Object[][] values) {
         super(uniqueIdentifier, name, features);
 
-        setValuesWithHeaders(headers, values);
-    }
-
-    public ArrayFeatureData(String name, List<? extends Feature> features, SimpleEntity[] headers, String[] rowNames,
-            Object[][] values) {
-        super(name, features);
-
-        setValuesWithHeaders(headers, rowNames, values);
-    }
-
-    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
-            SimpleEntity[] headers, String[] rowNames, Object[][] values) {
-        super(uniqueIdentifier, name, features);
-
-        setValuesWithHeaders(headers, rowNames, values);
+        setValuesWithHeaders(rowHeaders, values);
     }
 
     public ArrayFeatureData(String name, List<? extends Feature> features, List<List<Object>> values) {
         super(name, features);
 
-        setValues(values);
+        setValuesWithHeaders(values);
     }
 
     public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
             List<List<Object>> values) {
         super(uniqueIdentifier, name, features);
 
-        setValues(values);
+        setValuesWithHeaders(values);
     }
 
-    public ArrayFeatureData(String name, List<? extends Feature> features, List<List<Object>> values,
-            boolean hasRowHeaders) {
-        super(name, features);
-
-        if (hasRowHeaders)
-            setValuesWithHeaders(values);
-        else
-            setValues(values);
-    }
-
-    public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
-            List<List<Object>> values, boolean hasRowHeaders) {
-        super(uniqueIdentifier, name, features);
-
-        if (hasRowHeaders)
-            setValuesWithHeaders(values);
-        else
-            setValues(values);
-    }
-
-    public ArrayFeatureData(String name, List<? extends Feature> features, List<SimpleEntity> headers,
+    public ArrayFeatureData(String name, List<? extends Feature> features, List<SimpleEntity> rowHeaders,
             List<List<Object>> values) {
         super(name, features);
 
-        setValuesWithHeaders(headers, values);
+        setValuesWithHeaders(rowHeaders, values);
     }
 
     public ArrayFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features,
-            List<SimpleEntity> headers, List<List<Object>> values) {
+            List<SimpleEntity> rowHeaders, List<List<Object>> values) {
         super(uniqueIdentifier, name, features);
 
-        setValuesWithHeaders(headers, values);
+        setValuesWithHeaders(rowHeaders, values);
     }
-
-    @Override
-    public boolean hasRowHeaders() {
-        return hasRowHeaders;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.tests.feature.array.array.AbstractDataset#
-     * getRowCount()
-     */
+    
     @Override
     public final int getRowCount() {
         return rowCount;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * uno.informatics.data.tests.feature.array.array.AbstractDataset#getRow()
-     */
     @Override
     public FeatureDataRow getRow(int rowIndex) {
         return rows[rowIndex];
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.tests.feature.array.array.AbstractDataset#
-     * getRowsAsArray()
-     */
     @Override
     public final FeatureDataRow[] getRowsAsArray() {
         return rows;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * uno.informatics.data.tests.feature.array.array.AbstractDataset#getRows()
-     */
     @Override
     public final List<FeatureDataRow> getRows() {
         return toRowList(rows);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.feature.FeatureDataset#getValues()
-     */
     @Override
     public List<List<Object>> getValues() {
         return toObjectListList(rows);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.feature.FeatureData#getValuesAsArray()
-     */
     @Override
     public Object[][] getValuesAsArray() {
         return toObjectArray(rows);
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.data.dataset.FeatureDataset#getRowHeaderFeature()
-     */
-
+    
+    @Override
+    public List<SimpleEntity> getRowHeaders()
+    {
+        return toObjectList(rowHeaders); 
+    }
+    
+    @Override
+    public SimpleEntity[] getRowHeadersAsArray()
+    {
+        return rowHeaders ;
+    }
+    
     public static final ArrayFeatureData readData(Path filePath, FileType type)
             throws IOException {
 
@@ -457,6 +370,9 @@ public class ArrayFeatureData extends AbstractFeatureData {
 
                 if (reader != null)
                     reader.close();
+                
+                if (rowList.isEmpty())
+                    throw new IOException("The data has no values!");    
 
                 if (hasNames)
                     data = new ArrayFeatureData(filePath.getFileName().toString(), filePath.getFileName().toString(),
@@ -482,13 +398,21 @@ public class ArrayFeatureData extends AbstractFeatureData {
                             + "required for items whose name is not defined.");
                 }
 
+            } else {
+                throw new IOException("The data has no values!");  
             }
+            
 
             return data;
         } catch (ConversionException | DatasetException e) {
             throw new IOException(e);
         }
 
+    }
+    
+    public static final void writeData(Path filePath, ArrayFeatureData data, FileType type)
+            throws IOException {
+        
     }
 
     private static void addValues(List<List<Object>> rowList, List<String> cells, List<FeaturePojo> features,
@@ -507,7 +431,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
             if (rowName != null || rowId != null) {
                 if (rowId == null) {
                     // only name set
-                    header = new SimpleEntityPojo(rowName);
+                    header = new SimpleEntityPojo(rowName, rowName);
                 } else {
                     // id set (name might be undefined)
                     header = new SimpleEntityPojo(rowId, rowName);
@@ -604,6 +528,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
         return new FeaturePojo(name, new MethodPojo(name, scale));
     }
 
+    // TODO not tested
     public static final FeatureData createSubsetFeatureDataset(String uniqueIdentifier, String name,
             FeatureData dataset, Set<Integer> indices) throws DatasetException {
         Iterator<Integer> iterator = indices.iterator();
@@ -616,9 +541,10 @@ public class ArrayFeatureData extends AbstractFeatureData {
             values[i] = dataset.getRow(iterator.next()).getValuesAsArray();
         }
 
-        return new ArrayFeatureData(uniqueIdentifier, name, dataset.getFeatures(), values);
+        return new ArrayFeatureData(uniqueIdentifier, name, dataset.getFeaturesAsArray(), values);
     }
 
+    // TODO not tested
     public static final FeatureData createSubsetFeatureDataset(String uniqueIdentifier, String name,
             FeatureData dataset, int[] indices) throws DatasetException {
         Object[][] values = new Object[indices.length][dataset.getFeatures().size()];
@@ -627,7 +553,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
             values[i] = dataset.getRow(indices[i]).getValuesAsArray();
         }
 
-        return new ArrayFeatureData(uniqueIdentifier, name, dataset.getFeatures(), values);
+        return new ArrayFeatureData(uniqueIdentifier, name, dataset.getFeaturesAsArray(), values);
     }
 
     /**
@@ -683,54 +609,29 @@ public class ArrayFeatureData extends AbstractFeatureData {
      * @param values
      * @throws DatasetException
      */
-    private final void setValues(Object[][] values) throws IllegalArgumentException {
-        rowCount = 0;
-        hasRowHeaders = false;
-
-        if (values != null) {
-            rowCount = values.length;
-            int columnCount = getFeatures().size();
-
-            rows = new FeatureDataRow[rowCount];
-
-            for (int i = 0; i < values.length; ++i) {
-                if (columnCount != values[i].length)
-                    throw new IllegalArgumentException("Row : " + i + " size : " + values[i].length
-                            + " does not match the number of features : " + columnCount);
-
-                rows[i] = new ArrayFeatureDataRow(values[i]);
-            }
-        }
-
-        createIds(rows.length);
-    }
-
-    /**
-     * @param values
-     * @throws DatasetException
-     */
     private final void setValuesWithHeaders(Object[][] values) throws IllegalArgumentException {
         rowCount = 0;
 
-        if (values != null) {
-            hasRowHeaders = true;
+        if (values != null && values.length > 0) {
 
             rowCount = values.length;
 
             int columnCount = getFeatures().size();
 
             rows = new FeatureDataRow[rowCount];
-
+            rowHeaders = new SimpleEntity[rowCount];
+            
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
                             + " does not match the number of features : " + columnCount);
 
                 rows[i] = ArrayFeatureDataRow.createRow(true, values[i]);
+                rowHeaders[i] = rows[i].getHeader() ;
             }
+            
+            createIds(rows.length);
         }
-
-        createIds(rows.length);
     }
 
     /**
@@ -739,88 +640,27 @@ public class ArrayFeatureData extends AbstractFeatureData {
      */
     private final void setValuesWithHeaders(SimpleEntity[] headers, Object[][] values) throws IllegalArgumentException {
         rowCount = 0;
-
-        if (headers != null && values != null) {
-            hasRowHeaders = true;
+        
+        if (values != null && values.length > 0) {
 
             rowCount = values.length;
-
-            if (headers.length != values.length)
-                throw new IllegalArgumentException("Number of headers does not match number of rows!");
-
+    
             int columnCount = getFeatures().size();
-
+    
             rows = new FeatureDataRow[rowCount];
-
+            rowHeaders = new SimpleEntity[rowCount];
+            
             for (int i = 0; i < values.length; ++i) {
                 if (columnCount != values[i].length - 1)
                     throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
                             + " does not match the number of features : " + columnCount);
-
+    
                 rows[i] = ArrayFeatureDataRow.createRow(headers[i], values[i]);
+                rowHeaders[i] = rows[i].getHeader() ;
             }
+    
+            createIds(rows.length);
         }
-
-        createIds(rows.length);
-    }
-
-    /**
-     * @param values
-     * @throws DatasetException
-     */
-    private final void setValuesWithHeaders(SimpleEntity[] headers, String[] rowNames, Object[][] values)
-            throws IllegalArgumentException {
-        rowCount = 0;
-
-        if (headers != null && values != null) {
-            hasRowHeaders = true;
-
-            rowCount = values.length;
-
-            if (headers.length != values.length)
-                throw new IllegalArgumentException("Number of headers does not match number of rows!");
-
-            if (rowNames.length != values.length)
-                throw new IllegalArgumentException("Number of row names does not match number of rows!");
-
-            int columnCount = getFeatures().size();
-
-            rows = new FeatureDataRow[rowCount];
-
-            for (int i = 0; i < values.length; ++i) {
-                if (columnCount != values[i].length - 1)
-                    throw new IllegalArgumentException("Row : " + i + " size : " + (values[i].length - 1)
-                            + " does not match the number of features : " + columnCount);
-
-                rows[i] = ArrayFeatureDataRow.createRow(headers[i], values[i]);
-            }
-        }
-
-        createIds(rows.length);
-    }
-
-    /**
-     * @param values
-     */
-    private final void setValues(List<List<Object>> values) {
-        rowCount = 0;
-
-        if (values != null) {
-            rowCount = values.size();
-
-            rows = new FeatureDataRow[rowCount];
-
-            Iterator<List<Object>> iterator = values.iterator();
-
-            int i = 0;
-
-            while (iterator.hasNext()) {
-                rows[i] = new ArrayFeatureDataRow(iterator.next());
-                ++i;
-            }
-        }
-
-        createIds(rows.length);
     }
 
     /**
@@ -829,22 +669,24 @@ public class ArrayFeatureData extends AbstractFeatureData {
     private final void setValuesWithHeaders(List<List<Object>> values) {
         rowCount = 0;
 
-        if (values != null) {
+        if (values != null && values.size() > 0) {
             rowCount = values.size();
 
             rows = new FeatureDataRow[rowCount];
-
+            rowHeaders = new SimpleEntity[rowCount];
+            
             Iterator<List<Object>> iterator = values.iterator();
 
             int i = 0;
 
             while (iterator.hasNext()) {
                 rows[i] = ArrayFeatureDataRow.createRow(true, iterator.next());
+                rowHeaders[i] = rows[i].getHeader() ;
                 ++i;
             }
-        }
-
-        createIds(rows.length);
+            
+            createIds(rows.length);
+        }  
     }
 
     /**
@@ -853,17 +695,18 @@ public class ArrayFeatureData extends AbstractFeatureData {
     private final void setValuesWithHeaders(List<SimpleEntity> headers, List<List<Object>> values) {
         rowCount = 0;
 
-        if (values != null) {
+        if (values != null && values.size() > 0) {
             rowCount = values.size();
 
             if (headers == null)
                 throw new IllegalArgumentException("Headers not defined whereas row count is : " + rowCount);
-
+            
             if (headers.size() != values.size())
                 throw new IllegalArgumentException(
                         "Number of headers : " + headers.size() + " does not match row count : " + rowCount);
 
             rows = new FeatureDataRow[rowCount];
+            rowHeaders = new SimpleEntity[rowCount];
 
             Iterator<List<Object>> iterator1 = values.iterator();
             Iterator<SimpleEntity> iterator2 = headers.iterator();
@@ -871,13 +714,13 @@ public class ArrayFeatureData extends AbstractFeatureData {
             int i = 0;
 
             while (iterator1.hasNext()) {
-                rows[i] = ArrayFeatureDataRow.createRow(iterator2.hasNext() ? iterator2.next() : null,
-                        iterator1.next());
+                rows[i] = ArrayFeatureDataRow.createRow(iterator2.next(), iterator1.next());
+                rowHeaders[i] = rows[i].getHeader() ;
                 ++i;
             }
-        }
-
-        createIds(rows.length);
+            
+            createIds(rows.length);
+        } 
     }
 
     private List<FeatureDataRow> toRowList(FeatureDataRow[] array) {
@@ -912,6 +755,15 @@ public class ArrayFeatureData extends AbstractFeatureData {
 
         for (int i = 0; i < array.length; ++i)
             list[i] = array[i].getValuesAsArray();
+
+        return list;
+    }
+    
+    private List<SimpleEntity> toObjectList(SimpleEntity[] array) {
+        List<SimpleEntity> list = new ArrayList<SimpleEntity>(array.length);
+
+        for (int i = 0; i < array.length; ++i)
+            list.add(array[i]);
 
         return list;
     }

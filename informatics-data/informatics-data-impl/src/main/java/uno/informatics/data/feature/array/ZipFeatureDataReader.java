@@ -29,14 +29,14 @@ import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.TableReader;
 import uno.informatics.data.Data;
-import uno.informatics.data.Dataset;
-import uno.informatics.data.Entity;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.io.DataReader;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.utils.DatasetUtils;
+
+// TODO  needs updating 
 
 /**
  * @author Guy Davenport
@@ -122,10 +122,7 @@ public class ZipFeatureDataReader extends ZipFeatureDataFileHandler implements D
 
     private FeatureData createDataset(SimpleEntity identification, List<FeaturePojo> features,
             List<SimpleEntity> rowHeaders, List<List<Object>> values) throws DatasetException {
-        if (rowHeaders != null)
-            return new ArrayFeatureData(identification.getUniqueIdentifier(), identification.getName(), features, rowHeaders, values);
-        else
-            return new ArrayFeatureData(identification.getUniqueIdentifier(), identification.getName(), features, values);
+        return new ArrayFeatureData(identification.getUniqueIdentifier(), identification.getName(), features, rowHeaders, values);
     }
 
 }

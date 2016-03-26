@@ -23,7 +23,6 @@ import uno.informatics.data.Dataset;
 import uno.informatics.data.Feature;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.dataset.FeatureDataRow;
-import uno.informatics.data.pojo.DataPojo;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 
 /**
@@ -41,6 +40,18 @@ public abstract class AbstractFeatureData extends SimpleEntityPojo implements Fe
     }
 
     protected AbstractFeatureData(String uniqueIdentifier, String name, List<? extends Feature> features) {
+        super(uniqueIdentifier, name);
+
+        setFeatures(features);
+    }
+    
+    protected AbstractFeatureData(String name, Feature[] features) {
+        super(null, name);
+
+        setFeatures(features);
+    }
+
+    protected AbstractFeatureData(String uniqueIdentifier, String name, Feature[] features) {
         super(uniqueIdentifier, name);
 
         setFeatures(features);
@@ -71,5 +82,12 @@ public abstract class AbstractFeatureData extends SimpleEntityPojo implements Fe
         this.features = new ArrayList<Feature>();
 
         this.features.addAll(features);
+    }
+    
+    protected final void setFeatures(Feature[] features) {
+        this.features = new ArrayList<Feature>();
+
+        for (int i = 0 ; i < features.length ; ++i)
+            this.features.add(features[i]);
     }
 }

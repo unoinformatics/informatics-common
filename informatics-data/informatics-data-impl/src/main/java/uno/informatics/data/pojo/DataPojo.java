@@ -21,9 +21,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import uno.informatics.data.Data;
 import uno.informatics.data.Dataset;
@@ -32,6 +29,9 @@ import uno.informatics.data.SimpleEntity;
 public class DataPojo extends SimpleEntityPojo implements Data {
 
     public static final String DATASET_PROPERTY = Data.class.getName() + ".dataset";
+    
+    private static final String HEADER_ID = "entry%d";
+    private static final String HEADER_NAME = "Entry %d";
 
     private DatasetPojo dataset;
 
@@ -48,6 +48,8 @@ public class DataPojo extends SimpleEntityPojo implements Data {
 
     public DataPojo(String uniqueIdentifier, String name, SimpleEntity[] headers) {
         super(uniqueIdentifier, name);
+        
+        setHeaders(headers);
     }
 
     public DataPojo(Data data) {
@@ -102,10 +104,16 @@ public class DataPojo extends SimpleEntityPojo implements Data {
 
         if (headers == null)
             throw new IllegalArgumentException("Headers not provided!");
+        
+        ids = checkHeaders(headers) ;
+        
+        this.headers = Arrays.copyOf(headers, headers.length);
+    }
 
+    private Set<Integer> checkHeaders(SimpleEntity[] headers) {
         int n = headers.length;
 
-        ids = new HashSet<Integer>();
+        HashSet<Integer> ids = new HashSet<Integer>();
 
         // check unique identifiers
         Set<String> identifiers = new HashSet<>();
@@ -122,10 +130,36 @@ public class DataPojo extends SimpleEntityPojo implements Data {
             }
         }
 
-        ids = Collections.unmodifiableSet(ids);
+        return Collections.unmodifiableSet(ids);
+    }
+    
+    public static SimpleEntity[] updateOrCreateHeaders(SimpleEntity[] headers, int length) {
+        return updateOrCreateHeaders(headers, length, HEADER_ID, HEADER_NAME) ;
+    }
+    
+    public static SimpleEntity[] updateOrCreateHeaders(SimpleEntity[] headers, int length, String headerIdFormat, String headerNameFormat) {
+        
+        SimpleEntity[] newHeaders = new SimpleEntity[length] ;
 
-        this.headers = Arrays.copyOf(headers, n);
+        if (headers != null) {
+            
+           int minLength = length < headers.length ?  length : headers.length ;
+           
+           for (int i = 0 ; i < minLength ; ++i) 
+               //if (headers[i] == null)
+              //     newHeaders[i] = new SimpleEntityPojo(String.format(headerIdFormat, i + 1), String.format(headerNameFormat, i + 1)) ;
+              // else
+                   newHeaders[i] = headers[i] ;
+           
+           //for (int i = minLength ; i < length ; ++i) 
+          //     newHeaders[i] = new SimpleEntityPojo(String.format(headerIdFormat, i + 1), String.format(headerNameFormat, i + 1)) ;
+           
+        } else {
+            for (int i = 0 ; i < length ; ++i) 
+                newHeaders[i] = new SimpleEntityPojo(String.format(headerIdFormat, i + 1), String.format(headerNameFormat, i + 1)) ;
+        }
 
+        return newHeaders ;
     }
 
 }

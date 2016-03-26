@@ -17,7 +17,6 @@
 package uno.informatics.data.pojo;
 
 import uno.informatics.data.Dataset;
-import uno.informatics.data.Entity;
 import uno.informatics.data.Study;
 
 public class DatasetPojo extends EntityPojo implements Dataset {
