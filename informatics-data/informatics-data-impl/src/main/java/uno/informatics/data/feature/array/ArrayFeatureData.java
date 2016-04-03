@@ -42,6 +42,7 @@ import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.feature.AbstractFeatureData;
+import uno.informatics.data.pojo.DataPojo;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
 import uno.informatics.data.pojo.ScalePojo;
@@ -630,6 +631,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                 rowHeaders[i] = rows[i].getHeader() ;
             }
             
+            DataPojo.checkHeaders(rowHeaders) ;
             createIds(rows.length);
         }
     }
@@ -659,6 +661,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                 rowHeaders[i] = rows[i].getHeader() ;
             }
     
+            DataPojo.checkHeaders(rowHeaders) ;
             createIds(rows.length);
         }
     }
@@ -685,6 +688,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                 ++i;
             }
             
+            DataPojo.checkHeaders(rowHeaders) ;
             createIds(rows.length);
         }  
     }
@@ -719,6 +723,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                 ++i;
             }
             
+            DataPojo.checkHeaders(rowHeaders) ;
             createIds(rows.length);
         } 
     }

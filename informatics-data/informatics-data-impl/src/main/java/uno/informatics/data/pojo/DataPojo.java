@@ -110,7 +110,7 @@ public class DataPojo extends SimpleEntityPojo implements Data {
         this.headers = Arrays.copyOf(headers, headers.length);
     }
 
-    private Set<Integer> checkHeaders(SimpleEntity[] headers) {
+    public static final Set<Integer> checkHeaders(SimpleEntity[] headers) {
         int n = headers.length;
 
         HashSet<Integer> ids = new HashSet<Integer>();
@@ -133,11 +133,11 @@ public class DataPojo extends SimpleEntityPojo implements Data {
         return Collections.unmodifiableSet(ids);
     }
     
-    public static SimpleEntity[] updateOrCreateHeaders(SimpleEntity[] headers, int length) {
+    public static final SimpleEntity[] updateOrCreateHeaders(SimpleEntity[] headers, int length) {
         return updateOrCreateHeaders(headers, length, HEADER_ID, HEADER_NAME) ;
     }
     
-    public static SimpleEntity[] updateOrCreateHeaders(SimpleEntity[] headers, int length, String headerIdFormat, String headerNameFormat) {
+    public static final SimpleEntity[] updateOrCreateHeaders(SimpleEntity[] headers, int length, String headerIdFormat, String headerNameFormat) {
         
         SimpleEntity[] newHeaders = new SimpleEntity[length] ;
 
