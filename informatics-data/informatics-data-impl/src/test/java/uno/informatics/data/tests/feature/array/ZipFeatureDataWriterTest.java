@@ -20,6 +20,6 @@ package uno.informatics.data.tests.feature.array;
  * @author Guy Davenport
  *
  */
-public class TextReadZipWriteReadTest {
+public class ZipFeatureDataWriterTest {
 
 }

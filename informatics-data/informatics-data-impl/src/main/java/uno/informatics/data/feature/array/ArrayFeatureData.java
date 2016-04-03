@@ -32,6 +32,7 @@ import uno.informatics.common.ConversionUtilities;
 import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
+import uno.informatics.common.io.RowWriter;
 import uno.informatics.common.io.text.TextFileRowReader;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
@@ -414,6 +415,104 @@ public class ArrayFeatureData extends AbstractFeatureData {
     public static final void writeData(Path filePath, ArrayFeatureData data, FileType type)
             throws IOException {
         
+        // validate arguments
+
+        if (filePath == null) {
+            throw new IllegalArgumentException("File path not defined.");
+        }
+
+        if (filePath.toFile().exists()) {
+            throw new IOException("File does  exist : " + filePath + ".");
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException("File type not defined.");
+        }
+
+        if (type != FileType.TXT && type != FileType.CSV) {
+            throw new IllegalArgumentException(
+                    String.format("Only file types TXT and CSV are supported. Got: %s.", type));
+        }
+
+        RowWriter writer = IOUtilities.createRowWriter(new File(filePath.toString()), type, TextFileRowReader.ROWS_SAME_SIZE,
+                    TextFileRowReader.REMOVE_WHITE_SPACE);
+        
+        
+        writer.writeCell(NAME);
+        writer.newColumn() ;
+        writer.writeCell(ID);
+
+        Iterator<Feature> iterator = data.getFeatures().iterator() ;
+        
+        Feature feature ;
+        
+        while (iterator.hasNext())
+        {
+            writer.newColumn() ;
+            feature = iterator.next() ;
+            writer.writeCell(feature.getName()); // TODO  need also to record ids
+        }
+        
+        writer.newRow() ;
+        
+        writer.writeCell(TYPE);
+        writer.newColumn() ;
+        
+        iterator = data.getFeatures().iterator() ;
+        
+        while (iterator.hasNext())
+        {
+            writer.newColumn() ;
+            feature = iterator.next() ;
+            writer.writeCell(feature.getMethod().getScale().getScaleType().getAbbreviation()+feature.getMethod().getScale().getDataType().getAbbreviation()); 
+        }
+
+        writer.newRow() ;
+        
+        writer.writeCell(MIN);
+        writer.newColumn() ;
+        
+        iterator = data.getFeatures().iterator() ;
+        
+        while (iterator.hasNext())
+        {
+            writer.newColumn() ;
+            feature = iterator.next() ;
+            writer.writeCell(feature.getMethod().getScale().getMinimumValue()); 
+        }
+ 
+        writer.newRow() ;
+        
+        writer.writeCell(MAX);
+        writer.newColumn() ;
+        
+        iterator = data.getFeatures().iterator() ;
+        
+        while (iterator.hasNext())
+        {
+            writer.newColumn() ;
+            feature = iterator.next() ;
+            writer.writeCell(feature.getMethod().getScale().getMaximumValue()); 
+        }
+        
+        
+        
+        Iterator<FeatureDataRow> rows = data.getRows().iterator() ;
+        
+        FeatureDataRow row ;
+        
+        while (rows.hasNext())
+        {
+            writer.newRow() ;
+            row = rows.next() ;
+            writer.writeCell(row.getHeader().getName());
+            writer.newColumn() ;
+            writer.writeCell(row.getHeader().getUniqueIdentifier());
+            writer.newColumn() ;
+            writer.writeRowCells(row.getValues());
+        }
+           
+        writer.close(); 
     }
 
     private static void addValues(List<List<Object>> rowList, List<String> cells, List<FeaturePojo> features,

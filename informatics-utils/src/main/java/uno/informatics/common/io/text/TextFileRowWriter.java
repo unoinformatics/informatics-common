@@ -188,7 +188,11 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
   
   protected String convertValue(Object value) 
   {
+      if (value != null)
   	return ConversionUtilities.convertToString(value) ;
+      else
+        return "" ;
+          
   }
 
 	@Override

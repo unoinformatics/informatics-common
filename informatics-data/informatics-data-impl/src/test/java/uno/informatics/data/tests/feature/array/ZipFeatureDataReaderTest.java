@@ -34,7 +34,7 @@ import uno.informatics.data.tests.TestData;
  * @author Guy Davenport
  *
  */
-public class ZipDataWriteReadTest extends TestData {
+public class ZipFeatureDataReaderTest extends TestData {
 
     private static final String FILE_WITH_HEADER = "target/test_with_header.zip";
 
@@ -70,7 +70,7 @@ public class ZipDataWriteReadTest extends TestData {
 
             FeatureData readDataset = (FeatureData) reader.read();
 
-            checkCompleteData(UID, NAME, OBJECT_FEATURES, readDataset, ROW_HEADERS, false);
+            checkCompleteData(UID, NAME, OBJECT_FEATURES, ROW_HEADERS, OBJECT_TABLE_AS_LIST, readDataset);
         } catch (DatasetException e) {
             e.printStackTrace();
             fail(e.getMessage());

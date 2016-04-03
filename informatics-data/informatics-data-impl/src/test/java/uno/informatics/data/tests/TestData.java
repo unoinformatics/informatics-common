@@ -371,28 +371,38 @@ public class TestData {
             return null;
         }
     }
-
+    
+    protected void checkCompleteData(FeatureData expectedData, FeatureData actualData) {
+        
+        assertNotNull("Dataset is null!", actualData) ;
+        
+        checkCompleteData(expectedData.getUniqueIdentifier(), expectedData.getName(), expectedData.getFeatures(), actualData.getRowHeadersAsArray(), actualData.getValues(), actualData) ; 
+    }
+    
     protected void checkCompleteData(String uid, String name, List<Feature> features, FeatureData dataset,
             SimpleEntity[] rowHeaders, boolean useStrings) {
+        
+        checkCompleteData(uid, name, features, rowHeaders, useStrings ? STRING_TABLE_AS_LIST : OBJECT_TABLE_AS_LIST, dataset) ; 
+    }
+
+    protected void checkCompleteData(String uid, String name, List<Feature> features,
+            SimpleEntity[] rowHeaders, List<List<Object>> cells, FeatureData dataset) {
         assertEquals("uid not correct", uid, dataset.getUniqueIdentifier());
         assertEquals("name not correct", name, dataset.getName());
 
         // TODO
-        // assertEquals("Data type not correct", type,dataset.getType()) ;
+        // assertEquals("Data type not correct", type, dataset.getType()) ;
 
-        assertEquals("Number of rows incorrect", OBJECT_TABLE_AS_ARRAY_WITH_HEADER.length, dataset.getRowCount());
+        assertEquals("Number of row headers incorrect", rowHeaders.length, dataset.getRowCount());
 
         FeatureDataRow[] rows = dataset.getRowsAsArray();
 
         for (int i = 0; i < rows.length; ++i) {
             assertSimpleEntityEquals("Row header " + i + " not correct", rowHeaders[i], rows[i].getHeader());
-            assertEquals("Row size " + i + " not correct",
-                    useStrings ? STRING_TABLE_AS_LIST.get(i).size() : OBJECT_TABLE_AS_LIST.get(i).size(),
+            assertEquals("Row size " + i + " not correct",cells.get(i).size(),
                     rows[i].getColumnCount());
-            assertEquals("Row values (list) " + i + " not correct",
-                    useStrings ? STRING_TABLE_AS_LIST.get(i) : OBJECT_TABLE_AS_LIST.get(i), rows[i].getValues());
-            assertArrayEquals("Row values (array) " + i + " not correct",
-                    useStrings ? STRING_TABLE_AS_ARRAY[i] : OBJECT_TABLE_AS_ARRAY[i], rows[i].getValuesAsArray());
+            assertEquals("Row values (list) " + i + " not correct",cells.get(i), rows[i].getValues());
+            assertArrayEquals("Row values (array) " + i + " not correct", cells.get(i).toArray(), rows[i].getValuesAsArray());
         }
 
         Iterator<FeatureDataRow> iterator = dataset.getRows().iterator();
@@ -404,33 +414,25 @@ public class TestData {
         while (iterator.hasNext()) {
             row = iterator.next();
             assertSimpleEntityEquals("Row header " + i + " not correct", rowHeaders[i], row.getHeader());
-            assertEquals("Row size " + i + " not correct",
-                    useStrings ? STRING_TABLE_AS_LIST.get(i).size() : OBJECT_TABLE_AS_LIST.get(i).size(),
+            assertEquals("Row size " + i + " not correct", cells.get(i).size(),
                     row.getColumnCount());
-            assertEquals("Row values (list) " + i + " not correct",
-                    useStrings ? STRING_TABLE_AS_LIST.get(i) : OBJECT_TABLE_AS_LIST.get(i), row.getValues());
-            assertArrayEquals("Row values (array) " + i + " not correct",
-                    useStrings ? STRING_TABLE_AS_ARRAY[i] : OBJECT_TABLE_AS_ARRAY[i], row.getValuesAsArray());
+            assertEquals("Row values (list) " + i + " not correct", cells.get(i), row.getValues());
+            assertArrayEquals("Row values (array) " + i + " not correct", cells.get(i).toArray(), row.getValuesAsArray());
             ++i;
         }
 
         for (i = 0; i < dataset.getRowCount(); ++i) {
             assertSimpleEntityEquals("Row header " + i + " not correct", rowHeaders[i], dataset.getRow(i).getHeader());
-            assertEquals("Row size " + i + " not correct",
-                    useStrings ? STRING_TABLE_AS_LIST.get(i).size() : OBJECT_TABLE_AS_LIST.get(i).size(),
+            assertEquals("Row size " + i + " not correct", cells.get(i).size(),
                     dataset.getRow(i).getColumnCount());
-            assertArrayEquals("Row values (list) " + i + " not correct",
-                    useStrings ? STRING_TABLE_AS_ARRAY[i] : OBJECT_TABLE_AS_ARRAY[i],
+            assertArrayEquals("Row values (list) " + i + " not correct", cells.get(i).toArray(),
                     dataset.getRow(i).getValuesAsArray());
-            assertEquals("Row values (array) " + i + " not correct",
-                    useStrings ? STRING_TABLE_AS_LIST.get(i) : OBJECT_TABLE_AS_LIST.get(i),
+            assertEquals("Row values (array) " + i + " not correct", cells.get(i),
                     dataset.getRow(i).getValues());
         }
 
-        assertEquals("Values not correct", useStrings ? STRING_TABLE_AS_LIST : OBJECT_TABLE_AS_LIST,
+        assertEquals("Values not correct",  cells,
                 dataset.getValues());
-        assertArrayEquals("Values as array not correct", useStrings ? STRING_TABLE_AS_ARRAY : OBJECT_TABLE_AS_ARRAY,
-                dataset.getValuesAsArray());
 
         List<Feature> datasetFeatures = dataset.getFeatures();
 

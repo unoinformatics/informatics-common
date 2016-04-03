@@ -54,6 +54,7 @@ public class ZipFeatureDataReader extends ZipFeatureDataFileHandler implements D
      * 
      * @see uno.informatics.data.io.DatasetWriter#read()
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Data read() throws DatasetException {
         FeatureData dataset = null;
@@ -69,7 +70,7 @@ public class ZipFeatureDataReader extends ZipFeatureDataFileHandler implements D
 
             zipEntry = zipFile.getEntry(FEATURES_ENTRY);
 
-            @SuppressWarnings("unchecked")
+
             List<FeaturePojo> features = (List<FeaturePojo>) xstream.fromXML(zipFile.getInputStream(zipEntry));
 
             zipEntry = zipFile.getEntry(FILE_TYPE_ENTRY);
@@ -80,9 +81,10 @@ public class ZipFeatureDataReader extends ZipFeatureDataFileHandler implements D
 
             List<SimpleEntity> rowHeaders = null;
 
-            if (zipEntry != null)
+            if (zipEntry != null) {
                 rowHeaders = (List<SimpleEntity>) xstream.fromXML(zipFile.getInputStream(zipEntry));
-
+            }
+            
             switch (fileType) {
                 case CSV:
                     zipEntry = zipFile.getEntry(DATA_VALUES_ENTRY_PREIFX + CSV_SUFFIX);
