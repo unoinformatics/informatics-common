@@ -4,7 +4,7 @@
   <parent>
     <groupId>uno.informatics.common</groupId>
     <artifactId>informatics-data</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>informatics-data-api</artifactId>
   <packaging>jar</packaging>
