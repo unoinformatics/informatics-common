@@ -64,7 +64,7 @@ public class DatasetUtilsTest {
             expected.add(new ColumnFeaturePojo("test5", DataTypeConstants.DATE_ID | DataTypeConstants.STRING_ID));
 
             assertFeaturesEquals(expected, DatasetUtils.generateDatasetFeatures(
-                    new FileProperties(this.getClass().getResource("/object_table.txt").getFile()), "test", 3));
+                    new FileProperties(this.getClass().getResource("/feature/object_table.txt").getFile()), "test", 3));
 
             expected = new ArrayList<ColumnFeature>();
 
@@ -75,7 +75,7 @@ public class DatasetUtilsTest {
             expected.add(new ColumnFeaturePojo("12/12/2012", DataTypeConstants.DATE_ID | DataTypeConstants.STRING_ID));
 
             assertFeaturesEquals(expected, DatasetUtils.generateDatasetFeatures(
-                    new FileProperties(this.getClass().getResource("/object_table.txt").getFile(), true), null, 3));
+                    new FileProperties(this.getClass().getResource("/feature/object_table.txt").getFile(), true), null, 3));
 
             expected = new ArrayList<ColumnFeature>();
 
@@ -86,7 +86,7 @@ public class DatasetUtilsTest {
             expected.add(new ColumnFeaturePojo("12/12/2012", DataTypeConstants.DATE_ID | DataTypeConstants.STRING_ID));
 
             assertFeaturesEquals(expected, DatasetUtils.generateDatasetFeatures(
-                    new FileProperties(this.getClass().getResource("/object_table.txt").getFile(), 0, 1), null, 3));
+                    new FileProperties(this.getClass().getResource("/feature/object_table.txt").getFile(), 0, 1), null, 3));
         } catch (DatasetException e) {
             e.printStackTrace();
             fail(e.getLocalizedMessage());

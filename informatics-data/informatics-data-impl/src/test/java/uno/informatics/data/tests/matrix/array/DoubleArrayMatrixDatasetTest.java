@@ -40,10 +40,10 @@ import uno.informatics.data.pojo.SimpleFeaturePojo;
  */
 public class DoubleArrayMatrixDatasetTest {
 
-    private static final String DATA_FILE1 = "/double_matrix.txt";
-    private static final String DATA_FILE2 = "/double_matrix_col_headers.txt";
-    private static final String DATA_FILE3 = "/double_matrix_row_headers.txt";
-    private static final String DATA_FILE4 = "/double_matrix_col_row_headers.txt";
+    private static final String DATA_FILE1 = "/matrix/double/double_matrix.txt";
+    private static final String DATA_FILE2 = "/matrix/double/double_matrix_col_headers.txt";
+    private static final String DATA_FILE3 = "/matrix/double/double_matrix_row_headers.txt";
+    private static final String DATA_FILE4 = "/matrix/double/double_matrix_col_row_headers.txt";
 
     private static final String UID = null;
     private static final String NAME = null;

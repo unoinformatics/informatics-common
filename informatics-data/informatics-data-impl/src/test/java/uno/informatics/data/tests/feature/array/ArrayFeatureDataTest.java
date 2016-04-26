@@ -38,14 +38,14 @@ import uno.informatics.data.tests.feature.DatasetTest;
  */
 public class ArrayFeatureDataTest extends DatasetTest {
     
-    private static final String OBJECT_TABLE_WITH_ROW_NAMES = "/object_table_with_col_name_row_headers.csv";
-    private static final String OBJECT_TABLE_WITH_ROW_NAMES_IDS = "/object_table_with_col_name_id_row_headers.csv";
-    private static final String OBJECT_TABLE_WITH_TYPE_ROW_NAMES = "/object_table_with_col_type_name_row_headers.csv";
-    private static final String OBJECT_TABLE_WITH_TYPE_ROW_NAMES_IDS = "/object_table_with_col_type_name_id_row_headers.csv";
-    private static final String OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES = "/object_table_with_col_type_min_name_row_headers.csv";
-    private static final String OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES_IDS = "/object_table_with_col_type_min_name_id_row_headers.csv";
-    private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES = "/object_table_with_col_type_min_max_name_row_headers.csv";
-    private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS = "/object_table_with_col_type_min_max_name_id_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_ROW_NAMES = "/feature/object_table_with_col_name_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_ROW_NAMES_IDS = "/feature/object_table_with_col_name_id_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_ROW_NAMES = "/feature/object_table_with_col_type_name_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_ROW_NAMES_IDS = "/feature/object_table_with_col_type_name_id_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES = "/feature/object_table_with_col_type_min_name_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_MIN_ROW_NAMES_IDS = "/feature/object_table_with_col_type_min_name_id_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES = "/feature/object_table_with_col_type_min_max_name_row_headers.csv";
+    private static final String OBJECT_TABLE_WITH_TYPE_MIN_MAX_ROW_NAMES_IDS = "/feature/object_table_with_col_type_min_max_name_id_row_headers.csv";
 
     @Test
     public void testSetName() {
