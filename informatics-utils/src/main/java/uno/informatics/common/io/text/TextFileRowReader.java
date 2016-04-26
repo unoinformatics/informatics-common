@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -137,13 +139,13 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      * @throws IOException
      *             if an I/O error occurs
      */
-    public TextFileRowReader(File file) throws IOException, FileNotFoundException {
+    public TextFileRowReader(Path path) throws IOException, FileNotFoundException {
         this();
 
-        if (file == null)
-            throw new FileNotFoundException("File undefined");
+        if (path == null)
+            throw new FileNotFoundException("Path undefined");
 
-        setFile(file);
+        setPath(path);
 
         initialise();
     }
@@ -465,10 +467,10 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
 
         updatePattern();
 
-        if (getFileReference() != null)
-            initialiseBufferedReader(getBufferReader(getFileReference()));
-        else if (getFile() != null)
-            initialiseBufferedReader(getBufferReader(getFile()));
+        if (getPathReference() != null)
+            initialiseBufferedReader(getBufferReader(getPathReference()));
+        else if (getPath() != null)
+            initialiseBufferedReader(getBufferReader(getPath()));
         else if (bufferedReader != null)
             initialiseBufferedReader(bufferedReader);
         else
@@ -1089,9 +1091,10 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      * @exception IOException
      *                if the reader can not open an input stream to the file
      */
-    private static final BufferedReader getBufferReader(File file) throws FileNotFoundException, IOException {
-        if (file != null)
-            return new BufferedReader(new FileReader(file));
+    private static final BufferedReader getBufferReader(Path path) throws FileNotFoundException, IOException {
+        // TODO support for other Charsets
+        if (path != null)
+            return Files.newBufferedReader(path);
         else
             throw new FileNotFoundException("File object is null");
     }

@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +29,7 @@ import java.util.List;
 import org.junit.Test;
 
 import uno.informatics.common.io.FileProperties;
+import uno.informatics.common.io.FileType;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
 import uno.informatics.data.Method;
@@ -64,7 +67,7 @@ public class DatasetUtilsTest {
             expected.add(new ColumnFeaturePojo("test5", DataTypeConstants.DATE_ID | DataTypeConstants.STRING_ID));
 
             assertFeaturesEquals(expected, DatasetUtils.generateDatasetFeatures(
-                    new FileProperties(this.getClass().getResource("/feature/object_table.txt").getFile()), "test", 3));
+                    Paths.get(this.getClass().getResource("/feature/object_table.txt").getFile()), FileType.TXT, "test", 3));
 
             expected = new ArrayList<ColumnFeature>();
 
@@ -75,7 +78,7 @@ public class DatasetUtilsTest {
             expected.add(new ColumnFeaturePojo("12/12/2012", DataTypeConstants.DATE_ID | DataTypeConstants.STRING_ID));
 
             assertFeaturesEquals(expected, DatasetUtils.generateDatasetFeatures(
-                    new FileProperties(this.getClass().getResource("/feature/object_table.txt").getFile(), true), null, 3));
+                    Paths.get(this.getClass().getResource("/feature/object_table.txt").getFile()), FileType.TXT, null, 3));
 
             expected = new ArrayList<ColumnFeature>();
 
@@ -86,8 +89,8 @@ public class DatasetUtilsTest {
             expected.add(new ColumnFeaturePojo("12/12/2012", DataTypeConstants.DATE_ID | DataTypeConstants.STRING_ID));
 
             assertFeaturesEquals(expected, DatasetUtils.generateDatasetFeatures(
-                    new FileProperties(this.getClass().getResource("/feature/object_table.txt").getFile(), 0, 1), null, 3));
-        } catch (DatasetException e) {
+                    Paths.get(this.getClass().getResource("/feature/object_table.txt").getFile()), FileType.TXT, null, 3));
+        } catch (IOException e) {
             e.printStackTrace();
             fail(e.getLocalizedMessage());
         }

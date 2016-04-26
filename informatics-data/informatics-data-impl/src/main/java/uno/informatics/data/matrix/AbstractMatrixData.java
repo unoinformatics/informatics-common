@@ -27,7 +27,10 @@ import uno.informatics.data.pojo.SimpleEntityPojo;
  */
 public abstract class AbstractMatrixData<ValueType extends Object> extends SimpleEntityPojo
         implements MatrixData<ValueType> {
-
+    
+    public static final String ID = "ID";
+    public static final String NAME = "NAME";
+    public static final String ELEMENT_FEATURE = "ELEMENT_FEATURE";
 
     private Feature valueFeature;
     private Dataset dataset;

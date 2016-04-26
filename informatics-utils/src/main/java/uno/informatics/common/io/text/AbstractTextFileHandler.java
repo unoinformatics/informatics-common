@@ -22,6 +22,7 @@ import static uno.informatics.common.Constants.UNKNOWN_INDEX;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import uno.informatics.common.Constants;
@@ -29,9 +30,9 @@ import uno.informatics.common.io.TextFileHandler;
 
 public abstract class AbstractTextFileHandler implements TextFileHandler
 {
-  private String fileReference;
+  private String pathReference;
 
-  private File file;
+  private Path path;
   
   private boolean isInStrictMode;
   
@@ -79,12 +80,12 @@ public abstract class AbstractTextFileHandler implements TextFileHandler
    * @throws FileNotFoundException if the file to read/write is not found
    * @throws IOException if an I/O error occurs
    */
-  public AbstractTextFileHandler(File file) throws IOException, FileNotFoundException
+  public AbstractTextFileHandler(Path path) throws IOException, FileNotFoundException
   {  	
-    if (file == null)
-      throw new FileNotFoundException("File undefined");
+    if (path == null)
+      throw new FileNotFoundException("Path undefined");
 
-    setFile(file) ;
+    setPath(path) ;
   }
   
     /**
@@ -120,37 +121,37 @@ public abstract class AbstractTextFileHandler implements TextFileHandler
     return comment;
   }
 
-  public final String getFileReference()
+  public final String getPathReference()
   {
-    return fileReference;
+    return pathReference;
   }
 
-  public final void setFileReference(String fileReference) throws IOException
+  public final void setFileReference(String pathReference) throws IOException
   {
-    if (this.fileReference != fileReference)
+    if (this.pathReference != pathReference)
     {
       if (isInUse())
-        throw new IOException("File can not be changed while reader/writer is in use") ;
+        throw new IOException("Path can not be changed while reader/writer is in use") ;
       
-      this.fileReference = fileReference;
-      file = null;
+      this.pathReference = pathReference;
+      path = null;
     }
   }
 
-  public final File getFile()
+  public final Path getPath()
   {
-    return file;
+    return path;
   }
 
-  public final void setFile(File file) throws IOException
+  public final void setPath(Path path) throws IOException
   {
-    if (this.file != file)
+    if (this.path != path)
     {
       if (isInUse())
-        throw new IOException("File can not be changed while reader/writer is in use") ;
+        throw new IOException("Path can not be changed while reader/writer is in use") ;
       
-      fileReference = null;
-      this.file = file ;
+      pathReference = null;
+      this.path = path ;
     }
   }
   

@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,19 +35,14 @@ import uno.informatics.common.io.text.TextFileRowWriter;
  */
 public class IOUtilities
 {
-	public static final RowReader createRowReader(FileProperties fileProperties, int... options) throws IOException
-	{
-		return createRowReader(fileProperties.getFile(), fileProperties.getFileType(), options) ;
-	}
-
-	public static final RowReader createRowReader(File file, FileType fileType, int... options) throws IOException
+	public static final RowReader createRowReader(Path path, FileType type, int... options) throws IOException
 	{
 		RowReader reader = null ;
 		
-		switch (fileType)
+		switch (type)
 		{
 			case CSV:
-				TextFileRowReader textFileRowStringReader = new TextFileRowReader(file) ;
+				TextFileRowReader textFileRowStringReader = new TextFileRowReader(path) ;
 
 				textFileRowStringReader.setDelimiterString(COMMA) ;
 				
@@ -55,7 +51,7 @@ public class IOUtilities
 				reader = textFileRowStringReader ;
 				break;
 			case TXT:
-				textFileRowStringReader = new TextFileRowReader(file) ;
+				textFileRowStringReader = new TextFileRowReader(path) ;
 
 				textFileRowStringReader.setDelimiterString(TAB) ;
 				
@@ -77,11 +73,11 @@ public class IOUtilities
 	}	
 	
 	public static RowReader createRowReader(BufferedReader bufferedReader,
-			FileType fileType, int... options) throws IOException
+			FileType type, int... options) throws IOException
 	{
 		RowReader reader = null ;
 		
-		switch (fileType)
+		switch (type)
 		{
 			case CSV:
 				TextFileRowReader textFileRowStringReader = new TextFileRowReader(bufferedReader) ;
@@ -114,26 +110,21 @@ public class IOUtilities
 		return reader ;
 	}
 	
-	public static final RowWriter createRowWriter(FileProperties fileProperties, int... options) throws IOException
-	{
-		return createRowWriter(fileProperties.getFile(), fileProperties.getFileType(), options) ;
-	}
-
-	public static final RowWriter createRowWriter(File file, FileType fileType, int... options) throws IOException
+	public static final RowWriter createRowWriter(Path filePath, FileType type, int... options) throws IOException
 	{
 		RowWriter writer = null ;
 		
-		switch (fileType)
+		switch (type)
 		{
 			case CSV:
-				TextFileRowWriter textFileRowStringWriter = new TextFileRowWriter(file) ;
+				TextFileRowWriter textFileRowStringWriter = new TextFileRowWriter(filePath) ;
 
 				textFileRowStringWriter.setDelimiterString(COMMA) ;
 
 				writer = textFileRowStringWriter ;
 				break;
 			case TXT:
-				textFileRowStringWriter = new TextFileRowWriter(file) ;
+				textFileRowStringWriter = new TextFileRowWriter(filePath) ;
 
 				textFileRowStringWriter.setDelimiterString(TAB) ;
 
@@ -152,11 +143,11 @@ public class IOUtilities
 		return writer ;
 	}	
 	
-	public static final RowWriter createRowWriter(BufferedWriter bufferedWriter, FileType fileType, int... options) throws IOException
+	public static final RowWriter createRowWriter(BufferedWriter bufferedWriter, FileType type, int... options) throws IOException
 	{
 		RowWriter writer = null ;
 		
-		switch (fileType)
+		switch (type)
 		{
 			case CSV:
 				TextFileRowWriter textFileRowStringWriter = new TextFileRowWriter(bufferedWriter) ;
@@ -185,20 +176,28 @@ public class IOUtilities
 		return writer ;
 	}
 	
-	public static final List<String> getSheets(FileProperties fileProperties, int... options) throws IOException
+	public static final List<String> getSheets(Path filePath, FileType type, int... options) throws IOException
 	{
-		if (fileProperties == null)
-			throw new IOException("File properties not defined!") ;
+	        // validate arguments
+
+	        if (filePath == null) {
+	            throw new IllegalArgumentException("File path not defined.");
+	        }
+
+	        if (!filePath.toFile().exists()) {
+	            throw new IOException("File does not exist : " + filePath + ".");
+	        }
+
+	        if (type == null) {
+	            throw new IllegalArgumentException("File type not defined.");
+	        }
+
+	        if (type != FileType.TXT && type != FileType.CSV) {
+	            throw new IllegalArgumentException(
+	                    String.format("Only file types TXT and CSV are supported. Got: %s.", type));
+	        }
 	
-		if (fileProperties.getFile() == null)
-			throw new IOException("File not defined!") ;
-	
-		if (fileProperties.getFileType() == null)
-			throw new IOException("File type not defined!") ;
-	
-		//try
-		//{
-			switch (fileProperties.getFileType())
+			switch (type)
 			{
 				case CSV:
 					return new ArrayList<String>() ;
@@ -217,11 +216,7 @@ public class IOUtilities
 				default:
 					return new ArrayList<String>() ;
 			}
-		/*}
-		catch (IOException e)
-		{
-			throw new DatasetException(e) ;
-		}*/
+
 	}
 	
 	private static final int getOptions(int... options)

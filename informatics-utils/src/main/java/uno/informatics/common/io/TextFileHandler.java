@@ -15,7 +15,7 @@
  *******************************************************************************/
 package uno.informatics.common.io;
 
-import java.io.File;
+import java.nio.file.Path;
 
 /**
  * Basic functionality for all text file data sources
@@ -32,5 +32,5 @@ public interface TextFileHandler
 	 * Gets the file associated with this handler
 	 * @return associated file
 	 */
-	public File getFile();
+	public Path getPath();
 }

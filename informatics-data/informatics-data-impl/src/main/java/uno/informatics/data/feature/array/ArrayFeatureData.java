@@ -19,6 +19,7 @@ package uno.informatics.data.feature.array;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -34,6 +35,7 @@ import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowWriter;
 import uno.informatics.common.io.text.TextFileRowReader;
+import uno.informatics.data.DataOption;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
 import uno.informatics.data.Feature;
@@ -50,16 +52,13 @@ import uno.informatics.data.pojo.ScalePojo;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 import uno.informatics.data.utils.DatasetUtils;
 
+import static uno.informatics.data.DataOption.* ;
+
 /**
  * @author Guy Davenport
  *
  */
 public class ArrayFeatureData extends AbstractFeatureData {
-    private static final String NAME = "NAME";
-    private static final String ID = "ID";
-    private static final String TYPE = "TYPE";
-    private static final String MIN = "MIN";
-    private static final String MAX = "MAX";
 
     private FeatureDataRow[] rows;
     private int rowCount;
@@ -164,7 +163,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
         return rowHeaders ;
     }
     
-    public static final ArrayFeatureData readData(Path filePath, FileType type)
+    public static final ArrayFeatureData readData(Path filePath, FileType type, DataOption... options)
             throws IOException {
 
         ArrayFeatureData data = null;
@@ -191,8 +190,9 @@ public class ArrayFeatureData extends AbstractFeatureData {
                     String.format("Only file types TXT and CSV are supported. Got: %s.", type));
         }
 
+        // TODO extract options and pass to reader
         try {
-            reader = IOUtilities.createRowReader(new File(filePath.toString()), type, TextFileRowReader.ROWS_SAME_SIZE,
+            reader = IOUtilities.createRowReader(filePath, type, TextFileRowReader.ROWS_SAME_SIZE,
                     TextFileRowReader.REMOVE_WHITE_SPACE);
 
             if (reader != null && reader.ready()) {
@@ -434,7 +434,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                     String.format("Only file types TXT and CSV are supported. Got: %s.", type));
         }
 
-        RowWriter writer = IOUtilities.createRowWriter(new File(filePath.toString()), type, TextFileRowReader.ROWS_SAME_SIZE,
+        RowWriter writer = IOUtilities.createRowWriter(filePath, type, TextFileRowReader.ROWS_SAME_SIZE,
                     TextFileRowReader.REMOVE_WHITE_SPACE);
         
         

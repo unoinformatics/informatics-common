@@ -20,16 +20,22 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.junit.Test;
 
 import uno.informatics.common.io.FileProperties;
 import uno.informatics.common.io.FileType;
+import uno.informatics.data.DataOption;
 import uno.informatics.data.DataType;
 import uno.informatics.data.Feature;
 import uno.informatics.data.ScaleType;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.MatrixData;
+import uno.informatics.data.matrix.AbstractMatrixData;
 import uno.informatics.data.matrix.array.DoubleArrayMatrixData;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 import uno.informatics.data.pojo.SimpleFeaturePojo;
@@ -40,14 +46,9 @@ import uno.informatics.data.pojo.SimpleFeaturePojo;
  */
 public class DoubleArrayMatrixDatasetTest {
 
-    private static final String DATA_FILE1 = "/matrix/double/double_matrix.txt";
     private static final String DATA_FILE2 = "/matrix/double/double_matrix_col_headers.txt";
-    private static final String DATA_FILE3 = "/matrix/double/double_matrix_row_headers.txt";
     private static final String DATA_FILE4 = "/matrix/double/double_matrix_col_row_headers.txt";
 
-    private static final String UID = null;
-    private static final String NAME = null;
-    private static final String DESCRIPTION = null;
     private static final double DELTA = 0;
     private static final String ELEMENT_NAME = "elements";
     private static final SimpleEntity[] ROW_HEADERS = new SimpleEntity[] { new SimpleEntityPojo("R1"), new SimpleEntityPojo("R2"), new SimpleEntityPojo("R3") };
@@ -60,41 +61,17 @@ public class DoubleArrayMatrixDatasetTest {
      */
     @Test
     public void testCreateMatrixDataset() {
-        FileProperties fileProperties = new FileProperties(
-                DoubleArrayMatrixDatasetTest.class.getResource(DATA_FILE1).getPath(), FileType.TXT);
 
-        testCreateMatrixDataset(fileProperties);
+        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(DATA_FILE2).getPath()), FileType.TXT);
 
-        fileProperties = new FileProperties(DoubleArrayMatrixDatasetTest.class.getResource(DATA_FILE2).getPath(),
-                FileType.TXT);
-
-        fileProperties.setColumnHeaderPosition(0);
-        fileProperties.setDataRowPosition(1);
-
-        testCreateMatrixDataset(fileProperties);
-
-        fileProperties = new FileProperties(DoubleArrayMatrixDatasetTest.class.getResource(DATA_FILE3).getPath(),
-                FileType.TXT);
-
-        fileProperties.setRowHeaderPosition(0);
-
-        testCreateMatrixDataset(fileProperties);
-
-        fileProperties = new FileProperties(DoubleArrayMatrixDatasetTest.class.getResource(DATA_FILE4).getPath(),
-                FileType.TXT);
-
-        fileProperties.setColumnHeaderPosition(0);
-        fileProperties.setRowHeaderPosition(0);
-        fileProperties.setDataRowPosition(1);
-
-        testCreateMatrixDataset(fileProperties);
+        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(DATA_FILE4).getPath()), FileType.TXT);
     }
 
-    public void testCreateMatrixDataset(FileProperties fileProperties) {
+    public void testCreateMatrixDataset(Path filePath, FileType type) {
         try {
             Feature valueFeature = new SimpleFeaturePojo(ELEMENT_NAME, DataType.STRING, ScaleType.NOMINAL);
-            MatrixData<Double> matrix = DoubleArrayMatrixData.createMatrixDataset(UID, NAME, DESCRIPTION,
-                    valueFeature, fileProperties);
+            
+            MatrixData<Double> matrix = DoubleArrayMatrixData.readData(filePath, type, new DataOption(AbstractMatrixData.ID, valueFeature));
 
             assertEquals("row count not equal!", ROW_HEADERS.length, matrix.getRowCount());
             assertEquals("column count not equal!", COLUMN_HEADERS.length, matrix.getColumnCount());
@@ -114,7 +91,7 @@ public class DoubleArrayMatrixDatasetTest {
                     assertEquals("x=" + x + " y=" + y, new Double("" + (x + 1) + "." + (y + 1)),
                             (double) matrix.getValue(x, y), DELTA);
 
-        } catch (DatasetException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
