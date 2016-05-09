@@ -67,7 +67,7 @@ public class DatasetUtilsTest {
             expected.add(new ColumnFeaturePojo("test5", DataTypeConstants.DATE_ID | DataTypeConstants.STRING_ID));
 
             assertFeaturesEquals(expected, DatasetUtils.generateDatasetFeatures(
-                    Paths.get(this.getClass().getResource("/feature/object_table.txt").getFile()), FileType.TXT, "test", 3));
+                    Paths.get(this.getClass().getResource("/feature/object_table_with_col_row_headers.txt").getFile()), FileType.TXT, "test", 3));
 
             expected = new ArrayList<ColumnFeature>();
 
@@ -78,7 +78,7 @@ public class DatasetUtilsTest {
             expected.add(new ColumnFeaturePojo("12/12/2012", DataTypeConstants.DATE_ID | DataTypeConstants.STRING_ID));
 
             assertFeaturesEquals(expected, DatasetUtils.generateDatasetFeatures(
-                    Paths.get(this.getClass().getResource("/feature/object_table.txt").getFile()), FileType.TXT, null, 3));
+                    Paths.get(this.getClass().getResource("/feature/object_table_with_col_row_headers.txt").getFile()), FileType.TXT, null, 3));
 
             expected = new ArrayList<ColumnFeature>();
 
@@ -89,7 +89,7 @@ public class DatasetUtilsTest {
             expected.add(new ColumnFeaturePojo("12/12/2012", DataTypeConstants.DATE_ID | DataTypeConstants.STRING_ID));
 
             assertFeaturesEquals(expected, DatasetUtils.generateDatasetFeatures(
-                    Paths.get(this.getClass().getResource("/feature/object_table.txt").getFile()), FileType.TXT, null, 3));
+                    Paths.get(this.getClass().getResource("/feature/object_table_with_col_row_headers.txt").getFile()), FileType.TXT, null, 3));
         } catch (IOException e) {
             e.printStackTrace();
             fail(e.getLocalizedMessage());

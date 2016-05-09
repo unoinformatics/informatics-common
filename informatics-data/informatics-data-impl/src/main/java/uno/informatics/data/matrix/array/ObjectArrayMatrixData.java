@@ -17,7 +17,6 @@
 package uno.informatics.data.matrix.array;
 
 import static uno.informatics.common.Constants.UNKNOWN_COUNT;
-import static uno.informatics.common.Constants.UNKNOWN_INDEX;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -28,14 +27,12 @@ import java.util.List;
 
 import uno.informatics.common.ConversionException;
 import uno.informatics.common.ConversionUtilities;
-import uno.informatics.common.io.FileProperties;
 import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.data.DataOption;
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
-import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.MatrixData;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 

@@ -46,8 +46,8 @@ import uno.informatics.data.pojo.SimpleFeaturePojo;
  */
 public class DoubleArrayMatrixDatasetTest {
 
-    private static final String DATA_FILE2 = "/matrix/double/double_matrix_col_headers.txt";
-    private static final String DATA_FILE4 = "/matrix/double/double_matrix_col_row_headers.txt";
+    private static final String DATA_FILE2 = "/matrix/double/double_matrix1.txt";
+    private static final String DATA_FILE4 = "/matrix/double/double_matrix2.txt";
 
     private static final double DELTA = 0;
     private static final String ELEMENT_NAME = "elements";

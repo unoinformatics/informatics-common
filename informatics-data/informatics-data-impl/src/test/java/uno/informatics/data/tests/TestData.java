@@ -52,16 +52,16 @@ public class TestData {
 
     protected final static SimpleEntity ROW_HEADER = new SimpleEntityPojo(UID, NAME);
 
-    protected final static String ROW1_NAME = "row1";
-    protected final static String ROW2_NAME = "row2";
-    protected final static String ROW3_NAME = "row3";
+    protected final static String ROW1_ID = "row1";
+    protected final static String ROW2_ID = "row2";
+    protected final static String ROW3_ID = "row3";
 
-    protected final static String[] ROW_NAMES = new String[] { ROW1_NAME, ROW2_NAME, ROW3_NAME };
+    protected final static String[] ROW_IDS = new String[] { ROW1_ID, ROW2_ID, ROW3_ID };
     protected final static String[] BLANK_NAMES = new String[] { null, null, null };
 
-    protected final static SimpleEntity ROW1_HEADER = new SimpleEntityPojo(ROW1_NAME);
-    protected final static SimpleEntity ROW2_HEADER = new SimpleEntityPojo(ROW2_NAME);
-    protected final static SimpleEntity ROW3_HEADER = new SimpleEntityPojo(ROW3_NAME);
+    protected final static SimpleEntity ROW1_HEADER = new SimpleEntityPojo(ROW1_ID);
+    protected final static SimpleEntity ROW2_HEADER = new SimpleEntityPojo(ROW2_ID);
+    protected final static SimpleEntity ROW3_HEADER = new SimpleEntityPojo(ROW3_ID);
 
     protected final static SimpleEntity[] ROW_HEADERS = new SimpleEntity[] { ROW1_HEADER, ROW2_HEADER, ROW3_HEADER };
 
@@ -73,27 +73,27 @@ public class TestData {
         ROW_HEADERS_AS_LIST.add(ROW3_HEADER);
     }
 
-    protected final static SimpleEntity ROW1_HEADER_WITH_ID = new SimpleEntityPojo("r1", ROW1_NAME);
-    protected final static SimpleEntity ROW2_HEADER_WITH_ID = new SimpleEntityPojo("r2", ROW2_NAME);
-    protected final static SimpleEntity ROW3_HEADER_WITH_ID = new SimpleEntityPojo("r3", ROW3_NAME);
+    protected final static SimpleEntity ROW1_HEADER_WITH_NAME = new SimpleEntityPojo(ROW1_ID, "r1");
+    protected final static SimpleEntity ROW2_HEADER_WITH_NAME = new SimpleEntityPojo(ROW2_ID, "r2");
+    protected final static SimpleEntity ROW3_HEADER_WITH_NAME = new SimpleEntityPojo(ROW3_ID, "r3");
 
-    protected final static SimpleEntity[] ROW_HEADERS_WITH_ID = new SimpleEntity[] { ROW1_HEADER_WITH_ID,
-            ROW2_HEADER_WITH_ID, ROW3_HEADER_WITH_ID };
+    protected final static SimpleEntity[] ROW_HEADERS_WITH_NAME = new SimpleEntity[] { ROW1_HEADER_WITH_NAME,
+            ROW2_HEADER_WITH_NAME, ROW3_HEADER_WITH_NAME };
 
     protected final static List<SimpleEntity> ROW_HEADERS_WITH_IDS_AS_LIST = new ArrayList<SimpleEntity>();
 
     static {
-        ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW1_HEADER_WITH_ID);
-        ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW2_HEADER_WITH_ID);
-        ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW3_HEADER_WITH_ID);
+        ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW1_HEADER_WITH_NAME);
+        ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW2_HEADER_WITH_NAME);
+        ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW3_HEADER_WITH_NAME);
     }
 
     protected final static List<String> ROW_NAMES_AS_LIST = new ArrayList<String>();
 
     static {
-        ROW_NAMES_AS_LIST.add(ROW1_NAME);
-        ROW_NAMES_AS_LIST.add(ROW2_NAME);
-        ROW_NAMES_AS_LIST.add(ROW3_NAME);
+        ROW_NAMES_AS_LIST.add(ROW1_ID);
+        ROW_NAMES_AS_LIST.add(ROW2_ID);
+        ROW_NAMES_AS_LIST.add(ROW3_ID);
     }
 
     protected final static Object[] OBJECT_ROW1 = new Object[] { 1, 1.1, "R1C3", true, createDate("12/12/2012") };
@@ -266,11 +266,11 @@ public class TestData {
         STRING_TABLE_AS_LIST_WITH_HEADER.get(2).add(STRING_ROW3_WITH_HEADER[5]);
     }
 
-    protected final static FeatureDataRow ROW_WITH_NAME1 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW1_NAME),
+    protected final static FeatureDataRow ROW_WITH_NAME1 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW1_ID),
             OBJECT_ROW1);
-    protected final static FeatureDataRow ROW_WITH_NAME2 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW2_NAME),
+    protected final static FeatureDataRow ROW_WITH_NAME2 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW2_ID),
             OBJECT_ROW2);
-    protected final static FeatureDataRow ROW_WITH_NAME3 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW3_NAME),
+    protected final static FeatureDataRow ROW_WITH_NAME3 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW3_ID),
             OBJECT_ROW3);
 
     protected final static FeatureDataRow ROW1 = new ArrayFeatureDataRow(OBJECT_ROW1);
@@ -290,74 +290,134 @@ public class TestData {
     protected static final List<Feature> OBJECT_FEATURES = new ArrayList<Feature>();
 
     static {
-        OBJECT_FEATURES.add(new FeaturePojo("col1", new MethodPojo("col1",
-                new ScalePojo("col1", DataType.INTEGER, ScaleType.INTERVAL, 1, 3, OBJECT_COL1))));
-        OBJECT_FEATURES.add(new FeaturePojo("col2",
-                new MethodPojo("col2", new ScalePojo("col2", DataType.DOUBLE, ScaleType.RATIO, 1.1, 3.3))));
-        OBJECT_FEATURES.add(new FeaturePojo("col3",
-                new MethodPojo("col3", new ScalePojo("col3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))));
-        OBJECT_FEATURES.add(new FeaturePojo("col4",
-                new MethodPojo("col4", new ScalePojo("col4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))));
-        OBJECT_FEATURES.add(new FeaturePojo("col5",
-                new MethodPojo("col5", new ScalePojo("col5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))));
+        OBJECT_FEATURES.add(new FeaturePojo("col1", "col1", new MethodPojo("col1",
+                new ScalePojo("col1", "col1", DataType.INTEGER, ScaleType.INTERVAL, 1, 3, OBJECT_COL1))));
+        OBJECT_FEATURES.add(new FeaturePojo("col2", "col2",
+                new MethodPojo("col2", new ScalePojo("col2", "col2", DataType.DOUBLE, ScaleType.RATIO, 1.1, 3.3))));
+        OBJECT_FEATURES.add(new FeaturePojo("col3", "col3",
+                new MethodPojo("col3", new ScalePojo("col3", "col3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))));
+        OBJECT_FEATURES.add(new FeaturePojo("col4", "col4",
+                new MethodPojo("col4", new ScalePojo("col4", "col4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))));
+        OBJECT_FEATURES.add(new FeaturePojo("col5", "col5",
+                new MethodPojo("col5", new ScalePojo("col5", "col5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))));
     }
 
     protected static final Feature[] OBJECT_FEATURES_AS_ARRAY = new Feature[] {
-            new FeaturePojo("col1",
+            new FeaturePojo("col1", "col1",
                     new MethodPojo("col1",
-                            new ScalePojo("col1", DataType.INTEGER, ScaleType.INTERVAL, 1, 3, OBJECT_COL1))),
-            new FeaturePojo("col2",
-                    new MethodPojo("col2", new ScalePojo("col2", DataType.DOUBLE, ScaleType.RATIO, 1.1, 3.3))),
-            new FeaturePojo("col3",
-                    new MethodPojo("col3", new ScalePojo("col3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))),
-            new FeaturePojo("col4",
-                    new MethodPojo("col4", new ScalePojo("col4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))),
-            new FeaturePojo("col5",
-                    new MethodPojo("col5", new ScalePojo("col5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))) };
+                            new ScalePojo("col1", "col1", DataType.INTEGER, ScaleType.INTERVAL, 1, 3, OBJECT_COL1))),
+            new FeaturePojo("col2", "col2",
+                    new MethodPojo("col2", new ScalePojo("col2", "col2", DataType.DOUBLE, ScaleType.RATIO, 1.1, 3.3))),
+            new FeaturePojo("col3", "col3",
+                    new MethodPojo("col3", new ScalePojo("col3", "col3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))),
+            new FeaturePojo("col4", "col4",
+                    new MethodPojo("col4", new ScalePojo("col4", "col4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))),
+            new FeaturePojo("col5", "col5",
+                    new MethodPojo("col5", new ScalePojo("col5", "col5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))) };
 
     protected static final List<Feature> OBJECT_FEATURES_MIN = new ArrayList<Feature>();
 
     static {
-        OBJECT_FEATURES_MIN.add(new FeaturePojo("col1", new MethodPojo("col1",
+        OBJECT_FEATURES_MIN.add(new FeaturePojo("col1", "col1", new MethodPojo("col1",
                 new ScalePojo("col1", DataType.INTEGER, ScaleType.INTERVAL, 0, 3, OBJECT_COL1))));
-        OBJECT_FEATURES_MIN.add(new FeaturePojo("col2",
+        OBJECT_FEATURES_MIN.add(new FeaturePojo("col2", "col2",
                 new MethodPojo("col2", new ScalePojo("col2", DataType.DOUBLE, ScaleType.RATIO, 0.0, 3.3))));
-        OBJECT_FEATURES_MIN.add(new FeaturePojo("col3",
+        OBJECT_FEATURES_MIN.add(new FeaturePojo("col3", "col3",
                 new MethodPojo("col3", new ScalePojo("col3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))));
-        OBJECT_FEATURES_MIN.add(new FeaturePojo("col4",
+        OBJECT_FEATURES_MIN.add(new FeaturePojo("col4", "col4",
                 new MethodPojo("col4", new ScalePojo("col4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))));
-        OBJECT_FEATURES_MIN.add(new FeaturePojo("col5",
+        OBJECT_FEATURES_MIN.add(new FeaturePojo("col5", "col5",
                 new MethodPojo("col5", new ScalePojo("col5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))));
     }
 
     protected static final List<Feature> OBJECT_FEATURES_MIN_MAX = new ArrayList<Feature>();
 
     static {
-        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col1", new MethodPojo("col1",
-                new ScalePojo("col1", DataType.INTEGER, ScaleType.INTERVAL, 0, 4, OBJECT_COL1))));
-        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col2",
-                new MethodPojo("col2", new ScalePojo("col2", DataType.DOUBLE, ScaleType.RATIO, 0.0, 4.0))));
-        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col3",
-                new MethodPojo("col3", new ScalePojo("col3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))));
-        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col4",
-                new MethodPojo("col4", new ScalePojo("col4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))));
-        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col5",
-                new MethodPojo("col5", new ScalePojo("col5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))));
+        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col1", "col1", new MethodPojo("col1",
+                new ScalePojo("col1", "col1", DataType.INTEGER, ScaleType.INTERVAL, 0, 4, OBJECT_COL1))));
+        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col2", "col2",
+                new MethodPojo("col2", new ScalePojo("col2", "col2", DataType.DOUBLE, ScaleType.RATIO, 0.0, 4.0))));
+        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col3", "col3",
+                new MethodPojo("col3", new ScalePojo("col3", "col3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))));
+        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col4", "col4",
+                new MethodPojo("col4", new ScalePojo("col4", "col4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))));
+        OBJECT_FEATURES_MIN_MAX.add(new FeaturePojo("col5", "col5",
+                new MethodPojo("col5", new ScalePojo("col5", "col5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))));
     }
 
     protected static final List<Feature> STRING_FEATURES = new ArrayList<Feature>();
 
     static {
-        STRING_FEATURES.add(new FeaturePojo("col1",
-                new MethodPojo("col1", new ScalePojo("col1", DataType.STRING, ScaleType.NOMINAL, STRING_COL1))));
-        STRING_FEATURES.add(new FeaturePojo("col2",
-                new MethodPojo("col2", new ScalePojo("col2", DataType.STRING, ScaleType.NOMINAL, STRING_COL2))));
-        STRING_FEATURES.add(new FeaturePojo("col3",
-                new MethodPojo("col3", new ScalePojo("col3", DataType.STRING, ScaleType.NOMINAL, STRING_COL3))));
-        STRING_FEATURES.add(new FeaturePojo("col4",
-                new MethodPojo("col4", new ScalePojo("col4", DataType.STRING, ScaleType.NOMINAL, STRING_COL4))));
-        STRING_FEATURES.add(new FeaturePojo("col5",
-                new MethodPojo("col5", new ScalePojo("col5", DataType.STRING, ScaleType.NOMINAL, STRING_COL5))));
+        STRING_FEATURES.add(new FeaturePojo("col1", "col1",
+                new MethodPojo("col1", new ScalePojo("col1", "col1", DataType.STRING, ScaleType.NOMINAL, STRING_COL1))));
+        STRING_FEATURES.add(new FeaturePojo("col2", "col2",
+                new MethodPojo("col2", new ScalePojo("col2", "col2", DataType.STRING, ScaleType.NOMINAL, STRING_COL2))));
+        STRING_FEATURES.add(new FeaturePojo("col3", "col3",
+                new MethodPojo("col3", new ScalePojo("col3", "col3", DataType.STRING, ScaleType.NOMINAL, STRING_COL3))));
+        STRING_FEATURES.add(new FeaturePojo("col4", "col4",
+                new MethodPojo("col4", new ScalePojo("col4", "col4", DataType.STRING, ScaleType.NOMINAL, STRING_COL4))));
+        STRING_FEATURES.add(new FeaturePojo("col5", "col5",
+                new MethodPojo("col5", new ScalePojo("col5", "col5", DataType.STRING, ScaleType.NOMINAL, STRING_COL5))));
+    }
+    
+    protected static final List<Feature> OBJECT_FEATURES_COL = new ArrayList<Feature>();
+
+    static {
+        OBJECT_FEATURES_COL.add(new FeaturePojo("col1", "Col 1", new MethodPojo("col1","Col 1", 
+                new ScalePojo("col1", "Col 1", DataType.INTEGER, ScaleType.INTERVAL, 1, 3, OBJECT_COL1))));
+        OBJECT_FEATURES_COL.add(new FeaturePojo("col2", "Col 2",
+                new MethodPojo("col2", "Col 2", new ScalePojo("col2", "Col 2", DataType.DOUBLE, ScaleType.RATIO, 1.1, 3.3))));
+        OBJECT_FEATURES_COL.add(new FeaturePojo("col3", "Col 3",
+                new MethodPojo("col3", "Col 3", new ScalePojo("col3", "Col 3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))));
+        OBJECT_FEATURES_COL.add(new FeaturePojo("col4", "Col 4",
+                new MethodPojo("col4", "Col 4", new ScalePojo("col4", "Col 4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))));
+        OBJECT_FEATURES_COL.add(new FeaturePojo("col5", "Col 5",
+                new MethodPojo("col5", "Col 5", new ScalePojo("col5", "Col 5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))));
+    }
+
+    protected static final List<Feature> OBJECT_FEATURES_MIN_COL = new ArrayList<Feature>();
+
+    static {
+        OBJECT_FEATURES_MIN_COL.add(new FeaturePojo("col1", "Col 1", new MethodPojo("col1", "Col 1", 
+                new ScalePojo("col1", "Col 1",DataType.INTEGER, ScaleType.INTERVAL, 0, 3, OBJECT_COL1))));
+        OBJECT_FEATURES_MIN_COL.add(new FeaturePojo("col2", "Col 2",
+                new MethodPojo("col2", "Col 2", new ScalePojo("col2", "Col 2", DataType.DOUBLE, ScaleType.RATIO, 0.0, 3.3))));
+        OBJECT_FEATURES_MIN_COL.add(new FeaturePojo("col3", "Col 3",
+                new MethodPojo("col3", "Col 3", new ScalePojo("col3", "Col 3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))));
+        OBJECT_FEATURES_MIN_COL.add(new FeaturePojo("col4", "Col 4",
+                new MethodPojo("col4", "Col 4", new ScalePojo("col4", "Col 4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))));
+        OBJECT_FEATURES_MIN_COL.add(new FeaturePojo("col5", "Col 5",
+                new MethodPojo("col5", "Col 5", new ScalePojo("col5", "Col 5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))));
+    }
+
+    protected static final List<Feature> OBJECT_FEATURES_MIN_MAX_COL = new ArrayList<Feature>();
+
+    static {
+        OBJECT_FEATURES_MIN_MAX_COL.add(new FeaturePojo("col1", "Col 1", new MethodPojo("col1", "Col 1",
+                new ScalePojo("col1", "Col 1", DataType.INTEGER, ScaleType.INTERVAL, 0, 4, OBJECT_COL1))));
+        OBJECT_FEATURES_MIN_MAX_COL.add(new FeaturePojo("col2", "Col 2",
+                new MethodPojo("col2", "Col 2",new ScalePojo("col2", "Col 2", DataType.DOUBLE, ScaleType.RATIO, 0.0, 4.0))));
+        OBJECT_FEATURES_MIN_MAX_COL.add(new FeaturePojo("col3", "Col 3",
+                new MethodPojo("col3", "Col 3",new ScalePojo("col3", "Col 3", DataType.STRING, ScaleType.NOMINAL, OBJECT_COL3))));
+        OBJECT_FEATURES_MIN_MAX_COL.add(new FeaturePojo("col4", "Col 4",
+                new MethodPojo("col4", "Col 4",new ScalePojo("col4", "Col 4", DataType.BOOLEAN, ScaleType.NOMINAL, OBJECT_COL4))));
+        OBJECT_FEATURES_MIN_MAX_COL.add(new FeaturePojo("col5", "Col 5",
+                new MethodPojo("col5", "Col 5",new ScalePojo("col5", "Col 5", DataType.DATE, ScaleType.NOMINAL, OBJECT_COL5))));
+    }
+
+    protected static final List<Feature> STRING_FEATURES_COL = new ArrayList<Feature>();
+
+    static {
+        STRING_FEATURES_COL.add(new FeaturePojo("col1", "Col 1",
+                new MethodPojo("col1", "Col 1", new ScalePojo("col1", "Col 1", DataType.STRING, ScaleType.NOMINAL, STRING_COL1))));
+        STRING_FEATURES_COL.add(new FeaturePojo("col2", "Col 2",
+                new MethodPojo("col2", "Col 2", new ScalePojo("col2", "Col 2", DataType.STRING, ScaleType.NOMINAL, STRING_COL2))));
+        STRING_FEATURES_COL.add(new FeaturePojo("col3", "Col 3",
+                new MethodPojo("col3", "Col 3", new ScalePojo("col3", "Col 3", DataType.STRING, ScaleType.NOMINAL, STRING_COL3))));
+        STRING_FEATURES_COL.add(new FeaturePojo("col4", "Col 4",
+                new MethodPojo("col4", "Col 4", new ScalePojo("col4", "Col 4", DataType.STRING, ScaleType.NOMINAL, STRING_COL4))));
+        STRING_FEATURES_COL.add(new FeaturePojo("col5", "Col 5",
+                new MethodPojo("col5", "Col 5", new ScalePojo("col5", "Col 5", DataType.STRING, ScaleType.NOMINAL, STRING_COL5))));
     }
 
     /**

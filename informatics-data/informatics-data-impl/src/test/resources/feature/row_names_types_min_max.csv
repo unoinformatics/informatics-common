@@ -1,4 +1,7 @@
-NAME,ID,col1,col2,col3,col4,col5
+ID,NAME,col1,col2,col3,col4,col5
+TYPE,,II,RD,NS,NB,NA
+MIN,,0,0.0,,,
+MAX,,4,4.0,,,
 row1,r1,1,1.1,R1C3,TRUE,12/12/2012
 row2,r2,2,2.2,R2C3,FALSE,13/12/2012
 row3,r3,3,3.3,R3C3,TRUE,14/12/2012

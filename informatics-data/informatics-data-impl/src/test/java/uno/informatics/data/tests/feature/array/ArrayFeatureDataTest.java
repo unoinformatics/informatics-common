@@ -103,7 +103,7 @@ public class ArrayFeatureDataTest extends DatasetTest {
 
             FeatureData data = ArrayFeatureData.readData(path, FileType.CSV);
 
-            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), STRING_FEATURES, data, ROW_HEADERS_WITH_ID, true);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), STRING_FEATURES, data, ROW_HEADERS_WITH_NAME, true);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -135,7 +135,7 @@ public class ArrayFeatureDataTest extends DatasetTest {
 
             FeatureData data = ArrayFeatureData.readData(path, FileType.CSV);
 
-            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES, data, ROW_HEADERS_WITH_ID, false);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES, data, ROW_HEADERS_WITH_NAME, false);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -167,7 +167,7 @@ public class ArrayFeatureDataTest extends DatasetTest {
 
             FeatureData data = ArrayFeatureData.readData(path, FileType.CSV);
 
-            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN, data, ROW_HEADERS_WITH_ID, false);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN, data, ROW_HEADERS_WITH_NAME, false);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -199,7 +199,7 @@ public class ArrayFeatureDataTest extends DatasetTest {
 
             FeatureData data = ArrayFeatureData.readData(path, FileType.CSV);
 
-            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_MAX, data, ROW_HEADERS_WITH_ID, false);
+            checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_MAX, data, ROW_HEADERS_WITH_NAME, false);
 
         } catch (IOException e) {
             e.printStackTrace();
