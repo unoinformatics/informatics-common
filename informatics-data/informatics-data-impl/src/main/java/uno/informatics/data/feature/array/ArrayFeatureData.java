@@ -211,7 +211,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                 
                 String rowID;
                 String rowName;
-                List<SimpleEntity> rowHeaders = null;
+                List<SimpleEntity> rowHeaders = new LinkedList<SimpleEntity>();
                 List<String> columnIDs;
                 List<String> columnNames;
                 List<FeaturePojo> newFeatures = null;
@@ -227,7 +227,6 @@ public class ArrayFeatureData extends AbstractFeatureData {
                         iterator = cells.iterator();
 
                         if (ID.equals(cells.get(0))) {
-                            rowHeaders = new LinkedList<SimpleEntity>();
 
                             iterator.next();
 

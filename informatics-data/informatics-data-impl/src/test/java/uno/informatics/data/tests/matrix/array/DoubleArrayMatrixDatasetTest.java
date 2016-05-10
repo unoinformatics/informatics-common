@@ -46,9 +46,11 @@ import uno.informatics.data.pojo.SimpleFeaturePojo;
  */
 public class DoubleArrayMatrixDatasetTest {
 
-    private static final String DATA_FILE2 = "/matrix/double/double_matrix1.txt";
-    private static final String DATA_FILE4 = "/matrix/double/double_matrix2.txt";
-
+    private static final String IDS = "/matrix/double/ids_only.txt";
+    private static final String IDS_NAMES_ON_COL = "/matrix/double/idsNamesOnCols.txt";
+    private static final String IDS_NAMES_ON_ROW = "/matrix/double/idsNamesOnRows.txt";
+    private static final String IDS_NAMES_ON_BOTH = "/matrix/double/idsNamesOnBoth.txt";
+    
     private static final double DELTA = 0;
     private static final String ELEMENT_NAME = "elements";
     private static final SimpleEntity[] ROW_HEADERS = new SimpleEntity[] { new SimpleEntityPojo("R1"), new SimpleEntityPojo("R2"), new SimpleEntityPojo("R3") };
@@ -62,9 +64,9 @@ public class DoubleArrayMatrixDatasetTest {
     @Test
     public void testCreateMatrixDataset() {
 
-        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(DATA_FILE2).getPath()), FileType.TXT);
+        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(IDS).getPath()), FileType.TXT);
 
-        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(DATA_FILE4).getPath()), FileType.TXT);
+        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(IDS_NAMES_ON_COL).getPath()), FileType.TXT);
     }
 
     public void testCreateMatrixDataset(Path filePath, FileType type) {

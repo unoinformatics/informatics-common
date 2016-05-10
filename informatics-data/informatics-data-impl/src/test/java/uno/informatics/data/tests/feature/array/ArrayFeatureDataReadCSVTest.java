@@ -16,18 +16,18 @@
 
 package uno.informatics.data.tests.feature.array;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 import org.junit.Test;
 
 import uno.informatics.common.io.FileType;
-import uno.informatics.data.Feature;
-import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureData;
 import uno.informatics.data.tests.TestData;
@@ -52,6 +52,8 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
     private static final String OBJECT_TABLE_WITH_ROW_IDS_NAME_TYPES_MIN_COL_NAMES = "/feature/row_names_types_min_col_names.csv";
     private static final String OBJECT_TABLE_WITH_ROW_IDS_TYPES_MIN_MAX_COL_NAMES = "/feature/row_types_min_max_col_names.csv";
     private static final String OBJECT_TABLE_WITH_ROW_IDS_NAMES_TYPE_MIN_MAX_COL_NAMES = "/feature/row_names_types_min_max_col_names.csv";
+    
+    private static final String ERRONEOUS_FILES_DIR = "/feature/err/";
 
     protected FileType getFileType() {
         return FileType.CSV;
@@ -295,6 +297,28 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
             e.printStackTrace();
 
             fail(e.getLocalizedMessage());
+        }
+    }
+    
+    @Test
+    public void erroneousFiles() throws IOException {
+        System.out.println(" |- Test erroneous files:");
+        Path dir = Paths.get(ArrayFeatureData.class.getResource(ERRONEOUS_FILES_DIR).getPath());
+        try(DirectoryStream<Path> directory = Files.newDirectoryStream(dir)){
+            for(Path file : directory){
+                System.out.print("  |- " + file.getFileName().toString() + ": ");
+                FileType type = file.toString().endsWith(".txt") ? FileType.TXT : FileType.CSV;
+                boolean thrown = false;
+                try {
+                    ArrayFeatureData.readData(file, type);
+                } catch (IOException ex){
+                    thrown = true;
+                    System.out.print(ex.getMessage());
+                } finally {
+                    System.out.println();
+                }
+                assertTrue("File " + file + " should throw exception.", thrown);
+            }
         }
     }
 }
