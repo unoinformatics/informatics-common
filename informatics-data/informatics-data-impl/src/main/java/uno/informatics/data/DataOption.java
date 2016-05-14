@@ -64,12 +64,13 @@ public class DataOption {
         return found ;
     }
 
-    public static final Object findValue(DataOption[] options, String key) {
+    public static final <T> T findValue(DataOption[] options, String key, Class<T> type) {
         
-        return findValue(options, key, null);
+        return findValue(options, key, type, null);
     }
 
-    public static final Object findValue(DataOption[] options, String key, Object defaultValue) {
+    @SuppressWarnings("unchecked")
+    public static final <T> T findValue(DataOption[] options, String key, Class<T> type, T defaultValue) {
         
         Object value = null ;
         
@@ -84,7 +85,11 @@ public class DataOption {
             }   
         }
         
-        return value != null ? value : defaultValue ;
+        if (type.isInstance(value)) {
+            return (T)value ;
+        } else {
+            return defaultValue ;
+        }
     }
 
 }

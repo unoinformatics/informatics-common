@@ -80,9 +80,9 @@ public class ObjectArrayMatrixData extends ArrayMatrixData<Object> {
                     String.format("Only file types TXT and CSV are supported. Got: %s.", type));
         }
 
-        String uniqueIdentifier = (String) DataOption.findValue(options, ID);
-        String name = (String) DataOption.findValue(options, NAME);
-        Feature elementFeature = (Feature) DataOption.findValue(options, ELEMENT_FEATURE);
+        String uniqueIdentifier = DataOption.findValue(options, ID, String.class);
+        String name = DataOption.findValue(options, NAME, String.class);
+        Feature elementFeature = DataOption.findValue(options, ELEMENT_FEATURE, Feature.class);
 
         List<SimpleEntity> columnHeaders = null;
         List<SimpleEntity> rowHeaders = null;

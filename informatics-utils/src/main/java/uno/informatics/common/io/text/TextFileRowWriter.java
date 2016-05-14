@@ -53,13 +53,13 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
   /**
    * Constructs an initialised reader using a file.
    * 
-   * @param file a text File object.
+   * @param path the Path to file to be written.
    * @throws FileNotFoundException if the file to write is not found
    * @throws IOException if an I/O error occurs
    */
-  public TextFileRowWriter(Path filePath) throws IOException, FileNotFoundException
+  public TextFileRowWriter(Path path) throws IOException, FileNotFoundException
   {
-    super(filePath) ;
+    super(path) ;
     
     initialise() ;
   }

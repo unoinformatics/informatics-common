@@ -16,17 +16,11 @@ package uno.informatics.data.utils;
  * limitations under the License.
  *******************************************************************************/
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import uno.informatics.common.ConversionUtilities;
-import uno.informatics.common.io.FileType;
-import uno.informatics.common.io.IOUtilities;
-import uno.informatics.common.io.RowReader;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
 import uno.informatics.data.Feature;
@@ -39,140 +33,21 @@ import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.SimpleFeaturePojo;
 
 public class DatasetUtils {
-    private static final int INVALID_ROW_COUNT = -1;
-
-    public static final List<ColumnFeature> generateDatasetFeatures(Path path, FileType fileType, String columnLabel)
-            throws IOException {
-        return generateDatasetFeatures(path, fileType, columnLabel, INVALID_ROW_COUNT);
-    }
-
-    public static final List<ColumnFeature> generateDatasetFeatures(Path filePath, FileType type, String columnLabel,
-            int numRows) throws IOException {
-        RowReader reader = null;
-        List<ColumnFeature> features = null;
-
-        // validate arguments
-
-        if (filePath == null) {
-            throw new IllegalArgumentException("File path not defined.");
-        }
-
-        if (!filePath.toFile().exists()) {
-            throw new IOException("File does not exist : " + filePath + ".");
-        }
-
-        if (type == null) {
-            throw new IllegalArgumentException("File type not defined.");
-        }
-
-        if (type != FileType.TXT && type != FileType.CSV) {
-            throw new IllegalArgumentException(
-                    String.format("Only file types TXT and CSV are supported. Got: %s.", type));
-        }
-
-        reader = IOUtilities.createRowReader(filePath, type);
-
-        if (reader != null && reader.ready()) {
-            features = new ArrayList<ColumnFeature>();
-
-            List<String> headers = null;
-
-            List<Integer> dataTypes = new ArrayList<Integer>();
-
-            int columnCount = 0;
-            int row = 0;
-            int rowsRead = 0;
-
-            List<String> cells;
-
-            if (reader.nextRow()) {
-
-                headers = reader.getRowCellsAsString();
-
-                ++row;
-
-                if (reader.nextRow() && (numRows < 0 || rowsRead < numRows)) {
-
-                    cells = reader.getRowCellsAsString();
-
-                    ++row;
-                    ++rowsRead;
-
-                    dataTypes = ConversionUtilities.getDataTypes(cells);
-
-                    columnCount = cells.size();
-
-                    features = new ArrayList<ColumnFeature>(columnCount);
-
-                    dataTypes = ConversionUtilities.getDataTypes(cells);
-
-                    while (reader.nextRow() && (numRows < 0 || rowsRead < numRows)) {
-                        cells = reader.getRowCellsAsString();
-
-                        if (cells.size() != columnCount)
-                            throw new IOException(String.format("Row %d is not right size, expecting %d but was %d!",
-                                    row, columnCount, cells.size()));
-
-                        dataTypes = ConversionUtilities.getDataTypes(cells, dataTypes);
-
-                        ++row;
-                        ++rowsRead;
-                    }
-                } else {
-                    throw new IOException("No columns");
-                }
-            }
-
-            reader.close();
-
-            Iterator<String> iterator = headers.iterator();
-            Iterator<Integer> iterator2 = dataTypes.iterator();
-
-            boolean hasRowHeaders = true;
-
-            if (hasRowHeaders) {
-                if (headers.size() == dataTypes.size()) {
-                    iterator.next();
-                    iterator2.next();
-                } else {
-                    if (headers.size() - 1 == dataTypes.size()) {
-                        iterator2.next();
-                    } else {
-                        if (headers.size() != dataTypes.size())
-                            throw new IOException("Number of headers : " + headers.size()
-                                    + " does not match number of columns : " + dataTypes.size());
-                    }
-                }
-            } else {
-                if (headers.size() != dataTypes.size())
-                    throw new IOException("Number of headers : " + headers.size()
-                            + " does not match number of columns : " + dataTypes.size());
-            }
-
-            while (iterator.hasNext() && iterator2.hasNext()) {
-                features.add(createDefaultColumnFeature(iterator.next(), iterator2.next()));
-            }
-        }
-
-        if (reader != null)
-            reader.close();
-
-        return features;
-
-    }
 
     /**
      * Creates a default column feature from a name and a bit mask of possible
      * data types
      * 
+     * @param id
+     *            the id of the column feature
      * @param name
      *            the name of the column feature
      * @param possibleDataTypes
      *            a bit mask of possible data types
      * @return the default column feature
      */
-    public static ColumnFeature createDefaultColumnFeature(String name, int possibleDataTypes) {
-        return new ColumnFeaturePojo(name, possibleDataTypes);
+    public static ColumnFeature createDefaultColumnFeature(String id, String name, int possibleDataTypes) {
+        return new ColumnFeaturePojo(id, name, possibleDataTypes);
     }
 
     /**
@@ -187,8 +62,8 @@ public class DatasetUtils {
      *            the scale type of the feature
      * @return the default feature
      */
-    public static Feature createDefaultFeature(String name, DataType dataType, ScaleType scaleType) {
-        return new SimpleFeaturePojo(name, dataType, scaleType);
+    public static Feature createDefaultFeature(String id, String name, DataType dataType, ScaleType scaleType) {
+        return new SimpleFeaturePojo(id, name, dataType, scaleType);
     }
 
     /**

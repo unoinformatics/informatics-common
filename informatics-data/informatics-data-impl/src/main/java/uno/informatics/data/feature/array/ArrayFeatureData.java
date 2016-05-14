@@ -190,9 +190,12 @@ public class ArrayFeatureData extends AbstractFeatureData {
                     String.format("Only file types TXT and CSV are supported. Got: %s.", type));
         }
         
-        String uniqueIdentifier = (String) DataOption.findValue(options, ID);
-        String name = (String) DataOption.findValue(options, NAME);
-
+        String uniqueIdentifier = DataOption.findValue(options, ID, String.class);
+        String name = DataOption.findValue(options, NAME, String.class);
+        
+        if (name == null)
+            name = filePath.getFileName().toString() ;
+            
         // TODO extract options and pass to reader
         try {
             reader = IOUtilities.createRowReader(filePath, type, TextFileRowReader.ROWS_SAME_SIZE,
@@ -242,6 +245,8 @@ public class ArrayFeatureData extends AbstractFeatureData {
                         } else {
                             if (uniqueIdentifier != null) 
                                 throw new IllegalArgumentException("Using ID DataOption: First cell must be " + ID);
+                            
+                            uniqueIdentifier = cells.get(0);
                             
                             columnCount = cells.size();
                         }
@@ -403,7 +408,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                             cells = reader.getRowCellsAsString();
 
                             if (cells.size() != columnCount)
-                                throw new IOException("Rows are not all the same size in row + " + row + " !");
+                                throw new IOException(String.format("In row %d number of cell not as expected. Should be %d but was %d!", row, columnCount, cells.size()));
 
                             addValues(rowList, cells, newFeatures, types);
                         }
@@ -476,9 +481,9 @@ public class ArrayFeatureData extends AbstractFeatureData {
                     TextFileRowReader.REMOVE_WHITE_SPACE);
         
         
-        writer.writeCell(NAME);
-        writer.newColumn() ;
         writer.writeCell(ID);
+        writer.newColumn() ;
+        writer.writeCell(NAME);
 
         Iterator<Feature> iterator = data.getFeatures().iterator() ;
         
@@ -488,7 +493,21 @@ public class ArrayFeatureData extends AbstractFeatureData {
         {
             writer.newColumn() ;
             feature = iterator.next() ;
-            writer.writeCell(feature.getName()); // TODO  need also to record ids
+            writer.writeCell(feature.getUniqueIdentifier()); 
+        }
+        
+        writer.newRow() ;
+        
+        writer.writeCell(NAME);
+        writer.newColumn() ;
+
+        iterator = data.getFeatures().iterator() ;
+         
+        while (iterator.hasNext())
+        {
+            writer.newColumn() ;
+            feature = iterator.next() ;
+            writer.writeCell(feature.getName()); 
         }
         
         writer.newRow() ;

@@ -171,7 +171,7 @@ public class ColumnFeatureImplTest {
 
         feature = new ColumnFeaturePojo(UID, NAME, DataTypeConstants.DATE_ID | DataTypeConstants.DOUBLE_ID);
 
-        assertEquals(null, feature.getUniqueIdentifier());
+        assertEquals(UID, feature.getUniqueIdentifier());
         assertEquals(NAME, feature.getName());
         assertEquals(null, feature.getDescription());
         assertEquals(DataTypeConstants.DATE_ID | DataTypeConstants.DOUBLE_ID, feature.getPossibleDataTypes());

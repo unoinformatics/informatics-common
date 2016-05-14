@@ -79,10 +79,13 @@ public class DoubleArrayMatrixData extends ArrayMatrixData<Double> {
                     String.format("Only file types TXT and CSV are supported. Got: %s.", type));
         }
 
-        String uniqueIdentifier = (String) DataOption.findValue(options, ID);
-        String name = (String) DataOption.findValue(options, NAME);
-        Feature elementFeature = (Feature) DataOption.findValue(options, ELEMENT_FEATURE);
+        String uniqueIdentifier = DataOption.findValue(options, ID, String.class);
+        String name = DataOption.findValue(options, NAME, String.class);
+        Feature elementFeature = DataOption.findValue(options, ELEMENT_FEATURE, Feature.class);
 
+        if (name == null)
+            name = filePath.getFileName().toString() ;
+        
         List<SimpleEntity> columnHeaders = null;
         List<SimpleEntity> rowHeaders = null;
         RowReader reader = null;
@@ -94,26 +97,28 @@ public class DoubleArrayMatrixData extends ArrayMatrixData<Double> {
             int columnCount = UNKNOWN_COUNT;
             int row = 0;
             List<String> headers;
-            String rowName;
             String rowID = null;
+            String rowName = null;
 
-            boolean hasRowIDs = false;
+            boolean hasRowNames = false;
 
             if (reader.nextRow()) {
                 ++row;
 
                 headers = reader.getRowCellsAsString();
 
-                if (NAME.equals(headers.get(0))) {
+                if (ID.equals(headers.get(0))) {
                     headers.remove(0); // ignore cell!
 
-                    if (ID.equals(headers.get(0))) {
-                        hasRowIDs = true;
+                    if (NAME.equals(headers.get(0))) {
+                        hasRowNames = true;
                         headers.remove(0); // ignore cell!
                     }
                 } else {
-                    if (name == null)
-                        name = headers.get(0);
+                    if (uniqueIdentifier != null) 
+                        throw new IllegalArgumentException("Using ID DataOption: First cell must be " + ID);
+                    
+                    uniqueIdentifier = headers.get(0);
 
                     headers.remove(0);
                 }
@@ -139,25 +144,24 @@ public class DoubleArrayMatrixData extends ArrayMatrixData<Double> {
 
                 reader.nextColumn();
 
-                rowName = reader.getCellAsString();
+                rowID = reader.getCellAsString();
 
-                if (hasRowIDs) {
+                if (hasRowNames) {
                     reader.nextColumn();
 
-                    rowID = reader.getCellAsString();
+                    rowName = reader.getCellAsString();
                 }
 
                 reader.nextColumn();
 
-                if (ID.equals(rowName)) {
-                    hasRowIDs = true;
+                if (NAME.equals(rowID)) {
                     headers = reader.getRowCellsAsString();
 
                     Iterator<String> iterator1 = headers.iterator();
                     Iterator<SimpleEntity> iterator2 = columnHeaders.iterator();
 
                     while (iterator1.hasNext() && iterator2.hasNext()) {
-                        ((SimpleEntityPojo) iterator2.next()).setUniqueIdentifier(iterator1.next());
+                        ((SimpleEntityPojo) iterator2.next()).setName(iterator1.next());
                     }
                 } else {
                     cells = reader.getRowCellsAsDouble();
@@ -167,10 +171,10 @@ public class DoubleArrayMatrixData extends ArrayMatrixData<Double> {
 
                     rowList.add(cells);
 
-                    if (hasRowIDs) {
+                    if (hasRowNames) {
                         rowHeaders.add(new SimpleEntityPojo(rowID, rowName));
                     } else {
-                        rowHeaders.add(new SimpleEntityPojo(rowName));
+                        rowHeaders.add(new SimpleEntityPojo(rowID));
                     }
                 }
 
@@ -179,12 +183,12 @@ public class DoubleArrayMatrixData extends ArrayMatrixData<Double> {
 
                     reader.nextColumn();
 
-                    rowName = reader.getCellAsString();
+                    rowID = reader.getCellAsString();
 
-                    if (hasRowIDs) {
+                    if (hasRowNames) {
                         reader.nextColumn();
 
-                        rowID = reader.getCellAsString();
+                        rowName = reader.getCellAsString();
                     }
 
                     reader.nextColumn();
@@ -195,6 +199,12 @@ public class DoubleArrayMatrixData extends ArrayMatrixData<Double> {
                         throw new IOException(String.format("Row %d is not right size, expecting %d but was %d!", row, columnCount, cells.size()));
 
                     rowList.add(cells);
+                    
+                    if (hasRowNames) {
+                        rowHeaders.add(new SimpleEntityPojo(rowID, rowName));
+                    } else {
+                        rowHeaders.add(new SimpleEntityPojo(rowID));
+                    }
 
                     ++row;
                 }

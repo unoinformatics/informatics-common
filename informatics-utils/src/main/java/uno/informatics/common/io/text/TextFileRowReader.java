@@ -132,8 +132,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     /**
      * Constructs an initialised reader using a file.
      * 
-     * @param file
-     *            a text File object.
+     * @param path the Path to file to be read.
      * @throws FileNotFoundException
      *             if the file to read is not found
      * @throws IOException

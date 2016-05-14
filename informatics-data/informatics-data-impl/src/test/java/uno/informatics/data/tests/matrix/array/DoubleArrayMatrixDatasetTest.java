@@ -53,38 +53,73 @@ public class DoubleArrayMatrixDatasetTest {
     
     private static final double DELTA = 0;
     private static final String ELEMENT_NAME = "elements";
-    private static final SimpleEntity[] ROW_HEADERS = new SimpleEntity[] { new SimpleEntityPojo("R1"), new SimpleEntityPojo("R2"), new SimpleEntityPojo("R3") };
-    private static final SimpleEntity[] COLUMN_HEADERS = new SimpleEntity[] {new SimpleEntityPojo( "C1"), new SimpleEntityPojo("C2"), new SimpleEntityPojo("C3"), new SimpleEntityPojo("C4"), new SimpleEntityPojo("C5") };
+    
+    private static final SimpleEntity[] ROW_HEADERS = new SimpleEntity[] { 
+            new SimpleEntityPojo("Row1"),
+            new SimpleEntityPojo("Row2"), 
+            new SimpleEntityPojo("Row3") };
+    
+    private static final SimpleEntity[] COLUMN_HEADERS = new SimpleEntity[] { 
+            new SimpleEntityPojo("Col1"),
+            new SimpleEntityPojo("Col2"), 
+            new SimpleEntityPojo("Col3"), 
+            new SimpleEntityPojo("Col4"),
+            new SimpleEntityPojo("Col5") };
+    
+    private static final SimpleEntity[] ROW_HEADERS_WITH_NAMES = new SimpleEntity[] { 
+            new SimpleEntityPojo("Row1", "R1"),
+            new SimpleEntityPojo("Row2", "R2"), 
+            new SimpleEntityPojo("Row3", "R3") };
+    
+    private static final SimpleEntity[] COLUMN_HEADERS_WITH_NAMES = new SimpleEntity[] { 
+            new SimpleEntityPojo("Col1", "C1"),
+            new SimpleEntityPojo("Col2", "C2"), 
+            new SimpleEntityPojo("Col3", "C3"), 
+            new SimpleEntityPojo("Col4", "C4"),
+            new SimpleEntityPojo("Col5", "C5") };
 
-    /**
-     * Test method for
-     * {@link uno.informatics.data.matrix.array.DoubleArrayMatrixData#createMatrixDataset(java.lang.String, java.lang.String, java.lang.String, uno.informatics.common.model.Feature, uno.informatics.common.io.FileProperties, uno.informatics.common.model.Feature, uno.informatics.common.model.Feature)}
-     * .
-     */
+
     @Test
-    public void testCreateMatrixDataset() {
+    public void testCreateMatrixDatasetIDsOnly() {
 
-        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(IDS).getPath()), FileType.TXT);
+        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(IDS).getPath()), FileType.TXT, COLUMN_HEADERS, ROW_HEADERS);
+    }
+    
+    @Test
+    public void testCreateMatrixDatasetIdsNamesOnCols() {
 
-        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(IDS_NAMES_ON_COL).getPath()), FileType.TXT);
+        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(IDS_NAMES_ON_COL).getPath()), FileType.TXT, COLUMN_HEADERS_WITH_NAMES, ROW_HEADERS);
+        
+    }
+    
+    @Test
+    public void testCreateMatrixDatasetIdsNamesOnRows() {
+
+        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(IDS_NAMES_ON_ROW).getPath()), FileType.TXT, COLUMN_HEADERS, ROW_HEADERS_WITH_NAMES);
+    }
+    
+    @Test
+    public void testCreateMatrixDatasetIdsNamesOnBoth() {
+
+        testCreateMatrixDataset(Paths.get(DoubleArrayMatrixDatasetTest.class.getResource(IDS_NAMES_ON_BOTH).getPath()), FileType.TXT, COLUMN_HEADERS_WITH_NAMES, ROW_HEADERS_WITH_NAMES);
     }
 
-    public void testCreateMatrixDataset(Path filePath, FileType type) {
+    public void testCreateMatrixDataset(Path filePath, FileType type, SimpleEntity[] columnHeaders, SimpleEntity[] rowHeaders) {
         try {
             Feature valueFeature = new SimpleFeaturePojo(ELEMENT_NAME, DataType.STRING, ScaleType.NOMINAL);
             
             MatrixData<Double> matrix = DoubleArrayMatrixData.readData(filePath, type, new DataOption(AbstractMatrixData.ID, valueFeature));
 
-            assertEquals("row count not equal!", ROW_HEADERS.length, matrix.getRowCount());
-            assertEquals("column count not equal!", COLUMN_HEADERS.length, matrix.getColumnCount());
+            assertEquals("row count not equal!", rowHeaders.length, matrix.getRowCount());
+            assertEquals("column count not equal!", columnHeaders.length, matrix.getColumnCount());
 
             if (matrix.hasRowHeaders())
-                assertArrayEquals("row headers not equal!", ROW_HEADERS, matrix.getRowHeaders().toArray());
+                assertArrayEquals("row headers not equal!", rowHeaders, matrix.getRowHeaders().toArray());
             else
                 assertEquals("row headers not equal!", null, matrix.getRowHeaders());
 
             if (matrix.hasColumnHeaders())
-                assertArrayEquals("column headers not equal!", COLUMN_HEADERS, matrix.getColumnHeaders().toArray());
+                assertArrayEquals("column headers not equal!", columnHeaders, matrix.getColumnHeaders().toArray());
             else
                 assertEquals("row headers not equal!", null, matrix.getColumnHeaders());
 
