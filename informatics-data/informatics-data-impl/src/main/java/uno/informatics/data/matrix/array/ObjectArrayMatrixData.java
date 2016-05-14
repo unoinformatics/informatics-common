@@ -17,8 +17,9 @@
 package uno.informatics.data.matrix.array;
 
 import static uno.informatics.common.Constants.UNKNOWN_COUNT;
-import static uno.informatics.common.Constants.UNKNOWN_INDEX;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -26,12 +27,12 @@ import java.util.List;
 
 import uno.informatics.common.ConversionException;
 import uno.informatics.common.ConversionUtilities;
-import uno.informatics.common.io.FileProperties;
+import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
+import uno.informatics.data.DataOption;
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
-import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.MatrixData;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 
@@ -57,170 +58,165 @@ public class ObjectArrayMatrixData extends ArrayMatrixData<Object> {
         super(uniqueIdentifier, name, elementFeature, values);
     }
 
-    public static final MatrixData<Object> createMatrixDataset(String uniqueIdentifier, String name,
-            FileProperties fileProperties, Feature elementFeature) throws DatasetException {
-        return createMatrixDataset(uniqueIdentifier, name, fileProperties, elementFeature, null, null);
-    }
+    public static final MatrixData<Object> readData(Path filePath, FileType type, DataOption... options)
+            throws IOException {
 
-    public static final MatrixData<Object> createMatrixDataset(String uniqueIdentifier, String name,
-            FileProperties fileProperties, Feature elementFeature, Feature headerFeature)
-                    throws DatasetException {
-        return createMatrixDataset(uniqueIdentifier, name, fileProperties, elementFeature, headerFeature,
-                headerFeature);
-    }
+        // validate arguments
 
-    public static final MatrixData<Object> createMatrixDataset(String uniqueIdentifier, String name,
-            FileProperties fileProperties, Feature elementFeature, Feature rowHeaderFeature,
-            Feature columnHeaderFeature) throws DatasetException {
+        if (filePath == null) {
+            throw new IllegalArgumentException("File path not defined.");
+        }
+
+        if (!filePath.toFile().exists()) {
+            throw new IOException("File does not exist : " + filePath + ".");
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException("File type not defined.");
+        }
+
+        if (type != FileType.TXT && type != FileType.CSV) {
+            throw new IllegalArgumentException(
+                    String.format("Only file types TXT and CSV are supported. Got: %s.", type));
+        }
+
+        String uniqueIdentifier = (String) DataOption.findValue(options, ID);
+        String name = (String) DataOption.findValue(options, NAME);
+        Feature elementFeature = (Feature) DataOption.findValue(options, ELEMENT_FEATURE);
+
         List<SimpleEntity> columnHeaders = null;
         List<SimpleEntity> rowHeaders = null;
         RowReader reader = null;
         List<List<Object>> rowList = new LinkedList<List<Object>>();
 
-        if (fileProperties == null)
-            throw new DatasetException("File properties not defined!");
+        reader = IOUtilities.createRowReader(filePath, type);
 
-        if (fileProperties.getFile() == null)
-            throw new DatasetException("File not defined!");
+        if (reader != null && reader.ready()) {
+            int columnCount = UNKNOWN_COUNT;
+            int row = 0;
+            List<String> headers;
+            String rowName;
+            String rowID = null;
 
-        if (fileProperties.getFileType() == null)
-            throw new DatasetException("File type not defined!");
+            boolean hasRowIDs = false;
 
-        if (fileProperties.getRowHeaderPosition() > UNKNOWN_INDEX && fileProperties.getDataRowPosition() > UNKNOWN_INDEX
-                && fileProperties.getDataRowPosition() <= fileProperties.getColumnHeaderPosition())
-            throw new DatasetException("Column header position : " + fileProperties.getDataRowPosition()
-                    + " must be before data position : " + fileProperties.getColumnHeaderPosition());
+            if (reader.nextRow()) {
+                ++row;
 
-        if (!fileProperties.getFile().exists())
-            throw new DatasetException("File does not exist : " + fileProperties.getFile());
+                headers = reader.getRowCellsAsString();
 
-        try {
-            reader = IOUtilities.createRowReader(fileProperties);
+                if (NAME.equals(headers.get(0))) {
+                    headers.remove(0); // ignore cell!
 
-            if (reader != null && reader.ready()) {
-                int columnCount = UNKNOWN_COUNT;
-                int row = 0;
-                List<String> headers;
-                String rowHeader;
-
-                if (fileProperties.hasColumnHeader() && columnHeaderFeature != null && reader.nextRow()) {
-                    ++row;
-
-                    if (fileProperties.getColumnHeaderPosition() > UNKNOWN_INDEX)
-                        while (row < fileProperties.getColumnHeaderPosition() && reader.nextRow())
-                            ++row;
-
-                    headers = reader.getRowCellsAsString();
-
-                    if (fileProperties.hasRowHeader() && rowHeaderFeature != null)
+                    if (ID.equals(headers.get(0))) {
+                        hasRowIDs = true;
                         headers.remove(0); // ignore cell!
-
-                    columnCount = headers.size();
-
-                    columnHeaders = new ArrayList<SimpleEntity>(columnCount);
-
-                    Iterator<String> iterator = headers.iterator();
-
-                    while (iterator.hasNext())
-                        columnHeaders.add(new SimpleEntityPojo(iterator.next()));
-                }
-
-                List<Object> cells;
-
-                if (reader.nextRow()) {
-                    ++row;
-
-                    if (fileProperties.getDataRowPosition() > UNKNOWN_INDEX)
-                        while (row < fileProperties.getDataRowPosition() && reader.nextRow())
-                            ++row;
-
-                    if (fileProperties.hasRowHeader() && rowHeaderFeature != null) {
-                        rowHeaders = new LinkedList<SimpleEntity>();
-                        
-                        reader.nextColumn();
-
-                        rowHeader = reader.getCellAsString();
-
-                        reader.nextColumn();
-
-                        cells = reader.getRowCells();
-
-                        rowHeaders.add(new SimpleEntityPojo(rowHeader));
-
-                        if (columnCount == UNKNOWN_COUNT) {
-                            columnCount = cells.size();
-                        } else {
-                            if (cells.size() != columnCount)
-                                throw new DatasetException("Rows are not all the same size!");
-                        }
-
-                        rowList.add(cells);
-
-                        ++row;
-
-                        while (reader.nextRow()) {
-                            reader.nextColumn();
-
-                            rowHeader = reader.getCellAsString();
-
-                            reader.nextColumn();
-
-                            cells = reader.getRowCells();
-
-                            rowHeaders.add(new SimpleEntityPojo(rowHeader));
-
-                            if (cells.size() != columnCount)
-                                throw new DatasetException("Rows are not all the same size!");
-
-                            rowList.add(cells);
-
-                            ++row;
-                        }
-                    } else {
-                        cells = reader.getRowCells();
-
-                        if (columnCount == UNKNOWN_COUNT) {
-                            columnCount = cells.size();
-                        } else {
-                            if (cells.size() != columnCount)
-                                throw new DatasetException("Rows are not all the same size!");
-                        }
-
-                        rowList.add(cells);
-
-                        ++row;
-
-                        while (reader.nextRow()) {
-                            cells = reader.getRowCells();
-
-                            if (cells.size() != columnCount)
-                                throw new DatasetException("Rows are not all the same size!");
-
-                            rowList.add(cells);
-
-                            ++row;
-                        }
                     }
+                } else {
+                    if (name == null)
+                        name = headers.get(0);
+
+                    headers.remove(0);
                 }
+
+                columnCount = headers.size();
+
+                columnHeaders = new ArrayList<SimpleEntity>(columnCount);
+
+                Iterator<String> iterator = headers.iterator();
+
+                while (iterator.hasNext())
+                    columnHeaders.add(new SimpleEntityPojo(iterator.next()));
+
+                columnCount = headers.size();
             }
 
-            if (reader != null)
-                reader.close();
+            List<Object> cells;
 
-            ObjectArrayMatrixData matrix = new ObjectArrayMatrixData(uniqueIdentifier, name,
-                    elementFeature, rowList);
+            if (reader.nextRow()) {
+                ++row;
 
-            if (columnHeaders != null && !columnHeaders.isEmpty())
-                matrix.setColumnHeaders(columnHeaders);
+                rowHeaders = new LinkedList<SimpleEntity>();
 
-            if (rowHeaders != null && !rowHeaders.isEmpty())
-                matrix.setRowHeaders(rowHeaders);
+                reader.nextColumn();
 
-            return matrix;
+                rowName = reader.getCellAsString();
 
-        } catch (Exception e) {
-            throw new DatasetException(e);
+                if (hasRowIDs) {
+                    reader.nextColumn();
+
+                    rowID = reader.getCellAsString();
+                }
+
+                reader.nextColumn();
+
+                if (ID.equals(rowName)) {
+                    hasRowIDs = true;
+                    headers = reader.getRowCellsAsString();
+
+                    Iterator<String> iterator1 = headers.iterator();
+                    Iterator<SimpleEntity> iterator2 = columnHeaders.iterator();
+
+                    while (iterator1.hasNext() && iterator2.hasNext()) {
+                        ((SimpleEntityPojo) iterator2.next()).setUniqueIdentifier(iterator1.next());
+                    }
+                } else {
+                    cells = reader.getRowCells();
+
+                    if (cells.size() != columnCount)
+                        throw new IOException(String.format("Row %d is not right size, expecting %d but was %d!", row, columnCount, cells.size()));
+
+                    rowList.add(cells);
+
+                    if (hasRowIDs) {
+                        rowHeaders.add(new SimpleEntityPojo(rowID, rowName));
+                    } else {
+                        rowHeaders.add(new SimpleEntityPojo(rowName));
+                    }
+                }
+
+                while (reader.nextRow()) {
+                    ++row;
+
+                    reader.nextColumn();
+
+                    rowName = reader.getCellAsString();
+
+                    if (hasRowIDs) {
+                        reader.nextColumn();
+
+                        rowID = reader.getCellAsString();
+                    }
+
+                    reader.nextColumn();
+
+                    cells = reader.getRowCells();
+
+                    if (cells.size() != columnCount)
+                        throw new IOException(String.format("Row %d is not right size, expecting %d but was %d!", row, columnCount, cells.size()));
+
+                    rowList.add(cells);
+
+                    ++row;
+                }
+            }
         }
+
+        if (reader != null)
+            reader.close();
+
+        /// updateRowsScales(newFeatures, rowList) ;
+
+        ObjectArrayMatrixData matrix = new ObjectArrayMatrixData(uniqueIdentifier, name, elementFeature, rowList);
+
+        if (columnHeaders != null && !columnHeaders.isEmpty())
+            matrix.setColumnHeaders(columnHeaders);
+
+        if (rowHeaders != null && !rowHeaders.isEmpty())
+            matrix.setRowHeaders(rowHeaders);
+
+        return matrix;
+
     }
 
     /*

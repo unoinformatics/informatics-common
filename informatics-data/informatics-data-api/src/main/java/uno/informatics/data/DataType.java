@@ -17,15 +17,18 @@
 package uno.informatics.data;
 
 public enum DataType {
-    BOOLEAN(DataTypeConstants.BOOLEAN_ID, "Boolean", "B"), SHORT(DataTypeConstants.SHORT_ID, "Short", "T"), INTEGER(
-            DataTypeConstants.INTEGER_IDS, "Integer",
-            "I"), LONG(DataTypeConstants.LONG_ID, "Long", "L"), FLOAT(DataTypeConstants.FLOAT_ID, "Float", "F"), DOUBLE(
-                    DataTypeConstants.DOUBLE_ID, "Double",
-                    "D"), BIG_INTEGER(DataTypeConstants.BIG_INTEGER_ID, "Big Integer", "R"), BIG_DECIMAL(
-                            DataTypeConstants.BIG_DECIMAL_ID, "Big Decimal",
-                            "M"), DATE(DataTypeConstants.DATE_ID, "Date", "A"), STRING(DataTypeConstants.STRING_ID,
-                                    "String", "S"), SIMPLE_ENTRY(DataTypeConstants.SIMPLE_ENTITY_ID, "SimpleEntry",
-                                            "E"), UNKNOWN(DataTypeConstants.UNKNOWN_ID, "None", "X");
+    BOOLEAN(DataTypeConstants.BOOLEAN_ID, "Boolean", "B"), 
+    SHORT(DataTypeConstants.SHORT_ID, "Short", "T"), 
+    INTEGER(DataTypeConstants.INTEGER_IDS, "Integer", "I"), 
+    LONG(DataTypeConstants.LONG_ID, "Long", "L"), 
+    FLOAT(DataTypeConstants.FLOAT_ID, "Float", "F"), 
+    DOUBLE(DataTypeConstants.DOUBLE_ID, "Double", "D"), 
+    BIG_INTEGER(DataTypeConstants.BIG_INTEGER_ID, "Big Integer", "R"), 
+    BIG_DECIMAL(DataTypeConstants.BIG_DECIMAL_ID, "Big Decimal", "M"), 
+    DATE(DataTypeConstants.DATE_ID, "Date", "A"), 
+    STRING(DataTypeConstants.STRING_ID, "String", "S"), 
+    SIMPLE_ENTRY(DataTypeConstants.SIMPLE_ENTITY_ID, "SimpleEntry", "E"), 
+    UNKNOWN(DataTypeConstants.UNKNOWN_ID, "None", "X");
 
     private static final DataType[] allTypes = new DataType[] { BOOLEAN, SHORT, INTEGER, LONG, FLOAT, DOUBLE,
             BIG_INTEGER, BIG_DECIMAL, DATE, STRING };

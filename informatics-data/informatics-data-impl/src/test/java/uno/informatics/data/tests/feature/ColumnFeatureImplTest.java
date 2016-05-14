@@ -42,10 +42,11 @@ public class ColumnFeatureImplTest {
      */
     @Test
     public void testColumnFeatureImplStringInt() {
-        ColumnFeature feature = new ColumnFeaturePojo(NAME, DataTypeConstants.STRING_ID);
+        
+        ColumnFeature feature = new ColumnFeaturePojo(UID, DataTypeConstants.STRING_ID);
 
-        assertEquals(null, feature.getUniqueIdentifier());
-        assertEquals(NAME, feature.getName());
+        assertEquals(UID, feature.getUniqueIdentifier());
+        assertEquals(UID, feature.getName());
         assertEquals(null, feature.getDescription());
         assertEquals(DataTypeConstants.STRING_ID, feature.getPossibleDataTypes());
 
@@ -53,8 +54,20 @@ public class ColumnFeatureImplTest {
         assertEquals(ScaleType.NOMINAL, feature.getScaleType());
 
         feature = new ColumnFeaturePojo(NAME, DataTypeConstants.DATE_ID | DataTypeConstants.DOUBLE_ID);
+        
+        feature = new ColumnFeaturePojo(UID, NAME, DataTypeConstants.STRING_ID);
 
-        assertEquals(null, feature.getUniqueIdentifier());
+        assertEquals(UID, feature.getUniqueIdentifier());
+        assertEquals(NAME, feature.getName());
+        assertEquals(null, feature.getDescription());
+        assertEquals(DataTypeConstants.STRING_ID, feature.getPossibleDataTypes());
+
+        assertEquals(DataType.STRING, feature.getDataType());
+        assertEquals(ScaleType.NOMINAL, feature.getScaleType());
+
+        feature = new ColumnFeaturePojo(UID, NAME, DataTypeConstants.DATE_ID | DataTypeConstants.DOUBLE_ID);
+
+        assertEquals(UID, feature.getUniqueIdentifier());
         assertEquals(NAME, feature.getName());
         assertEquals(null, feature.getDescription());
         assertEquals(DataTypeConstants.DATE_ID | DataTypeConstants.DOUBLE_ID, feature.getPossibleDataTypes());
@@ -137,7 +150,18 @@ public class ColumnFeatureImplTest {
         ColumnFeature feature = new ColumnFeaturePojo(NAME, DataType.STRING, ScaleType.NOMINAL,
                 DataTypeConstants.STRING_ID);
 
-        assertEquals(null, feature.getUniqueIdentifier());
+        assertEquals(NAME, feature.getUniqueIdentifier());
+        assertEquals(NAME, feature.getName());
+        assertEquals(null, feature.getDescription());
+        assertEquals(DataTypeConstants.STRING_ID, feature.getPossibleDataTypes());
+
+        assertEquals(DataType.STRING, feature.getDataType());
+        assertEquals(ScaleType.NOMINAL, feature.getScaleType());
+        
+        feature = new ColumnFeaturePojo(UID, NAME, DataType.STRING, ScaleType.NOMINAL,
+                DataTypeConstants.STRING_ID);
+
+        assertEquals(UID, feature.getUniqueIdentifier());
         assertEquals(NAME, feature.getName());
         assertEquals(null, feature.getDescription());
         assertEquals(DataTypeConstants.STRING_ID, feature.getPossibleDataTypes());
@@ -145,7 +169,7 @@ public class ColumnFeatureImplTest {
         assertEquals(DataType.STRING, feature.getDataType());
         assertEquals(ScaleType.NOMINAL, feature.getScaleType());
 
-        feature = new ColumnFeaturePojo(NAME, DataTypeConstants.DATE_ID | DataTypeConstants.DOUBLE_ID);
+        feature = new ColumnFeaturePojo(UID, NAME, DataTypeConstants.DATE_ID | DataTypeConstants.DOUBLE_ID);
 
         assertEquals(null, feature.getUniqueIdentifier());
         assertEquals(NAME, feature.getName());

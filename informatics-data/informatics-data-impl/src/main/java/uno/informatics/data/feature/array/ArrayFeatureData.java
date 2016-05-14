@@ -19,6 +19,7 @@ package uno.informatics.data.feature.array;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -34,6 +35,7 @@ import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowWriter;
 import uno.informatics.common.io.text.TextFileRowReader;
+import uno.informatics.data.DataOption;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
 import uno.informatics.data.Feature;
@@ -50,16 +52,13 @@ import uno.informatics.data.pojo.ScalePojo;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 import uno.informatics.data.utils.DatasetUtils;
 
+import static uno.informatics.data.DataOption.* ;
+
 /**
  * @author Guy Davenport
  *
  */
 public class ArrayFeatureData extends AbstractFeatureData {
-    private static final String NAME = "NAME";
-    private static final String ID = "ID";
-    private static final String TYPE = "TYPE";
-    private static final String MIN = "MIN";
-    private static final String MAX = "MAX";
 
     private FeatureDataRow[] rows;
     private int rowCount;
@@ -164,7 +163,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
         return rowHeaders ;
     }
     
-    public static final ArrayFeatureData readData(Path filePath, FileType type)
+    public static final ArrayFeatureData readData(Path filePath, FileType type, DataOption... options)
             throws IOException {
 
         ArrayFeatureData data = null;
@@ -190,25 +189,30 @@ public class ArrayFeatureData extends AbstractFeatureData {
             throw new IllegalArgumentException(
                     String.format("Only file types TXT and CSV are supported. Got: %s.", type));
         }
+        
+        String uniqueIdentifier = (String) DataOption.findValue(options, ID);
+        String name = (String) DataOption.findValue(options, NAME);
 
+        // TODO extract options and pass to reader
         try {
-            reader = IOUtilities.createRowReader(new File(filePath.toString()), type, TextFileRowReader.ROWS_SAME_SIZE,
+            reader = IOUtilities.createRowReader(filePath, type, TextFileRowReader.ROWS_SAME_SIZE,
                     TextFileRowReader.REMOVE_WHITE_SPACE);
 
             if (reader != null && reader.ready()) {
                 int columnCount = 0;
                 int row = 0;
 
-                boolean hasNames = false;
-                boolean hasIDs = false;
-
+                boolean hasRowNames = false;
+                
                 List<String> cells;
                 List<String> typeCells;
                 List<String> minCells;
                 List<String> maxCells;
-                String rowName;
+                
                 String rowID;
-                List<SimpleEntity> rowHeaders = null;
+                String rowName;
+                List<SimpleEntity> rowHeaders = new LinkedList<SimpleEntity>();
+                List<String> columnIDs;
                 List<String> columnNames;
                 List<FeaturePojo> newFeatures = null;
                 int[] types = null;
@@ -216,20 +220,18 @@ public class ArrayFeatureData extends AbstractFeatureData {
                 Iterator<String> iterator;
 
                 if (reader.nextRow()) {
-                    // assume that the first row is the header
+                    // assume that the first row is the column headers
                     cells = reader.getRowCellsAsString();
 
                     if (cells.size() > 0) {
                         iterator = cells.iterator();
 
-                        if (NAME.equals(cells.get(0))) {
-                            hasNames = true;
-                            rowHeaders = new LinkedList<SimpleEntity>();
+                        if (ID.equals(cells.get(0))) {
 
                             iterator.next();
 
-                            if (cells.size() > 1 && ID.equals(cells.get(1))) {
-                                hasIDs = true;
+                            if (cells.size() > 1 && NAME.equals(cells.get(1))) {
+                                hasRowNames = true;
 
                                 columnCount = cells.size() - 2;
 
@@ -238,80 +240,120 @@ public class ArrayFeatureData extends AbstractFeatureData {
                                 columnCount = cells.size() - 1;
                             }
                         } else {
+                            if (uniqueIdentifier != null) 
+                                throw new IllegalArgumentException("Using ID DataOption: First cell must be " + ID);
+                            
                             columnCount = cells.size();
                         }
 
+                        columnIDs = new ArrayList<String>(columnCount);
                         columnNames = new ArrayList<String>(columnCount);
 
                         while (iterator.hasNext()) {
-                            columnNames.add(iterator.next());
+                            columnIDs.add(iterator.next());
                         }
                     } else {
-                        columnCount = 0;
-                        columnNames = null;
+                        throw new IllegalArgumentException("First row is empty!");
                     }
 
-                    if (columnCount > 0 && reader.nextRow()) {
-                        if (hasNames && reader.nextColumn())
+                    if (reader.nextRow()) {
+                        ++row ;
+                        
+                        if (reader.nextColumn())
+                            rowID = reader.getCellAsString();
+                        else
+                            throw new IllegalArgumentException(String.format("First cell in row %d not found!", row));
+
+                        if (hasRowNames && reader.nextColumn())
                             rowName = reader.getCellAsString();
                         else
                             rowName = null;
 
-                        if (hasIDs && reader.nextColumn())
-                            rowID = reader.getCellAsString();
-                        else
-                            rowID = null;
-
                         reader.nextColumn();
 
                         cells = reader.getRowCellsAsString();
+                        
+                        if (NAME.equals(rowID)) {
+                            
+                            columnNames.addAll(cells) ;
 
-                        if (TYPE.equals(rowName)) {
+                            if (name != null && rowName != null) 
+                                throw new IllegalArgumentException("Using NAME DataOption: Second cell must be empty!");
+     
                             if (reader.nextRow()) {
-                                if (hasNames && reader.nextColumn())
+                                ++row ;
+                                
+                                if (reader.nextColumn())
+                                    rowID = reader.getCellAsString();
+                                else
+                                    throw new IllegalArgumentException(String.format("First cell in row %d not found!", row));
+
+                                if (hasRowNames && reader.nextColumn())
                                     rowName = reader.getCellAsString();
                                 else
                                     rowName = null;
 
-                                if (hasIDs && reader.nextColumn())
+                                reader.nextColumn();
+
+                                cells = reader.getRowCellsAsString();
+                            }
+
+                        } else {
+                            // use IDs as column names
+                            columnNames.addAll(columnIDs) ;
+                        }
+                            
+                        if (TYPE.equals(rowID)) {
+
+                            typeCells = cells;
+
+                            if (reader.nextRow()) {
+                                ++row ;
+
+                                if (reader.nextColumn())
                                     rowID = reader.getCellAsString();
                                 else
-                                    rowID = null;
+                                    throw new IllegalArgumentException(String.format("First cell in row %d not found!", row));
 
-                                typeCells = cells;
+                                if (hasRowNames && reader.nextColumn())
+                                    rowName = reader.getCellAsString();
+                                else
+                                    rowName = null;               
 
                                 reader.nextColumn();
 
                                 cells = reader.getRowCellsAsString();
 
-                                if (MIN.equals(rowName)) {
+                                if (MIN.equals(rowID)) {
                                     minCells = cells;
 
                                     if (reader.nextRow()) {
-                                        if (hasNames && reader.nextColumn())
+                                        ++row ;
+
+                                        if (reader.nextColumn())
+                                            rowID = reader.getCellAsString();
+                                        else
+                                            throw new IllegalArgumentException(String.format("First cell in row %d not found!", row));
+
+                                        if (hasRowNames && reader.nextColumn())
                                             rowName = reader.getCellAsString();
                                         else
                                             rowName = null;
-
-                                        if (hasIDs && reader.nextColumn())
-                                            rowID = reader.getCellAsString();
-                                        else
-                                            rowID = null;
 
                                         reader.nextColumn();
 
                                         cells = reader.getRowCellsAsString();
 
-                                        if (MAX.equals(rowName)) {
+                                        if (MAX.equals(rowID)) {
                                             maxCells = cells;
 
-                                            newFeatures = createFeatures(columnNames, typeCells, minCells, maxCells);
+                                            newFeatures = createFeatures(columnIDs, columnNames, typeCells, minCells, maxCells);
 
                                             types = DatasetUtils.getConversionTypes(newFeatures);
                                         } else {
-                                            addHeaders(rowName, rowID, rowHeaders);
+                                            addHeaders(rowID, rowName, rowHeaders);
 
-                                            newFeatures = createFeatures(columnNames, typeCells, minCells,
+                                            newFeatures = createFeatures(columnIDs, columnNames, typeCells, minCells,
                                                     new LinkedList<String>());
 
                                             types = DatasetUtils.getConversionTypes(newFeatures);
@@ -320,42 +362,42 @@ public class ArrayFeatureData extends AbstractFeatureData {
                                         }
                                     }
                                 } else {
-                                    newFeatures = createFeatures(columnNames, typeCells, new LinkedList<String>(),
+                                    newFeatures = createFeatures(columnIDs, columnNames, typeCells, new LinkedList<String>(),
                                             new LinkedList<String>());
 
                                     types = DatasetUtils.getConversionTypes(newFeatures);
 
-                                    addHeaders(rowName, rowID, rowHeaders);
+                                    addHeaders(rowID, rowName, rowHeaders);
 
                                     addValues(rowList, cells, newFeatures, types);
                                 }
                             }
                         } else {
-                            newFeatures = createDefaultFeatures(columnNames);
+                            newFeatures = createFeatures(columnIDs, columnNames);
 
                             types = DatasetUtils.getConversionTypes(newFeatures);
 
-                            addHeaders(rowName, rowID, rowHeaders);
+                            addHeaders(rowID, rowName, rowHeaders);
 
                             addValues(rowList, cells, newFeatures, types);
                         }
-
                     }
 
                     ++row;
 
                     while (reader.nextRow()) {
-                        if (hasNames && reader.nextColumn())
+
+                        if (reader.nextColumn())
+                            rowID = reader.getCellAsString();
+                        else
+                            throw new IllegalArgumentException(String.format("First cell in row %d not found!", row));
+
+                        if (hasRowNames && reader.nextColumn())
                             rowName = reader.getCellAsString();
                         else
                             rowName = null;
 
-                        if (hasIDs && reader.nextColumn())
-                            rowID = reader.getCellAsString();
-                        else
-                            rowID = null;
-
-                        addHeaders(rowName, rowID, rowHeaders);
+                        addHeaders(rowID, rowName, rowHeaders);
 
                         if (reader.nextColumn()) {
                             cells = reader.getRowCellsAsString();
@@ -376,12 +418,8 @@ public class ArrayFeatureData extends AbstractFeatureData {
                 if (rowList.isEmpty())
                     throw new IOException("The data has no values!");    
 
-                if (hasNames)
-                    data = new ArrayFeatureData(filePath.getFileName().toString(), filePath.getFileName().toString(),
+                data = new ArrayFeatureData(filePath.getFileName().toString(), filePath.getFileName().toString(),
                             newFeatures, rowHeaders, rowList);
-                else
-                    data = new ArrayFeatureData(filePath.getFileName().toString(), filePath.getFileName().toString(),
-                            newFeatures, rowList);
 
                 // check unique identifiers
                 Set<String> uniqueIds = new HashSet<>();
@@ -434,7 +472,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                     String.format("Only file types TXT and CSV are supported. Got: %s.", type));
         }
 
-        RowWriter writer = IOUtilities.createRowWriter(new File(filePath.toString()), type, TextFileRowReader.ROWS_SAME_SIZE,
+        RowWriter writer = IOUtilities.createRowWriter(filePath, type, TextFileRowReader.ROWS_SAME_SIZE,
                     TextFileRowReader.REMOVE_WHITE_SPACE);
         
         
@@ -524,41 +562,41 @@ public class ArrayFeatureData extends AbstractFeatureData {
         updateRowScales(features, values);
     }
 
-    private static void addHeaders(String rowName, String rowId, List<SimpleEntity> rowHeaders) {
-
-        if (rowHeaders != null) {
-            SimpleEntity header = null;
-            if (rowName != null || rowId != null) {
-                if (rowId == null) {
-                    // only name set
-                    header = new SimpleEntityPojo(rowName, rowName);
-                } else {
-                    // id set (name might be undefined)
-                    header = new SimpleEntityPojo(rowId, rowName);
-                }
+    private static void addHeaders(String rowId, String rowName, List<SimpleEntity> rowHeaders) {
+   
+        if (rowId != null) {
+            if (rowName != null) {
+                rowHeaders.add(new SimpleEntityPojo(rowId, rowName));
+            } else {
+                rowHeaders.add(new SimpleEntityPojo(rowId, rowId));
             }
-            rowHeaders.add(header);
+        } else {
+            if (rowName != null) {
+                rowHeaders.add(new SimpleEntityPojo(rowName, rowName));   
+            } else {
+                throw new IllegalArgumentException("Row id or name must be defined.");
+            }
         }
-
     }
 
-    private static List<FeaturePojo> createFeatures(List<String> columnNames, List<String> typeCells,
+    private static List<FeaturePojo> createFeatures(List<String> columnIDs, List<String> columnNames, List<String> typeCells,
             List<String> minCells, List<String> maxCells) throws DatasetException {
         List<FeaturePojo> features = new ArrayList<>(columnNames.size());
 
-        Iterator<String> iterator1 = columnNames.iterator();
-        Iterator<String> iterator2 = typeCells.iterator();
-        Iterator<String> iterator3 = minCells.iterator();
-        Iterator<String> iterator4 = maxCells.iterator();
+        Iterator<String> iterator1 = columnIDs.iterator();
+        Iterator<String> iterator2 = columnNames.iterator();
+        Iterator<String> iterator3 = typeCells.iterator();
+        Iterator<String> iterator4 = minCells.iterator();
+        Iterator<String> iterator5 = maxCells.iterator();
 
         while (iterator1.hasNext())
-            features.add(createFeature(iterator1.next(), iterator2.hasNext() ? iterator2.next() : null,
-                    iterator3.hasNext() ? iterator3.next() : null, iterator4.hasNext() ? iterator4.next() : null));
+            features.add(createFeature(iterator1.next(), iterator2.next(), iterator3.hasNext() ? iterator3.next() : null,
+                    iterator4.hasNext() ? iterator4.next() : null, iterator5.hasNext() ? iterator5.next() : null));
 
         return features;
     }
 
-    private static FeaturePojo createFeature(String name, String type, String min, String max) throws DatasetException {
+    private static FeaturePojo createFeature(String id, String name, String type, String min, String max) throws DatasetException {
         try {
 
             ScalePojo scale;
@@ -580,11 +618,11 @@ public class ArrayFeatureData extends AbstractFeatureData {
                 maxNumber = ConversionUtilities.convertToNumber(max, DataTypeConstants.getConversionType(dataType));
 
             if (minNumber != null || maxNumber != null)
-                scale = new ScalePojo(name, dataType, scaleType, minNumber, maxNumber);
+                scale = new ScalePojo(id, name, dataType, scaleType, minNumber, maxNumber);
             else
-                scale = new ScalePojo(name, dataType, scaleType);
+                scale = new ScalePojo(id, name, dataType, scaleType);
 
-            return new FeaturePojo(name, new MethodPojo(name, scale));
+            return new FeaturePojo(id, name, new MethodPojo(id, name, scale));
         } catch (ConversionException e) {
             throw new DatasetException(e);
         }
@@ -608,24 +646,25 @@ public class ArrayFeatureData extends AbstractFeatureData {
         return scaleType;
     }
 
-    private static List<FeaturePojo> createDefaultFeatures(List<String> cells) {
-        List<FeaturePojo> features = new ArrayList<FeaturePojo>(cells.size());
+    private static List<FeaturePojo> createFeatures(List<String> columnIDs, List<String> columnNames) {
+        List<FeaturePojo> features = new ArrayList<FeaturePojo>(columnIDs.size());
 
-        Iterator<String> iterator = cells.iterator();
+        Iterator<String> iterator1 = columnIDs.iterator();
+        Iterator<String> iterator2 = columnNames.iterator();
 
-        while (iterator.hasNext())
-            features.add(createDefaultFeature(iterator.next()));
+        while (iterator1.hasNext())
+            features.add(createFeature(iterator1.next(), iterator2.next()));
 
         return features;
     }
 
-    private static FeaturePojo createDefaultFeature(String name) {
-        ScalePojo scale = new ScalePojo(name);
+    private static FeaturePojo createFeature(String id, String name) {
+        ScalePojo scale = new ScalePojo(id, name);
 
         scale.setDataType(DataType.STRING);
         scale.setScaleType(ScaleType.NOMINAL);
 
-        return new FeaturePojo(name, new MethodPojo(name, scale));
+        return new FeaturePojo(id, name, new MethodPojo(id, name, scale));
     }
 
     // TODO not tested

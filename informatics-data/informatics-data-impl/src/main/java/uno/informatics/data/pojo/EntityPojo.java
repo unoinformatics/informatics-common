@@ -37,8 +37,8 @@ public class EntityPojo extends SimpleEntityPojo implements Entity {
 
     private OntologyTermPojo type;
 
-    public EntityPojo(String name) {
-        this(null, name, null);
+    public EntityPojo(String uniqueIdentifier) {
+        this(uniqueIdentifier, uniqueIdentifier, null);
     }
 
     public EntityPojo(String uniqueIdentifier, String name) {

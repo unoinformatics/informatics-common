@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 
@@ -55,9 +57,9 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
    * @throws FileNotFoundException if the file to write is not found
    * @throws IOException if an I/O error occurs
    */
-  public TextFileRowWriter(File file) throws IOException, FileNotFoundException
+  public TextFileRowWriter(Path filePath) throws IOException, FileNotFoundException
   {
-    super(file) ;
+    super(filePath) ;
     
     initialise() ;
   }
@@ -226,11 +228,11 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
   {
     super.initialise();
 
-    if (getFileReference() != null)
-      initialiseBufferedWriter(getBufferedWriter(getFileReference()));
+    if (getPathReference() != null)
+      initialiseBufferedWriter(getBufferedWriter(getPathReference()));
     else
-      if (getFile() != null)
-      	initialiseBufferedWriter(getBufferedWriter(getFile()));
+      if (getPath() != null)
+      	initialiseBufferedWriter(getBufferedWriter(getPath()));
       else
         if (bufferedWriter != null)
         	initialiseBufferedWriter(bufferedWriter) ;
@@ -268,11 +270,11 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
    * @exception IOException
    *              if the reader can not open an inputstream to the file
    */
-  private static final BufferedWriter getBufferedWriter(File file)
+  private static final BufferedWriter getBufferedWriter(Path filePath)
       throws FileNotFoundException, IOException
   {
-    if (file != null)
-      return new BufferedWriter(new FileWriter(file));
+    if (filePath != null)
+      return Files.newBufferedWriter(filePath);
     else
       throw new FileNotFoundException("File object is null");
   }

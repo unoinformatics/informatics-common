@@ -30,6 +30,14 @@ import uno.informatics.data.pojo.SimpleEntityPojo;
  *
  */
 public abstract class AbstractFeatureData extends SimpleEntityPojo implements FeatureData {
+    
+    public static final String ID = "ID";
+    public static final String NAME = "NAME";
+    public static final String DESCRIPTION = "DESCRIPTION";
+    public static final String TYPE = "TYPE";
+    public static final String MIN = "MIN";
+    public static final String MAX = "MAX";
+    
     private List<Feature> features;
     private Dataset dataset;
 

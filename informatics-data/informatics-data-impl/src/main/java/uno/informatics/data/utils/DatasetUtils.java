@@ -16,16 +16,15 @@ package uno.informatics.data.utils;
  * limitations under the License.
  *******************************************************************************/
 
-import static uno.informatics.common.Constants.UNKNOWN_INDEX;
-
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import uno.informatics.common.ConversionUtilities;
-import uno.informatics.common.io.FileProperties;
+import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.data.DataType;
@@ -42,171 +41,124 @@ import uno.informatics.data.pojo.SimpleFeaturePojo;
 public class DatasetUtils {
     private static final int INVALID_ROW_COUNT = -1;
 
-    public static final List<ColumnFeature> generateDatasetFeatures(FileProperties fileProperties, String columnLabel)
-            throws DatasetException {
-        return generateDatasetFeatures(fileProperties, columnLabel, INVALID_ROW_COUNT);
+    public static final List<ColumnFeature> generateDatasetFeatures(Path path, FileType fileType, String columnLabel)
+            throws IOException {
+        return generateDatasetFeatures(path, fileType, columnLabel, INVALID_ROW_COUNT);
     }
 
-    public static final List<ColumnFeature> generateDatasetFeatures(FileProperties fileProperties, String columnLabel,
-            int numRows) throws DatasetException {
+    public static final List<ColumnFeature> generateDatasetFeatures(Path filePath, FileType type, String columnLabel,
+            int numRows) throws IOException {
         RowReader reader = null;
         List<ColumnFeature> features = null;
 
-        if (fileProperties == null)
-            throw new DatasetException("File properties not defined!");
+        // validate arguments
 
-        if (fileProperties.getFile() == null)
-            throw new DatasetException("File not defined!");
+        if (filePath == null) {
+            throw new IllegalArgumentException("File path not defined.");
+        }
 
-        if (fileProperties.getFileType() == null)
-            throw new DatasetException("File type not defined!");
+        if (!filePath.toFile().exists()) {
+            throw new IOException("File does not exist : " + filePath + ".");
+        }
 
-        if (fileProperties.getRowHeaderPosition() > UNKNOWN_INDEX && fileProperties.getDataRowPosition() > UNKNOWN_INDEX
-                && fileProperties.getDataRowPosition() <= fileProperties.getRowHeaderPosition())
-            throw new DatasetException("Header position : " + fileProperties.getDataRowPosition()
-                    + " must be before data position : " + fileProperties.getRowHeaderPosition());
+        if (type == null) {
+            throw new IllegalArgumentException("File type not defined.");
+        }
 
-        if (!fileProperties.getFile().exists())
-            return features;
+        if (type != FileType.TXT && type != FileType.CSV) {
+            throw new IllegalArgumentException(
+                    String.format("Only file types TXT and CSV are supported. Got: %s.", type));
+        }
 
-        try {
-            reader = IOUtilities.createRowReader(fileProperties);
+        reader = IOUtilities.createRowReader(filePath, type);
 
-            if (reader != null && reader.ready()) {
-                features = new ArrayList<ColumnFeature>();
+        if (reader != null && reader.ready()) {
+            features = new ArrayList<ColumnFeature>();
 
-                List<String> headers;
+            List<String> headers = null;
 
-                List<Integer> dataTypes = new ArrayList<Integer>();
+            List<Integer> dataTypes = new ArrayList<Integer>();
 
-                int columnCount = 0;
-                int row = 0;
-                int rowsRead = 0;
+            int columnCount = 0;
+            int row = 0;
+            int rowsRead = 0;
 
-                if (fileProperties.hasColumnHeader()) {
-                    List<String> cells;
+            List<String> cells;
 
-                    if (reader.nextRow()) {
-                        if (fileProperties.getRowHeaderPosition() > UNKNOWN_INDEX)
-                            while (row < fileProperties.getRowHeaderPosition() && reader.nextRow())
-                                ++row;
+            if (reader.nextRow()) {
 
+                headers = reader.getRowCellsAsString();
+
+                ++row;
+
+                if (reader.nextRow() && (numRows < 0 || rowsRead < numRows)) {
+
+                    cells = reader.getRowCellsAsString();
+
+                    ++row;
+                    ++rowsRead;
+
+                    dataTypes = ConversionUtilities.getDataTypes(cells);
+
+                    columnCount = cells.size();
+
+                    features = new ArrayList<ColumnFeature>(columnCount);
+
+                    dataTypes = ConversionUtilities.getDataTypes(cells);
+
+                    while (reader.nextRow() && (numRows < 0 || rowsRead < numRows)) {
                         cells = reader.getRowCellsAsString();
 
-                        ++row;
+                        if (cells.size() != columnCount)
+                            throw new IOException(String.format("Row %d is not right size, expecting %d but was %d!",
+                                    row, columnCount, cells.size()));
 
-                        headers = cells;
-
-                        if (reader.nextRow() && (numRows < 0 || rowsRead < numRows)) {
-                            if (fileProperties.getDataRowPosition() > UNKNOWN_INDEX)
-                                while (row < fileProperties.getDataRowPosition() && reader.nextRow())
-                                    ++row;
-
-                            cells = reader.getRowCellsAsString();
-
-                            ++row;
-                            ++rowsRead;
-
-                            dataTypes = ConversionUtilities.getDataTypes(cells);
-
-                            columnCount = cells.size();
-
-                            features = new ArrayList<ColumnFeature>(columnCount);
-
-                            dataTypes = ConversionUtilities.getDataTypes(cells);
-
-                            while (reader.nextRow() && (numRows < 0 || rowsRead < numRows)) {
-                                cells = reader.getRowCellsAsString();
-
-                                if (cells.size() != columnCount)
-                                    throw new DatasetException("Rows are not all the same size!");
-
-                                dataTypes = ConversionUtilities.getDataTypes(cells, dataTypes);
-
-                                ++row;
-                                ++rowsRead;
-                            }
-                        } else {
-                            throw new DatasetException("No columns");
-                        }
-                    } else {
-                        throw new DatasetException("No columns");
-                    }
-                } else {
-                    if (columnLabel == null)
-                        throw new DatasetException("Column label not defined!");
-
-                    List<String> cells;
-
-                    if (fileProperties.getDataRowPosition() > UNKNOWN_INDEX)
-                        while (reader.nextRow() && row < fileProperties.getDataRowPosition())
-                            ++row;
-
-                    if (reader.nextRow() && (numRows < 0 || rowsRead < numRows)) {
-                        cells = reader.getRowCellsAsString();
+                        dataTypes = ConversionUtilities.getDataTypes(cells, dataTypes);
 
                         ++row;
                         ++rowsRead;
-
-                        dataTypes = ConversionUtilities.getDataTypes(cells);
-
-                        columnCount = cells.size();
-
-                        headers = new ArrayList<String>(columnCount);
-
-                        for (int i = 0; i < cells.size(); ++i)
-                            headers.add(columnLabel + (i + 1));
-
-                        while (reader.nextRow() && row < numRows) {
-                            cells = reader.getRowCellsAsString();
-
-                            if (cells.size() != columnCount)
-                                throw new DatasetException("Rows are not all the same size!");
-
-                            dataTypes = ConversionUtilities.getDataTypes(cells, dataTypes);
-                        }
-                    } else {
-                        throw new DatasetException("No columns");
-                    }
-                }
-
-                reader.close();
-
-                Iterator<String> iterator = headers.iterator();
-                Iterator<Integer> iterator2 = dataTypes.iterator();
-
-                if (fileProperties.hasRowHeader()) {
-                    if (headers.size() == dataTypes.size()) {
-                        iterator.next();
-                        iterator2.next();
-                    } else {
-                        if (headers.size() - 1 == dataTypes.size()) {
-                            iterator2.next();
-                        } else {
-                            if (headers.size() != dataTypes.size())
-                                throw new DatasetException("Number of headers : " + headers.size()
-                                        + " does not match number of columns : " + dataTypes.size());
-                        }
                     }
                 } else {
-                    if (headers.size() != dataTypes.size())
-                        throw new DatasetException("Number of headers : " + headers.size()
-                                + " does not match number of columns : " + dataTypes.size());
-                }
-
-                while (iterator.hasNext() && iterator2.hasNext()) {
-                    features.add(createDefaultColumnFeature(iterator.next(), iterator2.next()));
+                    throw new IOException("No columns");
                 }
             }
 
-            if (reader != null)
-                reader.close();
+            reader.close();
 
-            return features;
+            Iterator<String> iterator = headers.iterator();
+            Iterator<Integer> iterator2 = dataTypes.iterator();
 
-        } catch (IOException e) {
-            throw new DatasetException(e);
+            boolean hasRowHeaders = true;
+
+            if (hasRowHeaders) {
+                if (headers.size() == dataTypes.size()) {
+                    iterator.next();
+                    iterator2.next();
+                } else {
+                    if (headers.size() - 1 == dataTypes.size()) {
+                        iterator2.next();
+                    } else {
+                        if (headers.size() != dataTypes.size())
+                            throw new IOException("Number of headers : " + headers.size()
+                                    + " does not match number of columns : " + dataTypes.size());
+                    }
+                }
+            } else {
+                if (headers.size() != dataTypes.size())
+                    throw new IOException("Number of headers : " + headers.size()
+                            + " does not match number of columns : " + dataTypes.size());
+            }
+
+            while (iterator.hasNext() && iterator2.hasNext()) {
+                features.add(createDefaultColumnFeature(iterator.next(), iterator2.next()));
+            }
         }
+
+        if (reader != null)
+            reader.close();
+
+        return features;
+
     }
 
     /**

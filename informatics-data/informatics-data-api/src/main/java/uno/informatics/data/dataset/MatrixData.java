@@ -35,6 +35,7 @@ import uno.informatics.data.SimpleEntity;
  *
  */
 public interface MatrixData<ValueType extends Object> extends Data {
+    
     /**
      * Gets all the values in the matrix as a list of lists
      * 
