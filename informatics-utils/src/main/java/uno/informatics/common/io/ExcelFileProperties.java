@@ -17,6 +17,8 @@ package uno.informatics.common.io;
 
 import java.io.File;
 
+import uno.informatics.data.io.FileType;
+
 public class ExcelFileProperties extends FileProperties
 {
 	private static final String SHEET_PROPERTY = ExcelFileProperties.class.getName() + ".sheet";

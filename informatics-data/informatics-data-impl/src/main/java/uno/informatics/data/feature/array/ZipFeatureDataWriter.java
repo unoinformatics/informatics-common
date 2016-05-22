@@ -30,7 +30,6 @@ import java.util.zip.ZipOutputStream;
 
 import com.thoughtworks.xstream.XStream;
 
-import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowWriter;
 import uno.informatics.data.Data;
@@ -39,6 +38,7 @@ import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.io.DataWriter;
+import uno.informatics.data.io.FileType;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 
 //TODO  needs updating 

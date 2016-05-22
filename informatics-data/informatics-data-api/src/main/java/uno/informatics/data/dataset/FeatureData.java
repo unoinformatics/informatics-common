@@ -16,11 +16,14 @@
 
 package uno.informatics.data.dataset;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import uno.informatics.data.Data;
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
+import uno.informatics.data.io.FileType;
 
 /**
  * A dataset that consists of columns recorded for a specific feature, with each
@@ -106,5 +109,14 @@ public interface FeatureData extends Data {
      * @return all the row headers as an array
      */
     public SimpleEntity[] getRowHeadersAsArray() ;
+
+    /**
+     * Writes the data to a file
+     * 
+     * @param filePath the path of the file to be written
+     * @param type the type of the file
+     * @throws IOException if the file can not be written
+     */
+    public void writeData(Path filePath, FileType type) throws IOException;
 
 }

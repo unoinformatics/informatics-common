@@ -22,12 +22,12 @@ import java.io.File;
 
 import org.junit.Test;
 
-import uno.informatics.common.io.FileType;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureData;
 import uno.informatics.data.feature.array.ZipFeatureDataReader;
 import uno.informatics.data.feature.array.ZipFeatureDataWriter;
+import uno.informatics.data.io.FileType;
 import uno.informatics.data.tests.TestData;
 
 /**

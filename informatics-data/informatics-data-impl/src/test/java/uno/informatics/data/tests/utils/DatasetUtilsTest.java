@@ -29,7 +29,6 @@ import java.util.List;
 import org.junit.Test;
 
 import uno.informatics.common.io.FileProperties;
-import uno.informatics.common.io.FileType;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
 import uno.informatics.data.Method;
@@ -41,6 +40,7 @@ import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.feature.AbstractFeatureData;
 import uno.informatics.data.feature.ColumnFeature;
 import uno.informatics.data.feature.ColumnFeaturePojo;
+import uno.informatics.data.io.FileType;
 import uno.informatics.data.pojo.ScalePojo;
 import uno.informatics.data.utils.DatasetUtils;
 

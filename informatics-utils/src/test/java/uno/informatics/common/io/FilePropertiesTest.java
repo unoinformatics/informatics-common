@@ -24,6 +24,8 @@ import java.io.File;
 
 import org.junit.Test;
 
+import uno.informatics.data.io.FileType;
+
 /**
  * @author Guy Davenport
  *
@@ -52,7 +54,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.common.io.FileType)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.data.io.FileType)}.
 	 */
 	@Test
 	public void testFilePropertiesStringFileType()
@@ -88,7 +90,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.common.io.FileType)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.data.io.FileType)}.
 	 */
 	@Test
 	public void testFilePropertiesFileFileType()
@@ -124,7 +126,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.common.io.FileType, boolean)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.data.io.FileType, boolean)}.
 	 */
 	@Test
 	public void testFilePropertiesStringFileTypeBoolean()
@@ -160,7 +162,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.common.io.FileType, boolean)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.data.io.FileType, boolean)}.
 	 */
 	@Test
 	public void testFilePropertiesFileFileTypeBoolean()
@@ -196,7 +198,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.common.io.FileType, boolean, boolean)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.data.io.FileType, boolean, boolean)}.
 	 */
 	@Test
 	public void testFilePropertiesStringFileTypeBooleanBoolean()
@@ -232,7 +234,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.common.io.FileType, boolean, boolean)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.data.io.FileType, boolean, boolean)}.
 	 */
 	@Test
 	public void testFilePropertiesFileFileTypeBooleanBoolean()
@@ -268,7 +270,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.common.io.FileType, int, int)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.data.io.FileType, int, int)}.
 	 */
 	@Test
 	public void testFilePropertiesStringFileTypeIntInt()
@@ -304,7 +306,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.common.io.FileType, int, int)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.data.io.FileType, int, int)}.
 	 */
 	@Test
 	public void testFilePropertiesFileFileTypeIntInt()
@@ -340,7 +342,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.common.io.FileType, int, int, int)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.lang.String, uno.informatics.data.io.FileType, int, int, int)}.
 	 */
 	@Test
 	public void testFilePropertiesStringFileTypeIntIntIntInt()
@@ -376,7 +378,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.common.io.FileType, int, int, int)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#FileProperties(java.io.File, uno.informatics.data.io.FileType, int, int, int)}.
 	 */
 	@Test
 	public void testFilePropertiesFileFileTypeIntIntIntIntInt()
@@ -431,7 +433,7 @@ public class FilePropertiesTest
 	}
 
 	/**
-	 * Test method for {@link uno.informatics.common.io.FileProperties#setFileType(uno.informatics.common.io.FileType)}.
+	 * Test method for {@link uno.informatics.common.io.FileProperties#setFileType(uno.informatics.data.io.FileType)}.
 	 */
 	@Test
 	public void testSetFileType()

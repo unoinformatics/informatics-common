@@ -28,6 +28,7 @@ import java.util.List;
 
 import uno.informatics.common.io.text.TextFileRowReader;
 import uno.informatics.common.io.text.TextFileRowWriter;
+import uno.informatics.data.io.FileType;
 
 /**
  * @author Guy Davenport

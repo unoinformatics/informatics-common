@@ -30,7 +30,6 @@ import java.util.Set;
 
 import uno.informatics.common.ConversionException;
 import uno.informatics.common.ConversionUtilities;
-import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowWriter;
@@ -45,6 +44,7 @@ import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.feature.AbstractFeatureData;
+import uno.informatics.data.io.FileType;
 import uno.informatics.data.pojo.DataPojo;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
@@ -455,7 +455,8 @@ public class ArrayFeatureData extends AbstractFeatureData {
 
     }
     
-    public static final void writeData(Path filePath, ArrayFeatureData data, FileType type)
+    @Override
+    public final void writeData(Path filePath, FileType type)
             throws IOException {
         
         // validate arguments
@@ -485,7 +486,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
         writer.newColumn() ;
         writer.writeCell(NAME);
 
-        Iterator<Feature> iterator = data.getFeatures().iterator() ;
+        Iterator<Feature> iterator = getFeatures().iterator() ;
         
         Feature feature ;
         
@@ -501,7 +502,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
         writer.writeCell(NAME);
         writer.newColumn() ;
 
-        iterator = data.getFeatures().iterator() ;
+        iterator = getFeatures().iterator() ;
          
         while (iterator.hasNext())
         {
@@ -515,7 +516,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
         writer.writeCell(TYPE);
         writer.newColumn() ;
         
-        iterator = data.getFeatures().iterator() ;
+        iterator = getFeatures().iterator() ;
         
         while (iterator.hasNext())
         {
@@ -529,7 +530,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
         writer.writeCell(MIN);
         writer.newColumn() ;
         
-        iterator = data.getFeatures().iterator() ;
+        iterator = getFeatures().iterator() ;
         
         while (iterator.hasNext())
         {
@@ -543,7 +544,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
         writer.writeCell(MAX);
         writer.newColumn() ;
         
-        iterator = data.getFeatures().iterator() ;
+        iterator = getFeatures().iterator() ;
         
         while (iterator.hasNext())
         {
@@ -551,10 +552,8 @@ public class ArrayFeatureData extends AbstractFeatureData {
             feature = iterator.next() ;
             writer.writeCell(feature.getMethod().getScale().getMaximumValue()); 
         }
-        
-        
-        
-        Iterator<FeatureDataRow> rows = data.getRows().iterator() ;
+   
+        Iterator<FeatureDataRow> rows = getRows().iterator() ;
         
         FeatureDataRow row ;
         

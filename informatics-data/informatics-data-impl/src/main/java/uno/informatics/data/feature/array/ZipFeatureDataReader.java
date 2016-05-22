@@ -25,7 +25,6 @@ import java.util.zip.ZipFile;
 
 import com.thoughtworks.xstream.XStream;
 
-import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.TableReader;
 import uno.informatics.data.Data;
@@ -33,6 +32,7 @@ import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.io.DataReader;
+import uno.informatics.data.io.FileType;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.utils.DatasetUtils;
 

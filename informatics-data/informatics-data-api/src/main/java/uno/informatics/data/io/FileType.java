@@ -1,4 +1,4 @@
-package uno.informatics.common.io;
+package uno.informatics.data.io;
 
 public enum FileType
 {

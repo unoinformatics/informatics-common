@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import uno.informatics.common.io.text.TextFileRowReader;
+import uno.informatics.data.io.FileType;
 
 /**
  * @author Guy Davenport

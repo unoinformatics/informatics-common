@@ -26,9 +26,9 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-import uno.informatics.common.io.FileType;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureData;
+import uno.informatics.data.io.FileType;
 import uno.informatics.data.tests.feature.DatasetTest;
 
 // TODO TXT, XLS, XLSX versions
@@ -88,7 +88,7 @@ public class ArrayFeatureDataTest extends DatasetTest {
             expectedData.setUniqueIdentifier("writeRead.csv");
             expectedData.setName("writeRead.csv");
             
-            ArrayFeatureData.writeData(path, expectedData, FileType.CSV);
+            expectedData.writeData(path, FileType.CSV);
             
             FeatureData actualData = ArrayFeatureData.readData(path, FileType.CSV);
 

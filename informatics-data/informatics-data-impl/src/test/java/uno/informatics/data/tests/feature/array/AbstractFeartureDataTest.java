@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import uno.informatics.common.io.FileType;
 import uno.informatics.data.DataTypeConstants;
 import uno.informatics.data.Method;
 import uno.informatics.data.Ontology;
@@ -19,6 +18,7 @@ import uno.informatics.data.Scale;
 import uno.informatics.data.feature.AbstractFeatureData;
 import uno.informatics.data.feature.ColumnFeature;
 import uno.informatics.data.feature.ColumnFeaturePojo;
+import uno.informatics.data.io.FileType;
 
 public class AbstractFeartureDataTest {
     

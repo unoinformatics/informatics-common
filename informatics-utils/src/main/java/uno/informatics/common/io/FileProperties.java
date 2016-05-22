@@ -5,6 +5,8 @@ import static uno.informatics.common.Constants.UNKNOWN_INDEX;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 
+import uno.informatics.data.io.FileType;
+
 public class FileProperties
 {
 	public static final String FILE_PROPERTY = FileProperties.class.getName() + ".file" ;

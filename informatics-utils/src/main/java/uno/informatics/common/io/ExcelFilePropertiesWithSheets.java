@@ -19,6 +19,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import uno.informatics.data.io.FileType;
+
 public class ExcelFilePropertiesWithSheets extends ExcelFileProperties
 {
 	private static final String SHEETS_PROPERTY = ExcelFilePropertiesWithSheets.class.getName() + ".sheets";

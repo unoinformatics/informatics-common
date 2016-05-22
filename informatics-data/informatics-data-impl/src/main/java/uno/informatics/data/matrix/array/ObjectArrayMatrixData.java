@@ -27,13 +27,13 @@ import java.util.List;
 
 import uno.informatics.common.ConversionException;
 import uno.informatics.common.ConversionUtilities;
-import uno.informatics.common.io.FileType;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.data.DataOption;
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.MatrixData;
+import uno.informatics.data.io.FileType;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 
 /**
