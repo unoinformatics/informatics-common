@@ -56,6 +56,10 @@ public class ArrayFeatureDataTest extends DatasetTest {
         ArrayFeatureData data = new ArrayFeatureData(NAME, OBJECT_FEATURES_AS_ARRAY, OBJECT_TABLE_AS_ARRAY_WITH_HEADER);
 
         checkCompleteData(null, NAME, OBJECT_FEATURES, data, ROW_HEADERS, false);
+        
+        data = new ArrayFeatureData(NAME, OBJECT_FEATURES_AS_ARRAY, OBJECT_TABLE_AS_ARRAY_WITH_HEADER_WITH_NAME);
+
+        checkCompleteData(null, NAME, OBJECT_FEATURES, data, ROW_HEADERS_WITH_NAME, false);
     }
 
 
@@ -69,17 +73,21 @@ public class ArrayFeatureDataTest extends DatasetTest {
         ArrayFeatureData data = new ArrayFeatureData(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST_WITH_HEADER);
 
         checkCompleteData(UID, NAME, OBJECT_FEATURES, data, ROW_HEADERS, false);
+        
+        data = new ArrayFeatureData(UID, NAME, OBJECT_FEATURES, OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME);
+
+        checkCompleteData(UID, NAME, OBJECT_FEATURES, data, ROW_HEADERS_WITH_NAME, false);
     }
     
     @Test
-    public void testWriteReadFeatureDataset() {
+    public void testWriteReadFeatureDatasetCSV() {
         try {
                       
-            Path path = Paths.get("target","testoutput") ;
+            Path targetPath = Paths.get("target","testoutput") ;
             
-            Files.createDirectories(path) ;
+            Files.createDirectories(targetPath) ;
 
-            path = Files.createTempDirectory(path, "writeRead") ;
+            Path path = Files.createTempDirectory(targetPath, "writeRead") ;
   
             path = Paths.get(path.toString(), "writeRead.csv") ;
             
@@ -93,6 +101,66 @@ public class ArrayFeatureDataTest extends DatasetTest {
             FeatureData actualData = ArrayFeatureData.readData(path, FileType.CSV);
 
             checkCompleteData(expectedData, actualData);
+            
+            path = Files.createTempDirectory(targetPath, "writeRead") ;
+            
+            path = Paths.get(path.toString(), "writeRead.csv") ;
+            
+            expectedData = (ArrayFeatureData)createDatasetWithHeaderName() ;
+            
+            expectedData.setUniqueIdentifier("writeRead.csv");
+            expectedData.setName("writeRead.csv");
+            
+            expectedData.writeData(path, FileType.CSV);
+            
+            actualData = ArrayFeatureData.readData(path, FileType.CSV);
+
+            checkCompleteData(expectedData, actualData);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            fail(e.getLocalizedMessage());
+        }
+    }
+    
+    @Test
+    public void testWriteReadFeatureDatasetTXT() {
+        try {
+                      
+            Path targetPath = Paths.get("target","testoutput") ;
+            
+            Files.createDirectories(targetPath) ;
+
+            Path path = Files.createTempDirectory(targetPath, "writeRead") ;
+  
+            path = Paths.get(path.toString(), "writeRead.txt") ;
+            
+            ArrayFeatureData expectedData = (ArrayFeatureData)createDataset() ;
+            
+            expectedData.setUniqueIdentifier("writeRead.txt");
+            expectedData.setName("writeRead.txt");
+            
+            expectedData.writeData(path, FileType.TXT);
+            
+            FeatureData actualData = ArrayFeatureData.readData(path, FileType.TXT);
+
+            checkCompleteData(expectedData, actualData);
+            
+            path = Files.createTempDirectory(targetPath, "writeRead") ;
+            
+            path = Paths.get(path.toString(), "writeRead.txt") ;
+            
+            expectedData = (ArrayFeatureData)createDatasetWithHeaderName() ;
+            
+            expectedData.setUniqueIdentifier("writeRead.txt");
+            expectedData.setName("writeRead.txt");
+            
+            expectedData.writeData(path, FileType.TXT);
+            
+            actualData = ArrayFeatureData.readData(path, FileType.TXT);
+
+            checkCompleteData(expectedData, actualData);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,8 +169,13 @@ public class ArrayFeatureDataTest extends DatasetTest {
         }
     }
 
+
     @Override
     protected FeatureData createDataset() {
         return new ArrayFeatureData(NAME, OBJECT_FEATURES_AS_ARRAY, OBJECT_TABLE_AS_ARRAY_WITH_HEADER);
+    }
+    
+    protected FeatureData createDatasetWithHeaderName() {
+        return new ArrayFeatureData(NAME, OBJECT_FEATURES_AS_ARRAY, OBJECT_TABLE_AS_ARRAY_WITH_HEADER_WITH_NAME);
     }
 }

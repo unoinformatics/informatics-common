@@ -49,69 +49,13 @@ public class TestData {
     protected final static String UID = "uid";
     protected final static String NAME = "name";
     protected final static String DESCRIPTION = "description";
-
-    protected final static SimpleEntity ROW_HEADER = new SimpleEntityPojo(UID, NAME);
-
-    protected final static String ROW1_ID = "row1";
-    protected final static String ROW2_ID = "row2";
-    protected final static String ROW3_ID = "row3";
-
-    protected final static String[] ROW_IDS = new String[] { ROW1_ID, ROW2_ID, ROW3_ID };
-    protected final static String[] BLANK_NAMES = new String[] { null, null, null };
-
-    protected final static SimpleEntity ROW1_HEADER = new SimpleEntityPojo(ROW1_ID);
-    protected final static SimpleEntity ROW2_HEADER = new SimpleEntityPojo(ROW2_ID);
-    protected final static SimpleEntity ROW3_HEADER = new SimpleEntityPojo(ROW3_ID);
-
-    protected final static SimpleEntity[] ROW_HEADERS = new SimpleEntity[] { ROW1_HEADER, ROW2_HEADER, ROW3_HEADER };
-
-    protected final static List<SimpleEntity> ROW_HEADERS_AS_LIST = new ArrayList<SimpleEntity>();
-
-    static {
-        ROW_HEADERS_AS_LIST.add(ROW1_HEADER);
-        ROW_HEADERS_AS_LIST.add(ROW2_HEADER);
-        ROW_HEADERS_AS_LIST.add(ROW3_HEADER);
-    }
-
-    protected final static SimpleEntity ROW1_HEADER_WITH_NAME = new SimpleEntityPojo(ROW1_ID, "r1");
-    protected final static SimpleEntity ROW2_HEADER_WITH_NAME = new SimpleEntityPojo(ROW2_ID, "r2");
-    protected final static SimpleEntity ROW3_HEADER_WITH_NAME = new SimpleEntityPojo(ROW3_ID, "r3");
-
-    protected final static SimpleEntity[] ROW_HEADERS_WITH_NAME = new SimpleEntity[] { ROW1_HEADER_WITH_NAME,
-            ROW2_HEADER_WITH_NAME, ROW3_HEADER_WITH_NAME };
-
-    protected final static List<SimpleEntity> ROW_HEADERS_WITH_IDS_AS_LIST = new ArrayList<SimpleEntity>();
-
-    static {
-        ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW1_HEADER_WITH_NAME);
-        ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW2_HEADER_WITH_NAME);
-        ROW_HEADERS_WITH_IDS_AS_LIST.add(ROW3_HEADER_WITH_NAME);
-    }
-
-    protected final static List<String> ROW_NAMES_AS_LIST = new ArrayList<String>();
-
-    static {
-        ROW_NAMES_AS_LIST.add(ROW1_ID);
-        ROW_NAMES_AS_LIST.add(ROW2_ID);
-        ROW_NAMES_AS_LIST.add(ROW3_ID);
-    }
-
+    
     protected final static Object[] OBJECT_ROW1 = new Object[] { 1, 1.1, "R1C3", true, createDate("12/12/2012") };
     protected final static Object[] OBJECT_ROW2 = new Object[] { 2, 2.2, "R2C3", false, createDate("13/12/2012") };
     protected final static Object[] OBJECT_ROW3 = new Object[] { 3, 3.3, "R3C3", true, createDate("14/12/2012") };
 
     protected final static Object[][] OBJECT_TABLE_AS_ARRAY = new Object[][] { OBJECT_ROW1, OBJECT_ROW2, OBJECT_ROW3 };
-
-    protected final static Object[] OBJECT_ROW1_WITH_HEADER = new Object[] { ROW1_HEADER, 1, 1.1, "R1C3", true,
-            createDate("12/12/2012") };
-    protected final static Object[] OBJECT_ROW2_WITH_HEADER = new Object[] { ROW2_HEADER, 2, 2.2, "R2C3", false,
-            createDate("13/12/2012") };
-    protected final static Object[] OBJECT_ROW3_WITH_HEADER = new Object[] { ROW3_HEADER, 3, 3.3, "R3C3", true,
-            createDate("14/12/2012") };
-
-    protected final static Object[][] OBJECT_TABLE_AS_ARRAY_WITH_HEADER = new Object[][] { OBJECT_ROW1_WITH_HEADER,
-            OBJECT_ROW2_WITH_HEADER, OBJECT_ROW3_WITH_HEADER };
-
+    
     protected static final List<List<Object>> OBJECT_TABLE_AS_LIST = new ArrayList<List<Object>>();
 
     static {
@@ -150,6 +94,50 @@ public class TestData {
 
     protected final static Object[] OBJECT_COL5 = new Object[] { OBJECT_ROW1[4], OBJECT_ROW2[4], OBJECT_ROW3[4] };
 
+    // with row headers - id and name are the same
+    
+    protected final static SimpleEntity ROW_HEADER = new SimpleEntityPojo(UID, NAME);
+
+    protected final static String ROW1_ID = "row1";
+    protected final static String ROW2_ID = "row2";
+    protected final static String ROW3_ID = "row3";
+
+    protected final static String[] ROW_IDS = new String[] { ROW1_ID, ROW2_ID, ROW3_ID };
+    protected final static String[] BLANK_NAMES = new String[] { null, null, null };
+
+    protected final static SimpleEntity ROW1_HEADER = new SimpleEntityPojo(ROW1_ID);
+    protected final static SimpleEntity ROW2_HEADER = new SimpleEntityPojo(ROW2_ID);
+    protected final static SimpleEntity ROW3_HEADER = new SimpleEntityPojo(ROW3_ID);
+
+    protected final static SimpleEntity[] ROW_HEADERS = new SimpleEntity[] { ROW1_HEADER, ROW2_HEADER, ROW3_HEADER };
+
+    protected final static List<SimpleEntity> ROW_HEADERS_AS_LIST = new ArrayList<SimpleEntity>();
+
+    static {
+        ROW_HEADERS_AS_LIST.add(ROW1_HEADER);
+        ROW_HEADERS_AS_LIST.add(ROW2_HEADER);
+        ROW_HEADERS_AS_LIST.add(ROW3_HEADER);
+    }
+
+    protected final static List<String> ROW_IDS_AS_LIST = new ArrayList<String>();
+
+    static {
+        ROW_IDS_AS_LIST.add(ROW1_ID);
+        ROW_IDS_AS_LIST.add(ROW2_ID);
+        ROW_IDS_AS_LIST.add(ROW3_ID);
+    }
+
+    protected final static Object[] OBJECT_ROW1_WITH_HEADER = new Object[] { ROW1_HEADER, 1, 1.1, "R1C3", true,
+            createDate("12/12/2012") };
+    protected final static Object[] OBJECT_ROW2_WITH_HEADER = new Object[] { ROW2_HEADER, 2, 2.2, "R2C3", false,
+            createDate("13/12/2012") };
+    protected final static Object[] OBJECT_ROW3_WITH_HEADER = new Object[] { ROW3_HEADER, 3, 3.3, "R3C3", true,
+            createDate("14/12/2012") };
+
+    protected final static Object[][] OBJECT_TABLE_AS_ARRAY_WITH_HEADER = new Object[][] { OBJECT_ROW1_WITH_HEADER,
+            OBJECT_ROW2_WITH_HEADER, OBJECT_ROW3_WITH_HEADER };
+
+
     protected static final List<List<Object>> OBJECT_TABLE_AS_LIST_WITH_HEADER = new ArrayList<List<Object>>();
 
     static {
@@ -180,6 +168,88 @@ public class TestData {
         OBJECT_TABLE_AS_LIST_WITH_HEADER.get(2).add(OBJECT_ROW3_WITH_HEADER[4]);
         OBJECT_TABLE_AS_LIST_WITH_HEADER.get(2).add(OBJECT_ROW3_WITH_HEADER[5]);
     }
+    
+    protected final static String ROW1_NAME = "r1";
+    protected final static String ROW2_NAME = "r2";
+    protected final static String ROW3_NAME = "r3";
+
+    protected final static String[] ROW3_NAMES = new String[] { ROW1_NAME, ROW2_NAME, ROW3_NAME };
+    
+    protected final static SimpleEntity ROW1_HEADER_WITH_NAME = new SimpleEntityPojo(ROW1_ID, ROW1_NAME);
+    protected final static SimpleEntity ROW2_HEADER_WITH_NAME = new SimpleEntityPojo(ROW2_ID, ROW2_NAME);
+    protected final static SimpleEntity ROW3_HEADER_WITH_NAME = new SimpleEntityPojo(ROW3_ID, ROW3_NAME);
+
+    protected final static SimpleEntity[] ROW_HEADERS_WITH_NAME = new SimpleEntity[] { ROW1_HEADER_WITH_NAME,
+            ROW2_HEADER_WITH_NAME, ROW3_HEADER_WITH_NAME };
+
+    protected final static List<SimpleEntity> ROW_HEADERS_WITH_NAMES_AS_LIST = new ArrayList<SimpleEntity>();
+
+    static {
+        ROW_HEADERS_WITH_NAMES_AS_LIST.add(ROW1_HEADER_WITH_NAME);
+        ROW_HEADERS_WITH_NAMES_AS_LIST.add(ROW2_HEADER_WITH_NAME);
+        ROW_HEADERS_WITH_NAMES_AS_LIST.add(ROW3_HEADER_WITH_NAME);
+    }
+   
+    protected final static List<SimpleEntity> ROW_HEADERS_WITH_NAME_AS_LIST = new ArrayList<SimpleEntity>();
+
+    static {
+        ROW_HEADERS_WITH_NAME_AS_LIST.add(ROW1_HEADER_WITH_NAME);
+        ROW_HEADERS_WITH_NAME_AS_LIST.add(ROW2_HEADER_WITH_NAME);
+        ROW_HEADERS_WITH_NAME_AS_LIST.add(ROW3_HEADER_WITH_NAME);
+    }
+
+    protected final static List<String> ROW_NAMES_AS_LIST = new ArrayList<String>();
+
+    static {
+        ROW_NAMES_AS_LIST.add(ROW1_NAME);
+        ROW_NAMES_AS_LIST.add(ROW2_NAME);
+        ROW_NAMES_AS_LIST.add(ROW3_NAME);
+    }
+
+    protected final static Object[] OBJECT_ROW1_WITH_HEADER_WITH_NAME = new Object[] { ROW1_HEADER_WITH_NAME, 1, 1.1, "R1C3", true,
+            createDate("12/12/2012") };
+    protected final static Object[] OBJECT_ROW2_WITH_HEADER_WITH_NAME = new Object[] { ROW2_HEADER_WITH_NAME, 2, 2.2, "R2C3", false,
+            createDate("13/12/2012") };
+    protected final static Object[] OBJECT_ROW3_WITH_HEADER_WITH_NAME = new Object[] { ROW3_HEADER_WITH_NAME, 3, 3.3, "R3C3", true,
+            createDate("14/12/2012") };
+
+    protected final static Object[][] OBJECT_TABLE_AS_ARRAY_WITH_HEADER_WITH_NAME = new Object[][] { OBJECT_ROW1_WITH_HEADER_WITH_NAME,
+            OBJECT_ROW2_WITH_HEADER_WITH_NAME, OBJECT_ROW3_WITH_HEADER_WITH_NAME };
+
+
+    protected static final List<List<Object>> OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME = new ArrayList<List<Object>>();
+
+    static {
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.add(new ArrayList<Object>(OBJECT_ROW1_WITH_HEADER_WITH_NAME.length));
+
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(0).add(OBJECT_ROW1_WITH_HEADER_WITH_NAME[0]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(0).add(OBJECT_ROW1_WITH_HEADER_WITH_NAME[1]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(0).add(OBJECT_ROW1_WITH_HEADER_WITH_NAME[2]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(0).add(OBJECT_ROW1_WITH_HEADER_WITH_NAME[3]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(0).add(OBJECT_ROW1_WITH_HEADER_WITH_NAME[4]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(0).add(OBJECT_ROW1_WITH_HEADER_WITH_NAME[5]);
+
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.add(new ArrayList<Object>(OBJECT_ROW2_WITH_HEADER_WITH_NAME.length));
+
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(1).add(OBJECT_ROW2_WITH_HEADER_WITH_NAME[0]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(1).add(OBJECT_ROW2_WITH_HEADER_WITH_NAME[1]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(1).add(OBJECT_ROW2_WITH_HEADER_WITH_NAME[2]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(1).add(OBJECT_ROW2_WITH_HEADER_WITH_NAME[3]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(1).add(OBJECT_ROW2_WITH_HEADER_WITH_NAME[4]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(1).add(OBJECT_ROW2_WITH_HEADER_WITH_NAME[5]);
+
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.add(new ArrayList<Object>(OBJECT_ROW3_WITH_HEADER_WITH_NAME.length));
+
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(2).add(OBJECT_ROW3_WITH_HEADER_WITH_NAME[0]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(2).add(OBJECT_ROW3_WITH_HEADER_WITH_NAME[1]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(2).add(OBJECT_ROW3_WITH_HEADER_WITH_NAME[2]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(2).add(OBJECT_ROW3_WITH_HEADER_WITH_NAME[3]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(2).add(OBJECT_ROW3_WITH_HEADER_WITH_NAME[4]);
+        OBJECT_TABLE_AS_LIST_WITH_HEADER_WITH_NAME.get(2).add(OBJECT_ROW3_WITH_HEADER_WITH_NAME[5]);
+    }
+
+    
+    // string table
 
     protected final static Object[] STRING_ROW1 = new Object[] { "1", "1.1", "R1C3", "TRUE", "12/12/2012" };
     protected final static Object[] STRING_ROW2 = new Object[] { "2", "2.2", "R2C3", "FALSE", "13/12/2012" };
@@ -266,6 +336,8 @@ public class TestData {
         STRING_TABLE_AS_LIST_WITH_HEADER.get(2).add(STRING_ROW3_WITH_HEADER[5]);
     }
 
+    // feature rows
+    
     protected final static FeatureDataRow ROW_WITH_NAME1 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW1_ID),
             OBJECT_ROW1);
     protected final static FeatureDataRow ROW_WITH_NAME2 = new ArrayFeatureDataRow(new SimpleEntityPojo(ROW2_ID),

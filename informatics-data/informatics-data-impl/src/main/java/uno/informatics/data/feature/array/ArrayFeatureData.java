@@ -16,10 +16,8 @@
 
 package uno.informatics.data.feature.array;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -51,8 +49,6 @@ import uno.informatics.data.pojo.MethodPojo;
 import uno.informatics.data.pojo.ScalePojo;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 import uno.informatics.data.utils.DatasetUtils;
-
-import static uno.informatics.data.DataOption.* ;
 
 /**
  * @author Guy Davenport
@@ -561,9 +557,9 @@ public class ArrayFeatureData extends AbstractFeatureData {
         {
             writer.newRow() ;
             row = rows.next() ;
-            writer.writeCell(row.getHeader().getName());
-            writer.newColumn() ;
             writer.writeCell(row.getHeader().getUniqueIdentifier());
+            writer.newColumn() ;
+            writer.writeCell(row.getHeader().getName());
             writer.newColumn() ;
             writer.writeRowCells(row.getValues());
         }
