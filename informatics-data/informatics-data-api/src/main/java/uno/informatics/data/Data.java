@@ -27,14 +27,14 @@ public interface Data extends SimpleEntity {
     public Dataset getDataset();
     
     /**
-     * Get the header of an entry by id.
+     * Get the header of an entry by index.
      *
-     * @param id of an entry, should be within the range from 0 to n-1, where n is the number of
-     *           entries as returned by {@link #getSize()}
-     * @return the header of an entry by id, <code>null</code> if no header is assigned to this entry
+     * @param index of an entry, should be within the range from 0 to n-1, where n is the number of
+     *              entries as returned by {@link #getSize()}
+     * @return the header of an entry by index
      */
-    public SimpleEntity getHeader(int id);
-    
+    public SimpleEntity getHeader(int index);
+               
     /**
      * Get the number of entries in the data.
      * 

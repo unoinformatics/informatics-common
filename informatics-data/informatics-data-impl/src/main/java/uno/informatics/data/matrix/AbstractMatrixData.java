@@ -47,10 +47,6 @@ public abstract class AbstractMatrixData<ValueType extends Object> extends Simpl
         setValueFeature(elementFeature);
     }
 
-    public abstract int getRowCount();
-
-    public abstract int getColumnCount();
-
     @Override
     public final Feature getValueFeature() {
         return valueFeature;

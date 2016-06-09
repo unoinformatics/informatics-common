@@ -19,7 +19,9 @@ package uno.informatics.data.pojo;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import uno.informatics.data.Data;
@@ -35,37 +37,39 @@ public class DataPojo extends SimpleEntityPojo implements Data {
 
     private DatasetPojo dataset;
 
-    // headers
+    // headers (contain unique string id and name)
     private SimpleEntity[] headers;
-    // item IDs (0..n-1)
-    private Set<Integer> ids;
+    // maps unique string id to item index
+    private Map<String, Integer> id2index;
+    // unmodifiable set containing all indices
+    private Set<Integer> indices;
 
     public DataPojo(String name, SimpleEntity[] headers) {
         super(name);
-
         setHeaders(headers);
     }
 
     public DataPojo(String uniqueIdentifier, String name, SimpleEntity[] headers) {
         super(uniqueIdentifier, name);
-        
         setHeaders(headers);
     }
 
     public DataPojo(Data data) {
         super(data);
 
-        if (data != null)
+        if (data != null){
             setDataset(data.getDataset());
-        else
+        } else {
             throw new IllegalArgumentException("Data is not optional!");
+        }
 
-        SimpleEntity[] headers = new SimpleEntity[data.getSize()];
+        SimpleEntity[] dataHeaders = new SimpleEntity[data.getSize()];
 
-        for (int i = 0; i < headers.length; ++i)
-            headers[i] = data.getHeader(i);
+        for (int i = 0; i < dataHeaders.length; ++i){
+            dataHeaders[i] = data.getHeader(i);
+        }
 
-        setHeaders(headers);
+        setHeaders(dataHeaders);
     }
 
     @Override
@@ -77,10 +81,10 @@ public class DataPojo extends SimpleEntityPojo implements Data {
 
         DatasetPojo oldValue = this.dataset;
 
-        if (dataset != null)
+        this.dataset = null;
+        if (dataset != null){
             this.dataset = new DatasetPojo(dataset);
-        else
-            this.dataset = null;
+        }
 
         getPropertyChangeSupport().firePropertyChange(DATASET_PROPERTY, oldValue, this.dataset);
     }
@@ -90,35 +94,60 @@ public class DataPojo extends SimpleEntityPojo implements Data {
         return headers == null ? null : headers[id];
     }
 
+    /**
+     * Get the index of the entry with the given unique identifier.
+     * 
+     * @param uniqueIdentifier of an entry
+     * @return the index of the entry; -1 if there is no entry with this unique identifier
+     */
+    public int indexOf(String uniqueIdentifier) {
+        return id2index.getOrDefault(uniqueIdentifier, -1);
+    }
+
+    /**
+     * Get the index of the entry with the unique identifier contained in the given header.
+     * The header name may be left blank and is ignored if set.
+     * 
+     * @param header of an entry
+     * @return the index of the entry; -1 if there is no entry with the requested unique identifier
+     */
+    public int indexOf(SimpleEntity header) {
+        return indexOf(header.getUniqueIdentifier());
+    }
+
     @Override
     public int getSize() {
-        return ids.size();
+        return headers.length;
     }
     
     @Override
     public Set<Integer> getIDs() {
-        return ids;
+        return indices;
     }
 
     private void setHeaders(SimpleEntity[] headers) {
-
-        if (headers == null)
+        if (headers == null){
             throw new IllegalArgumentException("Headers not provided!");
-        
-        ids = checkHeaders(headers) ;
-        
+        }
+        checkHeaders(headers) ;
+        // store headers
         this.headers = Arrays.copyOf(headers, headers.length);
+        // assign integer ids (indices) and map string ids to indices
+        indices = new HashSet<>();
+        id2index = new HashMap<>();
+        for(int i = 0; i < headers.length; i++){
+            indices.add(i);
+            id2index.put(headers[i].getUniqueIdentifier(), i);
+        }
+        // make index set unmodifiable
+        indices = Collections.unmodifiableSet(indices);
     }
 
-    public static final Set<Integer> checkHeaders(SimpleEntity[] headers) {
+    public static final void checkHeaders(SimpleEntity[] headers) {
         int n = headers.length;
-
-        HashSet<Integer> ids = new HashSet<Integer>();
-
         // check unique identifiers
         Set<String> identifiers = new HashSet<>();
         for (int i = 0; i < n; i++) {
-            ids.add(i);
             SimpleEntity header = headers[i];
             if (header == null || header.getUniqueIdentifier() == null) {
                 throw new IllegalArgumentException(String.format("No identifier defined for item %d.", i));
@@ -129,8 +158,6 @@ public class DataPojo extends SimpleEntityPojo implements Data {
                                 header.getUniqueIdentifier(), i));
             }
         }
-
-        return Collections.unmodifiableSet(ids);
     }
     
     public static final SimpleEntity[] updateOrCreateHeaders(SimpleEntity[] headers, int length) {
