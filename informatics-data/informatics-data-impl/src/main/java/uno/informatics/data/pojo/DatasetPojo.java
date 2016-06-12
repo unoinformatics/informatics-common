@@ -75,11 +75,17 @@ public class DatasetPojo extends EntityPojo implements Dataset {
         return size;
     }
 
+    /**
+     * Sets the size of this dataset
+     * 
+     * @param size
+     */
     public final void setSize(int size) {
         
         if (size != this.size) {
             int oldValue = this.size;
-            getPropertyChangeSupport().firePropertyChange(SIZE_PROPERTY, oldValue, this.study);
+            this.size = size ;
+            getPropertyChangeSupport().firePropertyChange(SIZE_PROPERTY, oldValue, this.size);
         }
     }  
 }
