@@ -26,13 +26,11 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-import uno.informatics.common.io.FileProperties;
 import uno.informatics.data.DataOption;
 import uno.informatics.data.DataType;
 import uno.informatics.data.Feature;
 import uno.informatics.data.ScaleType;
 import uno.informatics.data.SimpleEntity;
-import uno.informatics.data.dataset.DatasetException;
 import uno.informatics.data.dataset.MatrixData;
 import uno.informatics.data.io.FileType;
 import uno.informatics.data.matrix.AbstractMatrixData;

@@ -17,7 +17,6 @@
 package uno.informatics.data.io;
 
 import uno.informatics.data.Data;
-import uno.informatics.data.Dataset;
 import uno.informatics.data.dataset.DatasetException;
 
 public interface DataReader {

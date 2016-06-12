@@ -17,30 +17,12 @@
 package uno.informatics.data.tests.utils;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import org.junit.Test;
 
-import uno.informatics.common.io.FileProperties;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
-import uno.informatics.data.Method;
-import uno.informatics.data.Ontology;
-import uno.informatics.data.OntologyTerm;
-import uno.informatics.data.Scale;
 import uno.informatics.data.ScaleType;
-import uno.informatics.data.dataset.DatasetException;
-import uno.informatics.data.feature.AbstractFeatureData;
-import uno.informatics.data.feature.ColumnFeature;
-import uno.informatics.data.feature.ColumnFeaturePojo;
-import uno.informatics.data.io.FileType;
 import uno.informatics.data.pojo.ScalePojo;
 import uno.informatics.data.utils.DatasetUtils;
 

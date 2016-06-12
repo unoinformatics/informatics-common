@@ -23,5 +23,18 @@ public interface Dataset extends Entity {
      * @return the study to which this dataset belongs
      */
     public Study getStudy();
+    
+    /**
+     * Gets the size of the data, which is the size of the 
+     * set that is the union all the associated data object.
+     * If there is no data object associated with this dataset
+     * the size is zero. 
+     * For single datasets containing a single data object,
+     * the size of the dataset is the same of as the size of this
+     * data object.
+     * 
+     * @return the study to which this dataset belongs
+     */
+    public int getSize();
 
 }

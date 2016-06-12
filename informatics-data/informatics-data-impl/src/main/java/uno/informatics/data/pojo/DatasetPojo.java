@@ -22,8 +22,11 @@ import uno.informatics.data.Study;
 public class DatasetPojo extends EntityPojo implements Dataset {
 
     public static final String STUDY_PROPERTY = Dataset.class.getName() + ".study";
+
+    public static final String SIZE_PROPERTY = Dataset.class.getName() + ".size";
     
     private StudyPojo study;
+    private int size ;
 
     public DatasetPojo(String name) {
         super(name);
@@ -67,4 +70,16 @@ public class DatasetPojo extends EntityPojo implements Dataset {
         
         getPropertyChangeSupport().firePropertyChange(STUDY_PROPERTY, oldValue, this.study);
     }
+
+    public final int getSize() {
+        return size;
+    }
+
+    public final void setSize(int size) {
+        
+        if (size != this.size) {
+            int oldValue = this.size;
+            getPropertyChangeSupport().firePropertyChange(SIZE_PROPERTY, oldValue, this.study);
+        }
+    }  
 }
