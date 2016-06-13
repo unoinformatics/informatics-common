@@ -333,15 +333,17 @@ public class ScalePojo extends EntityPojo implements Scale {
     }
 
     public void addValue(Object value) {
-        // initialize if first value
-        if (values == null){
-            values = new ArrayList<>();
-        }
-        // add value
-        if (!values.contains(value)){
-            values.add(value);
-            // update index
-            index.put(value, values.size()-1);
+        if(value != null){
+            // initialize if first value
+            if (values == null){
+                values = new ArrayList<>();
+            }
+            // add value
+            if (!values.contains(value)){
+                values.add(value);
+                // update index
+                index.put(value, values.size()-1);
+            }
         }
     }
 

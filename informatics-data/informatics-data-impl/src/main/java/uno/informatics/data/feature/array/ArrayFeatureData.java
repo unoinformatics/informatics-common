@@ -771,21 +771,23 @@ public class ArrayFeatureData extends AbstractFeatureData {
     }
 
     private static void updateScale(ScalePojo scale, Object value) {
-        // add value to list of possible values (not for ratio variables)
-        if(!ScaleType.RATIO.equals(scale.getScaleType())) {
-            scale.addValue(value);
-        }
-        // update minimum and maximum (only for interval and ratio; number data type expected)
-        if(ScaleType.INTERVAL.equals(scale.getScaleType()) || ScaleType.RATIO.equals(scale.getScaleType())){
-            if(!(value instanceof Number)){
-                throw new IllegalArgumentException("Interval and Ratio variables should use a numeric data type.");
+        if(value != null){
+            // add value to list of possible values (not for ratio variables)
+            if(!ScaleType.RATIO.equals(scale.getScaleType())) {
+                scale.addValue(value);
             }
-            Number v = (Number) value;
-            if (scale.getMinimumValue() == null || v.doubleValue() < scale.getMinimumValue().doubleValue()){
-                scale.setMinimumValue(v);
-            }
-            if (scale.getMaximumValue() == null || v.doubleValue() > scale.getMaximumValue().doubleValue()){
-                scale.setMaximumValue(v);
+            // update minimum and maximum (only for interval and ratio; number data type expected)
+            if(ScaleType.INTERVAL.equals(scale.getScaleType()) || ScaleType.RATIO.equals(scale.getScaleType())){
+                if(!(value instanceof Number)){
+                    throw new IllegalArgumentException("Interval and Ratio variables should use a numeric data type.");
+                }
+                Number v = (Number) value;
+                if (scale.getMinimumValue() == null || v.doubleValue() < scale.getMinimumValue().doubleValue()){
+                    scale.setMinimumValue(v);
+                }
+                if (scale.getMaximumValue() == null || v.doubleValue() > scale.getMaximumValue().doubleValue()){
+                    scale.setMaximumValue(v);
+                }
             }
         }
     }
