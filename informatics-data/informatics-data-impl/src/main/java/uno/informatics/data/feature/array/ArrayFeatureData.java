@@ -687,6 +687,11 @@ public class ArrayFeatureData extends AbstractFeatureData {
             }
 
             if (minNumber != null || maxNumber != null){
+                if(scaleType != ScaleType.INTERVAL && scaleType != ScaleType.RATIO){
+                    throw new IllegalArgumentException(
+                            "Minimum and maximum value can only be set for Interval or Ratio scale."
+                    );
+                }
                 scale = new ScalePojo(id, name, dataType, scaleType, minNumber, maxNumber);
             } else {
                 scale = new ScalePojo(id, name, dataType, scaleType);
