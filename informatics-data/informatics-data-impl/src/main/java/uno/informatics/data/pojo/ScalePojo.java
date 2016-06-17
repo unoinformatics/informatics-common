@@ -17,10 +17,11 @@
 package uno.informatics.data.pojo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
 
 import uno.informatics.data.DataType;
 import uno.informatics.data.Scale;
@@ -28,7 +29,6 @@ import uno.informatics.data.ScaleType;
 
 /**
  * @author Guy Davenport
- *
  */
 public class ScalePojo extends EntityPojo implements Scale {
 
@@ -39,6 +39,7 @@ public class ScalePojo extends EntityPojo implements Scale {
     private static final String VALUES_PROPERTY = Scale.class.getName() + ".values";
 
     private List<Object> values = null;
+    private Map<Object, Integer> index = null;
 
     private DataType dataType;
     private ScaleType scaleType;
@@ -232,17 +233,13 @@ public class ScalePojo extends EntityPojo implements Scale {
         setValues(scale.getValues());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.common.model.Scale#getDataType()
-     */
     @Override
     public DataType getDataType() {
         return dataType;
     }
 
-    public void setDataType(DataType dataType) {
+    @Override
+    public final void setDataType(DataType dataType) {
         if (dataType != null) {
             DataType oldValue = this.dataType;
 
@@ -252,17 +249,13 @@ public class ScalePojo extends EntityPojo implements Scale {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.common.model.Scale#getScaleType()
-     */
     @Override
     public ScaleType getScaleType() {
         return scaleType;
     }
 
-    public void setScaleType(ScaleType scaleType) {
+    @Override
+    public final void setScaleType(ScaleType scaleType) {
         if (scaleType != null) {
             ScaleType oldValue = this.scaleType;
 
@@ -272,19 +265,16 @@ public class ScalePojo extends EntityPojo implements Scale {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.common.model.ContinuousScale#getMaximumValue()
-     */
     @Override
     public final Number getMaximumValue() {
         return maximumValue;
     }
 
+    @Override
     public final void setMaximumValue(Number maximumValue) {
-        if (maximumValue != null && scaleType == ScaleType.NOMINAL)
+        if (maximumValue != null && scaleType == ScaleType.NOMINAL){
             throw new IllegalArgumentException("Maximum Value can not be set if the scale type is Nominal");
+        }
 
         Number oldValue = this.maximumValue;
 
@@ -293,73 +283,76 @@ public class ScalePojo extends EntityPojo implements Scale {
         getPropertyChangeSupport().firePropertyChange(MAXIMUM_VALUE_PROPERTY, oldValue, this.maximumValue);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.common.model.ContinuousScale#getMinimumValue()
-     */
     @Override
     public final Number getMinimumValue() {
         return minimumValue;
     }
 
+    @Override
     public final void setMinimumValue(Number minimumValue) {
-        if (minimumValue != null && scaleType == ScaleType.NOMINAL)
+        if (minimumValue != null && scaleType == ScaleType.NOMINAL){
             throw new IllegalArgumentException("Minimum Value can not be set if the scale type is Nominal");
+        }
 
         Number oldValue = this.minimumValue;
 
         this.minimumValue = minimumValue;
-
+        
         getPropertyChangeSupport().firePropertyChange(MINIMUM_VALUE_PROPERTY, oldValue, this.minimumValue);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see uno.informatics.common.model.DiscreteScale#getValues()
-     */
     @Override
     public final List<Object> getValues() {
         return values;
     }
+    
+    @Override
+    public int indexOf(Object value){
+        return index.getOrDefault(value, -1);
+    }
 
+    @Override
     public final void setValues(List<? extends Object> values) {
-        if (values != null && !values.isEmpty() && scaleType == ScaleType.RATIO)
+        if (values != null && !values.isEmpty() && scaleType == ScaleType.RATIO){
             throw new IllegalArgumentException("Values can not be set if the scale type is Ratio");
+        }
 
         List<Object> oldValue = this.values;
-
         this.values = createList(values);
+        // update index
+        index = new HashMap<>();
+        for(int i = 0; i < this.values.size(); i++){
+            index.put(this.values.get(i), i);
+        }
 
         getPropertyChangeSupport().firePropertyChange(VALUES_PROPERTY, oldValue, this.values);
     }
-
+    
     public final void setValues(Object[] values) {
-        if (values != null && scaleType == ScaleType.RATIO)
-            throw new IllegalArgumentException("Values can not be set if the scale type is Ratio");
-
-        List<Object> oldValue = this.values;
-
-        this.values = createList(values);
-
-        getPropertyChangeSupport().firePropertyChange(VALUES_PROPERTY, oldValue, this.values);
+        setValues(Arrays.asList(values));
     }
 
     public void addValue(Object value) {
-        if (values == null)
-            values = new ArrayList<Object>();
-
-        if (!values.contains(value))
-            values.add(value);
+        if(value != null){
+            // initialize if first value
+            if (values == null){
+                values = new ArrayList<>();
+            }
+            // add value
+            if (!values.contains(value)){
+                values.add(value);
+                // update index
+                index.put(value, values.size()-1);
+            }
+        }
     }
 
-    protected List<Object> createList(List<? extends Object> values) {
+    private List<Object> createList(List<? extends Object> values) {
         // TODO check if values are correct type
         ArrayList<Object> list;
 
         if (values != null) {
-            list = new ArrayList<Object>(values.size());
+            list = new ArrayList<>(values.size());
 
             Iterator<? extends Object> iterator = values.iterator();
 
@@ -367,34 +360,15 @@ public class ScalePojo extends EntityPojo implements Scale {
 
             while (iterator.hasNext()) {
                 value = iterator.next();
-                if (!list.contains(value))
+                if (!list.contains(value)){
                     list.add(value);
+                }
             }
         } else {
-            list = new ArrayList<Object>();
+            list = new ArrayList<>();
         }
 
         return list;
     }
 
-    protected List<Object> createList(Object[] values) {
-        // TODO check if values are correct type
-        ArrayList<Object> list;
-
-        if (values != null) {
-            list = new ArrayList<Object>(values.length);
-
-            for (int i = 0; i < values.length; ++i)
-                if (!list.contains(values[i]))
-                    list.add(values[i]);
-        } else {
-            list = new ArrayList<Object>();
-        }
-
-        return list;
-    }
-
-    protected Set<Object> createSet() {
-        return new TreeSet<Object>();
-    }
 }
