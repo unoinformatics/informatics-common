@@ -11,10 +11,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>uno.informatics.common</groupId>
-			<artifactId>informatics-data-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>uno.informatics.common</groupId>
 			<artifactId>informatics-utils</artifactId>
 		</dependency>
 		<dependency>

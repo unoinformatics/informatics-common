@@ -26,7 +26,6 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-import uno.informatics.data.DataOption;
 import uno.informatics.data.DataType;
 import uno.informatics.data.Feature;
 import uno.informatics.data.ScaleType;
@@ -37,6 +36,7 @@ import uno.informatics.data.matrix.AbstractMatrixData;
 import uno.informatics.data.matrix.array.DoubleArrayMatrixData;
 import uno.informatics.data.pojo.SimpleEntityPojo;
 import uno.informatics.data.pojo.SimpleFeaturePojo;
+import uno.informatics.data.utils.DataOption;
 
 /**
  * @author Guy Davenport

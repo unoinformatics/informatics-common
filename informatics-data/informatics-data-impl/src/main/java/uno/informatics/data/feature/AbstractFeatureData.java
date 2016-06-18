@@ -25,13 +25,13 @@ import java.util.List;
 import uno.informatics.common.ConversionUtilities;
 import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
-import uno.informatics.data.DataOption;
 import uno.informatics.data.Dataset;
 import uno.informatics.data.Feature;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.dataset.FeatureDataRow;
 import uno.informatics.data.io.FileType;
 import uno.informatics.data.pojo.SimpleEntityPojo;
+import uno.informatics.data.utils.DataOption;
 import uno.informatics.data.utils.DatasetUtils;
 
 /**

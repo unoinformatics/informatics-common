@@ -32,7 +32,6 @@ import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowWriter;
 import uno.informatics.common.io.text.TextFileRowReader;
-import uno.informatics.data.DataOption;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
 import uno.informatics.data.Feature;
@@ -49,6 +48,7 @@ import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
 import uno.informatics.data.pojo.ScalePojo;
 import uno.informatics.data.pojo.SimpleEntityPojo;
+import uno.informatics.data.utils.DataOption;
 import uno.informatics.data.utils.DatasetUtils;
 
 /**
