@@ -16,6 +16,7 @@
 
 package uno.informatics.data.pojo;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +24,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import uno.informatics.data.SimpleEntity;
 
-public class SimpleEntityPojo extends PropertyHandler implements SimpleEntity {
+public class SimpleEntityPojo extends PropertyHandler implements SimpleEntity, Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
     public static final String UNIQUE_IDENTIFIER_PROPERTY = SimpleEntity.class.getName() + ".unuqueIdentifier";
     public static final String NAME_PROPERTY = SimpleEntity.class.getName() + ".name";
 
