@@ -1,13 +1,13 @@
 package uno.informatics.data.pojo;
 
-import org.joda.time.DateTime;
+import java.time.LocalDate;
 
 import uno.informatics.data.Study;
 
 public class StudyPojo extends EntityPojo implements Study {
 
-    private DateTime startDate;
-    private DateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public StudyPojo(String name) {
         super(name);
@@ -24,13 +24,13 @@ public class StudyPojo extends EntityPojo implements Study {
     }
     
     @Override
-    public DateTime getStartDate() {
+    public LocalDate getStartDate() {
 
         return startDate;
     }
 
     @Override
-    public DateTime getEndDate() {
+    public LocalDate getEndDate() {
 
         return endDate;
     }
