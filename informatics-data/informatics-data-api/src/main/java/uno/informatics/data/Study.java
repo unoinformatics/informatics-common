@@ -16,7 +16,7 @@
 
 package uno.informatics.data;
 
-import org.joda.time.DateTime;
+import java.time.LocalDate;
 
 public interface Study extends Entity {
 
@@ -25,12 +25,12 @@ public interface Study extends Entity {
      * 
      * @return the start date of the study
      */
-    public DateTime getStartDate();
+    public LocalDate getStartDate();
 
     /**
      * Gets the end date of the study
      * 
      * @return the end date of the study
      */
-    public DateTime getEndDate();
+    public LocalDate getEndDate();
 }
