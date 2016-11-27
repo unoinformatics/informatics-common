@@ -43,10 +43,13 @@ public class DatasetPojo extends EntityPojo implements Dataset {
     public DatasetPojo(Dataset dataset) {
         super(dataset);
         
-        if (dataset != null)
+        if (dataset != null) {
             setStudy(dataset.getStudy());
-        else
+            setSize(dataset.getSize());
+        }
+        else {
             throw new IllegalArgumentException("Data is not optional!") ;
+        }
     }
 
     @Override
