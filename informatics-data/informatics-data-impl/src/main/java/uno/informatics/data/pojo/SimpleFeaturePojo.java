@@ -9,6 +9,10 @@ import uno.informatics.data.ScaleType;
 import uno.informatics.data.feature.SimpleFeature;
 
 public class SimpleFeaturePojo extends EntityPojo implements SimpleFeature {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Method method;
 
     public SimpleFeaturePojo(String name, DataType dataType, ScaleType scaleType) {

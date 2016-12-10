@@ -40,6 +40,11 @@ import uno.informatics.data.utils.DataOption;
  */
 public class DoubleArrayMatrixData extends ArrayMatrixData<Double> {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public DoubleArrayMatrixData(String name, Feature elementFeature, Double[][] values) {
         super(name, elementFeature, values);
     }

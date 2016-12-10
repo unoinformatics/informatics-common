@@ -20,6 +20,11 @@ import uno.informatics.data.Ontology;
 
 public class OntologyPojo extends EntityPojo implements Ontology {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public OntologyPojo(String name) {
         super(name);
     }

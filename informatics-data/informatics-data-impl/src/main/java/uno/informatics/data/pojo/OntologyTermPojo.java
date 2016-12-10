@@ -21,6 +21,11 @@ import uno.informatics.data.Ontology;
 import uno.informatics.data.OntologyTerm;
 
 public class OntologyTermPojo extends EntityPojo implements OntologyTerm {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final String ONTOLOGY_PROPERTY =  OntologyTerm.class.getName() + ".onology";
 
     private OntologyPojo ontology;

@@ -41,6 +41,11 @@ import uno.informatics.data.utils.DataOption;
  *
  */
 public class ObjectArrayMatrixData extends ArrayMatrixData<Object> {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public ObjectArrayMatrixData(String name, Feature elementFeature, Object[][] values) {
         super(name, elementFeature, values);
     }

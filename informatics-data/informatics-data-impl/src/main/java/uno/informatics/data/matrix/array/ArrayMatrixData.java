@@ -31,6 +31,10 @@ import uno.informatics.data.matrix.AbstractMatrixData;
  *
  */
 public abstract class ArrayMatrixData<ValueType extends Object> extends AbstractMatrixData<ValueType> {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private ValueType[][] values;
     private SimpleEntity[] rowHeaders;
     private SimpleEntity[] columnHeaders;

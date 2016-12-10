@@ -24,6 +24,11 @@ import uno.informatics.data.Scale;
  *
  */
 public class MethodPojo extends EntityPojo implements Method {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public static final String SCALE_PROPERTY =  Method.class.getName() + ".scale";
     
     private ScalePojo scale;

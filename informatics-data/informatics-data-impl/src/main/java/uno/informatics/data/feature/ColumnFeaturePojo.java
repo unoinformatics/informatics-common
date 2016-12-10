@@ -32,6 +32,10 @@ import uno.informatics.data.utils.DatasetUtils;
  * 
  */
 public class ColumnFeaturePojo extends EntityPojo implements ColumnFeature {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private DataType dataType = DataType.STRING;
     private ScaleType scaleType = ScaleType.NOMINAL;
     private ScalePojo scale;

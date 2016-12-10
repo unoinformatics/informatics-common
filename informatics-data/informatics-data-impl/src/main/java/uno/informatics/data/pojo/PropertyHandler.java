@@ -18,6 +18,7 @@ package uno.informatics.data.pojo;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -44,4 +45,10 @@ public class PropertyHandler {
     protected final PropertyChangeSupport getPropertyChangeSupport() {
         return propertyChangeSupport;
     }
+    
+    private void readObject(java.io.ObjectInputStream in)
+            throws IOException, ClassNotFoundException {
+            in.defaultReadObject();
+            propertyChangeSupport = new PropertyChangeSupport(this);
+        }
 }

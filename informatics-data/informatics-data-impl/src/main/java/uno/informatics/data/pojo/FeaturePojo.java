@@ -25,6 +25,10 @@ import uno.informatics.data.Method;
  * 
  */
 public class FeaturePojo extends EntityPojo implements Feature {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     public static final String METHOD_PROPERTY = Feature.class.getName() + ".method";
     private MethodPojo method;
 

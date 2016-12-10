@@ -21,6 +21,11 @@ import uno.informatics.data.Study;
 
 public class DatasetPojo extends EntityPojo implements Dataset {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public static final String STUDY_PROPERTY = Dataset.class.getName() + ".study";
 
     public static final String SIZE_PROPERTY = Dataset.class.getName() + ".size";

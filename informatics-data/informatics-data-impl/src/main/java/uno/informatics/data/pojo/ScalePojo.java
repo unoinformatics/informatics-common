@@ -32,6 +32,10 @@ import uno.informatics.data.ScaleType;
  */
 public class ScalePojo extends EntityPojo implements Scale {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private static final String DATA_TYPE_PROPERTY = Scale.class.getName() + ".dataType";
     private static final String SCALE_TYPE_PROPERTY = Scale.class.getName() + ".scaleType";
     private static final String MAXIMUM_VALUE_PROPERTY = Scale.class.getName() + ".maximumValue";

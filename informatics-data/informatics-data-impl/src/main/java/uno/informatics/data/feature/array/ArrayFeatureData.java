@@ -57,6 +57,10 @@ import uno.informatics.data.utils.DatasetUtils;
  */
 public class ArrayFeatureData extends AbstractFeatureData {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private FeatureDataRow[] rows;
     private int rowCount;
 

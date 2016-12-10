@@ -22,6 +22,11 @@ import uno.informatics.data.Feature;
 import uno.informatics.data.Germplasm;
 
 public class GermplasmPojo extends EntityPojo implements Germplasm {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public static final String SOURCE_PROPERTY = Feature.class.getName() + ".source";
     
     private List<Germplasm> source;

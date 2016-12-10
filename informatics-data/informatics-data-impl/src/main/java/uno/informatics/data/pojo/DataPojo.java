@@ -30,6 +30,11 @@ import uno.informatics.data.SimpleEntity;
 
 public class DataPojo extends SimpleEntityPojo implements Data {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public static final String DATASET_PROPERTY = Data.class.getName() + ".dataset";
     
     private static final String HEADER_ID = "entry%d";
@@ -90,8 +95,8 @@ public class DataPojo extends SimpleEntityPojo implements Data {
     }
 
     @Override
-    public SimpleEntity getHeader(int id) {
-        return headers == null ? null : headers[id];
+    public SimpleEntity getHeader(int index) {
+        return headers == null ? null : headers[index];
     }
 
     /**

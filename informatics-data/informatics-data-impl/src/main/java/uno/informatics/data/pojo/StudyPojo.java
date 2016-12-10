@@ -6,6 +6,10 @@ import uno.informatics.data.Study;
 
 public class StudyPojo extends EntityPojo implements Study {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private LocalDate startDate;
     private LocalDate endDate;
 

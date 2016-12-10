@@ -25,6 +25,11 @@ import uno.informatics.data.SimpleEntity;
  *
  */
 public class EntityPojo extends SimpleEntityPojo implements Entity {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public static final String ABBREVIATION_PROPERTY = SimpleEntity.class.getName() + ".abbreviation";
 
     public static final String TYPE_PROPERTY = SimpleEntity.class.getName() + ".type";

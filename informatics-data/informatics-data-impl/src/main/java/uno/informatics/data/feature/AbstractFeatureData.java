@@ -40,6 +40,11 @@ import uno.informatics.data.utils.DatasetUtils;
  */
 public abstract class AbstractFeatureData extends SimpleEntityPojo implements FeatureData {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final int INVALID_ROW_COUNT = -1;
 
     public static final String ID = "ID";
