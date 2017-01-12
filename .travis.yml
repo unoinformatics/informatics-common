@@ -23,4 +23,3 @@ after_success:
   # NOTE: will only actually succeed in integration test mode)
   # NOTE: only for commits, skipped for pull requests
   - if [ $TRAVIS_PULL_REQUEST == "false" ]; then mvn org.eluder.coveralls:coveralls-maven-plugin:report; fi
-Contact GitHub API Training Shop Blog About
