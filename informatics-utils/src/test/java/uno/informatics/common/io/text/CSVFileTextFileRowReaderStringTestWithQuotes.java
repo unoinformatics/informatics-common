@@ -24,16 +24,16 @@ import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowReaderStringTest;
 import uno.informatics.common.io.TextFileHandler;
 
-public class TXTFileTextFileRowReaderStringTestWithQuotes extends RowReaderStringTest {
-    private static final String FILE = "/string_table_with_quotes.txt";
+public class CSVFileTextFileRowReaderStringTestWithQuotes extends RowReaderStringTest {
+    private static final String FILE = "/string_table_with_quotes.csv";
 
     protected RowReader createReader() throws FileNotFoundException, IOException {
         TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath());
 
-        reader.setDelimiterString(TextFileHandler.TAB);
+        reader.setDelimiterString(TextFileHandler.COMMA);
 
-        reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE | TextFileRowReader.REMOVE_QUOTES);
-
+        reader.setOptions(TextFileRowReader.REMOVE_QUOTES);
+        
         return reader;
     }
 

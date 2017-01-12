@@ -60,7 +60,7 @@ public class TestData {
         STRING_TABLE_AS_LIST.get(1).add(STRING_ROW2[1]);
         STRING_TABLE_AS_LIST.get(1).add(STRING_ROW2[2]);
 
-        STRING_TABLE_AS_LIST.add(new ArrayList<Object>(STRING_ROW2.length));
+        STRING_TABLE_AS_LIST.add(new ArrayList<Object>(STRING_ROW3.length));
 
         STRING_TABLE_AS_LIST.get(2).add(STRING_ROW3[0]);
         STRING_TABLE_AS_LIST.get(2).add(STRING_ROW3[1]);
@@ -82,7 +82,7 @@ public class TestData {
         STRING_TABLE_AS_LIST_WITH_GAPS.get(1).add(null);
         STRING_TABLE_AS_LIST_WITH_GAPS.get(1).add(STRING_ROW2[2]);
 
-        STRING_TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(STRING_ROW2.length));
+        STRING_TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(STRING_ROW3.length));
 
         STRING_TABLE_AS_LIST_WITH_GAPS.get(2).add(STRING_ROW3[0]);
         STRING_TABLE_AS_LIST_WITH_GAPS.get(2).add(STRING_ROW3[1]);
@@ -104,7 +104,7 @@ public class TestData {
         STRING_TABLE_AS_LIST2.get(1).add(STRING_ROW2[1]);
         STRING_TABLE_AS_LIST2.get(1).add(STRING_ROW2[2]);
 
-        STRING_TABLE_AS_LIST2.add(new ArrayList<String>(STRING_ROW2.length));
+        STRING_TABLE_AS_LIST2.add(new ArrayList<String>(STRING_ROW3.length));
 
         STRING_TABLE_AS_LIST2.get(2).add(STRING_ROW3[0]);
         STRING_TABLE_AS_LIST2.get(2).add(STRING_ROW3[1]);
@@ -126,7 +126,7 @@ public class TestData {
         STRING_TABLE_AS_LIST2_WITH_GAPS.get(1).add(null);
         STRING_TABLE_AS_LIST2_WITH_GAPS.get(1).add(STRING_ROW2[2]);
 
-        STRING_TABLE_AS_LIST2_WITH_GAPS.add(new ArrayList<String>(STRING_ROW2.length));
+        STRING_TABLE_AS_LIST2_WITH_GAPS.add(new ArrayList<String>(STRING_ROW3.length));
 
         STRING_TABLE_AS_LIST2_WITH_GAPS.get(2).add(STRING_ROW3[0]);
         STRING_TABLE_AS_LIST2_WITH_GAPS.get(2).add(STRING_ROW3[1]);
@@ -200,7 +200,7 @@ public class TestData {
         OBJECT_TABLE_AS_LIST_WITH_GAPS.get(1).add(OBJECT_ROW2[3]);
         OBJECT_TABLE_AS_LIST_WITH_GAPS.get(1).add(OBJECT_ROW2[4]);
 
-        OBJECT_TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(OBJECT_ROW2.length));
+        OBJECT_TABLE_AS_LIST_WITH_GAPS.add(new ArrayList<Object>(OBJECT_ROW3.length));
 
         OBJECT_TABLE_AS_LIST_WITH_GAPS.get(2).add(OBJECT_ROW3[0]);
         OBJECT_TABLE_AS_LIST_WITH_GAPS.get(2).add(OBJECT_ROW3[1]);
