@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 import java.nio.file.Path;
@@ -23,14 +24,14 @@ import java.nio.file.Path;
  * @author Guy Davenport
  *
  */
-public interface TextFileHandler
-{
-	public static final String COMMA = "," ;
-	public static final String TAB = "\t" ;
-	
-	/**
-	 * Gets the file associated with this handler
-	 * @return associated file
-	 */
-	public Path getPath();
+public interface TextFileHandler {
+    public static final String COMMA = ",";
+    public static final String TAB = "\t";
+
+    /**
+     * Gets the file associated with this handler
+     * 
+     * @return associated file
+     */
+    public Path getPath();
 }

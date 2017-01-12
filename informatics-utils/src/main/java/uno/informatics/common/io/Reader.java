@@ -13,24 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 /**
  * Base functionality for all readers
+ * 
  * @author Guy Davenport
  *
  */
-public interface Reader extends AutoCloseable
-{
-	/**
-	 * Determines if the data source can be read
-	 * @return <code>true</code> if the data source can be read, false otherwise
-	 */
-	public boolean ready();
+public interface Reader extends AutoCloseable {
+    /**
+     * Determines if the data source can be read
+     * 
+     * @return <code>true</code> if the data source can be read, false otherwise
+     */
+    public boolean ready();
 
-	/**
-	 * Closes the data source, freeing up an resources.
-	 */
-        @Override
-	public void close();
+    /**
+     * Closes the data source, freeing up an resources.
+     */
+    @Override
+    public void close();
 }

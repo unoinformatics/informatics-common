@@ -13,93 +13,83 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common;
 
 import java.io.PrintStream;
 
-public class PrintStreamProgressMonitor implements ProgressMonitor
-{
-	private PrintStream printStream ;
-	
-	private int totalWork ;
-	private double workdone ;
-	private String name ;
+public class PrintStreamProgressMonitor implements ProgressMonitor {
+    private PrintStream printStream;
 
-	private boolean canceled;
+    private int totalWork;
+    private double workdone;
+    private String name;
 
-	private String subtask;
+    private boolean canceled;
 
-	public PrintStreamProgressMonitor(PrintStream printStream)
-  {
-	  super();
-	  this.printStream = printStream;
-  }
+    private String subtask;
 
-	@Override
-  public void beginTask(String name, int totalWork)
-  {
-		printStream.println("Begin : " + name) ;
-		
-		this.totalWork = totalWork ;
-		this.name = name ;
-  }
+    public PrintStreamProgressMonitor(PrintStream printStream) {
+        super();
+        this.printStream = printStream;
+    }
 
-	@Override
-  public void done()
-  {
-		printStream.println("End : " + name) ;
-  }
+    @Override
+    public void beginTask(String name, int totalWork) {
+        printStream.println("Begin : " + name);
 
-	@Override
-  public void internalWorked(double work)
-  {
-		workdone = workdone + work ;
-		
-		if (workdone > totalWork)
-			workdone = totalWork ;
-		
-		printStream.println("Worked [" + subtask + "] : " + getPercentage() + " %") ;
-  }
+        this.totalWork = totalWork;
+        this.name = name;
+    }
 
-	private double getPercentage()
-  {
-	  return (workdone/totalWork)  * 100;
-  }
+    @Override
+    public void done() {
+        printStream.println("End : " + name);
+    }
 
-	@Override
-  public boolean isCanceled()
-  {
-	  return canceled;
-  }
+    @Override
+    public void internalWorked(double work) {
+        workdone = workdone + work;
 
-	@Override
-  public void setCanceled(boolean canceled)
-  {
-	  this.canceled = canceled ;
-  }
+        if (workdone > totalWork)
+            workdone = totalWork;
 
-	@Override
-  public void setTaskName(String name)
-  {
-		this.name = name ;
-  }
+        printStream.println("Worked [" + subtask + "] : " + getPercentage() + " %");
+    }
 
-	@Override
-  public void subTask(String name)
-  {
-		this.subtask = name ;
-		
-		printStream.println("Started " + subtask + " : " + getPercentage() + " %") ;
-  }
+    private double getPercentage() {
+        return (workdone / totalWork) * 100;
+    }
 
-	@Override
-  public void worked(int work)
-  {
-		workdone = workdone + work ;
-		
-		if (workdone > totalWork)
-			workdone = totalWork ;
-		
-		printStream.println("Worked : " + (workdone/totalWork)  * 100 + " %") ;
-  }
+    @Override
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    @Override
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
+
+    @Override
+    public void setTaskName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void subTask(String name) {
+        this.subtask = name;
+
+        printStream.println("Started " + subtask + " : " + getPercentage() + " %");
+    }
+
+    @Override
+    public void worked(int work) {
+        workdone = workdone + work;
+
+        if (workdone > totalWork)
+            workdone = totalWork;
+
+        printStream.println("Worked : " + (workdone / totalWork) * 100 + " %");
+    }
 }

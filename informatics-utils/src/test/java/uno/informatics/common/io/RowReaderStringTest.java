@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -29,75 +30,63 @@ import org.junit.Test;
  * @author Guy Davenport
  *
  */
-public abstract class RowReaderStringTest extends RowReaderTest
-{
-	@Test
-	public void testReadCellsAsString()
-	{
-		try
-    {
-			RowReader reader = createReader() ;
-			
-			List<List<String>> expected = getExpectedAsStringList() ;
-	    
-			assertTrue(reader.ready()) ;
-	    
-	    int i = 0 ;
-	    
-	    while (i < expected.size() && reader.nextRow())
-	    {
-		    assertEquals("row " + i + " not equal", expected.get(i), reader.getRowCellsAsString()) ;
-		    ++i ;
-	    }
-	    
-			assertFalse("Still rows to read!", reader.nextRow()) ;  
-			
-	    reader.close();
+public abstract class RowReaderStringTest extends RowReaderTest {
+    @Test
+    public void testReadCellsAsString() {
+        try {
+            RowReader reader = createReader();
+
+            List<List<String>> expected = getExpectedAsStringList();
+
+            assertTrue(reader.ready());
+
+            int i = 0;
+
+            while (i < expected.size() && reader.nextRow()) {
+                assertEquals("row " + i + " not equal", expected.get(i), reader.getRowCellsAsString());
+                ++i;
+            }
+
+            assertFalse("Still rows to read!", reader.nextRow());
+
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            fail(e.getLocalizedMessage());
+        }
     }
-    catch (Exception e)
-    {
-    	e.printStackTrace(System.err) ;
-    	fail(e.getLocalizedMessage()) ;
+
+    @Test
+    public void testReadCellsAsArrayAsString() {
+        try {
+            RowReader reader = createReader();
+
+            assertTrue(reader.ready());
+
+            String[][] expected = getExpectedAsStringArray();
+
+            int i = 0;
+
+            while (i < expected.length && reader.nextRow()) {
+                assertArrayEquals("row " + i + " not equal", expected[i], reader.getRowCellsAsStringArray());
+                ++i;
+            }
+
+            assertFalse(reader.nextRow());
+
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            fail(e.getLocalizedMessage());
+        }
     }
-	}
 
-	@Test
-	public void testReadCellsAsArrayAsString()
-	{
-		try
-    {
-			RowReader reader = createReader() ;
-	    
-	    assertTrue(reader.ready()) ;
-	    
-			String[][] expected = getExpectedAsStringArray() ;
-	    
-	    int i = 0 ;
-	    
-	    while (i < expected.length && reader.nextRow())
-	    {
-		    assertArrayEquals("row " + i + " not equal", expected[i], reader.getRowCellsAsStringArray()) ;
-		    ++i ;
-	    }
-	    
-			assertFalse(reader.nextRow()) ;  
-			
-	    reader.close();
-    }
-    catch (Exception e)
-    {
-    	e.printStackTrace(System.err) ;
-    	fail(e.getLocalizedMessage()) ;
-    }
-	}
-	
+    protected abstract List<List<Object>> getExpectedList();
 
-  protected abstract List<List<Object>> getExpectedList() ;
+    protected abstract Object[][] getExpectedArray();
 
-  protected abstract Object[][] getExpectedArray() ;
+    protected abstract List<List<String>> getExpectedAsStringList();
 
-  protected abstract List<List<String>> getExpectedAsStringList() ;
+    protected abstract String[][] getExpectedAsStringArray();
 
-  protected abstract String[][] getExpectedAsStringArray() ;
-	
 }

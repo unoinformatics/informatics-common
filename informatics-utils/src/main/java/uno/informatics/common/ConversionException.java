@@ -13,34 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common;
 
 /**
  * Exception thrown in the process of conversion
  *
  */
-public class ConversionException extends Exception
-{
-    static final long serialVersionUID = 1 ;
+public class ConversionException extends Exception {
+    static final long serialVersionUID = 1;
 
-    
-    public ConversionException(Throwable cause)
-    {
-      super(cause.getMessage(), cause) ;
+    public ConversionException(Throwable cause) {
+        super(cause.getMessage(), cause);
     }
-    
-  public ConversionException(String message)
-  {
-    super(message) ;
-  }
 
-  public ConversionException(String message, Throwable cause)
-  {
-    super(message, cause) ;
-  }
-  
-  public ConversionException(ConversionException matrixException)
-  {
-    super(matrixException.getMessage(), matrixException.getCause()) ;
-  }
+    public ConversionException(String message) {
+        super(message);
+    }
+
+    public ConversionException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public ConversionException(ConversionException matrixException) {
+        super(matrixException.getMessage(), matrixException.getCause());
+    }
 }

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 /**
@@ -21,7 +22,6 @@ package uno.informatics.common.io;
  * @author Guy Davenport
  *
  */
-public interface ExcelWriter extends Writer, ExcelHandler
-{
+public interface ExcelWriter extends Writer, ExcelHandler {
 
 }

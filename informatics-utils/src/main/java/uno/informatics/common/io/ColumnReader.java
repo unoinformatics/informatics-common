@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 import java.io.IOException;
@@ -23,21 +24,22 @@ import java.util.List;
  * 
  * @author Guy Davenport
  */
-public interface ColumnReader extends TableReader
-{
-	/**
-	 * Gets the current column cell values
-	 * 
-	 * @return the column cell values
-	 * @throws IOException if the data source can not be read
-	 */
-	public List<Object> getColumnCells() throws IOException ;
-	
-	/**
-	 * Gets the current column cell values as an array
-	 * 
-	 * @return the column cell values as an array
-	 * @throws IOException if the data source can not be read
-	 */
-	public Object[] getColumnCellsAsArray() throws IOException ;
+public interface ColumnReader extends TableReader {
+    /**
+     * Gets the current column cell values
+     * 
+     * @return the column cell values
+     * @throws IOException
+     *             if the data source can not be read
+     */
+    public List<Object> getColumnCells() throws IOException;
+
+    /**
+     * Gets the current column cell values as an array
+     * 
+     * @return the column cell values as an array
+     * @throws IOException
+     *             if the data source can not be read
+     */
+    public Object[] getColumnCellsAsArray() throws IOException;
 }

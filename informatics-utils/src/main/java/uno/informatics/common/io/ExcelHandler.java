@@ -13,40 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 import java.io.IOException;
 
-public interface ExcelHandler extends Reader
-{
-	/**
-	 * Gets the index of the current spreadsheet
-	 * 
-	 * @return the index of the current spreadsheet
-	 */
-	public int getSpreadSheetIndex();
+public interface ExcelHandler extends Reader {
+    /**
+     * Gets the index of the current spreadsheet
+     * 
+     * @return the index of the current spreadsheet
+     */
+    public int getSpreadSheetIndex();
 
-	/**
-	 * Sets current spreadsheet by index. The first spreadsheet is index 0 and the last
-	 * spreadsheet is {@link ExcelReader#getSpreadSheetCount()} - 1.
-	 * 
-	 * @param index of the current spreadsheet
-         * @throws IOException if the spread sheet index can not be set
-	 */
-	public void setSpreadSheetIndex(int index)
-	    throws IOException;
+    /**
+     * Sets current spreadsheet by index. The first spreadsheet is index 0 and
+     * the last spreadsheet is {@link ExcelReader#getSpreadSheetCount()} - 1.
+     * 
+     * @param index
+     *            of the current spreadsheet
+     * @throws IOException
+     *             if the spread sheet index can not be set
+     */
+    public void setSpreadSheetIndex(int index) throws IOException;
 
-	/**
-	 * Gets the name of the current spreadsheet
-	 * @return the name of the current spreadsheet
-	 */
-	public String getSpreadSheetName();
+    /**
+     * Gets the name of the current spreadsheet
+     * 
+     * @return the name of the current spreadsheet
+     */
+    public String getSpreadSheetName();
 
-	/**
-	 * Sets current spreadsheet by name.
-	 * @param spreadSheetName the name spreadsheet
-         * @throws IOException if the spread sheet index name not be set
-	 */
-	public void setSpreadSheetName(String spreadSheetName)
-	    throws IOException, IllegalArgumentException;
+    /**
+     * Sets current spreadsheet by name.
+     * 
+     * @param spreadSheetName
+     *            the name spreadsheet
+     * @throws IOException
+     *             if the spread sheet index name not be set
+     */
+    public void setSpreadSheetName(String spreadSheetName) throws IOException, IllegalArgumentException;
 }

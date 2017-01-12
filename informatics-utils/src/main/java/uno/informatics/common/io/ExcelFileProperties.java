@@ -13,86 +13,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 import java.io.File;
 
 import uno.informatics.data.io.FileType;
 
-public class ExcelFileProperties extends FileProperties
-{
-	private static final String SHEET_PROPERTY = ExcelFileProperties.class.getName() + ".sheet";
-	
-	private String selectedSheet ;
-	
-	public ExcelFileProperties(String file)
-  {
-		super(file, FileType.XLSX);
-  }
-	
-	public ExcelFileProperties(String file, FileType fileType)
-  {
-		super(file, FileType.XLSX);
-  }
-	
-	public ExcelFileProperties(File file)
-  {
-		super(file, FileType.XLSX);
-  }
-	
-	public ExcelFileProperties(File file, FileType fileType)
-  {
-		super(file, FileType.XLSX);
-  }
-	
-	public final String getSelectedSheet()
-	{
-		return selectedSheet;
-	}
+public class ExcelFileProperties extends FileProperties {
+    private static final String SHEET_PROPERTY = ExcelFileProperties.class.getName() + ".sheet";
 
-	public void setSelectedSheet(String selectedSheet)
-	{
-		String oldValue = this.selectedSheet ;
-		
-		this.selectedSheet = selectedSheet;
-		
-		getPropertyChangeSupport().firePropertyChange(SHEET_PROPERTY, oldValue, this.selectedSheet) ;
-	}
-	
-	@Override
-  public int hashCode()
-  {
-	  final int prime = 31;
-	  int result = super.hashCode();
-	  result = prime * result
-	      + ((selectedSheet == null) ? 0 : selectedSheet.hashCode());
-	  return result;
-  }
+    private String selectedSheet;
 
-	@Override
-  public boolean equals(Object obj)
-  {
-	  if (this == obj)
-		  return true;
-	  if (!super.equals(obj))
-		  return false;
-	  if (getClass() != obj.getClass())
-		  return false;
-	  ExcelFileProperties other = (ExcelFileProperties) obj;
-	  if (selectedSheet == null)
-	  {
-		  if (other.selectedSheet != null)
-			  return false;
-	  }
-	  else
-		  if (!selectedSheet.equals(other.selectedSheet))
-			  return false;
-	  return true;
-  }
+    public ExcelFileProperties(String file) {
+        super(file, FileType.XLSX);
+    }
 
-	protected final void validateFileType(FileType fileType) throws IllegalArgumentException
-  {
-		if (!(FileType.XLS.equals(fileType) || FileType.XLSX.equals(fileType)))
-			throw new IllegalArgumentException("File type must be " + FileType.XLS + " or " + FileType.XLSX + " and not : " + fileType) ;
-  }
+    public ExcelFileProperties(String file, FileType fileType) {
+        super(file, FileType.XLSX);
+    }
+
+    public ExcelFileProperties(File file) {
+        super(file, FileType.XLSX);
+    }
+
+    public ExcelFileProperties(File file, FileType fileType) {
+        super(file, FileType.XLSX);
+    }
+
+    public final String getSelectedSheet() {
+        return selectedSheet;
+    }
+
+    public void setSelectedSheet(String selectedSheet) {
+        String oldValue = this.selectedSheet;
+
+        this.selectedSheet = selectedSheet;
+
+        getPropertyChangeSupport().firePropertyChange(SHEET_PROPERTY, oldValue, this.selectedSheet);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((selectedSheet == null) ? 0 : selectedSheet.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ExcelFileProperties other = (ExcelFileProperties) obj;
+        if (selectedSheet == null) {
+            if (other.selectedSheet != null)
+                return false;
+        } else if (!selectedSheet.equals(other.selectedSheet))
+            return false;
+        return true;
+    }
+
+    protected final void validateFileType(FileType fileType) throws IllegalArgumentException {
+        if (!(FileType.XLS.equals(fileType) || FileType.XLSX.equals(fileType)))
+            throw new IllegalArgumentException(
+                "File type must be " + FileType.XLS + " or " + FileType.XLSX + " and not : " + fileType);
+    }
 }

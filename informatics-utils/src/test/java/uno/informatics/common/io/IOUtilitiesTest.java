@@ -44,11 +44,15 @@ public class IOUtilitiesTest {
         // TODO xsl, xlsx support
         try {
             assertEquals(TextFileRowReader.class,
-                    IOUtilities.createRowReader(Paths.get(this.getClass().getResource("/object_table.txt").getFile()),
-                            FileType.TXT).getClass());
+                IOUtilities
+                    .createRowReader(Paths.get(this.getClass().getResource("/object_table.txt").getFile()),
+                        FileType.TXT)
+                    .getClass());
             assertEquals(TextFileRowReader.class,
-                    IOUtilities.createRowReader(Paths.get(this.getClass().getResource("/object_table.csv").getFile()),
-                            FileType.CSV).getClass());
+                IOUtilities
+                    .createRowReader(Paths.get(this.getClass().getResource("/object_table.csv").getFile()),
+                        FileType.CSV)
+                    .getClass());
             // assertEquals(null, IOUtilities.createRowReader(new
             // FileProperties(this.getClass().getResource("/object_table.xls").getFile(),
             // FileType.XLS)).getClass()) ;
@@ -74,10 +78,10 @@ public class IOUtilitiesTest {
         expected.add("Sheet1");
 
         try {
-            assertEquals(new ArrayList<String>(), IOUtilities
-                    .getSheets(Paths.get(this.getClass().getResource("/object_table.txt").getFile()), FileType.TXT));
-            assertEquals(new ArrayList<String>(), IOUtilities
-                    .getSheets(Paths.get(this.getClass().getResource("/object_table.csv").getFile()), FileType.CSV));
+            assertEquals(new ArrayList<String>(), IOUtilities.getSheets(
+                Paths.get(this.getClass().getResource("/object_table.txt").getFile()), FileType.TXT));
+            assertEquals(new ArrayList<String>(), IOUtilities.getSheets(
+                Paths.get(this.getClass().getResource("/object_table.csv").getFile()), FileType.CSV));
             // assertEquals(expected, IOUtilities.getSheets(new
             // FileProperties(this.getClass().getResource("/object_table.xls").getFile(),
             // FileType.XLS))) ;

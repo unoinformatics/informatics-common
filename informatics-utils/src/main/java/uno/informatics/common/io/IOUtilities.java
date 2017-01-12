@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 import static uno.informatics.common.io.TextFileHandler.COMMA;
@@ -33,199 +34,193 @@ import uno.informatics.data.io.FileType;
  * @author Guy Davenport
  *
  */
-public class IOUtilities
-{
-	public static final RowReader createRowReader(Path path, FileType type, int... options) throws IOException
-	{
-		RowReader reader = null ;
-		
-		switch (type)
-		{
-			case CSV:
-				TextFileRowReader textFileRowStringReader = new TextFileRowReader(path) ;
+public class IOUtilities {
+    public static final RowReader createRowReader(Path path, FileType type, int... options)
+        throws IOException {
+        RowReader reader = null;
 
-				textFileRowStringReader.setDelimiterString(COMMA) ;
-				
-	                        textFileRowStringReader.setOptions(getOptions(options));
+        switch (type) {
+            case CSV:
+                TextFileRowReader textFileRowStringReader = new TextFileRowReader(path);
 
-				reader = textFileRowStringReader ;
-				break;
-			case TXT:
-				textFileRowStringReader = new TextFileRowReader(path) ;
+                textFileRowStringReader.setDelimiterString(COMMA);
 
-				textFileRowStringReader.setDelimiterString(TAB) ;
-				
-	                        textFileRowStringReader.setOptions(getOptions(options));
+                textFileRowStringReader.setOptions(getOptions(options));
 
-				reader = textFileRowStringReader ;
-				break;
-			case XLS:
-				throw new IOException("XLS Type not supported") ;
-				//break;
-			case XLSX:
-				throw new IOException("XLSX Type not supported") ;
-				//break;
-			default:
-				break;	
-		}
-		
-		return reader ;
-	}	
-	
-	public static RowReader createRowReader(BufferedReader bufferedReader,
-			FileType type, int... options) throws IOException
-	{
-		RowReader reader = null ;
-		
-		switch (type)
-		{
-			case CSV:
-				TextFileRowReader textFileRowStringReader = new TextFileRowReader(bufferedReader) ;
+                reader = textFileRowStringReader;
+                break;
+            case TXT:
+                textFileRowStringReader = new TextFileRowReader(path);
 
-				textFileRowStringReader.setDelimiterString(COMMA) ;
-				
-                                textFileRowStringReader.setOptions(getOptions(options));
+                textFileRowStringReader.setDelimiterString(TAB);
 
-				reader = textFileRowStringReader ;
-				break;
-			case TXT:
-				textFileRowStringReader = new TextFileRowReader(bufferedReader) ;
+                textFileRowStringReader.setOptions(getOptions(options));
 
-				textFileRowStringReader.setDelimiterString(TAB) ;
-				
-	                        textFileRowStringReader.setOptions(getOptions(options));
+                reader = textFileRowStringReader;
+                break;
+            case XLS:
+                throw new IOException("XLS Type not supported");
+                // break;
+            case XLSX:
+                throw new IOException("XLSX Type not supported");
+                // break;
+            default:
+                break;
+        }
 
-				reader = textFileRowStringReader ;
-				break;
-			case XLS:
-				throw new IOException("XLS Type not supported") ;
-				//break;
-			case XLSX:
-				throw new IOException("XLSX Type not supported") ;
-				//break;
-			default:
-				break;	
-		}
-		
-		return reader ;
-	}
-	
-	public static final RowWriter createRowWriter(Path filePath, FileType type, int... options) throws IOException
-	{
-		RowWriter writer = null ;
-		
-		switch (type)
-		{
-			case CSV:
-				TextFileRowWriter textFileRowStringWriter = new TextFileRowWriter(filePath) ;
+        return reader;
+    }
 
-				textFileRowStringWriter.setDelimiterString(COMMA) ;
+    public static RowReader createRowReader(BufferedReader bufferedReader, FileType type, int... options)
+        throws IOException {
+        RowReader reader = null;
 
-				writer = textFileRowStringWriter ;
-				break;
-			case TXT:
-				textFileRowStringWriter = new TextFileRowWriter(filePath) ;
+        switch (type) {
+            case CSV:
+                TextFileRowReader textFileRowStringReader = new TextFileRowReader(bufferedReader);
 
-				textFileRowStringWriter.setDelimiterString(TAB) ;
+                textFileRowStringReader.setDelimiterString(COMMA);
 
-				writer = textFileRowStringWriter ;
-				break;
-			case XLS:
-				throw new IOException("XLS Type not supported") ;
-				//break;
-			case XLSX:
-				throw new IOException("XLSX Type not supported") ;
-				//break;
-			default:
-				break;	
-		}
-		
-		return writer ;
-	}	
-	
-	public static final RowWriter createRowWriter(BufferedWriter bufferedWriter, FileType type, int... options) throws IOException
-	{
-		RowWriter writer = null ;
-		
-		switch (type)
-		{
-			case CSV:
-				TextFileRowWriter textFileRowStringWriter = new TextFileRowWriter(bufferedWriter) ;
+                textFileRowStringReader.setOptions(getOptions(options));
 
-				textFileRowStringWriter.setDelimiterString(COMMA) ;
+                reader = textFileRowStringReader;
+                break;
+            case TXT:
+                textFileRowStringReader = new TextFileRowReader(bufferedReader);
 
-				writer = textFileRowStringWriter ;
-				break;
-			case TXT:
-				textFileRowStringWriter = new TextFileRowWriter(bufferedWriter) ;
+                textFileRowStringReader.setDelimiterString(TAB);
 
-				textFileRowStringWriter.setDelimiterString(TAB) ;
+                textFileRowStringReader.setOptions(getOptions(options));
 
-				writer = textFileRowStringWriter ;
-				break;
-			case XLS:
-				throw new IOException("XLS Type not supported") ;
-				//break;
-			case XLSX:
-				throw new IOException("XLSX Type not supported") ;
-				//break;
-			default:
-				break;	
-		}
-		
-		return writer ;
-	}
-	
-	public static final List<String> getSheets(Path filePath, FileType type, int... options) throws IOException
-	{
-	        // validate arguments
+                reader = textFileRowStringReader;
+                break;
+            case XLS:
+                throw new IOException("XLS Type not supported");
+                // break;
+            case XLSX:
+                throw new IOException("XLSX Type not supported");
+                // break;
+            default:
+                break;
+        }
 
-	        if (filePath == null) {
-	            throw new IllegalArgumentException("File path not defined.");
-	        }
+        return reader;
+    }
 
-	        if (!filePath.toFile().exists()) {
-	            throw new IOException("File does not exist : " + filePath + ".");
-	        }
+    public static final RowWriter createRowWriter(Path filePath, FileType type, int... options)
+        throws IOException {
+        RowWriter writer = null;
 
-	        if (type == null) {
-	            throw new IllegalArgumentException("File type not defined.");
-	        }
+        switch (type) {
+            case CSV:
+                TextFileRowWriter textFileRowStringWriter = new TextFileRowWriter(filePath);
 
-	        if (type != FileType.TXT && type != FileType.CSV) {
-	            throw new IllegalArgumentException(
-	                    String.format("Only file types TXT and CSV are supported. Got: %s.", type));
-	        }
-	
-			switch (type)
-			{
-				case CSV:
-					return new ArrayList<String>() ;
-				case TXT:
-					return new ArrayList<String>() ;
-				case XLS:
-					return new ArrayList<String>() ;
-					//JXLExcelRowStringReader jxlExcelRowStringReader = new JXLExcelRowStringReader(fileProperties.getFile()) ;
-	
-					//return jxlExcelRowStringReader.getAllSpreadSheetNames() ;
-				case XLSX:
-					return new ArrayList<String>() ;
-					//jxlExcelRowStringReader = new JXLExcelRowStringReader(fileProperties.getFile()) ;
-	
-					//return jxlExcelRowStringReader.getAllSpreadSheetNames() ;
-				default:
-					return new ArrayList<String>() ;
-			}
+                textFileRowStringWriter.setDelimiterString(COMMA);
 
-	}
-	
-	private static final int getOptions(int... options)
-	{
-	    int combinedOptions = 0 ;
-	    
-	    for (int i = 0 ; i < options.length ;  ++i)
-	        combinedOptions = combinedOptions | options[i] ;
-	    
-	    return combinedOptions ;
-	}
+                writer = textFileRowStringWriter;
+                break;
+            case TXT:
+                textFileRowStringWriter = new TextFileRowWriter(filePath);
+
+                textFileRowStringWriter.setDelimiterString(TAB);
+
+                writer = textFileRowStringWriter;
+                break;
+            case XLS:
+                throw new IOException("XLS Type not supported");
+                // break;
+            case XLSX:
+                throw new IOException("XLSX Type not supported");
+                // break;
+            default:
+                break;
+        }
+
+        return writer;
+    }
+
+    public static final RowWriter createRowWriter(BufferedWriter bufferedWriter, FileType type,
+        int... options) throws IOException {
+        RowWriter writer = null;
+
+        switch (type) {
+            case CSV:
+                TextFileRowWriter textFileRowStringWriter = new TextFileRowWriter(bufferedWriter);
+
+                textFileRowStringWriter.setDelimiterString(COMMA);
+
+                writer = textFileRowStringWriter;
+                break;
+            case TXT:
+                textFileRowStringWriter = new TextFileRowWriter(bufferedWriter);
+
+                textFileRowStringWriter.setDelimiterString(TAB);
+
+                writer = textFileRowStringWriter;
+                break;
+            case XLS:
+                throw new IOException("XLS Type not supported");
+                // break;
+            case XLSX:
+                throw new IOException("XLSX Type not supported");
+                // break;
+            default:
+                break;
+        }
+
+        return writer;
+    }
+
+    public static final List<String> getSheets(Path filePath, FileType type, int... options)
+        throws IOException {
+        // validate arguments
+
+        if (filePath == null) {
+            throw new IllegalArgumentException("File path not defined.");
+        }
+
+        if (!filePath.toFile().exists()) {
+            throw new IOException("File does not exist : " + filePath + ".");
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException("File type not defined.");
+        }
+
+        if (type != FileType.TXT && type != FileType.CSV) {
+            throw new IllegalArgumentException(
+                String.format("Only file types TXT and CSV are supported. Got: %s.", type));
+        }
+
+        switch (type) {
+            case CSV:
+                return new ArrayList<String>();
+            case TXT:
+                return new ArrayList<String>();
+            case XLS:
+                return new ArrayList<String>();
+            // JXLExcelRowStringReader jxlExcelRowStringReader = new
+            // JXLExcelRowStringReader(fileProperties.getFile()) ;
+
+            // return jxlExcelRowStringReader.getAllSpreadSheetNames() ;
+            case XLSX:
+                return new ArrayList<String>();
+            // jxlExcelRowStringReader = new
+            // JXLExcelRowStringReader(fileProperties.getFile()) ;
+
+            // return jxlExcelRowStringReader.getAllSpreadSheetNames() ;
+            default:
+                return new ArrayList<String>();
+        }
+
+    }
+
+    private static final int getOptions(int... options) {
+        int combinedOptions = 0;
+
+        for (int i = 0; i < options.length; ++i)
+            combinedOptions = combinedOptions | options[i];
+
+        return combinedOptions;
+    }
 }

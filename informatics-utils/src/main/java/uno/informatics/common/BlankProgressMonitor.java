@@ -13,58 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common;
 
-public class BlankProgressMonitor implements ProgressMonitor
-{
+public class BlankProgressMonitor implements ProgressMonitor {
 
-	@Override
-	public void beginTask(String name, int totalWork)
-	{
-		
-	}
+    @Override
+    public void beginTask(String name, int totalWork) {
 
-	@Override
-	public void done()
-	{
+    }
 
-	}
+    @Override
+    public void done() {
 
-	@Override
-	public void internalWorked(double work)
-	{
+    }
 
-	}
+    @Override
+    public void internalWorked(double work) {
 
-	@Override
-	public boolean isCanceled()
-	{
-		return false;
-	}
+    }
 
-	@Override
-	public void setCanceled(boolean value)
-	{
+    @Override
+    public boolean isCanceled() {
+        return false;
+    }
 
-	}
+    @Override
+    public void setCanceled(boolean value) {
 
-	@Override
-	public void setTaskName(String name)
-	{
+    }
 
+    @Override
+    public void setTaskName(String name) {
 
-	}
+    }
 
-	@Override
-	public void subTask(String name)
-	{
+    @Override
+    public void subTask(String name) {
 
-	}
+    }
 
-	@Override
-	public void worked(int work)
-	{
+    @Override
+    public void worked(int work) {
 
-	}
+    }
 
 }

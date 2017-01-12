@@ -13,69 +13,60 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-public class Mapping<F, T>
-{
-  private static final String MAPPING_LABEL = Mapping.class.getName() + ".mappingLabel";
-	private static final String NULL_LABEL = Mapping.class.getName() + ".nullLabel";
-	
-	private F from ;
-  private T to ;
-  
-  public Mapping(F from, T to)
-  {
-    super();
-    this.from = from;
-    this.to = to;
-  }
-  
-  public final F getFrom()
-  {
-    return from;
-  }
-  
-  public final void setFrom(F from)
-  {
-    this.from = from;
-  }
-  
-  public final T getTo()
-  {
-    return to;
-  }
-  
-  public final void setTo(T to)
-  {
-    this.to = to;
-  }
+public class Mapping<F, T> {
+    private static final String MAPPING_LABEL = Mapping.class.getName() + ".mappingLabel";
+    private static final String NULL_LABEL = Mapping.class.getName() + ".nullLabel";
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public boolean equals(Object object)
-  {
-    if (object instanceof Mapping)
-      return ObjectUtils.equals(getFrom(), ((Mapping<F, T>)object).getFrom()) &&
-        ObjectUtils.equals(getTo(), ((Mapping<F, T>)object).getTo()) ;
-    else
-      return false ;
-  }
+    private F from;
+    private T to;
 
-  @Override
-  public String toString()
-  {
-    return getFromLabel(from) + PropertyUtils.getInstance().getString(MAPPING_LABEL) + getToLabel(to) ;
-  }
+    public Mapping(F from, T to) {
+        super();
+        this.from = from;
+        this.to = to;
+    }
 
-	protected String getFromLabel(F from)
-  {
-	  return from != null ? from.toString() : PropertyUtils.getInstance().getString(NULL_LABEL);
-  }
-	
-	protected String getToLabel(T to)
-  {
-	  return to != null ? to.toString() : PropertyUtils.getInstance().getString(NULL_LABEL);
-  }
+    public final F getFrom() {
+        return from;
+    }
+
+    public final void setFrom(F from) {
+        this.from = from;
+    }
+
+    public final T getTo() {
+        return to;
+    }
+
+    public final void setTo(T to) {
+        this.to = to;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Mapping)
+            return ObjectUtils.equals(getFrom(), ((Mapping<F, T>) object).getFrom())
+                && ObjectUtils.equals(getTo(), ((Mapping<F, T>) object).getTo());
+        else
+            return false;
+    }
+
+    @Override
+    public String toString() {
+        return getFromLabel(from) + PropertyUtils.getInstance().getString(MAPPING_LABEL) + getToLabel(to);
+    }
+
+    protected String getFromLabel(F from) {
+        return from != null ? from.toString() : PropertyUtils.getInstance().getString(NULL_LABEL);
+    }
+
+    protected String getToLabel(T to) {
+        return to != null ? to.toString() : PropertyUtils.getInstance().getString(NULL_LABEL);
+    }
 }

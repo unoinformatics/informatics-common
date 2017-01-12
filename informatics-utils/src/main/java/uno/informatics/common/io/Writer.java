@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
-public interface Writer
-{
-	/**
-	 * Base functionality for all writers
-	 *
-	 * @author Guy Davenport
-	 *
-	 */
-	public void close();
+public interface Writer {
+    /**
+     * Base functionality for all writers
+     *
+     * @author Guy Davenport
+     *
+     */
+    public void close();
 }

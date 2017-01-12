@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 import java.io.IOException;
@@ -20,21 +21,27 @@ import java.util.List;
 
 /**
  * Writes to a data source column by column
+ * 
  * @author Guy Davenport
  */
-public interface ColumnWriter extends TableWriter
-{
-	/**
-	 * Writes the column cells to the data source
-	 * @param cells column cells to be written to the data source
-	 * @throws IOException if the data can not be written
-	 */
-	public void writeColumnCells(List<Object> cells) throws IOException ;
-	
-	/**
-	 * Writes the column cells as an array to the data source
-	 * @param cells column cells to be written to the data source
-	 * @throws IOException if the data can not be written
-	 */
-	public void writeColumnArray(Object[] cells) throws IOException ;
+public interface ColumnWriter extends TableWriter {
+    /**
+     * Writes the column cells to the data source
+     * 
+     * @param cells
+     *            column cells to be written to the data source
+     * @throws IOException
+     *             if the data can not be written
+     */
+    public void writeColumnCells(List<Object> cells) throws IOException;
+
+    /**
+     * Writes the column cells as an array to the data source
+     * 
+     * @param cells
+     *            column cells to be written to the data source
+     * @throws IOException
+     *             if the data can not be written
+     */
+    public void writeColumnArray(Object[] cells) throws IOException;
 }

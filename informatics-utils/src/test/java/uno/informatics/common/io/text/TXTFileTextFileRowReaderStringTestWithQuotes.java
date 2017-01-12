@@ -21,33 +21,47 @@ import java.io.IOException;
 import java.util.List;
 
 import uno.informatics.common.io.RowReader;
-import uno.informatics.common.io.RowReaderDoubleTest;
+import uno.informatics.common.io.RowReaderStringTest;
 import uno.informatics.common.io.TextFileHandler;
 
-public class TXTFileTextFileRowReaderDoubleTest extends RowReaderDoubleTest {
-    private static final String FILE = "/double_table.txt";
+public class TXTFileTextFileRowReaderStringTestWithQuotes extends RowReaderStringTest {
+    private static final String FILE = "/string_table_with_quotes.txt";
 
     protected RowReader createReader() throws FileNotFoundException, IOException {
         TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath());
 
         reader.setDelimiterString(TextFileHandler.TAB);
 
+        reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE | TextFileRowReader.REMOVE_QUOTES);
+
         return reader;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.io.RowReaderTest#getExpectedList()
+     */
+    @Override
     protected final List<List<Object>> getExpectedList() {
-        return TABLE_AS_LIST;
+        return STRING_TABLE_AS_LIST_WITH_GAPS;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.io.RowReaderTest#getExpectedArray()
+     */
+    @Override
     protected final Object[][] getExpectedArray() {
-        return TABLE_AS_ARRAY;
+        return STRING_TABLE_AS_ARRAY;
     }
 
-    protected final List<List<Double>> getExpectedAsList() {
-        return TABLE_AS_LIST2;
+    protected final List<List<String>> getExpectedAsStringList() {
+        return STRING_TABLE_AS_LIST2;
     }
 
-    protected final double[][] getExpectedAsArray() {
-        return TABLE_AS_ARRAY2;
+    protected final String[][] getExpectedAsStringArray() {
+        return STRING_TABLE_AS_ARRAY;
     }
 }

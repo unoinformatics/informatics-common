@@ -13,36 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common;
 
-public class Constants
-{
-  public static final int UNKNOWN_INDEX = -1;
-  
-  /**
-   * Value return if the number of rows can not be determined
-   */
-  public static final int UNKNOWN_COUNT = -1 ; 
+public class Constants {
+    public static final int UNKNOWN_INDEX = -1;
 
-  public static final String EMPTY_STRING = "" ;
-  
-  public static final String TAB_DELIMITER = "\t";
+    /**
+     * Value return if the number of rows can not be determined
+     */
+    public static final int UNKNOWN_COUNT = -1;
 
-  public static final String COMMA_DELIMITER = ",";
-  
-  public static final String DEFAULT_DELIMITER = TAB_DELIMITER ;
-  
-  public static final String DEFAULT_COMMENT = "#";
+    public static final String EMPTY_STRING = "";
 
-  public static final String QUOTE = "\"";
+    public static final String TAB_DELIMITER = "\t";
 
-  public static final String CLASSICATION_DELIMITER = ", ";
-  
-  public static final String COLLECTION_LABEL_DELIMITER = ", ";
- 
-  public static final String ARRAY_LABEL_DELIMITER = ", ";
-  
-  public static final String MAP_LABEL_DELIMITER = ", ";
+    public static final String COMMA_DELIMITER = ",";
 
-  public static final String MAP_KEY_VALUE_LABEL_DELIMITER = "=";
+    public static final String DEFAULT_DELIMITER = TAB_DELIMITER;
+
+    public static final String DEFAULT_COMMENT = "#";
+
+    public static final String QUOTE = "\"";
+
+    public static final String CLASSICATION_DELIMITER = ", ";
+
+    public static final String COLLECTION_LABEL_DELIMITER = ", ";
+
+    public static final String ARRAY_LABEL_DELIMITER = ", ";
+
+    public static final String MAP_LABEL_DELIMITER = ", ";
+
+    public static final String MAP_KEY_VALUE_LABEL_DELIMITER = "=";
 }

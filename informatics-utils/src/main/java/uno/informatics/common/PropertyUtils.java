@@ -13,34 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common;
 
 import java.util.ResourceBundle;
 
-public class PropertyUtils extends AbstractPropertyUtils
-{
-  private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
-  
-  private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-  
-  private static AbstractPropertyUtils instance;
+public class PropertyUtils extends AbstractPropertyUtils {
+    private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
 
-	protected PropertyUtils()
-  {
-  	
-  }
-  
-	public static final AbstractPropertyUtils getInstance()
-  {
-		if (instance == null)
-			instance = new PropertyUtils() ;
+    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
-	  return instance;
-  }
+    private static AbstractPropertyUtils instance;
 
-	@Override
-  protected ResourceBundle getResourceBundle()
-  {
-	  return RESOURCE_BUNDLE;
-  }
+    protected PropertyUtils() {
+
+    }
+
+    public static final AbstractPropertyUtils getInstance() {
+        if (instance == null)
+            instance = new PropertyUtils();
+
+        return instance;
+    }
+
+    @Override
+    protected ResourceBundle getResourceBundle() {
+        return RESOURCE_BUNDLE;
+    }
 }

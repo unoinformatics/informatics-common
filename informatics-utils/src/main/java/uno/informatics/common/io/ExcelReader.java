@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io;
 
 import java.io.IOException;
@@ -24,27 +25,31 @@ import java.util.List;
  * @author Guy Davenport
  *
  */
-public interface ExcelReader extends Reader, ExcelHandler
-{
-	/**
-	 * Gets the total number of spreadsheets available
-	 * 
-	 * @return the total number of spreadsheets available
-	 * @throws IOException if the reader can not access the excel file
-	 */
-	public int getSpreadSheetCount() throws IOException;
-	
-	/**
-	 * Gets all the spread sheets names in order as a list
-	 * @return all the spread sheets names in order
-	 * @throws IOException if the reader can not access the excel file
-	 */
-	public List<String> getAllSpreadSheetNames() throws IOException;
+public interface ExcelReader extends Reader, ExcelHandler {
+    /**
+     * Gets the total number of spreadsheets available
+     * 
+     * @return the total number of spreadsheets available
+     * @throws IOException
+     *             if the reader can not access the excel file
+     */
+    public int getSpreadSheetCount() throws IOException;
 
-	/**
-	 * Gets all the spread sheets names in order in a array
-	 * @return all the spread sheets names in order
-	 * @throws IOException if the reader can not access the excel file
-	 */
-	public String[] getAllSpreadSheetNamesAsArray() throws IOException;
+    /**
+     * Gets all the spread sheets names in order as a list
+     * 
+     * @return all the spread sheets names in order
+     * @throws IOException
+     *             if the reader can not access the excel file
+     */
+    public List<String> getAllSpreadSheetNames() throws IOException;
+
+    /**
+     * Gets all the spread sheets names in order in a array
+     * 
+     * @return all the spread sheets names in order
+     * @throws IOException
+     *             if the reader can not access the excel file
+     */
+    public String[] getAllSpreadSheetNamesAsArray() throws IOException;
 }

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io.text;
 
 import java.io.FileNotFoundException;
@@ -23,44 +24,42 @@ import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowReaderStringTest;
 import uno.informatics.common.io.TextFileHandler;
 
-public class TXTFileTextFileRowReaderStringTest extends RowReaderStringTest
-{
-	private static final String FILE = "/string_table.txt";
-	
-	protected RowReader createReader() throws FileNotFoundException, IOException 
-	{
-		TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath()) ;
-		
-		reader.setDelimiterString(TextFileHandler.TAB);
-		
-		return reader ;
-	}
-	
-	       /* (non-Javadoc)
-         * @see uno.informatics.common.io.RowReaderTest#getExpectedList()
-         */
-  @Override
-  protected final List<List<Object>> getExpectedList()
-  {
-          return STRING_TABLE_AS_LIST;
-  }
+public class TXTFileTextFileRowReaderStringTest extends RowReaderStringTest {
+    private static final String FILE = "/string_table.txt";
 
-        /* (non-Javadoc)
-         * @see uno.informatics.common.io.RowReaderTest#getExpectedArray()
-         */
-  @Override
-  protected final Object[][] getExpectedArray()
-  {
-          return STRING_TABLE_AS_ARRAY;
-  }
+    protected RowReader createReader() throws FileNotFoundException, IOException {
+        TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath());
 
-  protected final List<List<String>> getExpectedAsStringList()
-  {
-          return STRING_TABLE_AS_LIST2;
-  }
+        reader.setDelimiterString(TextFileHandler.TAB);
 
-  protected final String[][] getExpectedAsStringArray()
-  {
-          return STRING_TABLE_AS_ARRAY;
-  }
+        return reader;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.io.RowReaderTest#getExpectedList()
+     */
+    @Override
+    protected final List<List<Object>> getExpectedList() {
+        return STRING_TABLE_AS_LIST;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.io.RowReaderTest#getExpectedArray()
+     */
+    @Override
+    protected final Object[][] getExpectedArray() {
+        return STRING_TABLE_AS_ARRAY;
+    }
+
+    protected final List<List<String>> getExpectedAsStringList() {
+        return STRING_TABLE_AS_LIST2;
+    }
+
+    protected final String[][] getExpectedAsStringArray() {
+        return STRING_TABLE_AS_ARRAY;
+    }
 }

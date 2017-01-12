@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
+
 package uno.informatics.common.io.text;
 
 import java.io.FileNotFoundException;
@@ -23,34 +24,34 @@ import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowReaderObjectTest;
 import uno.informatics.common.io.TextFileHandler;
 
-public class TXTFileTextFileRowReaderObjectTestWithGaps extends RowReaderObjectTest
-{
-	private static final String FILE = "/object_table_with_gaps.txt";
-	
-	protected RowReader createReader() throws FileNotFoundException, IOException 
-	{
-		TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath()) ;
-		
-		reader.setDelimiterString(TextFileHandler.TAB);
-		
-		return reader ;
-	}
-	
-	       /* (non-Javadoc)
-         * @see uno.informatics.common.io.RowReaderTest#getExpectedList()
-         */
-  @Override
-  protected final List<List<Object>> getExpectedList()
-  {
-          return OBJECT_TABLE_AS_LIST_WITH_GAPS;
-  }
+public class TXTFileTextFileRowReaderObjectTestWithGaps extends RowReaderObjectTest {
+    private static final String FILE = "/object_table_with_gaps.txt";
 
-        /* (non-Javadoc)
-         * @see uno.informatics.common.io.RowReaderTest#getExpectedArray()
-         */
-  @Override
-  protected final Object[][] getExpectedArray()
-  {
-          return OBJECT_TABLE_AS_ARRAY_WITH_GAPS;
-  }
+    protected RowReader createReader() throws FileNotFoundException, IOException {
+        TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath());
+
+        reader.setDelimiterString(TextFileHandler.TAB);
+
+        return reader;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.io.RowReaderTest#getExpectedList()
+     */
+    @Override
+    protected final List<List<Object>> getExpectedList() {
+        return OBJECT_TABLE_AS_LIST_WITH_GAPS;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see uno.informatics.common.io.RowReaderTest#getExpectedArray()
+     */
+    @Override
+    protected final Object[][] getExpectedArray() {
+        return OBJECT_TABLE_AS_ARRAY_WITH_GAPS;
+    }
 }
