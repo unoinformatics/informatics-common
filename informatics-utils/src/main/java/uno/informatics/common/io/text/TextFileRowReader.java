@@ -81,8 +81,8 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     /**
      * Sets if the reader removes any single or double quotes. If the quotes do
      * not match. Quotes are matched only if they are first and last characters
-     * in the token, after any space is trimmed (if {@link #REMOVE_WHITE_SPACE}
-     * is on white spaces is removed first Any delimiters found between quotes
+     * in the token, after any space is trimmed. If {@link #REMOVE_WHITE_SPACE}
+     * is used, any white spaces aere removed first. Any delimiters found between quotes
      * are ignored
      */
     public static final int REMOVE_QUOTES = 32;

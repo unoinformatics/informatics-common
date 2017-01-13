@@ -199,7 +199,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
         // TODO extract options and pass to reader
         try {
             reader = IOUtilities.createRowReader(filePath, type, TextFileRowReader.ROWS_SAME_SIZE,
-                    TextFileRowReader.REMOVE_WHITE_SPACE);
+                    TextFileRowReader.REMOVE_WHITE_SPACE, TextFileRowReader.REMOVE_QUOTES);
 
             if (reader != null && reader.ready()) {
                 int columnCount = 0;
