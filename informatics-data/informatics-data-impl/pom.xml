@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>uno.informatics.common</groupId>
+		<artifactId>informatics-data</artifactId>
+		<version>1.2.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>informatics-data-impl</artifactId>
+	<name>Informatics Data Base Implementation</name>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>uno.informatics.common</groupId>
+			<artifactId>informatics-utils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
+</project>
