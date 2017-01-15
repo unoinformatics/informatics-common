@@ -129,5 +129,10 @@ public interface TableReader extends Reader {
      */
     public Object[][] readCellsAsArray() throws IOException;
 
+    /**
+     * Sets the conversion types for each column in the table
+     * 
+     * @param conversionTypes the conversion types for each column in the table
+     */
     public void setAllConversionTypes(int[] conversionTypes);
 }

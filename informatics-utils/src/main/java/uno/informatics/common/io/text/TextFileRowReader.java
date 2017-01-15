@@ -69,7 +69,11 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     public static final int IGNORE_MULTIPLE_DELIMITERS = 4;
 
     /**
-     * Sets if rows are adjusted to be all the same size as the first row
+     * Sets if rows are adjusted to be all the same size 
+     * If current row exceeds the row size, row is truncated, whereas if
+     * is less than the row size. In the case when the size was not 
+     * predefined using the {@link #setFixedRowSize(int)} method,
+     * the size is fixed to the size of the first row.
      */
     public static final int ROWS_SAME_SIZE = 8;
 
@@ -205,7 +209,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     /**
      * Gets an int representing a bit array of options
      * 
-     * @return an int preresenting a bit array of options
+     * @return an int representing a bit array of options
      */
     public final int getOptions() {
         return options;
@@ -215,7 +219,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      * Sets an int representing a bit array of options
      * 
      * @param options
-     *            an int preresenting a bit array of options
+     *            an int representing a bit array of options
      */
     public final void setOptions(int options) throws IOException {
         if (options != this.options) {
@@ -315,7 +319,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      */
     @Override
     public boolean hasNextColumn() {
-        return getColumnIndex() + 1 < getRowSize();
+        return getColumnIndex() + 1 < getCurrentRowSize();
     }
 
     /*
@@ -369,7 +373,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         if (this.getRowIndex() < 0)
             throw new IOException("Reader before first row!");
 
-        return parseRowCells(getColumnIndex(), getRowSize());
+        return parseRowCells(getColumnIndex(), getCurrentRowSize());
     }
 
     @Override
@@ -377,7 +381,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         if (this.getRowIndex() < 0)
             throw new IOException("Reader before first row!");
 
-        return parseRowCellsAsString(getColumnIndex(), getRowSize());
+        return parseRowCellsAsString(getColumnIndex(), getCurrentRowSize());
     }
 
     @Override
@@ -385,7 +389,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         if (this.getRowIndex() < 0)
             throw new IOException("Reader before first row!");
 
-        return parseRowCellsAsInteger(getColumnIndex(), getRowSize());
+        return parseRowCellsAsInteger(getColumnIndex(), getCurrentRowSize());
     }
 
     @Override
@@ -393,7 +397,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         if (this.getRowIndex() < 0)
             throw new IOException("Reader before first row!");
 
-        return parseRowCellsAsDouble(getColumnIndex(), getRowSize());
+        return parseRowCellsAsDouble(getColumnIndex(), getCurrentRowSize());
     }
 
     @Override
@@ -401,32 +405,32 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         if (this.getRowIndex() < 0)
             throw new IOException("Reader before first row!");
 
-        return parseRowCellsAsBoolean(getColumnIndex(), getRowSize());
+        return parseRowCellsAsBoolean(getColumnIndex(), getCurrentRowSize());
     }
 
     @Override
     public final Object[] getRowCellsAsArray() throws IOException {
-        return parseRowCellsAsArray(getColumnIndex(), getRowSize());
+        return parseRowCellsAsArray(getColumnIndex(), getCurrentRowSize());
     }
 
     @Override
     public final String[] getRowCellsAsStringArray() throws IOException {
-        return parseRowCellsAsStringArray(getColumnIndex(), getRowSize());
+        return parseRowCellsAsStringArray(getColumnIndex(), getCurrentRowSize());
     }
 
     @Override
     public final int[] getRowCellsAsIntArray() throws IOException {
-        return parseRowCellsAsIntArray(getColumnIndex(), getRowSize());
+        return parseRowCellsAsIntArray(getColumnIndex(), getCurrentRowSize());
     }
 
     @Override
     public final double[] getRowCellsAsDoubleArray() throws IOException {
-        return parseRowCellsAsDoubleArray(getColumnIndex(), getRowSize());
+        return parseRowCellsAsDoubleArray(getColumnIndex(), getCurrentRowSize());
     }
 
     @Override
     public final boolean[] getRowCellsAsBooleanArray() throws IOException {
-        return parseRowCellsAsBooleanArray(getColumnIndex(), getRowSize());
+        return parseRowCellsAsBooleanArray(getColumnIndex(), getCurrentRowSize());
     }
 
     private Object parseValue(String text, int rowIndex, int columnIndex) throws IOException {
@@ -486,6 +490,17 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         else
             throw new IOException("Unable to initialise reader");
     }
+    
+    @Override
+    protected final void updateRowSize(int rowSize) {
+        if (hasOption(ROWS_SAME_SIZE)) {
+            if (getCurrentRowSize() < 0) {
+                super.updateRowSize(rowSize) ; // only set if not set before
+            }
+        } else {
+            super.updateRowSize(rowSize) ;
+        }        
+    }
 
     /**
      * Reads the next valid line if possible into memory
@@ -513,37 +528,86 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     private String[] readLine() throws IOException {
         String line = bufferedReader.readLine();
 
-        // ignore any commented record or empty lines if not in strict mode
-        if (line != null && ((line.trim().length() == 0 && isInStrictMode())
-            || (getCommentString() != null && line.trim().startsWith(getCommentString())))) {
-            return null;
+        if (line != null) {
+            // ignore any commented record or empty lines if not in strict mode
+            if (((line.trim().length() == 0 && isInStrictMode())
+                || (getCommentString() != null && line.trim().startsWith(getCommentString())))) {
+                return null;
+            } else {
+                return parseLine(line.trim());
+            }
         } else {
-            return parseLine(line);
+            return null ;
         }
     }
 
     private String[] parseLine(String line) {
 
-        String delimiter = getDelimiterString();
-
-        line = line + delimiter;
-
-        if (!hasOption(IGNORE_MULTIPLE_DELIMITERS)) {
-
-            String newLine = line.replace(delimiter + delimiter, delimiter + " " + delimiter);
-
-            while (!line.equals(newLine)) {
-                line = newLine;
-                newLine = line.replace(delimiter + delimiter, delimiter + " " + delimiter);
-            }
-        }
-
+        // makes sure it parses the last token, not sure if there is better option
+        //line = line + getDelimiterString() ; 
+        
         Matcher matcher = pattern.matcher(line);
 
         List<String> tokens = new LinkedList<String>();
-
-        while (matcher.find()) {
-            tokens.add(matcher.group());
+        
+        if (hasOption(REMOVE_QUOTES)) { // 3 groups
+            if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) {
+                while (matcher.find()) {
+                    if (matcher.group(1) != null) {
+                        // Add double-quoted string without the quotes
+                        tokens.add(matcher.group(1));
+                    } else if (matcher.group(2) != null) {
+                        // Add single-quoted string without the quotes
+                        tokens.add(matcher.group(2));
+                    } else if (matcher.group(3) != null) {
+                        // Add unquoted token
+                        tokens.add(matcher.group(3));
+                    }
+                } 
+            } else {
+                while (matcher.find()) { // 4 groups
+                    if (matcher.group(1) != null) {
+                        // Add double-quoted string without the quotes
+                        tokens.add(matcher.group(1));
+                    } else if (matcher.group(2) != null) {
+                        // Add single-quoted string without the quotes
+                        tokens.add(matcher.group(2));
+                    } else if (matcher.group(3) != null) {
+                        // Add unquoted token
+                        tokens.add(matcher.group(3));
+                    } else if (matcher.group(4) != null) {
+                        // 2 or more delimiters together, add space for each 'gap' 
+                        for (int i = 1 ; i < matcher.group(4).length() ; ++i) {
+                            tokens.add("");
+                        }
+                    } 
+                } 
+            }
+        } else {
+            if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) { // 1 group
+                while (matcher.find()) {
+                    if (matcher.group(1) != null) {
+                        // Add unquoted token
+                        tokens.add(matcher.group(1));
+                    }
+                } 
+            } else {
+                while (matcher.find()) {
+                    if (matcher.group(1) != null) { // 2 groups
+                        // Add unquoted token
+                        tokens.add(matcher.group(1));
+                    } else if (matcher.group(2) != null) {
+                        // 2 or more delimiters together, add space for each 'gap' 
+                        for (int i = 1 ; i < matcher.group(2).length() ; ++i) {
+                            tokens.add("");
+                        }
+                    } 
+                } 
+            }
+        }
+        
+        if (matcher.hitEnd() && line.endsWith(getDelimiterString())) {
+            tokens.add("");
         }
 
         return tokens.toArray(new String[tokens.size()]);
@@ -569,64 +633,44 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         String delimiter = getDelimiterString();
 
         if (hasOption(REMOVE_QUOTES)) {
-            regex = "(['][^']+['])|([\"][^\"]+[\"])|([^" + delimiter + "]+)";
+            if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) {
+                regex = "[ ]*\"([^\"]*)\"[ ]*["+ delimiter +"]?|[ ]*'([^']*)'[ ]*["+ delimiter +"]?|([^"+ delimiter +"\"']+)" ;
+            } else {
+                regex = "[ ]*\"([^\"]*)\"[ ]*["+ delimiter +"]?|[ ]*'([^']*)'[ ]*["+ delimiter +"]?|([^"+ delimiter +"\"']+)|(["+ delimiter +"]{2,})" ;
+            }
         } else {
-            regex = "([^" + delimiter + "])+";
+            if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) {
+                regex = "([^" + delimiter + "]+)|(["+ delimiter +"])";
+            } else {
+                regex = "([^" + delimiter + "]+)|(["+ delimiter +"]{2,})";
+            }
         }
 
         pattern = Pattern.compile(regex, Pattern.DOTALL);
     }
 
     protected String convertToken(String string) {
-        if (hasOption(REMOVE_QUOTES)) {
-            if (hasOption(REMOVE_WHITE_SPACE)) {
-                return convertTokenWithTrimAndQuotes(string);
-            } else {
-                return convertTokenWithoutTrimAndQuotes(string);
-            }
+        if (hasOption(REMOVE_WHITE_SPACE)) {
+            return convertTokenWithTrim(string);
         } else {
-            if (hasOption(REMOVE_WHITE_SPACE)) {
-                return convertTokenWithTrim(string);
-            } else {
-                return convertTokenWithoutTrim(string);
-            }
+            return convertTokenWithoutTrim(string);
         }
     }
 
     private String convertTokenWithTrim(String string) {
 
-        if (hasOption(REMOVE_QUOTES)) {
-            return convertTokenWithTrimAndQuotes(string);
-        } else {
-            return convertTokenWithTrimAndNoQuotes(string);
-
+        if (string != null) {
+            String token = convertTokenWithoutTrim(string.trim());
+            
+            if (token != null) {
+                return token.trim();
+            }
         }
+        
+        return null;
     }
 
     private String convertTokenWithoutTrim(String string) {
-
-        if (hasOption(REMOVE_QUOTES)) {
-
-            return convertTokenWithoutTrimAndQuotes(string);
-        } else {
-
-            return convertTokenWithoutTrimAndNoQuotes(string);
-
-        }
-    }
-
-    private String convertTokenWithTrimAndNoQuotes(String string) {
-
-        String token = convertTokenWithoutTrim(string);
-
-        if (token != null) {
-            return token.trim();
-        } else {
-            return null;
-        }
-    }
-
-    private String convertTokenWithoutTrimAndNoQuotes(String string) {
 
         if (hasOption(PARSE_EMPTY_STRINGS)) {
             return string;
@@ -639,47 +683,6 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
                 }
             } else {
                 return null;
-            }
-        }
-    }
-
-    private String convertTokenWithTrimAndQuotes(String string) {
-
-        String token = convertTokenWithoutTrimAndQuotes(string);
-
-        if (token != null) {
-            return token.trim();
-        } else {
-            return null;
-        }
-    }
-
-    private String convertTokenWithoutTrimAndQuotes(String string) {
-
-        if (hasOption(PARSE_EMPTY_STRINGS)) {
-            return removeQuotes(string);
-        } else {
-            if (string != null) {
-                if ("".equals(string.trim())) {
-                    return null;
-                } else {
-                    return removeQuotes(string);
-                }
-            } else {
-                return null;
-            }
-        }
-    }
-
-    private String removeQuotes(String string) {
-
-        if (string.startsWith("\"") && string.endsWith("\"")) {
-            return string.substring(1, string.length() - 1);
-        } else {
-            if (string.startsWith("\'") && string.endsWith("\'")) {
-                return string.substring(1, string.length() - 1);
-            } else {
-                return string;
             }
         }
     }

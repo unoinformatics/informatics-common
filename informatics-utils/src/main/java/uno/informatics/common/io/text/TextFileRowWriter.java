@@ -230,7 +230,7 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
         this.bufferedWriter = bufferedWriter;
 
         setRowPosition(0);
-        setRowSizeInternal(Constants.UNKNOWN_COUNT);
+        setCurrentRowSize(Constants.UNKNOWN_COUNT);
         setRowIndex(Constants.UNKNOWN_INDEX);
     }
 
