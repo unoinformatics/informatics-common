@@ -550,6 +550,10 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
 
         List<String> tokens = new LinkedList<String>();
         
+        if (line.startsWith(getDelimiterString())) {
+            tokens.add("");
+        }
+        
         if (hasOption(REMOVE_QUOTES)) { // 3 groups
             if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) {
                 while (matcher.find()) {
