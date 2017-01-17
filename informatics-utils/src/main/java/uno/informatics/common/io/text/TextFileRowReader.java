@@ -70,12 +70,33 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
 
     /**
      * Sets if rows are adjusted to be all the same size 
-     * If current row exceeds the row size, row is truncated, whereas if
-     * is less than the row size. In the case when the size was not 
+     * If current row exceeds the row size, row is truncated, whereas if it
+     * is less than the row size additional <code>null</code> will be added
+     * to make the row all the same size. 
+     * 
+     * In the case when the size was not 
      * predefined using the {@link #setFixedRowSize(int)} method,
      * the size is fixed to the size of the first row.
      */
-    public static final int ROWS_SAME_SIZE = 8;
+    public static final int ROWS_SAME_SIZE_AS_FIRST = 8;
+    
+    
+    /**
+     * Sets if rows are adjusted to be all the same size 
+     * If the size was predefined using the {@link #setFixedRowSize(int)}
+     * and the current row exceeds the row size, row is truncated, whereas if it
+     * is less than the row size additional <code>null</code> values will be added
+     * to make the rows all the same size. 
+     * 
+     * In the case when the size was not 
+     * predefined using the {@link #setFixedRowSize(int)} method,
+     * the size is fixed to the size of the largest row. If this 
+     * option is used the full dataset will be loaded before the first line
+     * is read. For any shorter rows additional <code>null</code> values will be added
+     * to make the rows all the same size. 
+     */
+    // TODO
+    //public static final int ROWS_SAME_SIZE_AS_LONGEST = 8;
 
     /**
      * Sets if the reader remove any prefix or suffix white space for Strings
@@ -493,7 +514,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     
     @Override
     protected final void updateRowSize(int rowSize) {
-        if (hasOption(ROWS_SAME_SIZE)) {
+        if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
             if (getCurrentRowSize() < 0) {
                 super.updateRowSize(rowSize) ; // only set if not set before
             }
@@ -867,7 +888,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                 row = new ArrayList<Object>(requestedSize - startIndex);
 
                 if (conversionTypesCount > 0) {
@@ -929,8 +950,8 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
-                if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
+                if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                     row = new ArrayList<String>(requestedSize - startIndex);
 
                     if (hasOption(REMOVE_WHITE_SPACE))
@@ -953,7 +974,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
                             row.add(convertTokenWithoutTrim(line[i]));
                 }
             } else {
-                if (hasOption(ROWS_SAME_SIZE)) {
+                if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                     row = new ArrayList<String>(requestedSize - startIndex);
 
                     if (hasOption(REMOVE_WHITE_SPACE))
@@ -991,7 +1012,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                 row = new ArrayList<Integer>(requestedSize - startIndex);
 
                 for (int i = startIndex; i < size; ++i)
@@ -1020,7 +1041,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                 row = new ArrayList<Double>(requestedSize - startIndex);
 
                 for (int i = startIndex; i < size; ++i)
@@ -1048,7 +1069,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                 row = new ArrayList<Boolean>(requestedSize - startIndex);
 
                 for (int i = startIndex; i < size; ++i)
@@ -1077,7 +1098,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                 row = new Object[requestedSize - startIndex];
             } else {
                 row = new Object[size - startIndex];
@@ -1116,7 +1137,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                 row = new String[requestedSize - startIndex];
             } else {
                 row = new String[size - startIndex];
@@ -1145,7 +1166,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                 row = new int[requestedSize - startIndex];
             } else {
                 row = new int[size - startIndex];
@@ -1167,7 +1188,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                 row = new double[requestedSize - startIndex];
             } else {
                 row = new double[size - startIndex];
@@ -1189,7 +1210,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             int size = requestedSize < line.length ? requestedSize : line.length;
             int startIndex = firstIndex < 0 ? 0 : firstIndex >= size ? size : firstIndex;
 
-            if (hasOption(ROWS_SAME_SIZE)) {
+            if (hasOption(ROWS_SAME_SIZE_AS_FIRST)) {
                 row = new boolean[requestedSize - startIndex];
             } else {
                 row = new boolean[size - startIndex];
