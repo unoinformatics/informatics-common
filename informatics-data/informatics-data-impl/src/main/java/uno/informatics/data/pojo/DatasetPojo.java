@@ -65,7 +65,7 @@ public class DatasetPojo extends EntityPojo implements Dataset {
     /**
      * Sets the optional study to which this dataset belongs
      * 
-     * @param study
+     * @param study the study to which this dataset belongs
      */
     public final void setStudy(Study study) {
 
@@ -86,7 +86,7 @@ public class DatasetPojo extends EntityPojo implements Dataset {
     /**
      * Sets the size of this dataset
      * 
-     * @param size
+     * @param size the size of this dataset
      */
     public final void setSize(int size) {
         

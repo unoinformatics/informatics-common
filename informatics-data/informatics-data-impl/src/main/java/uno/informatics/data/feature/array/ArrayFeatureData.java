@@ -198,7 +198,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
             
         // TODO extract options and pass to reader
         try {
-            reader = IOUtilities.createRowReader(filePath, type, TextFileRowReader.ROWS_SAME_SIZE,
+            reader = IOUtilities.createRowReader(filePath, type, TextFileRowReader.ROWS_SAME_SIZE_AS_FIRST,
                     TextFileRowReader.REMOVE_WHITE_SPACE, TextFileRowReader.REMOVE_QUOTES);
 
             if (reader != null && reader.ready()) {
@@ -517,7 +517,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                     String.format("Only file types TXT and CSV are supported. Got: %s.", type));
         }
 
-        RowWriter writer = IOUtilities.createRowWriter(filePath, type, TextFileRowReader.ROWS_SAME_SIZE,
+        RowWriter writer = IOUtilities.createRowWriter(filePath, type, TextFileRowReader.ROWS_SAME_SIZE_AS_FIRST,
                     TextFileRowReader.REMOVE_WHITE_SPACE);
         
         

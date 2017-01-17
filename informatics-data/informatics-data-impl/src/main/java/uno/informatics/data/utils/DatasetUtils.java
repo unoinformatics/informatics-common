@@ -54,6 +54,8 @@ public class DatasetUtils {
      * Creates a default feature from a name and a bit mask of possible data
      * types
      * 
+     * @param id
+     *            the id of the feature
      * @param name
      *            the name of the feature
      * @param dataType

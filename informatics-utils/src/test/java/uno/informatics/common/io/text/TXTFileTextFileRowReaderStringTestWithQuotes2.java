@@ -86,7 +86,7 @@ public class TXTFileTextFileRowReaderStringTestWithQuotes2 extends RowReaderStri
 
         reader.setDelimiterString(TextFileHandler.TAB);
 
-        reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE | TextFileRowReader.REMOVE_QUOTES);
+        reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE_AS_FIRST | TextFileRowReader.REMOVE_QUOTES);
 
         return reader;
     }

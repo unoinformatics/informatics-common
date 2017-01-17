@@ -42,7 +42,7 @@ public interface FeatureDataRow {
     /**
      * Gets a value in the row at a specific column
      * 
-     * @param columnIndex
+     * @param columnIndex the specific column for the required value
      * @return the value in the row at the give column
      */
     public Object getValue(int columnIndex);

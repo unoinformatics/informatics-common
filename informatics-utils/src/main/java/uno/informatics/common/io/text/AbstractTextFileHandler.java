@@ -36,7 +36,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
 
     private String comment;
 
-    private int rowSize = UNKNOWN_COUNT;
+    private int currentRowSize = UNKNOWN_COUNT;
 
     // the actual position (including comments, empty lines etc) of the
     // read/write
@@ -107,8 +107,8 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
     }
 
     public final int getColumnCount() {
-        if (getRowSize() > -1)
-            return getRowSize();
+        if (getCurrentRowSize() > -1)
+            return getCurrentRowSize();
         else
             return Constants.UNKNOWN_COUNT;
     }
@@ -245,63 +245,50 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
      */
     protected final void updateRowFromSize(List<Object> row) throws IOException {
         if (row != null) {
-            if (row.size() < getRowSize())
-                for (int i = 0; i < row.size() - getRowSize(); ++i)
+            if (row.size() < getCurrentRowSize())
+                for (int i = 0; i < row.size() - getCurrentRowSize(); ++i)
                     row.add(null);
         }
     }
 
-    public final int getRowSize() {
-        return rowSize;
+    /**
+     * Gets the current row size, which is either the row size that was set externally
+     * using the {@link #setFixedRowSize(int)} or calculated from the data being read or
+     * written depending on the implementing class. 
+     * 
+     * @return the size of the current 
+     */
+    public final int getCurrentRowSize() {
+        return currentRowSize;
     }
 
-    public final void setRowSize(int rowSize) throws IOException {
-        if (this.rowSize != rowSize)
-            if (isInUse())
+    /**
+     * Set a fixed row size. Rows less than this size are padded out to right size
+     * or rows longer than this size are truncated.
+     * 
+     * @param rowSize the fixed row size
+     * @throws IOException if the size is being set after read/write has started.
+     */
+    public final void setFixedRowSize(int rowSize) throws IOException {
+        if (this.currentRowSize != rowSize) {
+            if (isInUse()) {
                 throw new IOException("Row size can not be set while reader/writer is in use");
-            else
-                setRowSizeInternal(rowSize);
+            } else {
+                setCurrentRowSize(rowSize);
+            }
+        }
 
         rowSizeSetExternally = rowSize >= 0;
     }
 
-    protected final void setRowSizeInternal(int rowSize) {
-        this.rowSize = rowSize;
+    protected final void setCurrentRowSize(int rowSize) {
+        this.currentRowSize = rowSize;
     }
 
-    protected final void updateRowSize(int size) throws IOException {
-        if (rowSizeSetExternally && size > rowSize)
-            throw new IOException("Row Size must not be greater than : " + rowSize);
-
-        if (getRowSize() < 0) {
-            setRowSizeInternal(size);
-        } else {
-            if (isRowSizesEqual()) {
-                if (getRowSize() != size) {
-                    String message = "Row Size Equal ON: All Rows must contain ";
-
-                    if (getRowSize() == 1)
-                        message = message + " 1 element : at row " + getRowPosition();
-                    else
-                        message = message + getRowSize() + " elements : at row " + getRowPosition();
-
-                    if (size == 1)
-                        message = message + " there is 1 element";
-                    else
-                        message = message + " there are " + size + " elements";
-
-                    throw new IOException(message);
-                }
-            } else {
-                if (getRowSize() < size) {
-                    setRowSizeInternal(size);
-                }
-            }
+    protected void updateRowSize(int rowSize) {
+        if (!rowSizeSetExternally) {
+            setCurrentRowSize(rowSize) ;
         }
-    }
-
-    protected final boolean isRowSizesEqual() {
-        return false;
     }
 
     protected final int getRowIndex() {
