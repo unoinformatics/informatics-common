@@ -31,7 +31,7 @@ import org.junit.Test;
  * @author Guy Davenport
  *
  */
-public abstract class RowReaderDoubleTest extends RowReaderTest {
+public abstract class RowReaderDoubleTest extends RowReadWriteTest {
     private static final double PRECISION = 0.000001;
 
     protected final static double[] ROW1 = new double[] {

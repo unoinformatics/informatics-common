@@ -30,7 +30,7 @@ import org.junit.Test;
  * @author Guy Davenport
  *
  */
-public abstract class RowReaderStringTest extends RowReaderTest {
+public abstract class RowReaderStringTest extends RowReadWriteTest {
     @Test
     public void testReadCellsAsString() {
         try {

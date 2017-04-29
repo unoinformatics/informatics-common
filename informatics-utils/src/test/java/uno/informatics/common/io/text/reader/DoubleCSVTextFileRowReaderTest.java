@@ -22,7 +22,7 @@ public class DoubleCSVTextFileRowReaderTest {
         try {
 
             TextFileRowReader reader = new TextFileRowReader(
-                getClass().getResource("/double_table1.csv").getPath());
+                getClass().getResource("/read/double_table1.csv").getPath());
 
             reader.setDelimiterString(TextFileHandler.COMMA);
 
@@ -80,7 +80,7 @@ public class DoubleCSVTextFileRowReaderTest {
         try {
 
             TextFileRowReader reader = new TextFileRowReader(
-                getClass().getResource("/double_table1.csv").getPath());
+                getClass().getResource("/read/double_table1.csv").getPath());
 
             reader.setDelimiterString(TextFileHandler.COMMA);
 
@@ -173,7 +173,7 @@ public class DoubleCSVTextFileRowReaderTest {
         try {
 
             TextFileRowReader reader = new TextFileRowReader(
-                getClass().getResource("/double_table1.csv").getPath());
+                getClass().getResource("/read/double_table1.csv").getPath());
 
             reader.setDelimiterString(TextFileHandler.COMMA);
 
@@ -233,7 +233,7 @@ public class DoubleCSVTextFileRowReaderTest {
         try {
 
             TextFileRowReader reader = new TextFileRowReader(
-                getClass().getResource("/double_table2.csv").getPath());
+                getClass().getResource("/read/double_table2.csv").getPath());
 
             reader.setDelimiterString(TextFileHandler.COMMA);
 
@@ -291,7 +291,7 @@ public class DoubleCSVTextFileRowReaderTest {
         try {
 
             TextFileRowReader reader = new TextFileRowReader(
-                getClass().getResource("/double_table2.csv").getPath());
+                getClass().getResource("/read/double_table2.csv").getPath());
 
             reader.setDelimiterString(TextFileHandler.COMMA);
 
@@ -351,7 +351,7 @@ public class DoubleCSVTextFileRowReaderTest {
         try {
 
             TextFileRowReader reader = new TextFileRowReader(
-                getClass().getResource("/double_table3.csv").getPath());
+                getClass().getResource("/read/double_table3.csv").getPath());
 
             reader.setDelimiterString(TextFileHandler.COMMA);
 
@@ -434,7 +434,7 @@ public class DoubleCSVTextFileRowReaderTest {
         try {
 
             TextFileRowReader reader = new TextFileRowReader(
-                getClass().getResource("/double_table3.csv").getPath());
+                getClass().getResource("/read/double_table3.csv").getPath());
 
             reader.setDelimiterString(TextFileHandler.COMMA);
 
@@ -492,7 +492,7 @@ public class DoubleCSVTextFileRowReaderTest {
         try {
 
             TextFileRowReader reader = new TextFileRowReader(
-                getClass().getResource("/double_table3.csv").getPath());
+                getClass().getResource("/read/double_table3.csv").getPath());
 
             reader.setDelimiterString(TextFileHandler.COMMA);
 

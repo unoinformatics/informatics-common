@@ -30,7 +30,7 @@ import org.junit.Test;
  * @author Guy Davenport
  *
  */
-public abstract class RowReaderBooleanTest extends RowReaderTest {
+public abstract class RowReaderBooleanTest extends RowReadWriteTest {
     protected final static boolean[] ROW1 = new boolean[] {
         true, false, true
     };

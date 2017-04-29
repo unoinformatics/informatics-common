@@ -27,28 +27,22 @@ import java.util.List;
 
 import org.junit.Test;
 
-public abstract class TableWriterTest extends TestData {
+public abstract class TableReadWriteTest extends TestData {
 
     @Test
-    public void testWriteCells() {
+    public void testReadCells() {
         try {
-            TableWriter writer = createWriter();
+            TableReader reader = createReader();
 
             List<List<Object>> expected = getExpectedList();
-
-            writer.writeCells(expected);
-
-            writer.close();
-
-            TableReader reader = createReader();
 
             assertTrue(reader.ready());
 
             List<List<Object>> cells = reader.readCells();
 
-            assertEquals("table not equal", expected, cells);
-
             reader.close();
+
+            assertEquals("table not equal", expected, cells);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             fail(e.getLocalizedMessage());
@@ -56,17 +50,11 @@ public abstract class TableWriterTest extends TestData {
     }
 
     @Test
-    public void testWriteCellsAsArray() {
+    public void testReadCellsAsArray() {
         try {
-            TableWriter writer = createWriter();
+            TableReader reader = createReader();
 
             Object[][] expected = getExpectedArray();
-
-            writer.writeCellsAsArray(expected);
-
-            writer.close();
-
-            TableReader reader = createReader();
 
             assertTrue(reader.ready());
 
@@ -82,34 +70,42 @@ public abstract class TableWriterTest extends TestData {
     }
 
     @Test
-    public void testWriteCell() {
+    public void testGetCell() {
         try {
-            TableWriter writer = createWriter();
+            TableReader reader = createReader();
 
             Object[][] expected = getExpectedArray();
 
-            for (int rowIndex = 0; rowIndex < expected.length; ++rowIndex) {
-                for (int columnIndex = 0; columnIndex < expected[rowIndex].length; ++columnIndex) {
-                    writer.writeCell(expected[rowIndex][columnIndex]);
+            assertTrue(reader.ready());
 
-                    assertTrue("Can not create column at row " + rowIndex + " after index " + columnIndex,
-                        writer.newColumn());
+            int rowIndex = 0;
+            int columnIndex = 0;
+
+            while (reader.hasNextRow()) {
+                assertTrue("Can not get next row", reader.nextRow());
+
+                columnIndex = 0;
+
+                while (reader.hasNextColumn()) {
+                    assertTrue(
+                        "Can not get next column at row index" + rowIndex + " column index " + columnIndex,
+                        reader.nextColumn());
+
+                    assertEquals("cell not equal at row index" + rowIndex + " column index " + columnIndex,
+                        expected[rowIndex][columnIndex], reader.getCell());
+
+                    ++columnIndex;
                 }
 
-                assertTrue("Can not create row after index " + rowIndex, writer.newRow());
+                assertEquals("Column count not correct!", expected[rowIndex].length, columnIndex);
+
+                ++rowIndex;
             }
 
-            writer.close();
-
-            TableReader reader = createReader();
-
-            assertTrue(reader.ready());
-
-            Object[][] cells = reader.readCellsAsArray();
+            assertEquals("Row count not correct!", expected.length, rowIndex);
 
             reader.close();
 
-            assertArrayEquals("table not equal", expected, cells);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             fail(e.getLocalizedMessage());
@@ -117,8 +113,6 @@ public abstract class TableWriterTest extends TestData {
     }
 
     protected abstract TableReader createReader() throws FileNotFoundException, IOException;
-
-    protected abstract TableWriter createWriter() throws FileNotFoundException, IOException;
 
     protected abstract List<List<Object>> getExpectedList();
 

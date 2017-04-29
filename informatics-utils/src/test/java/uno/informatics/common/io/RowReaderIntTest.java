@@ -31,7 +31,7 @@ import org.junit.Test;
  * @author Guy Davenport
  *
  */
-public abstract class RowReaderIntTest extends RowReaderTest {
+public abstract class RowReaderIntTest extends RowReadWriteTest {
 
     protected final static int[] ROW1 = new int[] {
         11, 21, 31

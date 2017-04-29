@@ -18,19 +18,23 @@ package uno.informatics.common.io.text.reader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowReaderDoubleTest;
+import uno.informatics.common.io.RowWriter;
 import uno.informatics.common.io.TextFileHandler;
 import uno.informatics.common.io.text.TextFileRowReader;
+import uno.informatics.common.io.text.TextFileRowWriter;
 
 public class CSVFileTextFileRowReaderDoubleTestWithQuotes extends RowReaderDoubleTest {
     private static final String FILE = "/double_table_with_quotes.csv";
 
-    protected RowReader createReader() throws FileNotFoundException, IOException {
-        TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath());
-
+    protected RowReader createReader(Path path) throws FileNotFoundException, IOException {
+        TextFileRowReader reader = new TextFileRowReader(path);
+ 
         reader.setDelimiterString(TextFileHandler.COMMA);
 
         reader.setOptions(TextFileRowReader.REMOVE_QUOTES);
@@ -38,6 +42,20 @@ public class CSVFileTextFileRowReaderDoubleTestWithQuotes extends RowReaderDoubl
         return reader;
     }
 
+    @Override
+    protected RowWriter createWriter(Path path) throws FileNotFoundException, IOException {
+        TextFileRowWriter writer = new TextFileRowWriter(path);
+
+        writer.setDelimiterString(TextFileHandler.COMMA);
+
+        return writer;
+    }
+
+    @Override
+    protected String getTestFilePath() {
+        return FILE;
+    }
+    
     protected final List<List<Object>> getExpectedList() {
         return TABLE_AS_LIST;
     }

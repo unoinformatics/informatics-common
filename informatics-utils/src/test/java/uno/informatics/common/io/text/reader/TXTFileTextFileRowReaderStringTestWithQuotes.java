@@ -18,26 +18,44 @@ package uno.informatics.common.io.text.reader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowReaderStringTest;
+import uno.informatics.common.io.RowWriter;
 import uno.informatics.common.io.TextFileHandler;
 import uno.informatics.common.io.text.TextFileRowReader;
+import uno.informatics.common.io.text.TextFileRowWriter;
 
 public class TXTFileTextFileRowReaderStringTestWithQuotes extends RowReaderStringTest {
     private static final String FILE = "/string_table_with_quotes.txt";
 
-    protected RowReader createReader() throws FileNotFoundException, IOException {
-        TextFileRowReader reader = new TextFileRowReader(getClass().getResource(FILE).getPath());
-
+    protected RowReader createReader(Path path) throws FileNotFoundException, IOException {
+        TextFileRowReader reader = new TextFileRowReader(path);
+        
         reader.setDelimiterString(TextFileHandler.TAB);
 
         reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE_AS_FIRST | TextFileRowReader.REMOVE_QUOTES);
 
         return reader;
     }
+    
+    @Override
+    protected RowWriter createWriter(Path path) throws FileNotFoundException, IOException {
+        TextFileRowWriter writer = new TextFileRowWriter(path);
 
+        writer.setDelimiterString(TextFileHandler.COMMA);
+
+        return writer;
+    }
+
+    @Override
+    protected String getTestFilePath() {
+        return FILE;
+    }
+    
     /*
      * (non-Javadoc)
      * 

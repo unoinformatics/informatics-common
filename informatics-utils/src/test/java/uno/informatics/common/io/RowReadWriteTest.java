@@ -22,19 +22,23 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
 
-public abstract class RowReaderTest extends TableReaderTest {
+public abstract class RowReadWriteTest extends TableReadWriteTest {
     @Test
     public void testReadCells() {
         try {
-            RowReader reader = createReader();
+            RowReader reader = createReader(getExpectedReadPath()) ;
 
             List<List<Object>> expected = getExpectedList();
 
@@ -235,8 +239,132 @@ public abstract class RowReaderTest extends TableReaderTest {
             fail(e.getLocalizedMessage());
         }
     }
+    
+    @Test
+    public void testWriteCells() {
+        try {
+            
+            Path dir = Paths.get("target/testWriteCells") ;
+            
+            Files.createDirectories(dir) ;
+            
+            Path path = Files.createTempFile(dir, getExpectedWritePath().getFileName().toString(), null) ;
+        
+            RowWriter writer = createWriter(path);
 
-    protected abstract RowReader createReader() throws FileNotFoundException, IOException;
+            List<List<Object>> expected = getExpectedList();
+
+            int i = 0;
+
+            if (i < expected.size()) {
+                writer.writeRowCells(expected.get(i));
+                ++i;
+
+                while (i < expected.size() && writer.newRow()) {
+                    writer.writeRowCells(expected.get(i));
+                    ++i;
+                }
+            }
+
+            writer.close();
+
+            compareFiles(path, getExpectedWritePath()) ;
+            
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            fail(e.getLocalizedMessage());
+        }
+    }
+
+    @Test
+    public void testWriteCellsAsArray() {
+        try {
+            
+            Path dir = Paths.get("target/testWriteCellsAsArray") ;
+            
+            Files.createDirectories(dir) ;
+            
+            Path path = Files.createTempFile(dir, getExpectedWritePath().getFileName().toString(), null) ;
+            
+            RowWriter writer = createWriter(path);
+
+            Object[][] expected = getExpectedArray();
+
+            int i = 0;
+
+            if (i < expected.length) {
+                writer.writeRowCellsAsArray(expected[i]);
+                ++i;
+
+                while (i < expected.length && writer.newRow()) {
+                    writer.writeRowCellsAsArray(expected[i]);
+                    ++i;
+                }
+            }
+
+            writer.close();
+            
+            compareFiles(path, getExpectedWritePath()) ;
+            
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            fail(e.getLocalizedMessage());
+        }
+    }
+    
+    private void compareFiles(Path expectedPath, Path actualPath) {
+        try {
+            BufferedReader expectedReader = Files.newBufferedReader(expectedPath) ;
+            BufferedReader actualReader = Files.newBufferedReader(actualPath) ;
+
+        int i = 0;
+        
+        String expectedLine ;
+        String actualLine ;
+
+        while (expectedReader.ready() && actualReader.ready()) {
+            expectedLine = expectedReader.readLine().trim() ; // writer naturally trims
+            actualLine = actualReader.readLine() ;
+            
+            assertEquals("row " + i + " not equal", expectedLine, actualLine);
+            ++i;
+        } 
+        
+        assertFalse("Still rows to read!", actualReader.ready()) ;
+        assertFalse("Read too many rows!", actualReader.ready()) ;
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+            
+            fail(e.getMessage()) ;
+        }
+    }
+
+    protected final RowReader createReader() throws FileNotFoundException, IOException
+    {
+        return createReader(getExpectedReadPath()) ;
+    }
+
+    protected final boolean hasOption(int options, int option) {
+        return (options & option) > 0;
+    }
+
+    protected abstract RowReader createReader(Path path) throws FileNotFoundException, IOException ;
+    
+    protected abstract RowWriter createWriter(Path path) throws FileNotFoundException, IOException ;
+
+    protected abstract String getTestFilePath() ;
+    
+    protected Path getExpectedReadPath()
+    {
+        return Paths.get(this.getClass().getResource("/read"+ getTestFilePath()).getPath()); 
+    }
+    
+    protected Path getExpectedWritePath()
+    {
+        return Paths.get(this.getClass().getResource("/write"+ getTestFilePath()).getPath()); 
+    }
+
 
     protected abstract List<List<Object>> getExpectedList();
 

@@ -45,12 +45,12 @@ public class IOUtilitiesTest {
         try {
             assertEquals(TextFileRowReader.class,
                 IOUtilities
-                    .createRowReader(Paths.get(this.getClass().getResource("/object_table.txt").getFile()),
+                    .createRowReader(Paths.get(this.getClass().getResource("/read/object_table.txt").getFile()),
                         FileType.TXT)
                     .getClass());
             assertEquals(TextFileRowReader.class,
                 IOUtilities
-                    .createRowReader(Paths.get(this.getClass().getResource("/object_table.csv").getFile()),
+                    .createRowReader(Paths.get(this.getClass().getResource("/read/object_table.csv").getFile()),
                         FileType.CSV)
                     .getClass());
             // assertEquals(null, IOUtilities.createRowReader(new
@@ -79,9 +79,9 @@ public class IOUtilitiesTest {
 
         try {
             assertEquals(new ArrayList<String>(), IOUtilities.getSheets(
-                Paths.get(this.getClass().getResource("/object_table.txt").getFile()), FileType.TXT));
+                Paths.get(this.getClass().getResource("/read/object_table.txt").getFile()), FileType.TXT));
             assertEquals(new ArrayList<String>(), IOUtilities.getSheets(
-                Paths.get(this.getClass().getResource("/object_table.csv").getFile()), FileType.CSV));
+                Paths.get(this.getClass().getResource("/read/object_table.csv").getFile()), FileType.CSV));
             // assertEquals(expected, IOUtilities.getSheets(new
             // FileProperties(this.getClass().getResource("/object_table.xls").getFile(),
             // FileType.XLS))) ;
