@@ -32,13 +32,13 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
      * Sets no options, all options are set to false
      */
     public static final int NO_OPTIONS = 0;
-    
+
     private String pathReference;
 
     private Path path;
 
     private String comment;
-    
+
     private String escapeString;
 
     private int currentRowSize = UNKNOWN_COUNT;
@@ -129,7 +129,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
     public final String getCommentString() {
         return comment;
     }
-    
+
     /**
      * Sets the string which indicates a comment line that should be ignored by
      * the reader. Set to <code>null</code> if no comments are allowed
@@ -150,7 +150,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
             this.comment = comment;
         }
     }
-    
+
     /**
      * Gets the string which indicates at comment line that should be ignored by
      * the reader.
@@ -160,12 +160,13 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
     public final String getEscapeString() {
         return escapeString;
     }
-    
+
     /**
-     * Sets the string which indicates a comment line that should be ignored by
-     * the reader. Set to <code>null</code> if no comments are allowed
+     * Sets the escape string which indicates that any delimiter or quotes
+     * (single or double) after this escape string should be not be considered
+     * as a quote or delimiter
      * 
-     * @param comment
+     * @param escapeString
      *            the comment string
      * @throws IOException
      *             if the reader/writer is in use
@@ -179,15 +180,15 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
                 throw new IOException("Escape string can not be set while reader/writer is in use");
 
             this.escapeString = escapeString;
-            
-            escapeStringUpdated() ;
+
+            escapeStringUpdated();
         }
     }
 
     public final String getPathReference() {
         return pathReference;
     }
-    
+
     public final void setPathReference(String pathReference) throws IOException {
         if (this.pathReference != pathReference) {
             if (isInUse())
@@ -197,7 +198,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
             path = null;
         }
     }
-    
+
     /**
      * Gets an int representing a bit array of options
      * 
@@ -212,13 +213,15 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
      * 
      * @param options
      *            an int representing a bit array of options
+     * @throws IOException if the option is invalid or is being set
+     * after the reader is in use
      */
     public final void setOptions(int options) throws IOException {
         if (options != this.options) {
             if (isInUse()) {
                 throw new IOException("Options can not be changed while reader is in use");
             }
-            
+
             if (options > getValidOptions() || (options & getValidOptions()) == 0) {
                 throw new IOException("One or more options were invalid : " + (options & getValidOptions()));
             }
@@ -269,8 +272,8 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
                 throw new IOException("Delimiter string can not be set while reader/writer is in use");
 
             this.delimiter = delimiter;
-            
-            delimeterStringUpdated() ;
+
+            delimeterStringUpdated();
         }
     }
 
@@ -292,7 +295,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
         if (delimiter == null || delimiter.equals(""))
             delimiter = Constants.DEFAULT_DELIMITER;
     }
-    
+
     protected final boolean hasOption(int option) {
         return (options & option) > 0;
     }
@@ -314,22 +317,24 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
     }
 
     /**
-     * Gets the current row size, which is either the row size that was set externally
-     * using the {@link #setFixedRowSize(int)} or calculated from the data being read or
-     * written depending on the implementing class. 
+     * Gets the current row size, which is either the row size that was set
+     * externally using the {@link #setFixedRowSize(int)} or calculated from the
+     * data being read or written depending on the implementing class.
      * 
-     * @return the size of the current 
+     * @return the size of the current
      */
     public final int getCurrentRowSize() {
         return currentRowSize;
     }
 
     /**
-     * Set a fixed row size. Rows less than this size are padded out to right size
-     * or rows longer than this size are truncated.
+     * Set a fixed row size. Rows less than this size are padded out to right
+     * size or rows longer than this size are truncated.
      * 
-     * @param rowSize the fixed row size
-     * @throws IOException if the size is being set after read/write has started.
+     * @param rowSize
+     *            the fixed row size
+     * @throws IOException
+     *             if the size is being set after read/write has started.
      */
     public final void setFixedRowSize(int rowSize) throws IOException {
         if (this.currentRowSize != rowSize) {
@@ -342,7 +347,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
 
         rowSizeSetExternally = rowSize >= 0;
     }
-    
+
     protected void escapeStringUpdated() {
 
     }
@@ -350,22 +355,22 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
     protected void optionsUpdated() {
 
     }
-    
+
     protected int getValidOptions() {
         return 0;
     }
-    
+
     protected void delimeterStringUpdated() {
 
     }
-    
+
     protected final void setCurrentRowSize(int rowSize) {
         this.currentRowSize = rowSize;
     }
 
     protected void updateRowSize(int rowSize) {
         if (!rowSizeSetExternally) {
-            setCurrentRowSize(rowSize) ;
+            setCurrentRowSize(rowSize);
         }
     }
 
