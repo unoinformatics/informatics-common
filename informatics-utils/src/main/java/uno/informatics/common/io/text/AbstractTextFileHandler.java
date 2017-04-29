@@ -28,6 +28,11 @@ import uno.informatics.common.Constants;
 import uno.informatics.common.io.TextFileHandler;
 
 public abstract class AbstractTextFileHandler implements TextFileHandler {
+    /**
+     * Sets no options, all options are set to false
+     */
+    public static final int NO_OPTIONS = 0;
+    
     private String pathReference;
 
     private Path path;
@@ -35,6 +40,8 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
     private boolean isInStrictMode;
 
     private String comment;
+    
+    private String escapeString;
 
     private int currentRowSize = UNKNOWN_COUNT;
 
@@ -54,6 +61,8 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
 
     private String delimiter;
 
+    private int options = NO_OPTIONS;
+
     protected AbstractTextFileHandler() {
 
     }
@@ -72,7 +81,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
         if (reference == null)
             throw new FileNotFoundException("File undefined");
 
-        setFileReference(reference);
+        setPathReference(reference);
     }
 
     /**
@@ -122,18 +131,98 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
     public final String getCommentString() {
         return comment;
     }
+    
+    /**
+     * Sets the string which indicates a comment line that should be ignored by
+     * the reader. Set to <code>null</code> if no comments are allowed
+     * 
+     * @param comment
+     *            the comment string
+     * @throws IOException
+     *             if the reader/writer is in use
+     */
+    public final synchronized void setCommentString(String comment) throws IOException {
+        if (comment == null || comment.equals(""))
+            comment = Constants.DEFAULT_COMMENT;
+
+        if (!comment.equals(this.comment)) {
+            if (isInUse())
+                throw new IOException("Comment string can not be set while reader/writer is in use");
+
+            this.comment = comment;
+        }
+    }
+    
+    /**
+     * Gets the string which indicates at comment line that should be ignored by
+     * the reader.
+     * 
+     * @return the comment string
+     */
+    public final String getEscapeString() {
+        return escapeString;
+    }
+    
+    /**
+     * Sets the string which indicates a comment line that should be ignored by
+     * the reader. Set to <code>null</code> if no comments are allowed
+     * 
+     * @param comment
+     *            the comment string
+     * @throws IOException
+     *             if the reader/writer is in use
+     */
+    public final synchronized void setEscapeString(String escapeString) throws IOException {
+        if (escapeString == null || escapeString.equals(""))
+            escapeString = Constants.DEFAULT_ESCAPE;
+
+        if (!escapeString.equals(this.escapeString)) {
+            if (isInUse())
+                throw new IOException("Escape string can not be set while reader/writer is in use");
+
+            this.escapeString = escapeString;
+            
+            escapeStringUpdated() ;
+        }
+    }
 
     public final String getPathReference() {
         return pathReference;
     }
-
-    public final void setFileReference(String pathReference) throws IOException {
+    
+    public final void setPathReference(String pathReference) throws IOException {
         if (this.pathReference != pathReference) {
             if (isInUse())
                 throw new IOException("Path can not be changed while reader/writer is in use");
 
             this.pathReference = pathReference;
             path = null;
+        }
+    }
+    
+    /**
+     * Gets an int representing a bit array of options
+     * 
+     * @return an int representing a bit array of options
+     */
+    public final int getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets an int representing a bit array of options
+     * 
+     * @param options
+     *            an int representing a bit array of options
+     */
+    public final void setOptions(int options) throws IOException {
+        if (options != this.options) {
+            if (isInUse())
+                throw new IOException("Options can not be changed while reader is in use");
+
+            this.options = options;
+
+            optionsUpdated();
         }
     }
 
@@ -165,27 +254,6 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
     }
 
     /**
-     * Sets the string which indicates a comment line that should be ignored by
-     * the reader. Set to <code>null</code> if no comments are allowed
-     * 
-     * @param comment
-     *            the comment string
-     * @throws IOException
-     *             if the reader/writer is in use
-     */
-    public final synchronized void setCommentString(String comment) throws IOException {
-        if (comment == null || comment.equals(""))
-            comment = Constants.DEFAULT_COMMENT;
-
-        if (!comment.equals(this.comment)) {
-            if (isInUse())
-                throw new IOException("Comment string can not be set while reader/writer is in use");
-
-            this.comment = comment;
-        }
-    }
-
-    /**
      * Gets the string which indicates a new field in a record.
      * 
      * @return the delimiter string
@@ -202,7 +270,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
      * @throws IOException
      *             if the reader is currently in use
      */
-    public synchronized void setDelimiterString(String delimiter) throws IOException {
+    public final synchronized void setDelimiterString(String delimiter) throws IOException {
         if (delimiter == null || delimiter.equals(""))
             delimiter = Constants.DEFAULT_DELIMITER;
 
@@ -211,6 +279,8 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
                 throw new IOException("Delimiter string can not be set while reader/writer is in use");
 
             this.delimiter = delimiter;
+            
+            delimeterStringUpdated() ;
         }
     }
 
@@ -233,6 +303,10 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
 
         if (delimiter == null || delimiter.equals(""))
             delimiter = Constants.DEFAULT_DELIMITER;
+    }
+    
+    protected final boolean hasOption(int option) {
+        return (options & option) > 0;
     }
 
     /**
@@ -280,7 +354,19 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
 
         rowSizeSetExternally = rowSize >= 0;
     }
+    
+    protected void escapeStringUpdated() {
 
+    }
+
+    protected void optionsUpdated() {
+
+    }
+    
+    protected void delimeterStringUpdated() {
+
+    }
+    
     protected final void setCurrentRowSize(int rowSize) {
         this.currentRowSize = rowSize;
     }

@@ -45,4 +45,6 @@ public class Constants {
     public static final String MAP_LABEL_DELIMITER = ", ";
 
     public static final String MAP_KEY_VALUE_LABEL_DELIMITER = "=";
+
+    public static final String DEFAULT_ESCAPE = "\\";
 }

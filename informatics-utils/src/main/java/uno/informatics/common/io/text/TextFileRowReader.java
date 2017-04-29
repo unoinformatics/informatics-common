@@ -43,11 +43,6 @@ import uno.informatics.data.DataTypeConstants;
 public class TextFileRowReader extends AbstractTextFileHandler implements RowReader {
 
     /**
-     * Sets no options, all options are set to false
-     */
-    public static final int NO_OPTIONS = 0;
-
-    /**
      * Sets if two more more delimiters are encountered together if these should
      * be treated as one delimiters
      */
@@ -79,8 +74,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      * the size is fixed to the size of the first row.
      */
     public static final int ROWS_SAME_SIZE_AS_FIRST = 8;
-    
-    
+      
     /**
      * Sets if rows are adjusted to be all the same size 
      * If the size was predefined using the {@link #setFixedRowSize(int)}
@@ -107,12 +101,10 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      * Sets if the reader removes any single or double quotes. If the quotes do
      * not match. Quotes are matched only if they are first and last characters
      * in the token, after any space is trimmed. If {@link #REMOVE_WHITE_SPACE}
-     * is used, any white spaces aere removed first. Any delimiters found between quotes
+     * is used, any white spaces are removed first. Any delimiters found between quotes
      * are ignored
      */
     public static final int REMOVE_QUOTES = 32;
-
-    private int options = NO_OPTIONS;
 
     private Map<Integer, Integer> conversionTypesMap;
 
@@ -157,7 +149,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         if (reference == null)
             throw new FileNotFoundException("File undefined");
 
-        setFileReference(reference);
+        setPathReference(reference);
 
         initialise();
     }
@@ -225,46 +217,6 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         }
 
         bufferedReader = null;
-    }
-
-    /**
-     * Gets an int representing a bit array of options
-     * 
-     * @return an int representing a bit array of options
-     */
-    public final int getOptions() {
-        return options;
-    }
-
-    /**
-     * Sets an int representing a bit array of options
-     * 
-     * @param options
-     *            an int representing a bit array of options
-     */
-    public final void setOptions(int options) throws IOException {
-        if (options != this.options) {
-            if (isInUse())
-                throw new IOException("Options can not be changed while reader is in use");
-
-            this.options = options;
-
-            updatePattern();
-        }
-    }
-
-    /**
-     * Sets the delimiter string.
-     * 
-     * @param delimiter
-     *            the delimiter string
-     * @exception IOException
-     *                if the reader is already is use
-     */
-    public final synchronized void setDelimiterString(String delimiter) throws IOException {
-        super.setDelimiterString(delimiter);
-
-        updatePattern();
     }
 
     @Override
@@ -489,6 +441,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      * @throws IOException
      *             if an I/O error occurs
      */
+    @Override
     protected final void initialise() throws FileNotFoundException, IOException {
         super.initialise();
 
@@ -511,6 +464,24 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         else
             throw new IOException("Unable to initialise reader");
     }
+    
+    @Override
+    protected void escapeStringUpdated() {
+        super.escapeStringUpdated() ;
+        updatePattern(); 
+     }  
+    
+    @Override
+    protected void optionsUpdated() {
+        super.optionsUpdated(); 
+        updatePattern(); 
+    }  
+    
+    @Override
+    protected void delimeterStringUpdated() {
+        super.delimeterStringUpdated(); 
+        updatePattern(); 
+    }  
     
     @Override
     protected final void updateRowSize(int rowSize) {
@@ -1223,10 +1194,6 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         }
 
         return row;
-    }
-
-    private boolean hasOption(int option) {
-        return (options & option) > 0;
     }
 
     /**
