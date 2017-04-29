@@ -215,8 +215,13 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
      */
     public final void setOptions(int options) throws IOException {
         if (options != this.options) {
-            if (isInUse())
+            if (isInUse()) {
                 throw new IOException("Options can not be changed while reader is in use");
+            }
+            
+            if (options > getValidOptions() || (options & getValidOptions()) == 0) {
+                throw new IOException("One or more options were invalid : " + (options & getValidOptions()));
+            }
 
             this.options = options;
 
@@ -344,6 +349,10 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
 
     protected void optionsUpdated() {
 
+    }
+    
+    protected int getValidOptions() {
+        return 0;
     }
     
     protected void delimeterStringUpdated() {

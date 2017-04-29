@@ -60,7 +60,8 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
     //TODO
     //public static final int ESCAPE_DOUBLE_QUOTES = 8;
 
-
+    private static final int VALID_OPTIONS = ADD_SINGLE_QUOTES | ADD_DOUBLE_QUOTES ;
+    
     /**
      * Constructs an initialised reader using a string reference to a text file.
      * 
@@ -270,6 +271,12 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
             throw new IOException("Unable to initialise reader");
     }
 
+    @Override
+    protected int getValidOptions() {
+
+        return VALID_OPTIONS ;
+    }
+    
     /**
      * Initialises the reader using a bufferedReader directly.
      * 

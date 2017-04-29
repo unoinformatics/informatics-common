@@ -134,6 +134,9 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
 
     private static final String BUFFERREADER_NULL = "Buffer reader is undefined";
 
+    private static final int VALID_OPTIONS = IGNORE_EMPTY_LINES | PARSE_EMPTY_STRINGS| CONVERT_VALUES | 
+        IGNORE_MULTIPLE_DELIMITERS | ROWS_SAME_SIZE_AS_FIRST | REMOVE_WHITE_SPACE | REMOVE_QUOTES ;
+
     private TextFileRowReader() {
         conversionTypesArray = new int[0];
     }
@@ -411,6 +414,12 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         return parseRowCellsAsBooleanArray(getColumnIndex(), getCurrentRowSize());
     }
 
+    @Override
+    protected int getValidOptions() {
+
+        return VALID_OPTIONS ;
+    }
+    
     private Object parseValue(String text, int rowIndex, int columnIndex) throws IOException {
         try {
             return convertValue(text);
