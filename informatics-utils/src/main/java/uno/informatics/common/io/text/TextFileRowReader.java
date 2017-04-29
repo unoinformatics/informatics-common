@@ -105,6 +105,11 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      * are ignored
      */
     public static final int REMOVE_QUOTES = 32;
+    
+    /**
+     * Sets if empty lines should be ignored
+     */
+    public static final int IGNORE_EMPTY_LINES = 64;
 
     private Map<Integer, Integer> conversionTypesMap;
 
@@ -521,9 +526,9 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
         String line = bufferedReader.readLine();
 
         if (line != null) {
-            // ignore any commented record or empty lines if not in strict mode
-            if (((line.trim().length() == 0 && isInStrictMode())
-                || (getCommentString() != null && line.trim().startsWith(getCommentString())))) {
+            // ignore any commented record or empty lines
+            if ((hasOption(IGNORE_EMPTY_LINES) && line.trim().length() == 0)
+                || (getCommentString() != null && line.trim().startsWith(getCommentString()))) {
                 return null;
             } else {
                 return parseLine(line.trim());

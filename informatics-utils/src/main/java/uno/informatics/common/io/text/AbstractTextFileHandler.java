@@ -37,8 +37,6 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
 
     private Path path;
 
-    private boolean isInStrictMode;
-
     private String comment;
     
     private String escapeString;
@@ -240,19 +238,6 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
         }
     }
 
-    public final boolean isInStrictMode() {
-        return isInStrictMode;
-    }
-
-    public final void setInStrictMode(boolean isInStrictMode) throws IOException {
-        if (this.isInStrictMode != isInStrictMode) {
-            if (isInUse())
-                throw new IOException("Mode can not be changed while reader/writer is in use");
-
-            this.isInStrictMode = isInStrictMode;
-        }
-    }
-
     /**
      * Gets the string which indicates a new field in a record.
      * 
@@ -293,8 +278,6 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
      *             if an I/O error occurs
      */
     protected void initialise() throws FileNotFoundException, IOException {
-        isInStrictMode = false;
-
         rowPosition = Constants.UNKNOWN_INDEX;
         rowIndex = Constants.UNKNOWN_INDEX;
         columnIndex = Constants.UNKNOWN_INDEX;
