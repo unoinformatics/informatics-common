@@ -34,6 +34,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import uno.informatics.common.io.text.TextFileRowReader;
+import uno.informatics.common.io.text.TextFileRowWriter;
+
 public abstract class RowReadWriteTest extends TableReadWriteTest {
     @Test
     public void testReadCells() {
@@ -268,14 +271,14 @@ public abstract class RowReadWriteTest extends TableReadWriteTest {
 
             writer.close();
 
-            compareFiles(path, getExpectedWritePath()) ;
+            compareFiles(getExpectedWritePath(), path) ;
             
         } catch (Exception e) {
             e.printStackTrace(System.err);
             fail(e.getLocalizedMessage());
         }
     }
-
+    
     @Test
     public void testWriteCellsAsArray() {
         try {
@@ -304,7 +307,43 @@ public abstract class RowReadWriteTest extends TableReadWriteTest {
 
             writer.close();
             
-            compareFiles(path, getExpectedWritePath()) ;
+            compareFiles(getExpectedWritePath(), path) ;
+            
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            fail(e.getLocalizedMessage());
+        }
+    }
+
+    @Test
+    public void testWriteRead() {
+        try {
+            
+            Path dir = Paths.get("target/testWriteRead") ;
+            
+            Files.createDirectories(dir) ;
+            
+            Path path = Files.createTempFile(dir, getExpectedWritePath().getFileName().toString(), null) ;
+            
+            RowWriter writer = createWriter(path);
+            
+            writer.writeCells(getExpectedList());
+
+            writer.close();
+            
+            RowReader reader1 = createReader(path);
+            RowReader reader2 = createReader(getExpectedReadPath());
+            
+            if (reader2 instanceof TextFileRowReader) {
+                int options = ((TextFileRowReader)reader2).getOptions() | TextFileRowReader.REMOVE_WHITE_SPACE;
+                
+                ((TextFileRowReader)reader2).setOptions(options);
+            }
+            
+            assertEquals("Tables not equals", reader1.readCells(), reader2.readCells()) ;
+            
+            reader1.close();
+            reader2.close();
             
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -323,7 +362,7 @@ public abstract class RowReadWriteTest extends TableReadWriteTest {
         String actualLine ;
 
         while (expectedReader.ready() && actualReader.ready()) {
-            expectedLine = expectedReader.readLine().trim() ; // writer naturally trims
+            expectedLine = expectedReader.readLine() ;
             actualLine = actualReader.readLine() ;
             
             assertEquals("row " + i + " not equal", expectedLine, actualLine);
@@ -364,7 +403,6 @@ public abstract class RowReadWriteTest extends TableReadWriteTest {
     {
         return Paths.get(this.getClass().getResource("/write"+ getTestFilePath()).getPath()); 
     }
-
 
     protected abstract List<List<Object>> getExpectedList();
 
