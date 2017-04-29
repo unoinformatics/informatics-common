@@ -102,6 +102,8 @@ public class TXTFileTextFileRowReaderStringTestWithQuotes3 extends RowReaderStri
         TextFileRowWriter writer = new TextFileRowWriter(path);
 
         writer.setDelimiterString(TextFileHandler.TAB);
+        
+        writer.setOptions(TextFileRowWriter.ADD_QUOTES);
 
         return writer;
     }

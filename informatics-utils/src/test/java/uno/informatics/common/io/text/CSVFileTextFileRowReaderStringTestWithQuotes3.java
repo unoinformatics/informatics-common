@@ -102,6 +102,8 @@ public class CSVFileTextFileRowReaderStringTestWithQuotes3 extends RowReaderStri
         TextFileRowWriter writer = new TextFileRowWriter(path);
 
         writer.setDelimiterString(TextFileHandler.COMMA);
+        
+        writer.setOptions(TextFileRowWriter.ADD_QUOTES);
 
         return writer;
     }

@@ -33,7 +33,7 @@ import uno.informatics.common.io.text.TextFileRowWriter;
 public class TXTFileTextFileRowReaderStringTestWithQuotes2 extends RowReaderStringTest {
     private static final String FILE = "/string_table_with_quotes2.txt";
     
-    private final static String STRING_CELL1_2 = "R2 C3" ;
+    private final static String STRING_CELL1_2 = "R2\tC3" ;
     
     private final static String[] STRING_ROW2_ = new String[] {
         STRING_ROW2[0], STRING_ROW2[1], STRING_CELL1_2
@@ -101,6 +101,8 @@ public class TXTFileTextFileRowReaderStringTestWithQuotes2 extends RowReaderStri
         TextFileRowWriter writer = new TextFileRowWriter(path);
 
         writer.setDelimiterString(TextFileHandler.TAB);
+        
+        writer.setOptions(TextFileRowWriter.ADD_QUOTES);
 
         return writer;
     }

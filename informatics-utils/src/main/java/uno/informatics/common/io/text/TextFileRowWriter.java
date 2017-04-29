@@ -35,16 +35,25 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
     private static final String BUFFERWRITER_NULL = "Buffer writer is undefined";
     
     /**
-     * Sets if the writer finds any single quotes in a token, these tokens are
-     * enclosed with the opposite type of quotes. If both are found an error is given
+     * Sets if the writer finds any double quotes or the delimiter in a token, these tokens are
+     * enclosed with single quotes. If only single quotes are found these are written unaltered. 
+     * If both types of quotes are found an error is given. 
      */
     public static final int ADD_SINGLE_QUOTES = 1;
     
     /**
-     * Sets if the writer finds any double quotes in a token, these tokens are
-     * enclosed with the opposite type of quotes. If both are found an error is given
+     * Sets if the writer finds any single quotes or the delimiter in a token, these tokens are
+     * enclosed with double quotes. If only double quotes are found these are written unaltered. 
+     * If both types of quotes found an error is given
      */
     public static final int ADD_DOUBLE_QUOTES = 2;
+    
+    /**
+     * Sets if the writer finds any quotes (single or double) or the delimiter in a token, these tokens are
+     * enclosed with the oppose quotes. If both types of quotes found an error is given. Double quotes are used
+     * in preference to single quote in the case where only the delimiter is found.
+     */
+    public static final int ADD_QUOTES = ADD_SINGLE_QUOTES | ADD_DOUBLE_QUOTES;
     
     /**
      * Sets if the writer finds any single quotes in a token, these tokens are
@@ -198,32 +207,34 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
     }
 
     protected String convertValue(Object value) throws IOException {
+        
         if (value != null) {
-            if (hasOption(ADD_SINGLE_QUOTES)) {
-                String string = ConversionUtilities.convertToString(value) ;
-                
-                if (string.contains("\"") && !string.contains("'")) {
-                    return "'" + string + "'" ;
-                } else {
-                    if (string.contains("'")) {
-                        throw new IOException(String.format("Token : %s contains both single and double quotes!", string)) ;
-                    }
-                }
-            } 
+            String string = ConversionUtilities.convertToString(value) ;
             
             if (hasOption(ADD_DOUBLE_QUOTES)) {
-                String string = ConversionUtilities.convertToString(value) ;
-                
-                if (string.contains("'") && !string.contains("\"")) {
-                    return "\"" + string + "\"" ;
+
+                if (string.contains("'") && string.contains("\"")) {
+                    throw new IOException(String.format("Token : %s contains both double and single quotes!", string)) ;
                 } else {
-                    if (string.contains("\"")) {
-                        throw new IOException(String.format("Token : %s contains both double and single quotes!", string)) ;
+                    if (string.contains("'") || string.contains(getDelimiterString())) {
+                        return "\"" + string + "\"" ;
                     }
                 }
             } 
 
-            return ConversionUtilities.convertToString(value);
+            if (hasOption(ADD_SINGLE_QUOTES)) {
+                
+                if (string.contains("\"") && string.contains("'")) {
+                    throw new IOException(String.format("Token : %s contains both single and double quotes!", string)) ;
+                    
+                } else {
+                    if (string.contains("\"") || string.contains(getDelimiterString())) {
+                        return "'" + string + "'" ;
+                    }
+                }
+            } 
+
+            return string ;
  
         } else {
             return "";
