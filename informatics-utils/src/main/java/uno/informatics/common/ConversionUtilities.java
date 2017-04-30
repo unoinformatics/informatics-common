@@ -53,7 +53,7 @@ public class ConversionUtilities {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmssZ");
+    private static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmssZ");
 
     @SuppressWarnings("unused")
     private static String DEFAULT_DELIMITER = "&";
@@ -61,7 +61,7 @@ public class ConversionUtilities {
     public static final String convertToString(String value) {
         return value;
     }
-
+    
     /**
      * Converts a string to an object to an integer, double, boolean or string.
      * Will try to convert in following order Integer, Double and Boolean, or
@@ -74,6 +74,24 @@ public class ConversionUtilities {
     public static final Object convertToObject(String string) {
         try {
             return convertToObject(string, DEFAULT_TYPE_IDS);
+        } catch (ConversionException e) {
+            return string;
+        }
+    }
+
+    /**
+     * Converts a string to an object to an integer, double, boolean or string.
+     * Will try to convert in following order Integer, Double and Boolean, or
+     * return the original String
+     * 
+     * @param string
+     *            the string to be converted
+     * @param dataFormat the date format used for conversion
+     * @return a object representation of the string
+     */
+    public static final Object convertToObject(String string, DateFormat dataFormat) {
+        try {
+            return convertToObject(string, DEFAULT_TYPE_IDS, dataFormat);
         } catch (ConversionException e) {
             return string;
         }
@@ -95,6 +113,26 @@ public class ConversionUtilities {
      *             types
      */
     public static final Object convertToObject(String string, int types) throws ConversionException {
+        return convertToObject(string, types, DEFAULT_DATE_FORMAT) ;
+    }
+    
+    /**
+     * Converts a string to an object given a set of possible types to convert
+     * to. Will try to convert in following order Short, Integer, Long, Float,
+     * Double, BigInteger, BigDecmal and Boolean, Date and String. An exception
+     * is throw if the string can not be converted to one of the possible types.
+     * 
+     * @param string
+     *            the string to be converted
+     * @param types
+     *            possible types to which to convert
+     * @param dataFormat the date format used for conversion
+     * @return a object representation of the string
+     * @throws ConversionException
+     *             if the string can not be converted to one of the possible
+     *             types
+     */
+    public static final Object convertToObject(String string, int types, DateFormat dataFormat) throws ConversionException {
         Object value = null;
 
         if (string != null) {
@@ -123,7 +161,7 @@ public class ConversionUtilities {
                 value = convertToBooleanInternal(string);
 
             if (value == null && (types & DATE_ID) != 0)
-                value = convertToDateInternal(string);
+                value = convertToDateInternal(string, dataFormat);
 
             if (value == null && (types & STRING_ID) != 0)
                 value = string;
@@ -335,11 +373,16 @@ public class ConversionUtilities {
         return value;
     }
 
-    @SuppressWarnings("deprecation")
+    
     public static final Date convertToDate(String value) throws ConversionException {
+        return convertToDate(value, DEFAULT_DATE_FORMAT) ;
+    }
+    
+    @SuppressWarnings("deprecation")
+    public static final Date convertToDate(String value, DateFormat dataFormat) throws ConversionException {
         if (value != null) {
             try {
-                return DATE_FORMAT.parse(value);
+                return dataFormat.parse(value);
             } catch (Exception e) {
                 try {
                     return new Date(value);
@@ -353,9 +396,13 @@ public class ConversionUtilities {
     }
 
     public static final String convertToString(Object value) {
+        return convertToString(value, DEFAULT_DATE_FORMAT) ;
+    }
+    
+    public static final String convertToString(Object value, DateFormat dataFormat) {
         if (value != null)
             if (value instanceof Date)
-                return DATE_FORMAT.format((Date) value);
+                return dataFormat.format((Date) value);
             else
                 return value.toString();
         else
@@ -493,8 +540,12 @@ public class ConversionUtilities {
 
         return list;
     }
-
+    
     public static final int getDataType(String string) {
+        return getDataType(string, DEFAULT_DATE_FORMAT) ;
+    }
+
+    public static final int getDataType(String string, DateFormat dateFormat) {
         int datatype = UNKNOWN_ID;
 
         if (string != null) {
@@ -524,7 +575,7 @@ public class ConversionUtilities {
             if (convertToBooleanInternal(string) != null)
                 datatype = datatype | BOOLEAN_ID;
 
-            if (convertToDateInternal(string) != null)
+            if (convertToDateInternal(string, dateFormat) != null)
                 datatype = datatype | DATE_ID;
         }
 
@@ -660,9 +711,9 @@ public class ConversionUtilities {
         }
     }
 
-    private static final Date convertToDateInternal(String string) {
+    private static final Date convertToDateInternal(String string, DateFormat dataFormat) {
         try {
-            return convertToDate(string);
+            return convertToDate(string, dataFormat);
         } catch (ConversionException e) {
             return null;
         }
