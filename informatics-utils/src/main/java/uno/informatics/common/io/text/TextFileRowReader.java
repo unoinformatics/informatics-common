@@ -25,6 +25,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -110,6 +112,8 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      * Sets if empty lines should be ignored
      */
     public static final int IGNORE_EMPTY_LINES = 64;
+    
+    private DateFormat dayFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     private Map<Integer, Integer> conversionTypesMap;
 
@@ -440,11 +444,11 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     }
 
     private Object convertValue(String text) {
-        return ConversionUtilities.convertToObject(text);
+        return ConversionUtilities.convertToObject(text, dayFormat);
     }
 
     private Object convertValue(String text, int dataTypes) throws ConversionException {
-        return ConversionUtilities.convertToObject(text, dataTypes);
+        return ConversionUtilities.convertToObject(text, dataTypes, dayFormat);
     }
 
     /**

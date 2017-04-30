@@ -16,11 +16,18 @@
 
 package uno.informatics.common.io;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import uno.informatics.common.ConversionException;
+import uno.informatics.common.ConversionUtilities;
+
 public class TestData {
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    
     protected final static String[] STRING_ROW1 = new String[] {
         "R1C1", "R1C2", "R1C3"
     };
@@ -132,17 +139,16 @@ public class TestData {
         STRING_TABLE_AS_LIST2_WITH_GAPS.get(2).add(STRING_ROW3[1]);
         STRING_TABLE_AS_LIST2_WITH_GAPS.get(2).add(null);
     }
-    @SuppressWarnings("deprecation")
+
     protected final static Object[] OBJECT_ROW1 = new Object[] {
-        1, 1.1, "R1C3", true, new Date("12/12/2012")
+        1, 1.1, "R1C3", true, TestData.convertToDate("12/12/2012") 
     };
-    @SuppressWarnings("deprecation")
     protected final static Object[] OBJECT_ROW2 = new Object[] {
-        2, 2.2, "R2C3", false, new Date("13/12/2012")
+        2, 2.2, "R2C3", false, TestData.convertToDate("13/12/2012")
     };
-    @SuppressWarnings("deprecation")
+
     protected final static Object[] OBJECT_ROW3 = new Object[] {
-        3, 3.3, "R3C3", true, new Date("14/12/2012")
+        3, 3.3, "R3C3", true, TestData.convertToDate("14/12/2012")
     };
 
     protected final static Object[][] OBJECT_TABLE_AS_ARRAY = new Object[][] {
@@ -207,5 +213,13 @@ public class TestData {
         OBJECT_TABLE_AS_LIST_WITH_GAPS.get(2).add(OBJECT_ROW3[2]);
         OBJECT_TABLE_AS_LIST_WITH_GAPS.get(2).add(OBJECT_ROW3[3]);
         OBJECT_TABLE_AS_LIST_WITH_GAPS.get(2).add(OBJECT_ROW3[4]);
+    }
+    
+    public static final Date convertToDate(String string) {
+        try {
+            return ConversionUtilities.convertToDate(string, DATE_FORMAT) ;
+        } catch (ConversionException e) {
+            return null ;
+        }
     }
 }

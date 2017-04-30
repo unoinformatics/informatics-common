@@ -22,6 +22,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,6 +33,8 @@ import uno.informatics.common.io.RowWriter;
 
 public class TextFileRowWriter extends AbstractTextFileHandler implements RowWriter {
     private BufferedWriter bufferedWriter;
+
+    private DateFormat dayFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     private static final String BUFFERWRITER_NULL = "Buffer writer is undefined";
     
@@ -209,7 +213,7 @@ public class TextFileRowWriter extends AbstractTextFileHandler implements RowWri
     protected String convertValue(Object value) throws IOException {
         
         if (value != null) {
-            String string = ConversionUtilities.convertToString(value) ;
+            String string = ConversionUtilities.convertToString(value, dayFormat) ;
             
             if (hasOption(ADD_DOUBLE_QUOTES)) {
 
