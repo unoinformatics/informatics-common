@@ -26,7 +26,7 @@ import uno.informatics.common.ConversionException;
 import uno.informatics.common.ConversionUtilities;
 
 public class TestData {
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    protected static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
     
     protected final static String[] STRING_ROW1 = new String[] {
         "R1C1", "R1C2", "R1C3"

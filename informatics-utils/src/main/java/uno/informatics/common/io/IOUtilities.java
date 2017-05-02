@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,13 @@ import uno.informatics.data.io.FileType;
  *
  */
 public class IOUtilities {
-    public static final RowReader createRowReader(Path path, FileType type, int... options)
+    
+    public static final RowReader createRowReader(Path filePath, FileType type, int... options)
+        throws IOException {
+        return createRowReader(filePath, type, null, options) ;
+    }
+    
+    public static final RowReader createRowReader(Path path, FileType type, DateFormat dateFormat, int... options)
         throws IOException {
         RowReader reader = null;
 
@@ -45,6 +52,10 @@ public class IOUtilities {
 
                 textFileRowStringReader.setDelimiterString(COMMA);
 
+                if (dateFormat != null) {
+                    textFileRowStringReader.setDateFormat(dateFormat);
+                }
+
                 textFileRowStringReader.setOptions(getOptions(options));
 
                 reader = textFileRowStringReader;
@@ -53,6 +64,10 @@ public class IOUtilities {
                 textFileRowStringReader = new TextFileRowReader(path);
 
                 textFileRowStringReader.setDelimiterString(TAB);
+                
+                if (dateFormat != null) {
+                    textFileRowStringReader.setDateFormat(dateFormat);
+                }
 
                 textFileRowStringReader.setOptions(getOptions(options));
 
@@ -70,8 +85,13 @@ public class IOUtilities {
 
         return reader;
     }
+    
+    public static final RowReader createRowReader(BufferedReader bufferedReader, FileType type, int... options)
+        throws IOException {
+        return createRowReader(bufferedReader, type, null, options) ;
+    }
 
-    public static RowReader createRowReader(BufferedReader bufferedReader, FileType type, int... options)
+    public static RowReader createRowReader(BufferedReader bufferedReader, FileType type, DateFormat dateFormat, int... options)
         throws IOException {
         RowReader reader = null;
 
@@ -80,15 +100,23 @@ public class IOUtilities {
                 TextFileRowReader textFileRowStringReader = new TextFileRowReader(bufferedReader);
 
                 textFileRowStringReader.setDelimiterString(COMMA);
+                
+                if (dateFormat != null) {
+                    textFileRowStringReader.setDateFormat(dateFormat);
+                }
 
                 textFileRowStringReader.setOptions(getOptions(options));
-
+                
                 reader = textFileRowStringReader;
                 break;
             case TXT:
                 textFileRowStringReader = new TextFileRowReader(bufferedReader);
 
                 textFileRowStringReader.setDelimiterString(TAB);
+                
+                if (dateFormat != null) {
+                    textFileRowStringReader.setDateFormat(dateFormat);
+                }
 
                 textFileRowStringReader.setOptions(getOptions(options));
 
@@ -106,8 +134,13 @@ public class IOUtilities {
 
         return reader;
     }
-
+    
     public static final RowWriter createRowWriter(Path filePath, FileType type, int... options)
+        throws IOException {
+        return createRowWriter(filePath, type, null, options) ;
+    }
+
+    public static final RowWriter createRowWriter(Path filePath, FileType type, DateFormat dateFormat, int... options)
         throws IOException {
         RowWriter writer = null;
 
@@ -116,6 +149,12 @@ public class IOUtilities {
                 TextFileRowWriter textFileRowStringWriter = new TextFileRowWriter(filePath);
 
                 textFileRowStringWriter.setDelimiterString(COMMA);
+                
+                if (dateFormat != null) {
+                    textFileRowStringWriter.setDateFormat(dateFormat);
+                }
+                
+                textFileRowStringWriter.setOptions(getOptions(options));
 
                 writer = textFileRowStringWriter;
                 break;
@@ -123,7 +162,13 @@ public class IOUtilities {
                 textFileRowStringWriter = new TextFileRowWriter(filePath);
 
                 textFileRowStringWriter.setDelimiterString(TAB);
+                
+                if (dateFormat != null) {
+                    textFileRowStringWriter.setDateFormat(dateFormat);
+                }
 
+                textFileRowStringWriter.setOptions(getOptions(options));
+                
                 writer = textFileRowStringWriter;
                 break;
             case XLS:
@@ -138,8 +183,13 @@ public class IOUtilities {
 
         return writer;
     }
+    
+    public static final RowWriter createRowWriter(BufferedWriter bufferedWriter, FileType type, int... options)
+        throws IOException {
+        return createRowWriter(bufferedWriter, type, null, options) ;
+    }
 
-    public static final RowWriter createRowWriter(BufferedWriter bufferedWriter, FileType type,
+    public static final RowWriter createRowWriter(BufferedWriter bufferedWriter, FileType type, DateFormat dateFormat, 
         int... options) throws IOException {
         RowWriter writer = null;
 
@@ -148,6 +198,12 @@ public class IOUtilities {
                 TextFileRowWriter textFileRowStringWriter = new TextFileRowWriter(bufferedWriter);
 
                 textFileRowStringWriter.setDelimiterString(COMMA);
+                
+                if (dateFormat != null) {
+                    textFileRowStringWriter.setDateFormat(dateFormat);
+                }
+                
+                textFileRowStringWriter.setOptions(getOptions(options));
 
                 writer = textFileRowStringWriter;
                 break;
@@ -155,6 +211,12 @@ public class IOUtilities {
                 textFileRowStringWriter = new TextFileRowWriter(bufferedWriter);
 
                 textFileRowStringWriter.setDelimiterString(TAB);
+                
+                if (dateFormat != null) {
+                    textFileRowStringWriter.setDateFormat(dateFormat);
+                }
+                
+                textFileRowStringWriter.setOptions(getOptions(options));
 
                 writer = textFileRowStringWriter;
                 break;

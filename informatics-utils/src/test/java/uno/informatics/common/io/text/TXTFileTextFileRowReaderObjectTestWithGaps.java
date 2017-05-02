@@ -36,6 +36,8 @@ public class TXTFileTextFileRowReaderObjectTestWithGaps extends RowReaderObjectT
         TextFileRowReader reader = new TextFileRowReader(path);
         
         reader.setDelimiterString(TextFileHandler.TAB);
+        
+        reader.setDateFormat(DATE_FORMAT);
 
         return reader;
     }
@@ -45,6 +47,8 @@ public class TXTFileTextFileRowReaderObjectTestWithGaps extends RowReaderObjectT
         TextFileRowWriter writer = new TextFileRowWriter(path);
 
         writer.setDelimiterString(TextFileHandler.TAB);
+        
+        writer.setDateFormat(DATE_FORMAT);
 
         return writer;
     }

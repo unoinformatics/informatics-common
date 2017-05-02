@@ -36,6 +36,8 @@ public class TXTFileTextFileRowReaderObjectTest extends RowReaderObjectTest {
         TextFileRowReader reader = new TextFileRowReader(path);
         
         reader.setDelimiterString(TextFileHandler.TAB);
+        
+        reader.setDateFormat(DATE_FORMAT);
 
         return reader;
     }
@@ -45,6 +47,8 @@ public class TXTFileTextFileRowReaderObjectTest extends RowReaderObjectTest {
         TextFileRowWriter writer = new TextFileRowWriter(path);
 
         writer.setDelimiterString(TextFileHandler.TAB);
+        
+        writer.setDateFormat(DATE_FORMAT);
 
         return writer;
     }

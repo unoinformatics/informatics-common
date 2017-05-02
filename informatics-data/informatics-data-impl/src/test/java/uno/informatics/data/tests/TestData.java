@@ -21,12 +21,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import uno.informatics.common.ConversionException;
 import uno.informatics.common.ConversionUtilities;
+import uno.informatics.data.DataOption;
 import uno.informatics.data.DataType;
 import uno.informatics.data.Feature;
 import uno.informatics.data.Method;
@@ -35,6 +38,7 @@ import uno.informatics.data.ScaleType;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.dataset.FeatureDataRow;
+import uno.informatics.data.feature.AbstractFeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureDataRow;
 import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
@@ -49,6 +53,8 @@ public class TestData {
     protected final static String UID = "uid";
     protected final static String NAME = "name";
     protected final static String DESCRIPTION = "description";
+    
+    protected static final DataOption DATA_FORMAT_OPTION = new DataOption(AbstractFeatureData.DATE_FORMAT, new SimpleDateFormat("dd/MM/yyyy"));
     
     protected final static Object[] OBJECT_ROW1 = new Object[] { 1, 1.1, "R1C3", true, createDate("12/12/2012") };
     protected final static Object[] OBJECT_ROW2 = new Object[] { 2, 2.2, "R2C3", false, createDate("13/12/2012") };
@@ -478,6 +484,7 @@ public class TestData {
     }
 
     protected static final List<Feature> STRING_FEATURES_COL = new ArrayList<Feature>();
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     static {
         STRING_FEATURES_COL.add(new FeaturePojo("col1", "Col 1",
@@ -498,7 +505,7 @@ public class TestData {
      */
     private static Object createDate(String value) {
         try {
-            return ConversionUtilities.convertToDate(value);
+            return ConversionUtilities.convertToDate(value, new SimpleDateFormat("dd/MM/yyyy"));
         } catch (ConversionException e) {
             return null;
         }

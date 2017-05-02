@@ -22,6 +22,8 @@ import static uno.informatics.common.Constants.UNKNOWN_INDEX;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import uno.informatics.common.Constants;
@@ -32,12 +34,14 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
      * Sets no options, all options are set to false
      */
     public static final int NO_OPTIONS = 0;
+    
+    protected static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmssZ");
 
     private String pathReference;
 
     private Path path;
 
-    private String comment;
+    private String commentString;
 
     private String escapeString;
 
@@ -57,9 +61,12 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
 
     private boolean rowSizeSetExternally = false;
 
-    private String delimiter;
+    private String delimiterString;
 
     private int options = NO_OPTIONS;
+    
+    private DateFormat dateFormat = DEFAULT_DATE_FORMAT ;
+
 
     protected AbstractTextFileHandler() {
 
@@ -127,7 +134,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
      * @return the comment string
      */
     public final String getCommentString() {
-        return comment;
+        return commentString;
     }
 
     /**
@@ -143,11 +150,11 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
         if (comment == null || comment.equals(""))
             comment = Constants.DEFAULT_COMMENT;
 
-        if (!comment.equals(this.comment)) {
+        if (!comment.equals(this.commentString)) {
             if (isInUse())
                 throw new IOException("Comment string can not be set while reader/writer is in use");
 
-            this.comment = comment;
+            this.commentString = comment;
         }
     }
 
@@ -252,7 +259,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
      * @return the delimiter string
      */
     public final String getDelimiterString() {
-        return delimiter;
+        return delimiterString;
     }
 
     /**
@@ -267,11 +274,11 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
         if (delimiter == null || delimiter.equals(""))
             delimiter = Constants.DEFAULT_DELIMITER;
 
-        if (!delimiter.equals(this.delimiter)) {
+        if (!delimiter.equals(this.delimiterString)) {
             if (isInUse())
                 throw new IOException("Delimiter string can not be set while reader/writer is in use");
 
-            this.delimiter = delimiter;
+            this.delimiterString = delimiter;
 
             delimeterStringUpdated();
         }
@@ -290,10 +297,10 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
         rowIndex = Constants.UNKNOWN_INDEX;
         columnIndex = Constants.UNKNOWN_INDEX;
 
-        comment = Constants.DEFAULT_COMMENT;
+        commentString = Constants.DEFAULT_COMMENT;
 
-        if (delimiter == null || delimiter.equals(""))
-            delimiter = Constants.DEFAULT_DELIMITER;
+        if (delimiterString == null || delimiterString.equals(""))
+            delimiterString = Constants.DEFAULT_DELIMITER;
     }
 
     protected final boolean hasOption(int option) {
@@ -346,6 +353,20 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
         }
 
         rowSizeSetExternally = rowSize >= 0;
+    }
+
+    public final DateFormat getDateFormat() {
+        return dateFormat;
+    }
+
+    public final void setDateFormat(DateFormat dateFormat) throws IOException {
+        
+        if (!dateFormat.equals(this.dateFormat)) {
+            if (isInUse())
+                throw new IOException("Date format can not be set while reader/writer is in use");
+
+            this.dateFormat = dateFormat;
+        }
     }
 
     protected void escapeStringUpdated() {

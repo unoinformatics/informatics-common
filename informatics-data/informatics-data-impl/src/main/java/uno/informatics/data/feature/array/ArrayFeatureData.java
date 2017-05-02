@@ -18,6 +18,7 @@ package uno.informatics.data.feature.array;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -32,6 +33,7 @@ import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowWriter;
 import uno.informatics.common.io.text.TextFileRowReader;
+import uno.informatics.data.DataOption;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
 import uno.informatics.data.Feature;
@@ -48,7 +50,6 @@ import uno.informatics.data.pojo.FeaturePojo;
 import uno.informatics.data.pojo.MethodPojo;
 import uno.informatics.data.pojo.ScalePojo;
 import uno.informatics.data.pojo.SimpleEntityPojo;
-import uno.informatics.data.utils.DataOption;
 import uno.informatics.data.utils.DatasetUtils;
 
 /**
@@ -191,8 +192,9 @@ public class ArrayFeatureData extends AbstractFeatureData {
         
         String uniqueIdentifier = DataOption.findValue(options, ID, String.class);
         String name = DataOption.findValue(options, NAME, String.class);
+        DateFormat dateFormat = DataOption.findValue(options, DATE_FORMAT, DateFormat.class);
         
-        if (name == null){
+        if (name == null) {
             name = filePath.getFileName().toString() ;
         }
             
@@ -382,7 +384,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
 
                                             types = DatasetUtils.getConversionTypes(newFeatures);
 
-                                            addValues(rowList, cells, newFeatures, types);
+                                            addValues(rowList, cells, newFeatures, types, dateFormat);
                                         }
                                     }
                                 } else {
@@ -394,7 +396,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
 
                                     addHeaders(rowId, rowName, rowHeaders);
 
-                                    addValues(rowList, cells, newFeatures, types);
+                                    addValues(rowList, cells, newFeatures, types, dateFormat);
                                 }
                             }
                         } else {
@@ -404,7 +406,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
 
                             addHeaders(rowId, rowName, rowHeaders);
 
-                            addValues(rowList, cells, newFeatures, types);
+                            addValues(rowList, cells, newFeatures, types, dateFormat);
                         }
                     }
 
@@ -436,7 +438,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
                                 );
                             }
 
-                            addValues(rowList, cells, newFeatures, types);
+                            addValues(rowList, cells, newFeatures, types, dateFormat);
                         }
 
                         ++row;
@@ -495,7 +497,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
     }
     
     @Override
-    public final void writeData(Path filePath, FileType type)
+    public final void writeData(Path filePath, FileType type, DataOption... options)
             throws IOException {
         
         // validate arguments
@@ -517,10 +519,10 @@ public class ArrayFeatureData extends AbstractFeatureData {
                     String.format("Only file types TXT and CSV are supported. Got: %s.", type));
         }
 
-        RowWriter writer = IOUtilities.createRowWriter(filePath, type, TextFileRowReader.ROWS_SAME_SIZE_AS_FIRST,
-                    TextFileRowReader.REMOVE_WHITE_SPACE);
+        DateFormat dateFormat = DataOption.findValue(options, DATE_FORMAT, DateFormat.class);
         
-        
+        RowWriter writer = IOUtilities.createRowWriter(filePath, type);
+     
         writer.writeCell(ID);
         writer.newColumn() ;
         writer.writeCell(NAME);
@@ -608,8 +610,8 @@ public class ArrayFeatureData extends AbstractFeatureData {
     }
 
     private static void addValues(List<List<Object>> rowList, List<String> cells, List<FeaturePojo> features,
-            int[] types) throws ConversionException {
-        List<Object> values = convertCells(cells, types);
+            int[] types, DateFormat dateFormat) throws ConversionException {
+        List<Object> values = convertCells(cells, types, dateFormat);
 
         rowList.add(values);
 
@@ -796,8 +798,8 @@ public class ArrayFeatureData extends AbstractFeatureData {
         }
     }
 
-    private static List<Object> convertCells(List<String> cells, int[] types) throws ConversionException {
-        return ConversionUtilities.convertToObjectList(cells, types);
+    private static List<Object> convertCells(List<String> cells, int[] types, DateFormat dateFormat) throws ConversionException {
+        return ConversionUtilities.convertToObjectList(cells, types, dateFormat);
     }
 
     private void setValuesWithHeaders(Object[][] values) throws IllegalArgumentException {

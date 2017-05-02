@@ -38,6 +38,8 @@ public class TXTFileTextFileRowReaderObjectTestWithQuotes extends RowReaderObjec
         reader.setDelimiterString(TextFileHandler.TAB);
         
         reader.setOptions(TextFileRowReader.REMOVE_QUOTES);
+        
+        reader.setDateFormat(DATE_FORMAT);
 
         return reader;
     }
@@ -47,6 +49,8 @@ public class TXTFileTextFileRowReaderObjectTestWithQuotes extends RowReaderObjec
         TextFileRowWriter writer = new TextFileRowWriter(path);
 
         writer.setDelimiterString(TextFileHandler.TAB);
+        
+        writer.setDateFormat(DATE_FORMAT);
 
         return writer;
     }

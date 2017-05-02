@@ -113,8 +113,6 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      */
     public static final int IGNORE_EMPTY_LINES = 64;
     
-    private DateFormat dayFormat = new SimpleDateFormat("dd/MM/yyyy");
-
     private Map<Integer, Integer> conversionTypesMap;
 
     private int conversionTypesCount;
@@ -444,11 +442,11 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     }
 
     private Object convertValue(String text) {
-        return ConversionUtilities.convertToObject(text, dayFormat);
+        return ConversionUtilities.convertToObject(text, getDateFormat());
     }
 
     private Object convertValue(String text, int dataTypes) throws ConversionException {
-        return ConversionUtilities.convertToObject(text, dataTypes, dayFormat);
+        return ConversionUtilities.convertToObject(text, dataTypes, getDateFormat());
     }
 
     /**

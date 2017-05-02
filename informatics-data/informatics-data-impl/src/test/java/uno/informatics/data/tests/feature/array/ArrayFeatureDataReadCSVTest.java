@@ -24,10 +24,13 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 
 import org.junit.Test;
 
+import uno.informatics.data.DataOption;
 import uno.informatics.data.dataset.FeatureData;
+import uno.informatics.data.feature.AbstractFeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureData;
 import uno.informatics.data.io.FileType;
 import uno.informatics.data.tests.TestData;
@@ -81,7 +84,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), STRING_FEATURES, dataset, ROW_HEADERS_WITH_NAME, true);
 
@@ -97,7 +100,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_TYPES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES, dataset, ROW_HEADERS, false);
 
@@ -113,7 +116,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_NAMES_TYPES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES, dataset, ROW_HEADERS_WITH_NAME, false);
 
@@ -129,7 +132,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_TYPES_MIN).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN, dataset, ROW_HEADERS, false);
 
@@ -145,7 +148,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_NAME_TYPES_MIN).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN, dataset, ROW_HEADERS_WITH_NAME, false);
 
@@ -161,8 +164,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_TYPES_MIN_MAX).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
-
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION) ;
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS, false);
 
         } catch (IOException e) {
@@ -177,7 +179,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_NAMES_TYPE_MIN_MAX).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_MAX, dataset, ROW_HEADERS_WITH_NAME, false);
 
@@ -193,7 +195,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_NAMES_COL_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), STRING_FEATURES_COL, dataset, ROW_HEADERS_WITH_NAME, true);
 
@@ -209,7 +211,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_TYPES_COL_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_COL, dataset, ROW_HEADERS, false);
 
@@ -225,7 +227,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_NAMES_TYPES_COL_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_COL, dataset, ROW_HEADERS_WITH_NAME, false);
 
@@ -241,7 +243,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_TYPES_MIN_COL_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_COL, dataset, ROW_HEADERS, false);
 
@@ -257,7 +259,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_NAME_TYPES_MIN_COL_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_COL, dataset, ROW_HEADERS_WITH_NAME, false);
 
@@ -273,7 +275,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_TYPES_MIN_MAX_COL_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_MAX_COL, dataset, ROW_HEADERS, false);
 
@@ -289,7 +291,7 @@ public class ArrayFeatureDataReadCSVTest extends TestData {
         try {
             Path path = Paths.get(ArrayFeatureData.class.getResource(OBJECT_TABLE_WITH_ROW_IDS_NAMES_TYPE_MIN_MAX_COL_NAMES).getPath());
 
-            FeatureData dataset = ArrayFeatureData.readData(path, getFileType());
+            FeatureData dataset = ArrayFeatureData.readData(path, getFileType(), DATA_FORMAT_OPTION);
 
             checkCompleteData(path.getFileName().toString(), path.getFileName().toString(), OBJECT_FEATURES_MIN_MAX_COL, dataset, ROW_HEADERS_WITH_NAME, false);
 

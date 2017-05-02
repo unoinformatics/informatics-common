@@ -373,7 +373,6 @@ public class ConversionUtilities {
         return value;
     }
 
-    
     public static final Date convertToDate(String value) throws ConversionException {
         return convertToDate(value, DEFAULT_DATE_FORMAT) ;
     }
@@ -449,7 +448,7 @@ public class ConversionUtilities {
         }
     }
 
-    public static List<Short> convertToShortList(List<String> values) throws ConversionException {
+    public static final List<Short> convertToShortList(List<String> values) throws ConversionException {
         List<Short> list = new ArrayList<Short>();
 
         Iterator<String> iterator = values.iterator();
@@ -461,7 +460,7 @@ public class ConversionUtilities {
         return list;
     }
 
-    public static List<Integer> convertToIntegerList(List<String> values) throws ConversionException {
+    public static final List<Integer> convertToIntegerList(List<String> values) throws ConversionException {
         List<Integer> list = new ArrayList<Integer>();
 
         Iterator<String> iterator = values.iterator();
@@ -473,7 +472,7 @@ public class ConversionUtilities {
         return list;
     }
 
-    public static List<Long> convertToLongList(List<String> values) throws ConversionException {
+    public static final List<Long> convertToLongList(List<String> values) throws ConversionException {
         List<Long> list = new ArrayList<Long>();
 
         Iterator<String> iterator = values.iterator();
@@ -485,7 +484,7 @@ public class ConversionUtilities {
         return list;
     }
 
-    public static List<Float> convertToFloatList(List<String> values) throws ConversionException {
+    public static final List<Float> convertToFloatList(List<String> values) throws ConversionException {
         List<Float> list = new ArrayList<Float>();
 
         Iterator<String> iterator = values.iterator();
@@ -497,7 +496,7 @@ public class ConversionUtilities {
         return list;
     }
 
-    public static List<Double> convertToDoubleList(List<String> values) throws ConversionException {
+    public static final List<Double> convertToDoubleList(List<String> values) throws ConversionException {
         List<Double> list = new ArrayList<Double>();
 
         Iterator<String> iterator = values.iterator();
@@ -508,34 +507,59 @@ public class ConversionUtilities {
 
         return list;
     }
+    
+    public static final List<Object> convertToObjectList(List<String> values, int type) throws ConversionException {
 
-    public static List<Object> convertToObjectList(List<String> values, int type) throws ConversionException {
+        return convertToObjectList(values, type, DEFAULT_DATE_FORMAT) ;
+    }
+
+    public static final List<Object> convertToObjectList(List<String> values, int type, DateFormat dataFormat) throws ConversionException {
         List<Object> list = new ArrayList<Object>();
 
         Iterator<String> iterator = values.iterator();
 
         while (iterator.hasNext()) {
-            list.add(convertToObject(iterator.next(), type));
+            list.add(convertToObject(iterator.next(), type, dataFormat));
         }
 
         return list;
     }
 
-    public static List<Object> convertToObjectList(List<String> values, int[] types)
+    public static final List<Object> convertToObjectList(List<String> values, int[] types) throws ConversionException {
+
+        return convertToObjectList(values, types, DEFAULT_DATE_FORMAT) ;
+    }
+    
+    public static final List<Object> convertToObjectList(List<String> values, int[] types, DateFormat dataFormat)
         throws ConversionException {
         List<Object> list = new ArrayList<Object>();
 
         Iterator<String> iterator = values.iterator();
+        
+        if (dataFormat != null) {
 
-        int i = 0;
-
-        while (iterator.hasNext()) {
-            if (i < types.length)
-                list.add(convertToObject(iterator.next(), types[i]));
-            else
-                list.add(convertToObject(iterator.next()));
-
-            ++i;
+            int i = 0;
+    
+            while (iterator.hasNext()) {
+                if (i < types.length)
+                    list.add(convertToObject(iterator.next(), types[i], dataFormat));
+                else
+                    list.add(convertToObject(iterator.next(), dataFormat));
+    
+                ++i;
+            }
+        } else {
+            
+            int i = 0;
+            
+            while (iterator.hasNext()) {
+                if (i < types.length)
+                    list.add(convertToObject(iterator.next(), types[i], DEFAULT_DATE_FORMAT));
+                else
+                    list.add(convertToObject(iterator.next(), DEFAULT_DATE_FORMAT));
+    
+                ++i;
+            }  
         }
 
         return list;

@@ -1,4 +1,4 @@
-package uno.informatics.data.utils;
+package uno.informatics.data;
 
 public class DataOption {
     

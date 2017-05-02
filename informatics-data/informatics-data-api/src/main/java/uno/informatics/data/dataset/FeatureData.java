@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import uno.informatics.data.Data;
+import uno.informatics.data.DataOption;
 import uno.informatics.data.Feature;
 import uno.informatics.data.SimpleEntity;
 import uno.informatics.data.io.FileType;
@@ -117,6 +118,6 @@ public interface FeatureData extends Data {
      * @param type the type of the file
      * @throws IOException if the file can not be written
      */
-    public void writeData(Path filePath, FileType type) throws IOException;
+    public void writeData(Path filePath, FileType type, DataOption... options) throws IOException;
 
 }

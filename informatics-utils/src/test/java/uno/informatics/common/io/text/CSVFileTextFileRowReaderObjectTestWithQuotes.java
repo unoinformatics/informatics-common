@@ -38,6 +38,9 @@ public class CSVFileTextFileRowReaderObjectTestWithQuotes extends RowReaderObjec
         reader.setDelimiterString(TextFileHandler.COMMA);
 
         reader.setOptions(TextFileRowReader.REMOVE_QUOTES);
+        
+        reader.setDateFormat(DATE_FORMAT);
+        
         return reader;
     }
 
@@ -46,6 +49,8 @@ public class CSVFileTextFileRowReaderObjectTestWithQuotes extends RowReaderObjec
         TextFileRowWriter writer = new TextFileRowWriter(path);
 
         writer.setDelimiterString(TextFileHandler.COMMA);
+        
+        writer.setDateFormat(DATE_FORMAT);
 
         return writer;
     }
