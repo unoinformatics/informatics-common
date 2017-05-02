@@ -230,7 +230,7 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
             }
 
             if (options > getValidOptions() || (options & getValidOptions()) == 0) {
-                throw new IOException("One or more options were invalid : " + (options & getValidOptions()));
+                throw new IOException("One or more options were invalid : " + (options ^ getValidOptions()));
             }
 
             this.options = options;
