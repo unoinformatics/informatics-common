@@ -67,7 +67,6 @@ public abstract class AbstractTextFileHandler implements TextFileHandler {
     
     private DateFormat dateFormat = DEFAULT_DATE_FORMAT ;
 
-
     protected AbstractTextFileHandler() {
 
     }

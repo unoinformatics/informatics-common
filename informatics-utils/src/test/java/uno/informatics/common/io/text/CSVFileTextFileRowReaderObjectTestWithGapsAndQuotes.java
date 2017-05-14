@@ -19,7 +19,6 @@ package uno.informatics.common.io.text;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,18 +29,23 @@ import uno.informatics.common.io.TextFileHandler;
 import uno.informatics.common.io.text.TextFileRowReader;
 import uno.informatics.common.io.text.TextFileRowWriter;
 
-public class TXTFileTextFileRowReaderStringTestWithQuotes2 extends RowReaderStringTest {
-    private static final String FILE = "/string_table_with_quotes2.txt";
+public class CSVFileTextFileRowReaderObjectTestWithGapsAndQuotes extends RowReaderStringTest {
+    private static final String FILE = "/string_table_with_gaps_and_quotes.csv";
     
-    private final static String STRING_CELL1_2 = "R2\tC3" ;
+    private final static String STRING_CELL1_0 = "R2\"C1" ;
     
     private final static String[] STRING_ROW2_ = new String[] {
-        STRING_ROW2[0], STRING_ROW2[1], STRING_CELL1_2
+        STRING_CELL1_0, null, STRING_ROW2[2]
     };
+    
+    private final static String[] STRING_ROW3_ = new String[] {
+        STRING_ROW3[0], STRING_ROW3[1], null
+    };
+    
     private final static String[][] STRING_TABLE_AS_ARRAY2 = new String[][] {
-        STRING_ROW1, STRING_ROW2_, STRING_ROW3
+        STRING_ROW1, STRING_ROW2_, STRING_ROW3_
     };
-   
+
     private static final List<List<String>> STRING_TABLE_AS_LIST2 = new ArrayList<List<String>>();
 
     static {
@@ -53,15 +57,15 @@ public class TXTFileTextFileRowReaderStringTestWithQuotes2 extends RowReaderStri
 
         STRING_TABLE_AS_LIST2.add(new ArrayList<String>(STRING_ROW2.length));
 
-        STRING_TABLE_AS_LIST2.get(1).add(STRING_ROW2[0]);
-        STRING_TABLE_AS_LIST2.get(1).add(STRING_ROW2[1]);
-        STRING_TABLE_AS_LIST2.get(1).add(STRING_CELL1_2);
+        STRING_TABLE_AS_LIST2.get(1).add(STRING_CELL1_0);
+        STRING_TABLE_AS_LIST2.get(1).add(null);
+        STRING_TABLE_AS_LIST2.get(1).add(STRING_ROW2[2]);
 
-        STRING_TABLE_AS_LIST2.add(new ArrayList<String>(STRING_ROW3.length));
+        STRING_TABLE_AS_LIST2.add(new ArrayList<String>(STRING_ROW2.length));
 
         STRING_TABLE_AS_LIST2.get(2).add(STRING_ROW3[0]);
         STRING_TABLE_AS_LIST2.get(2).add(STRING_ROW3[1]);
-        STRING_TABLE_AS_LIST2.get(2).add(STRING_ROW3[2]);
+        STRING_TABLE_AS_LIST2.get(2).add(null);
     }
     
     protected static final List<List<Object>> STRING_TABLE_AS_LIST = new ArrayList<List<Object>>();
@@ -75,32 +79,32 @@ public class TXTFileTextFileRowReaderStringTestWithQuotes2 extends RowReaderStri
 
         STRING_TABLE_AS_LIST.add(new ArrayList<Object>(STRING_ROW2.length));
 
-        STRING_TABLE_AS_LIST.get(1).add(STRING_ROW2[0]);
-        STRING_TABLE_AS_LIST.get(1).add(STRING_ROW2[1]);
-        STRING_TABLE_AS_LIST.get(1).add(STRING_CELL1_2);
+        STRING_TABLE_AS_LIST.get(1).add(STRING_CELL1_0);
+        STRING_TABLE_AS_LIST.get(1).add(null);
+        STRING_TABLE_AS_LIST.get(1).add(STRING_ROW2[2]);
 
         STRING_TABLE_AS_LIST.add(new ArrayList<Object>(STRING_ROW3.length));
 
         STRING_TABLE_AS_LIST.get(2).add(STRING_ROW3[0]);
         STRING_TABLE_AS_LIST.get(2).add(STRING_ROW3[1]);
-        STRING_TABLE_AS_LIST.get(2).add(STRING_ROW3[2]);
-    }
-
-    protected RowReader createReader(Path path) throws FileNotFoundException, IOException {
-        TextFileRowReader reader = new TextFileRowReader(path);
-        
-        reader.setDelimiterString(TextFileHandler.TAB);
-
-        reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE_AS_FIRST | TextFileRowReader.REMOVE_QUOTES);
-
-        return reader;
+        STRING_TABLE_AS_LIST.get(2).add(null);
     }
     
+    protected RowReader createReader(Path path) throws FileNotFoundException, IOException {
+        TextFileRowReader reader = new TextFileRowReader(path);
+ 
+        reader.setDelimiterString(TextFileHandler.COMMA);
+
+        reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE_AS_FIRST | TextFileRowReader.REMOVE_QUOTES);
+        
+        return reader;
+    }
+
     @Override
     protected RowWriter createWriter(Path path) throws FileNotFoundException, IOException {
         TextFileRowWriter writer = new TextFileRowWriter(path);
 
-        writer.setDelimiterString(TextFileHandler.TAB);
+        writer.setDelimiterString(TextFileHandler.COMMA);
         
         writer.setOptions(TextFileRowWriter.ADD_QUOTES);
 

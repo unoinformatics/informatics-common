@@ -17,7 +17,7 @@ public class TextFileRowReaderTest {
 
             reader.setOptions(TextFileRowReader.IGNORE_EMPTY_LINES);
             reader.setOptions(TextFileRowReader.PARSE_EMPTY_STRINGS);
-            reader.setOptions(TextFileRowReader.CONVERT_VALUES);
+            //reader.setOptions(TextFileRowReader.CONVERT_VALUES);
             reader.setOptions(TextFileRowReader.IGNORE_MULTIPLE_DELIMITERS);
             reader.setOptions(TextFileRowReader.ROWS_SAME_SIZE_AS_FIRST);
             reader.setOptions(TextFileRowReader.REMOVE_WHITE_SPACE);

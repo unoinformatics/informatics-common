@@ -105,8 +105,8 @@ public class TestData {
     protected final static SimpleEntity ROW_HEADER = new SimpleEntityPojo(UID, NAME);
 
     protected final static String ROW1_ID = "row1";
-    protected final static String ROW2_ID = "row2";
-    protected final static String ROW3_ID = "row3";
+    protected final static String ROW2_ID = "row\"2";
+    protected final static String ROW3_ID = "row'3";
 
     protected final static String[] ROW_IDS = new String[] { ROW1_ID, ROW2_ID, ROW3_ID };
     protected final static String[] BLANK_NAMES = new String[] { null, null, null };

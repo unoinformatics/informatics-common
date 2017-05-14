@@ -50,14 +50,16 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
      */
 
     /**
-     * Sets if the reader should parse empty strings.
+     * Sets if the reader should parse empty strings. If set the empty string will be
+     * parsed as zero length strings otherwise it will be parsed as a null
      */
     public static final int PARSE_EMPTY_STRINGS = 1;
 
     /**
      * Sets if the reader should attempt to convert values.
      */
-    public static final int CONVERT_VALUES = 2;
+    //TODO
+   // public static final int CONVERT_VALUES = 2;
 
     /**
      * Sets if two more more delimiters are encountered together if these should
@@ -100,11 +102,11 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
     public static final int REMOVE_WHITE_SPACE = 16;
 
     /**
-     * Sets if the reader removes any single or double quotes. If the quotes do
-     * not match. Quotes are matched only if they are first and last characters
+     * Sets if the reader removes any single or double quotes. 
+     * Quotes are matched only if they are first and last characters
      * in the token, after any space is trimmed. If {@link #REMOVE_WHITE_SPACE}
      * is used, any white spaces are removed first. Any delimiters found between quotes
-     * are ignored
+     * are ignored.
      */
     public static final int REMOVE_QUOTES = 32;
     
@@ -136,7 +138,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
 
     private static final String BUFFERREADER_NULL = "Buffer reader is undefined";
 
-    private static final int VALID_OPTIONS = IGNORE_EMPTY_LINES | PARSE_EMPTY_STRINGS| CONVERT_VALUES | 
+    private static final int VALID_OPTIONS = IGNORE_EMPTY_LINES | PARSE_EMPTY_STRINGS| /*CONVERT_VALUES | */
         IGNORE_MULTIPLE_DELIMITERS | ROWS_SAME_SIZE_AS_FIRST | REMOVE_WHITE_SPACE | REMOVE_QUOTES ;
 
     private TextFileRowReader() {
@@ -562,64 +564,46 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             tokens.add("");
         }
         
-        if (hasOption(REMOVE_QUOTES)) { // 3 groups
-            if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) {
-                while (matcher.find()) {
-                    if (matcher.group(1) != null) {
-                        // Add double-quoted string without the quotes
-                        tokens.add(matcher.group(1));
-                    } else if (matcher.group(2) != null) {
-                        // Add single-quoted string without the quotes
-                        tokens.add(matcher.group(2));
-                    } else if (matcher.group(3) != null) {
-                        // Add unquoted token
-                        tokens.add(matcher.group(3));
-                    }
-                } 
-            } else {
-                while (matcher.find()) { // 4 groups
-                    if (matcher.group(1) != null) {
-                        // Add double-quoted string without the quotes
-                        tokens.add(matcher.group(1));
-                    } else if (matcher.group(2) != null) {
-                        // Add single-quoted string without the quotes
-                        tokens.add(matcher.group(2));
-                    } else if (matcher.group(3) != null) {
-                        // Add unquoted token
-                        tokens.add(matcher.group(3));
-                    } else if (matcher.group(4) != null) {
-                        // 2 or more delimiters together, add space for each 'gap' 
-                        for (int i = 1 ; i < matcher.group(4).length() ; ++i) {
-                            tokens.add("");
-                        }
-                    } 
-                } 
-            }
-        } else {
-            if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) { // 1 group
-                while (matcher.find()) {
-                    if (matcher.group(1) != null) {
-                        // Add unquoted token
-                        tokens.add(matcher.group(1));
-                    }
-                } 
-            } else {
-                while (matcher.find()) {
-                    if (matcher.group(1) != null) { // 2 groups
-                        // Add unquoted token
-                        tokens.add(matcher.group(1));
-                    } else if (matcher.group(2) != null) {
-                        // 2 or more delimiters together, add space for each 'gap' 
-                        for (int i = 1 ; i < matcher.group(2).length() ; ++i) {
-                            tokens.add("");
-                        }
-                    } 
-                } 
-            }
-        }
+        boolean end = false; 
         
-        if (matcher.hitEnd() && line.endsWith(getDelimiterString())) {
-            tokens.add("");
+        if (hasOption(REMOVE_QUOTES)) { // 4 groups
+            while (matcher.find() && !end) { 
+                if (matcher.group(1) != null) { // 1 group
+                    // Add double-quoted string without the quotes
+                    tokens.add(matcher.group(1));
+                } else if (matcher.group(2) != null) { // 2 group
+                    // Add single-quoted string without the quotes
+                    tokens.add(matcher.group(2));
+                } else if (matcher.group(3) != null) { // 3 group
+                    // Add unquoted token
+                   tokens.add(matcher.group(3));
+                } else {
+                    if (matcher.group(4) != null) { // 4 group
+                        // Add unquoted end token
+                       tokens.add(matcher.group(4));
+                       end = true ;
+                       
+                       
+                    }            
+                }
+                
+                end = matcher.hitEnd() ;
+            }
+
+        } else { // 2 groups
+            
+            while (matcher.find() && !end) {
+                if (matcher.group(1) != null) { // 1 group
+                    // Add unquoted token
+                   tokens.add(matcher.group(1));
+                } else {
+                    if (matcher.group(2) != null) { // 2 group
+                        // Add unquoted end token
+                       tokens.add(matcher.group(2));
+                       end = true ;
+                    }            
+                }
+            }
         }
 
         return tokens.toArray(new String[tokens.size()]);
@@ -640,24 +624,31 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
 
     private final void updatePattern() {
         // TODO need to check for special characters
-        String regex;
+        String regex = "" ;
 
-        String delimiter = getDelimiterString();
-
-        if (hasOption(REMOVE_QUOTES)) {
+        String delimiter = getDelimiterString(); 
+        
+        if (hasOption(REMOVE_QUOTES)) {  
+            String delimiterPattern ;
+            
             if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) {
-                regex = "[ ]*\"([^\"]*)\"[ ]*["+ delimiter +"]?|[ ]*'([^']*)'[ ]*["+ delimiter +"]?|([^"+ delimiter +"\"']+)" ;
+                delimiterPattern = "(?:["+delimiter+"]+|\\z)" ;
             } else {
-                regex = "[ ]*\"([^\"]*)\"[ ]*["+ delimiter +"]?|[ ]*'([^']*)'[ ]*["+ delimiter +"]?|([^"+ delimiter +"\"']+)|(["+ delimiter +"]{2,})" ;
+                delimiterPattern = "(?:"+delimiter+"|\\z)" ;
             }
-        } else {
-            if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) {
-                regex = "([^" + delimiter + "]+)|(["+ delimiter +"])";
-            } else {
-                regex = "([^" + delimiter + "]+)|(["+ delimiter +"]{2,})";
-            }
-        }
-
+            
+            // single quote group (1)
+            regex = "[ ]*'([^']*)'[ ]*" + delimiterPattern ;
+            // double quote group (2)
+            regex = regex + "|" + "[ ]*\"([^\"]*)\"[ ]*" + delimiterPattern + "|" ;
+        } 
+        
+        // unquoted group all except end group (3 or 1)
+        regex = regex  + "([^" + delimiter + "]*)" + delimiter ; 
+        
+        // unquoted end group (4 or 2)
+        regex = regex  + "|([^" + delimiter + "]*)\\z" ;
+        
         pattern = Pattern.compile(regex, Pattern.DOTALL);
     }
 

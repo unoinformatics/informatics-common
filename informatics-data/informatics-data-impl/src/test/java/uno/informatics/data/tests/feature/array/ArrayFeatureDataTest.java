@@ -23,9 +23,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 
 import org.junit.Test;
 
+import uno.informatics.data.DataOption;
 import uno.informatics.data.dataset.FeatureData;
 import uno.informatics.data.feature.array.ArrayFeatureData;
 import uno.informatics.data.io.FileType;
@@ -141,9 +143,9 @@ public class ArrayFeatureDataTest extends DatasetTest {
             expectedData.setUniqueIdentifier("writeRead.txt");
             expectedData.setName("writeRead.txt");
             
-            expectedData.writeData(path, FileType.TXT);
+            expectedData.writeData(path, FileType.TXT, new DataOption(ArrayFeatureData.DATE_FORMAT, new SimpleDateFormat("dd/MM/yyyy")));
             
-            FeatureData actualData = ArrayFeatureData.readData(path, FileType.TXT);
+            FeatureData actualData = ArrayFeatureData.readData(path, FileType.TXT, new DataOption(ArrayFeatureData.DATE_FORMAT, new SimpleDateFormat("dd/MM/yyyy")));
 
             checkCompleteData(expectedData, actualData);
             

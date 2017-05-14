@@ -35,14 +35,14 @@ public class CSVFileTextFileRowReaderStringTestWithQuotes3 extends RowReaderStri
     
     private final static String STRING_CELL1_1 = "R2\"C2" ;
     private final static String STRING_CELL1_2 = "R2'C3" ;
-    
+
     private final static String[] STRING_ROW2_ = new String[] {
         STRING_ROW2[0], STRING_CELL1_1, STRING_CELL1_2
     };
-    private final static String[][] STRING_TABLE_AS_ARRAY = new String[][] {
+    private final static String[][] STRING_TABLE_AS_ARRAY2 = new String[][] {
         STRING_ROW1, STRING_ROW2_, STRING_ROW3
     };
-
+    
     private static final List<List<String>> STRING_TABLE_AS_LIST2 = new ArrayList<List<String>>();
 
     static {
@@ -130,7 +130,7 @@ public class CSVFileTextFileRowReaderStringTestWithQuotes3 extends RowReaderStri
      */
     @Override
     protected final Object[][] getExpectedArray() {
-        return STRING_TABLE_AS_ARRAY;
+        return STRING_TABLE_AS_ARRAY2;
     }
 
     protected final List<List<String>> getExpectedAsStringList() {
@@ -138,6 +138,6 @@ public class CSVFileTextFileRowReaderStringTestWithQuotes3 extends RowReaderStri
     }
 
     protected final String[][] getExpectedAsStringArray() {
-        return STRING_TABLE_AS_ARRAY;
+        return STRING_TABLE_AS_ARRAY2;
     }
 }

@@ -33,6 +33,7 @@ import uno.informatics.common.io.IOUtilities;
 import uno.informatics.common.io.RowReader;
 import uno.informatics.common.io.RowWriter;
 import uno.informatics.common.io.text.TextFileRowReader;
+import uno.informatics.common.io.text.TextFileRowWriter;
 import uno.informatics.data.DataOption;
 import uno.informatics.data.DataType;
 import uno.informatics.data.DataTypeConstants;
@@ -521,7 +522,7 @@ public class ArrayFeatureData extends AbstractFeatureData {
 
         DateFormat dateFormat = DataOption.findValue(options, DATE_FORMAT, DateFormat.class);
         
-        RowWriter writer = IOUtilities.createRowWriter(filePath, type);
+        RowWriter writer = IOUtilities.createRowWriter(filePath, type, dateFormat, TextFileRowWriter.ADD_QUOTES);
      
         writer.writeCell(ID);
         writer.newColumn() ;
