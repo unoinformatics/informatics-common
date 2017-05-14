@@ -3,7 +3,7 @@
 
   <groupId>uno.informatics.common</groupId>
   <artifactId>informatics-common</artifactId>
-  <version>1.5.0</version>
+  <version>1.5.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Informatics Common Classes</name>
@@ -30,7 +30,7 @@
     <url>https://github.com/unoinformatics/informatics-common</url>
     <connection>scm:git:git://github.com/unoinformatics/informatics-common.git</connection>
     <developerConnection>scm:git:git@github.com:unoinformatics/informatics-common.git</developerConnection>
-    <tag>informatics-common-1.5.0</tag>
+    <tag>informatics-common-1.0.1</tag>
   </scm>
 
   <properties>
