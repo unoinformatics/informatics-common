@@ -581,9 +581,7 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
                     if (matcher.group(4) != null) { // 4 group
                         // Add unquoted end token
                        tokens.add(matcher.group(4));
-                       end = true ;
-                       
-                       
+                       end = true ;    
                     }            
                 }
                 
@@ -643,12 +641,17 @@ public class TextFileRowReader extends AbstractTextFileHandler implements RowRea
             regex = regex + "|" + "[ ]*\"([^\"]*)\"[ ]*" + delimiterPattern + "|" ;
         } 
         
-        // unquoted group all except end group (3 or 1)
-        regex = regex  + "([^" + delimiter + "]*)" + delimiter ; 
-        
-        // unquoted end group (4 or 2)
-        regex = regex  + "|([^" + delimiter + "]*)\\z" ;
-        
+        if (hasOption(IGNORE_MULTIPLE_DELIMITERS)) {
+            regex = regex  + "([^" + delimiter + "]*)["+delimiter+"]+" ; 
+            // unquoted end group (4 or 2)
+            regex = regex  + "|([^" + delimiter + "]*)["+delimiter+"]*\\z" ;
+        } else {
+            // unquoted group all except end group (3 or 1)
+            regex = regex  + "([^" + delimiter + "]*)" + delimiter ; 
+            // unquoted end group (4 or 2)
+            regex = regex  + "|([^" + delimiter + "]*)\\z" ;
+        }
+
         pattern = Pattern.compile(regex, Pattern.DOTALL);
     }
 
